@@ -28,6 +28,13 @@ local allowed = {
 	["76561198188070674"] = true, -- CROSSMAN
 	["76561198110055555"] = true, -- add___123
 	["76561198042176150"] = true, -- Len Kagamine
+	["76561198366963579"] = true, -- Seven
+	["76561198133268061"] = true, -- Schitzo
+	["76561198232186516"] = true, -- Thix
+	["76561198020530971"] = true, -- Epsil
+	["76561198165921719"] = true, -- Bread Rat
+	["76561198031834691"] = true, -- Marwill
+	["76561198001137022"] = true, -- R A T
 }
 
 function HexColor(h)

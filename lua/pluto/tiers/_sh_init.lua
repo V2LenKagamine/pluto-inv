@@ -189,12 +189,10 @@ for _, name in pairs {
 	"unusual",
 	"vintage",
 
-	"dud",
 	"unstable",
 	"stabilized",
 	"explosive",
-	"heavyexplosive",
-	"nuclear",
+
 	
 } do
 	AddCSLuaFile("pluto/tiers/" .. name .. ".lua")

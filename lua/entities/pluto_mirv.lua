@@ -1,9 +1,9 @@
 AddCSLuaFile()
 
 ENT.PrintName = "MIRV Grenade"
-ENT.Base = "pluto_len_basegrenade"
-ENT.Model = "models/weapons/w_eq_smokegrenade_thrown.mdl"
-DEFINE_BASECLASS("pluto_len_basegrenade")
+ENT.Base = "ttt_basegrenade"
+ENT.Model = "models/weapons/w_eq_fraggrenade_thrown.mdl"
+DEFINE_BASECLASS("ttt_basegrenade")
 
 function ENT:Explode()
     if (CLIENT) then return end
@@ -13,9 +13,13 @@ function ENT:Explode()
         [2] = Vector(0,100,200),
         [3] = Vector(-100,0,200),
         [4] = Vector(0,-100,200),
+        [5] = Vector(75,75,200),
+        [6] = Vector(75,-75,200),
+        [7] = Vector(-75,75,200),
+        [8] = Vector(-75,-75,200),
     }
 
-    for i = 1,4,1 do
+    for i = 1,8,1 do
         local ent = ents.Create("pluto_cherry_bombs")
         if (not ent:IsValid()) then return end
         local thrower = self:GetOwner()
@@ -24,11 +28,6 @@ function ENT:Explode()
         ent:SetOwner(self:GetOwner())
         ent:Spawn()
         ent:SetAbsVelocity(cases[i])
-        timer.Simple(1.5, function()
-            if IsValid(ent) then
-                ent:Explode()
-            end
-        end)
     end
    
     local pos = self:GetPos()
@@ -36,10 +35,9 @@ function ENT:Explode()
 	effect:SetStart(pos)
 	effect:SetOrigin(pos)
 	effect:SetScale(100)
-	effect:SetRadius(150 * self:GetRangeMulti())
+	effect:SetRadius(150 * self:GetRangeMultiplier())
 	effect:SetMagnitude(1)
-    self:FireBomb()
 	util.Effect("Explosion", effect, true, true)
-	util.BlastDamage(self.Entity, self.Owner, self.Entity:GetPos(), (150 * self:GetRangeMulti()), (75 * self:GetDamageMulti()))
+	util.BlastDamage(self.Entity, self.Owner, self.Entity:GetPos(), (150 * self:GetRangeMultiplier()), (85 * self:GetDamageMultiplier()))
 
 end
