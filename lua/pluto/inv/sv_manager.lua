@@ -189,8 +189,7 @@ function pluto.inv.sendfullupdate(ply)
 			hook.Run("PlayerLoadout", ply)
 		end
 		pluto.inv.message(ply)
-			:write "fullupdate"
-			:write "emojis"
+			:write("fullupdate","emojis")
 			:send()
 	end)
 end

@@ -23,9 +23,7 @@ end
 
 local allowed = {
 	["76561198050165746"] = true, -- Meepen
-	["76561198055769267"] = true, -- Jared
-	["76561198083846494"] = true, -- KAT
-	["76561198020321962"] = true, -- Goth
+    ["76561198042176150"] = true, -- Len Kagamine
 }
 
 function HexColor(h)

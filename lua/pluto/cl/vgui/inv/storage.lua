@@ -378,7 +378,7 @@ function PANEL:SearchItems(text)
 end
 
 function PANEL:SwapToBuffer(enable)
-	if (not not self.BufferActive == enable) then
+	if (self.BufferActive == enable) then
 		return
 	end
 

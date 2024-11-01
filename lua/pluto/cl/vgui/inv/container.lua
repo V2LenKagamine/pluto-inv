@@ -293,7 +293,9 @@ function PANEL:Init()
 		self:AddStorageTab(item.Tab)
 		if (item.Tab.ID == last_tab_id:GetInt()) then
 			self:SelectTab(item.Tab)
-		end
+        else
+            self:SelectTab(self.TabList[0])
+        end
 	end
 end
 
@@ -630,20 +632,22 @@ function PANEL:AddStorageTab(tab)
 end
 
 function PANEL:SelectTab(tab, noupdate)
-	if (not noupdate) then
+	if (not noupdate and tab ~= nil) then
 		last_tab_id:SetInt(tab.ID)
 	end
 	self.ActiveStorageTabBackground:SetTall(22)
-	local fg = self.StorageTabs[tab]
+    if(tab ~= nil) then
+	    local wtff = self.StorageTabs[tab]
 	
-	self.ActiveStorageTabBackground:SetWide(fg:GetWide())
-	self.ActiveStorageTabBackground:SetPos(fg:GetPos())
+	    self.ActiveStorageTabBackground:SetWide(wtff:GetWide())
+	    self.ActiveStorageTabBackground:SetPos(wtff:GetPos())
+	    if (tab ~= self.ActiveStorageTab) then
+		    self.ActiveStorageTab = tab
+		    self.Storage:SwapToBuffer(false)
+		    self.Storage:PopulateFromTab(tab)
+	    end
+    end
 
-	if (tab ~= self.ActiveStorageTab) then
-		self.ActiveStorageTab = tab
-		self.Storage:SwapToBuffer(false)
-		self.Storage:PopulateFromTab(tab)
-	end
 end
 
 function PANEL:HighlightItem(tabidx)
