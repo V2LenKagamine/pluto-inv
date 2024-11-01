@@ -477,12 +477,16 @@ function pluto.inv.deleteitem(db, steamid, itemid, ignorelock)
 				tab.Items[i.TabIndex] = nil
 			end
 
-			pluto.inv.message(cl)
+			--[[pluto.inv.message(cl)
 				:write("item", i)
-				:send()
+				:send()]]
 		end
 		i.RowID = nil
-	end
+	else
+        pluto.inv.message(ply)
+			:write("fullupdate")
+			:send()
+    end
 
 	pluto.itemids[itemid] = nil
 

@@ -141,6 +141,7 @@ function pluto.inv.writetab(ply, tab)
 end
 
 function pluto.inv.writefullupdate(ply)
+    if (not ply or not pluto.inv.invs[ply]) then return end
 	for key, tab in pairs(pluto.inv.invs[ply]) do
 		if (not isnumber(key)) then
 			continue
@@ -189,8 +190,11 @@ function pluto.inv.sendfullupdate(ply)
 			hook.Run("PlayerLoadout", ply)
 		end
 		pluto.inv.message(ply)
-			:write("fullupdate","emojis")
+			:write("fullupdate")
 			:send()
+        pluto.inv.message(ply)
+            :write("emojis")
+            :send()
 	end)
 end
 
@@ -495,7 +499,7 @@ function pluto.inv.readitemdelete(ply)
 
 	local i = tab.Items[tabindex]
 
-	if (i.RowID ~= itemid) then
+	if (i and i.RowID ~= itemid) then
 		pluto.inv.sendfullupdate(ply)
 		return
 	end
