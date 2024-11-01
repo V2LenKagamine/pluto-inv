@@ -212,14 +212,15 @@ function PANEL:AddTab(tab)
 end
 
 function PANEL:PopulateFromTab(tab)
+    if (not tab) then return end
 	if (self.BufferActive and tab.Type ~= "buffer") then
 		return
-	elseif (tab.Type ~= "buffer") then
+	elseif (tab and tab.Type ~= "buffer") then
 		self.ActiveTab = tab
 	end
 
 	self.ItemHighlights = {}
-	local tabtype = pluto.tabs[tab.Type]
+	local tabtype = pluto.tabs[tab.Type] 
 	if (not tabtype) then
 		ErrorNoHalt("unknown how to handle tab type " .. tab.Type)
 		return

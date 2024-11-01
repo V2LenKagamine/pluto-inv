@@ -19,12 +19,12 @@ pluto.emoji.unlocks = pluto.emoji.unlocks or setmetatable({}, {
 function pluto.emoji.init(ply)
 	return Promise(function(res, rej)
 		pluto.db.instance(function(db)
-			local emojis = mysql_stmt_run(db, "SELECT * FROM pluto_emoji_unlocks WHERE steamid = ?", pluto.db.steamid64(ply))
-
-			for _, emoji in ipairs(emojis) do
-				pluto.emoji.unlocks[ply][emoji.name] = true
-			end
-
+			local emojis = mysql_stmt_run(db, "[[SELECT * FROM pluto_emoji_unlocks WHERE steamid = ? ]]", pluto.db.steamid64(ply))
+            if (emojis) then
+			    for _, emoji in ipairs(emojis) do
+			    	pluto.emoji.unlocks[ply][emoji.name] = true
+			    end
+            end
 			res()
 		end)
 	end)

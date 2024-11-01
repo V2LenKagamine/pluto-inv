@@ -216,7 +216,7 @@ function pluto.inv.switchtab(db, tabid1, tabindex1, tabid2, tabindex2)
 	local affected = 0
 
 	local dat, err = mysql_stmt_run(db, "UPDATE pluto_items SET tab_id = ?, tab_idx = 0 WHERE tab_id = ? AND tab_idx = ?", tabid2, tabid1, tabindex1)
-	if (dat.AFFECTED_ROWS == 1) then
+	if (dat and dat.AFFECTED_ROWS == 1) then
 		affected = affected + 1
 	end
 	dat, err = mysql_stmt_run(db, "UPDATE pluto_items SET tab_id = ?, tab_idx = ? WHERE tab_id = ? AND tab_idx = ?", tabid1, tabindex1, tabid2, tabindex2)
@@ -224,7 +224,7 @@ function pluto.inv.switchtab(db, tabid1, tabindex1, tabid2, tabindex2)
 		mysql_rollback(db)
 		return false, 0
 	end
-	if (dat.AFFECTED_ROWS == 1) then
+	if (dat and dat.AFFECTED_ROWS == 1) then
 		affected = affected + 1
 	end
 	dat, err = mysql_stmt_run(db, "UPDATE pluto_items SET tab_idx = ? WHERE tab_id = ? AND tab_idx = 0", tabindex2, tabid2)

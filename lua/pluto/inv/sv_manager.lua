@@ -414,6 +414,7 @@ function pluto.inv.readtabswitch(ply)
 	local tabindex2 = net.ReadUInt(8)
 
 	if (tabid1 == tabid2 and tabindex1 == tabindex2) then
+        pluto.inv.sendfullupdate(ply)
 		return
 	end
 	pluto.db.transact(function(db)
