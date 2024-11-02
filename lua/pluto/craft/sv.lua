@@ -315,7 +315,7 @@ function pluto.inv.readcraft(cl)
 		end
 	end
 
-	if (wpn:GetMaxAffixes() >= 4) then
+	if (discord and wpn:GetMaxAffixes() >= 4) then
 		discord.Message():AddEmbed(
 			wpn:GetDiscordEmbed()
 				:SetAuthor(cl:Nick() .. "'s", "https://steamcommunity.com/profiles/" .. cl:SteamID64())

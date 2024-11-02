@@ -55,7 +55,7 @@ function pluto.inv.reloadfor(ply)
 		ply = player.GetBySteamID64(ply)
 	end
 
-	if (not IsValid(ply)) then
+	if (ply == nil or not IsValid(ply)) then
 		return
 	end
 
@@ -435,7 +435,7 @@ end
 function pluto.inv.retrieveitems(steamid, cb)
 	steamid = pluto.db.steamid64(steamid)
 	local ply = player.GetBySteamID64(steamid)
-
+    if (not ply) then return end
 	pluto.message("WEAP", "Retrieving weapon list for ", steamid)
 
 	pluto.db.instance(function(db)
