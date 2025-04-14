@@ -21,4 +21,4 @@ matproxy.Add({
                 mat:SetTexture( "$basetexture", texture )
             end
         end
-})
+    })
