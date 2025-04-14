@@ -1,0 +1,16 @@
+"VertexLitGeneric"
+{
+
+	$basetexture "models/pipann/jewels/Gemstones_DIF"
+	$phongexponenttexture "models/pipann/jewels/Gemstones_PHONG"
+	$envmapmask "models/pipann/jewels/Gemstones_PHONG"
+
+
+	 $envmap "env_cubemap"
+	 $phong "1"
+	 $phongboost  "10"
+	 $phongexponent "50"
+	 $phongfresnelranges "[0 0.5 1]"
+	 $translucent "1"
+	 $nocull "1"
+}

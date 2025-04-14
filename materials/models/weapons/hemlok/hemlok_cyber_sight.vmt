@@ -1,0 +1,16 @@
+VertexLitGeneric
+{
+	"$basetexture" "models/weapons/hemlok/assault_hemlok_sight_base"
+	"$bumpmap" "models/weapons/hemlok/assault_hemlok_sight_norm"
+	
+	"$envmap" "env_cubemap"
+	"$envmaptint" "[ .13 .13 .13 ]"
+
+	"$EmissiveBlendEnabled" "1"
+	"$EmissiveBlendStrength" "1"
+	"$EmissiveBlendTexture" "vgui/white"
+	"$EmissiveBlendBaseTexture" "models/weapons/hemlok/assault_hemlok_sight_em"
+	"$EmissiveBlendFlowTexture" "vgui/white"
+	"$EmissiveBlendTint" "[0.50 1 1]"
+	"$EmissiveBlendScrollVector" "[0 0]"
+}

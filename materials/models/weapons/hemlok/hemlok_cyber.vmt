@@ -1,0 +1,26 @@
+VertexLitGeneric
+{
+	"$basetexture" "models/weapons/hemlok/assault_hemlok_bfr_base"
+	"$bumpmap" "models/weapons/hemlok/assault_hemlok_bfr_norm"
+
+	"$AmbientOcclusion" "1"
+	"$AmbientOcclTexture" "models/weapons/hemlok/assault_hemlok_bfr_ao"
+
+
+	"$phong" "1"
+	"$phongfresnelranges" "[0.25 0.5 1]"
+	"$phongexponenttexture" "models/weapons/hemlok/assault_hemlok_bfr_gloss"
+	"$phongboost" "25"
+	"$basemapalphaphongmask" "1"
+	
+	"$envmap" "env_cubemap"
+	"$envmaptint" "[ .13 .13 .13 ]"
+
+	"$EmissiveBlendEnabled" "1"
+	"$EmissiveBlendStrength" "1"
+	"$EmissiveBlendTexture" "vgui/white"
+	"$EmissiveBlendBaseTexture" "models/weapons/hemlok/assault_hemlok_bfr_em"
+	"$EmissiveBlendFlowTexture" "vgui/white"
+	"$EmissiveBlendTint" "[0.50 1 1]"
+	"$EmissiveBlendScrollVector" "[0 0]"
+}

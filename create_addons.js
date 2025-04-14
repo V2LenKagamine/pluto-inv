@@ -16,13 +16,7 @@ async function* getFiles(dir) {
 }
 
 const addon_data = JSON.stringify(require("./addon.json"));
-/*
-{
-	"title":"pluto.gg content",
-	"type":"servercontent",
-	"tags":[]
-}
-*/
+
 
 class GMAFile {
 	constructor(fname) {
@@ -35,11 +29,11 @@ class GMAFile {
 		this.write(Buffer.alloc(8));
 		this.write(Buffer.alloc(8));
 		this.write(Buffer.alloc(1));
-		this.write(Buffer.from("pluto.gg content")); // change this
+		this.write(Buffer.from("PandoraTTT Content")); // change this
 		this.write(Buffer.alloc(1));
 		this.write(Buffer.from(addon_data));
 		this.write(Buffer.alloc(1));
-		this.write(Buffer.from("Meepen")); // and this
+		this.write(Buffer.from("Len Kagamine")); // and this
 		this.write(Buffer.alloc(1));
 		this.write(Buffer.from("\x01\x00\x00\x00"));
 		this.filenames = [];

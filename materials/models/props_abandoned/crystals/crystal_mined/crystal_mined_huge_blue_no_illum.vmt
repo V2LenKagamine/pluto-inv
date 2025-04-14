@@ -1,0 +1,12 @@
+"VertexlitGeneric"
+{
+	"$baseTexture" "models\props_abandoned\crystals\crystal_mined\crystal_mined_huge_blue"
+
+	"$envcubemap" "1"
+	"$envmap" "cubemaps/cubemap_sheen001"
+	"$surfaceprop" "Glass"
+
+
+
+	
+}
