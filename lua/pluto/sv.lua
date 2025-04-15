@@ -94,9 +94,9 @@ pluto.files.load {
 		"materials/pluto/currencies/plutonicvial.png",
 	},
 	Workshop = {
-		"2275087857",
-		"2277399930",
-		"2277451436",
+		"3463799131", --Content 1
+		"3463800529", --Content 2
+		"3463801989", --Content 3
 
 		"1516699044", -- slvbase 2
 		"1516711672", -- skyrim snpcs

@@ -755,7 +755,7 @@ end)
 
 hook.Add("VGUIMousePressAllowed", "pluto_item_pickup", function(m)
 	if (not IsValid(pluto.ui.pickedupitem)) then
-		return
+		return false
 	end
 
 	local hovered = vgui.GetHoveredPanel()
