@@ -94,6 +94,10 @@ end
 function pluto.inv.generatebuffershard(db, ply, method, tier)
 	mysql_cmysql()
 
+    if(not pluto.tiers.byname[tier]) then
+        ply:ChatPrint("Invalid Tier!")
+        return
+    end
 	local new_item = setmetatable({
 		ClassName = "shard",
 		Tier = pluto.tiers.byname[tier],
@@ -106,6 +110,10 @@ function pluto.inv.generatebuffershard(db, ply, method, tier)
 end
 
 function pluto.inv.generatebuffermodel(db, ply, method, mdl)
+    if(not pluto.models[mdl]) then
+        ply:ChatPrint("Invalid Model!")
+        return
+    end
 	local new_item = setmetatable({
 		ClassName = "model_" .. mdl,
 		Model = pluto.models[mdl],
@@ -146,23 +154,23 @@ function pluto.inv.getbufferitem(ply, id)
 end
 
 
-concommand.Add("pluto_spawn_weapon", function(ply, cmd, arg, args)
+concommand.Add("pluto_spawn_weapon", function(ply, cmd, args)
 	if (not pluto.cancheat(ply)) then
 		return
 	end
 
 	pluto.db.transact(function(db)
-		local item = pluto.inv.generatebufferweapon(db, ply, "SPAWNED", unpack(arg))
+		local item = pluto.inv.generatebufferweapon(db, ply, "SPAWNED", unpack(args))
 		mysql_commit(db)
 	end)
 end)
 
-concommand.Add("pluto_item_dupe", function(ply, cmd, arg)
+concommand.Add("pluto_item_dupe", function(ply, cmd, args)
 	if (not pluto.cancheat(ply)) then
 		return
 	end
 
-	local wep = pluto.itemids[tonumber(arg[1])]
+	local wep = pluto.itemids[tonumber(args[1])]
 
 	if (not wep) then
 		ply:ChatPrint("Can't find gun!")
@@ -177,24 +185,24 @@ concommand.Add("pluto_item_dupe", function(ply, cmd, arg)
 	end)
 end)
 
-concommand.Add("pluto_spawn_shard", function(ply, cmd, arg, args)
+concommand.Add("pluto_spawn_shard", function(ply, cmd, args)
 	if (not pluto.cancheat(ply)) then
 		return
 	end
 
 	pluto.db.transact(function(db)
-		pluto.inv.generatebuffershard(db, ply, "SPAWNED", arg[1])
+		pluto.inv.generatebuffershard(db, ply, "SPAWNED", args[1])
 		mysql_commit(db)
 	end)
 end)
 
-concommand.Add("pluto_spawn_model", function(ply, cmd, arg, args)
+concommand.Add("pluto_spawn_model", function(ply, cmd, args)
 	if (not pluto.cancheat(ply)) then
 		return
 	end
 
 	pluto.db.transact(function(db)
-		pluto.inv.generatebuffermodel(db, ply, "SPAWNED", unpack(arg))
+		pluto.inv.generatebuffermodel(db, ply, "SPAWNED", unpack(args))
 		mysql_commit(db)
 	end)
 end)

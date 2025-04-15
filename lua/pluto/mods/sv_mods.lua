@@ -212,19 +212,19 @@ function pluto.mods.getfor(gun, filter)
 end
 
 
-concommand.Add("pluto_add_mod", function(ply, cmd, arg, args)
+concommand.Add("pluto_add_mod", function(ply, cmd, args)
 	if (not pluto.cancheat(ply)) then
 		return
 	end
 
-	local item = pluto.itemids[tonumber(arg[1])]
+	local item = pluto.itemids[tonumber(args[1])]
 
 	if (not item) then
 		ply:ChatPrint "Couldn't find itemid!"
 		return
 	end
 
-	local mod = pluto.mods.byname[arg[2]]
+	local mod = pluto.mods.byname[args[2]]
 
 	if (not mod) then
 		ply:ChatPrint "Couldn't find mod!"
@@ -238,7 +238,7 @@ concommand.Add("pluto_add_mod", function(ply, cmd, arg, args)
 		return
 	end
 
-	pluto.weapons.addmod(item, arg[2], arg[3] and tonumber(arg[3]) or nil)
+	pluto.weapons.addmod(item, args[2], args[3] and tonumber(args[3]) or nil)
 	
 	pluto.db.transact(function(db)
 		pluto.weapons.update(db, item)
@@ -251,12 +251,12 @@ concommand.Add("pluto_add_mod", function(ply, cmd, arg, args)
 end)
 
 
-concommand.Add("pluto_remove_mods", function(ply, cmd, arg, args)
+concommand.Add("pluto_remove_mods", function(ply, cmd, args)
 	if (not pluto.cancheat(ply)) then
 		return
 	end
 
-	local item = pluto.itemids[tonumber(arg[1])]
+	local item = pluto.itemids[tonumber(args[1])]
 
 	if (not item) then
 		ply:ChatPrint "Couldn't find itemid!"

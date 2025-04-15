@@ -14,6 +14,10 @@ concommand.Add("pluto_generate_weapon", function(ply, cmd, args)
 			end
 		end
 	else
+        if(not arg) then
+            pwarnf("Please include a Base-Swep.")
+            return
+        end
 		local wep = baseclass.Get(arg)
 
 		if (not wep) then

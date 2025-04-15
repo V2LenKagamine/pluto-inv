@@ -360,19 +360,19 @@ concommand.Add("pluto_cheat_currency", function(ply, cmd, args)
 	end)
 end)
 
-concommand.Add("pluto_set_special_name", function(ply, cmd, arg, args)
+concommand.Add("pluto_set_special_name", function(ply, cmd, args)
 	if (not pluto.cancheat(ply)) then
 		return
 	end
 
-	local item = pluto.itemids[tonumber(arg[1])]
+	local item = pluto.itemids[tonumber(args[1])]
 
 	if (not item) then
 		ply:ChatPrint "Couldn't find itemid!"
 		return
 	end
 	
-	local name = arg[2]
+	local name = args[2]
 
 	local owner = player.GetBySteamID64(item.Owner)
 
@@ -392,12 +392,12 @@ concommand.Add("pluto_set_special_name", function(ply, cmd, arg, args)
 		:send()
 end)
 
-concommand.Add("pluto_remove_nickname", function(ply, cmd, arg, args)
+concommand.Add("pluto_remove_nickname", function(ply, cmd, args)
 	if (not pluto.cancheat(ply)) then
 		return
 	end
 
-	local item = pluto.itemids[tonumber(arg[1])]
+	local item = pluto.itemids[tonumber(args[1])]
 
 	if (not item) then
 		ply:ChatPrint "Couldn't find itemid!"
