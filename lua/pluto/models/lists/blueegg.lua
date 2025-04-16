@@ -110,7 +110,7 @@ c "zerosamus" {
 	Name = "Zero Suit Samus",
 	Model = "models/player_zsssamusu.mdl",
 	Hands = "models/zssu_arms.mdl",
-	SubDescription = "n the vast universe, the history of humanity is but a flash of light from a lone star.",
+	SubDescription = "In the vast universe, the history of humanity is but a flash of light from a lone star.",
 	Color = rare,
 	Gender = "Female",
 }

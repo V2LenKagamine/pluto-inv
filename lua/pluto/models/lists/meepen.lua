@@ -67,6 +67,14 @@ c "maya" {
 	Gender = "Female",
 }
 
+c "len_kagamine" {
+    Name = "Len Kagamine",
+    Model = "models/captainbigbutt/vocaloid/len.mdl",
+    Hands = "models/captainbigbutt/vocaloid/c_arms/len.mdl",
+    SubDescription = "Oh god not this guy.",
+    Color = Color(255, 217, 102),
+}
+
 c "kat_2" {
 	Name = "KAT WHY",
 	Model = "models/player/dewobedil/vocaloid/yowane_haku/palmer_p.mdl",
