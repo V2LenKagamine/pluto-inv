@@ -26,7 +26,9 @@ SWEP.HasScope = true
 
 SWEP.Sounds = {
     reload = {
-        {time = 0.25,sound = "weapons/hemlok/wpn_hemlok_reload_removemag_fr15_2ch_v1_01.ogg"}
+        {time = 0.25,sound = "weapons/hemlok/wpn_hemlok_reload_removemag_fr15_2ch_v1_01.ogg"},
+        {time = 1.30,sound = "weapons/hemlok/wpn_hemlok_reload_insertmag_fr36_2ch_v1_01.ogg"},
+        {time = 2.55,sound = "weapons/hemlok/wpn_hemlok_reload_empty_chargeforward_fr76_2ch_v1_01.ogg"},
     },
 }
 

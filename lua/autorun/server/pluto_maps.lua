@@ -26,7 +26,7 @@ local map_lookup = {
 	ttt_pluto_stacks = "1935601426",
 	ttt_lego = "295897079",
 	--ttt_lifetheroof = "487551759",
-	ttt_lost_temple_v2 = "106527577",
+	--ttt_lost_temple_v2 = "106527577",
 	ttt_magma_v2a = "208061322",
 	ttt_mcdonalds = "264839450",
 	ttt_metropolis = "153600777",
@@ -36,20 +36,20 @@ local map_lookup = {
 	ttt_mw2_terminal = "176887855" ,
 	ttt_mw2_highrise = "290247692",
 	--ttt_olivegarden = "271298077",
-	ttt_penitentiary = "1335770232",
+	--ttt_penitentiary = "1335770232",
 	ttt_pluto_icebox_v2 = "1897157110",
 	--ttt_pluto_testing_grounds = "1851705099",
 	ttt_richland_fix = "572477267" ,
 	ttt_roy_the_ship = "108040571",
-	ttt_skybreak_v1 = "1419089916",
-	ttt_skyscraper_2015_v1p_f4 = "376339464",
+	--ttt_skybreak_v1 = "1419089916",
+	--ttt_skyscraper_2015_v1p_f4 = "376339464",
 	--ttt_slender = "165026364",
 	ttt_space_street_67_b2 = "544977614",
 	ttt_stadium = "104506140",
 	--ttt_terrorception = "110656185",
 	ttt_terrortown = "204621664",
-	ttt_the_room_v2 = "612880973",
-	ttt_theship_v1 = "133911194",
+	--ttt_the_room_v2 = "612880973",
+	--ttt_theship_v1 = "133911194",
 	--ttt_waterworld_remastered = "1293781407",
 	--ttt_westwood_v4 = "104520719",
 	ttt_whitehouse_v9 = "296631816",
@@ -71,15 +71,15 @@ local map_lookup = {
 	--ttt_simple_otat1 = "1812199726",
 	--ttt_vacuity = "728570439",
 
-	ttt_pluto_station = "2236114156",
+	--ttt_pluto_station = "2236114156",
 
 	--ttt_pluto_bloodbath = "2220658788",
 
 	--ttt_ascend = "570270318",
 	ttt_clue_2018_b7 = "1490186898",
-	ttt_concentration_b2 = "228509308",
-	ttt_freddy_the_ship_v3 = "119889220",
-	ttt_harbor = "362988826",
+	--ttt_concentration_b2 = "228509308",
+	--ttt_freddy_the_ship_v3 = "119889220",
+	--ttt_harbor = "362988826",
 	--ttt_lttp_kakariko_a4 = "118937144",
 	--ttt_pcworld95_final = "624717817",
 	--ttt_vault = "422801063",
@@ -87,7 +87,7 @@ local map_lookup = {
 
 	-- lime 2020
 	--ttt_skeld = "2244147954",
-	ttt_mcdonalds_mds_v2 = "832254031",
+	--ttt_mcdonalds_mds_v2 = "832254031",
 	ttt_de_dolls_2008_v3 = "662146255",
 	--ttt_tf2_kongking = "583102116",
 	--ttt_tf2_harvest = "578705850",
@@ -98,9 +98,9 @@ local map_lookup = {
 	ttt_alps = "275898388",
 	ttt_csgobank = "934024763",
 	ttt_deadwood_a3 = "272434601",
-	ttt_eclipse_v4 = "1213282380",
+	--ttt_eclipse_v4 = "1213282380",
 	ttt_ile_v4 = "2251357708",
-	ttt_lifetheroof_b2_fix2017 = "927598931",
+	--ttt_lifetheroof_b2_fix2017 = "927598931",
 	ttt_lookatthatview = "505696414",
 	ttt_mw2_rust = "294357995",
 	ttt_parkhouse = "296664526",
@@ -108,8 +108,11 @@ local map_lookup = {
 	ttt_upstate = "2307987701",
 	
 	--Froggo0
-	ttt_polus_v2 = "2289080684",
-	zs_abandonedmallhd_v4 = "2751750745",
+	--ttt_polus_v2 = "2289080684",
+	--zs_abandonedmallhd_v4 = "2751750745",
+
+    --Len Kagamine
+    ttt_cold_memory = "3025519163",
 }
 
 function pluto.GetValidMaps()

@@ -190,6 +190,9 @@ for _, name in pairs {
 	"vintage",
 
 	"unstable",
+	"stabilized",
+	"explosive",
+    
 } do
 	AddCSLuaFile("pluto/tiers/" .. name .. ".lua")
 	local item = include("pluto/tiers/" .. name .. ".lua")

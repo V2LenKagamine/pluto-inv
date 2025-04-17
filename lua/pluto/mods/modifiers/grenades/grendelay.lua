@@ -18,10 +18,10 @@ end
 MOD.Description = "This grenade takes %s less time to explode"
 
 MOD.Tiers = {
-	{ 45, 55 },
-	{ 35, 45 },
-	{ 25, 35 },
-	{ 15, 25 },
+	{ 20, 25 },
+	{ 15, 20 },
+	{ 10, 15 },
+	{ 5, 10 },
 }
 
 function MOD:ModifyWeapon(wep, rolls)
