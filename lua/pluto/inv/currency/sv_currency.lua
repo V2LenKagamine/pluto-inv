@@ -245,7 +245,7 @@ for name, values in pairs {
 		Types = "Weapon",
 	},
 	mirror = {
-		Shares = 0.01,
+		Shares = 0.025,
 		Use = function(self, ply, item)
 			local new_item = item:Duplicate()
 			pluto.weapons.addmod(new_item, "mirror")
@@ -271,7 +271,7 @@ for name, values in pairs {
 		Types = "Weapon",
 	},
 	coin = {
-		Shares = 1,
+		Shares = 2,
 		Use = function(self, ply)
 			return Promise(function(res, rej)
 				pluto.db.transact(function(db)
@@ -301,11 +301,11 @@ for name, values in pairs {
 		Types = "None",
 	},
 	xmas2020 = {
-		Shares = 0,
+		Shares = 0.5,
 		Types = "None",
 	},
 	crate1 = {
-		Shares = 0,
+		Shares = 0.5,
 		Types = "None",
 	},
 	crate2 = {
@@ -344,7 +344,7 @@ for name, values in pairs {
 		Types = "None"
 	},
 	aciddrop = {
-		Shares = 100,
+		Shares = 90,
 		Run = function(self, item)
 			local affixes = item:GetMaxAffixes()
 
@@ -400,16 +400,16 @@ for name, values in pairs {
 		Types = "Weapon",
 	},
 	quill = {
-		Shares = 1,
+		Shares = 2,
 		Use = function(ply, item)
 		end,
 		Types = "Weapon",
 	},
 	tp = {
-		Shares = 1,
+		Shares = 0,
 	},
 	crate3 = {
-		Shares = 0,
+		Shares = 0.5,
 		Types = "None",
 
 		Pickup = function(ply)
@@ -423,7 +423,7 @@ for name, values in pairs {
 		end
 	},
 	crate3_n = {
-		Shares = 0,
+		Shares = 0.5,
 		Types = "None",
 	},
 	_lightsaber = {
@@ -460,7 +460,7 @@ for name, values in pairs {
 		Shares = 0,
 	},--]]
 	brainegg = {
-		Shares = 0,
+		Shares = 0.5,
 		Types = "None",
 	},
 	stardust = {
@@ -909,8 +909,8 @@ hook.Add("DoPlayerDeath", "pluto_currency_add", function(vic, damager, dmg)
 	if (atk:GetRoleTeam() == vic:GetRoleTeam()) then
 		-- base on karma
 		points = -vic:GetKarma() / atk:GetKarma()
-	elseif (atk:GetRoleData().Evil) then
-		points = points * 0.8
+	elseif (not (atk:GetRoleData().Evil)) then
+		points = points * 2
 	end
 
 	local gun = dmg:GetInflictor()
@@ -929,6 +929,19 @@ end)
 function pluto.currency.givespawns(ply, amt)
 	pluto.currency.tospawn[ply] = (pluto.currency.tospawn[ply] or currency_per_round) + amt * pluto_currency_spawnrate:GetFloat() * global_multiplier
 end
+
+concommand.Add("pandora_lodesamoney",function(plr,cmd,args)
+    if(not pluto.cancheat(plr))then
+        print("Nice try.")
+        return
+    end
+    for _, client in pairs(round.GetStartingPlayers()) do
+        for pain = 1,args[1] do
+            pluto.currency.spawnfor(client.Player)
+        end
+    end
+    admin.chatf(white_text, "Reality cracks, and riches fall through!")
+end, nil,"Gives [x] random currency spawns for all players in current round.")
 
 function pluto.inv.readrename(cl)
 	local id = net.ReadUInt(32)

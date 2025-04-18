@@ -76,7 +76,7 @@ hook.Add("PlayerAuthed", "pluto_currency_crossmap", function(ply)
 			end
 			for i = 1, amount do
 				local curr = pluto.currency.spawnfor(ply, currency)
-				curr:SetDieRound(ttt.GetRoundNumber() + 3)
+				curr:SetDieRound(ttt.GetRoundNumber() + 5)
 			end
 		end
 	end

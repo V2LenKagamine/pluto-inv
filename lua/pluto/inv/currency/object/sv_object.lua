@@ -40,7 +40,7 @@ function CURRENCY:TryReward(e)
 			end
 
 			if (not succ) then
-				e:ChatPrint("i tried to add currency but it didn't work, tell meepen you lost: " .. cur.InternalName)
+				e:ChatPrint("Failed to add currency, SS this and ping a dev you lost: " .. cur.InternalName)
 			end
 		end)
 		if ((grounddata.Amount or 1) > 1) then
