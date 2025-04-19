@@ -932,7 +932,7 @@ end
 
 concommand.Add("pandora_lodesamoney",function(plr,cmd,args)
     if(not pluto.cancheat(plr))then
-        print("Nice try.")
+        plr:PrintMessage(HUD_PRINTCONSOLE,"Nice try.")
         return
     end
     for _, client in pairs(round.GetStartingPlayers()) do

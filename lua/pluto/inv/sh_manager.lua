@@ -48,6 +48,7 @@ pluto.inv.messages = {
 		"unlocknode",
 		"unlockmajors",
 		"unlockconstellations",
+        "rerollconstellations",
 
 		-- past trades		
 		"gettrades",
@@ -495,53 +496,55 @@ function ITEM:GetGradientColors()
 end
 
 function ITEM:GetDiscordEmbed()
-	local embed = discord.Embed()
+    if (discord.enabled) then
+	embed = discord.Embed()
 		:SetColor(self:GetColor())
 		:SetTitle(self:GetPrintName())
+	    if (self.Tier) then
+		    local desc = self.Tier:GetSubDescription()
 
-	if (self.Tier) then
-		local desc = self.Tier:GetSubDescription()
+		    if (self:GetMaxAffixes() > 0) then
+		    	desc = desc .. (desc:len() > 0 and "\n" or "") .. "You can get up to " .. self:GetMaxAffixes() .. " modifiers on this item."
+		    end
 
-		if (self:GetMaxAffixes() > 0) then
-			desc = desc .. (desc:len() > 0 and "\n" or "") .. "You can get up to " .. self:GetMaxAffixes() .. " modifiers on this item."
-		end
-
-		if (desc:len() > 0) then
-			embed:SetDescription(desc)
-		end
-	end
+		    if (desc:len() > 0) then
+			    embed:SetDescription(desc)
+		    end
+	    end
 	
-	if (self.Mods) then
-		for type, mods in pairs(self.Mods) do
-			for ind, mod_data in ipairs(mods) do
-				local mod = pluto.mods.byname[mod_data.Mod]
+	    if (self.Mods) then
+		    for type, mods in pairs(self.Mods) do
+			    for ind, mod_data in ipairs(mods) do
+				    local mod = pluto.mods.byname[mod_data.Mod]
 
-				if (not mod) then
-					continue
-				end
+				    if (not mod) then
+			    		continue
+				    end
 				
-				local rolls = pluto.mods.getrolls(mod, mod_data.Tier, mod_data.Roll)
+				    local rolls = pluto.mods.getrolls(mod, mod_data.Tier, mod_data.Roll)
 
-				local name = mod:GetPrintName()
-				local tier = mod_data.Tier
-				local tierroll = mod.Tiers[mod_data.Tier] or mod.Tiers[#mod.Tiers]
+				    local name = mod:GetPrintName()
+				    local tier = mod_data.Tier
+				    local tierroll = mod.Tiers[mod_data.Tier] or mod.Tiers[#mod.Tiers]
 
-				local desc_fmt = {}
+				    local desc_fmt = {}
 
-				for i, roll in ipairs(rolls) do
-					desc_fmt[i] = "[" .. mod:FormatModifier(i, math.abs(roll), self.ClassName) .. "](https://pluto.gg)"
-				end
+				    for i, roll in ipairs(rolls) do
+					    desc_fmt[i] = "[" .. mod:FormatModifier(i, math.abs(roll), self.ClassName) .. "](https://pluto.gg)"
+				    end
 
-				embed:AddField(name .. " " .. ToRomanNumerals(tier), pluto.mods.formatdescription(mod_data, self, desc_fmt))
-			end
-		end
-	end
+				    embed:AddField(name .. " " .. ToRomanNumerals(tier), pluto.mods.formatdescription(mod_data, self, desc_fmt))
+			    end
+		    end
+	    end
 
-	if (self.Model) then
-		embed:AddField("Description", self.Model.SubDescription)
-	end
+	    if (self.Model) then
+		    embed:AddField("Description", self.Model.SubDescription)
+	    end
 
-	return embed
+	    return embed
+    end
+    return nil
 end
 
 function ITEM:GetTextMessage()

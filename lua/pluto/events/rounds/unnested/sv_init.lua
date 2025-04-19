@@ -210,7 +210,7 @@ end
 end)--]]
 
 ROUND:Hook("TTTHasRoundBeenWon", function(self, state)
-	if (#round.GetActivePlayersByRole "Fighter" == 0) then
+	if (#round.GetActivePlayersByRole "Fighter" <= 1) then
 		return true, "traitor", false
 	end
 

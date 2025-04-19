@@ -31,6 +31,7 @@ function CURRENCY:TryReward(e)
 		net.WriteVector(self:GetPos())
 	net.Send(e)
 
+    local failed = false
 	if (not cur.Fake) then
 		local grounddata = cur.GroundData or cur
 		pluto.db.instance(function(db)
@@ -40,7 +41,8 @@ function CURRENCY:TryReward(e)
 			end
 
 			if (not succ) then
-				e:ChatPrint("Failed to add currency, SS this and ping a dev you lost: " .. cur.InternalName)
+                failed = true
+				--e:ChatPrint("Failed to add currency, SS this and ping a dev you lost: " .. cur.InternalName)
 			end
 		end)
 		if ((grounddata.Amount or 1) > 1) then
@@ -49,9 +51,9 @@ function CURRENCY:TryReward(e)
 			e:ChatPrint(cur.Color, "+ ", white_text, "You have found ", startswithvowel(cur.Name) and "an " or "a ", cur, ".")
 		end
 	end
-
-	self:Remove()
-
+    if(not failed) then
+    	self:Remove()
+    end
 	return true
 end
 

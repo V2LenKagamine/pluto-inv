@@ -289,7 +289,7 @@ function pluto.inv.init(ply, cb2)
 		cb2 = noop
 
 		if (not success and IsValid(ply)) then
-			ply:Kick("Couldn't init inventory: " .. reason)
+			ply:Kick("Couldn't init inventory: " .. reason .. "\nTry logging in again?")
 		end
 
 		return realcb(success)

@@ -260,8 +260,10 @@ local pluto_stardust_initialize = function()
 		end
 
 		if (#available < 10) then
-			local msg = discord.Message()
-
+            local msg
+            if(discord.enabled) then
+			    msg = discord.Message()
+            end
 			for i = #available + 1, 10 do
 				local id, data = pluto.inv.roll(options)
 				data = table.Copy(data)
@@ -273,16 +275,19 @@ local pluto_stardust_initialize = function()
 					data.Price = math.random(data.Price[1], data.Price[2])
 				end
 				local embed = data.PreviewItem:GetDiscordEmbed()
-				msg:AddEmbed(
-					embed
-						:SetAuthor("For " .. data.Price .. " stardust; 5 hours remaining...")
-						:SetTimestamp()
-				)
+                if(discord.enabled) then
+				    msg:AddEmbed(
+					    embed
+						    :SetAuthor("For " .. data.Price .. " stardust; 5 hours remaining...")
+						    :SetTimestamp()
+				    )
+                end
 				data.EndTime = os.time() + 60 * 60 * 5
 				data.rowid = mysql_stmt_run(db, "INSERT INTO pluto_stardust_shop (item, price, endtime) VALUES(?, ?, TIMESTAMPADD(HOUR, 5, CURRENT_TIMESTAMP))", id, data.Price).LAST_INSERT_ID
 			end
-
-			msg:Send "stardust-shop"
+            if (discord.enabled) then
+			    msg:Send "stardust-shop"
+            end
 		end
 
 		mysql_query(db, "UNLOCK TABLES")

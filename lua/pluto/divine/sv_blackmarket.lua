@@ -152,14 +152,15 @@ local function init()
 		mysql_commit(db)
 
 		pluto.divine.blackmarket.next = os.time() + mysql_query(db, "SELECT TIMESTAMPDIFF(SECOND, CURRENT_TIMESTAMP, TIMESTAMP(convert_tz(@date,'-1:00',@@session.time_zone)) + interval 1 day) as remaining;")[1].remaining
-
-		local msg = discord.Message()
-			:SetText("=== BLACKMARKET RESTOCK ===")
+        local msg
+        if(discord.enabled) then
+		    msg = discord.Message():SetText("=== BLACKMARKET RESTOCK ===")
+        end
 		local send = false
 		for _, offer in ipairs(data) do
 			if (offer.new) then
 				local what = options[offer.what]
-				if (what.Item) then
+				if (what.Item and discord.enabled) then
 					msg:AddEmbed(
 						what.Item:GetDiscordEmbed()
 							:SetAuthor(what.Price .. " " .. CURR.Name)
@@ -170,7 +171,7 @@ local function init()
 			end
 		end
 
-		if (send) then
+		if (discord.enabled and send) then
 			msg:Send "stardust-shop"
 		end
 

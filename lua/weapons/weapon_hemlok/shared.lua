@@ -11,8 +11,8 @@ SWEP.HoldType = "ar2"
 SWEP.Primary.Ammo = "smg1"
 SWEP.Primary.Delay = 0.375
 SWEP.Primary.Recoil = 0
-SWEP.Primary.Damage = 16
-SWEP.HeadshotMultiplier = 1.5
+SWEP.Primary.Damage = 17
+SWEP.HeadshotMultiplier = 1.6
 SWEP.Primary.Automatic = true
 SWEP.Primary.ClipSize = 30	
 SWEP.Primary.ClipMax = 90
@@ -55,10 +55,10 @@ SWEP.RecoilInstructions = {
 SWEP.Bullets = {
 	HullSize = 0,
 	Num = 1,
-	DamageDropoffRange = 600,
-	DamageDropoffRangeMax = 3600,
+	DamageDropoffRange = 850,
+	DamageDropoffRangeMax = 4800,
 	DamageMinimumPercent = 0.1,
-	Spread = Vector(0.025, 0.025, 0)
+	Spread = Vector(0.005, 0.005, 0)
 }
 
 SWEP.Offset = { --Procedural world model animation, defaulted for CS:S purposes.

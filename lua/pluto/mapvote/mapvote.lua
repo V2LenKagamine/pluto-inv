@@ -85,7 +85,7 @@ function pluto.mapvote.broadcast()
 	end
 
 	
-	round.SetState(ttt.ROUNDSTATE_WAITING, 15):_then(function()
+	round.SetState(ttt.ROUNDSTATE_WAITING, 25):_then(function()
 		--]]print("second part of mapvote")
 		local votes = {}
 		for map in pairs(pluto.mapvote.state.votable) do

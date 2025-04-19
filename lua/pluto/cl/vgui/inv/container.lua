@@ -346,7 +346,7 @@ function PANEL:Center()
 end
 
 function PANEL:ChangeToTab(name, noupdate)
-	--[[]]print("Changing to tab", name, noupdate)
+	--[[print("Changing to tab", name, noupdate)]]
 	local tab = self.Tabs[name]
 	if (not tab) then
 		return
@@ -405,7 +405,7 @@ end
 local gradient_up = Material "gui/gradient_up"
 
 function PANEL:AddTab(name, func, has_storage, cache, col)
-	--[[]]print("adding tab", name, func, has_storage, cache, col)
+	--[[print("adding tab", name, func, has_storage, cache, col)]]
 	local lbl = self.TabContainer:Add "pluto_label"
 	function lbl.PaintUnder(s, w, h)
 		if (self.ActiveTab == name) then
@@ -453,7 +453,7 @@ function PANEL:AddTab(name, func, has_storage, cache, col)
 end
 
 function PANEL:HandleStorageScroll(wheeled)
-	--[[]]print("handling storage scroll", wheeled)
+	--[[print("handling storage scroll", wheeled)]]
 	local current_position
 	for i, tab in ipairs(self.TabList) do
 		if (tab.Tab == self.ActiveStorageTab) then
@@ -466,7 +466,7 @@ function PANEL:HandleStorageScroll(wheeled)
 end
 
 function PANEL:AddStorageTab(tab)
-	--[[]]print("adding storage tab", tab)
+	--[[print("adding storage tab", tab)]]
 	self.Storage:AddTab(tab)
 	local pnl = self.StorageTabList:Add "EditablePanel"
 	pnl.AllowClickThrough = true
@@ -691,14 +691,14 @@ vgui.Register("pluto_inv", PANEL, "EditablePanel")
 
 
 function pluto.ui.toggle()
-	--[[]]print("running pluto.ui.toggle")
+	--[[print("running pluto.ui.toggle")]]
 	if (IsValid(pluto.ui.pnl)) then
 		pluto.ui.pnl:Remove()
-		--[[]]print("removing pluto.ui.pnl")
+		--[[print("removing pluto.ui.pnl")]]
 		return
 	end
 
-	--[[]]print("creating pluto.ui.pnl")
+	--[[print("creating pluto.ui.pnl")]]
 	pluto.ui.pnl = vgui.Create "pluto_inv"
 	pluto.ui.pnl:Center()
 	pluto.ui.pnl:MakePopup()
@@ -707,7 +707,7 @@ function pluto.ui.toggle()
 end
 
 function pluto.ui.highlight(item)
-	--[[]]print("running pluto.ui.highlight on", item)
+	--[[print("running pluto.ui.highlight on", item)]]
 	if (not IsValid(pluto.ui.pnl)) then
 		return
 	end

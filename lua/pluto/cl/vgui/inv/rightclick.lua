@@ -99,7 +99,7 @@ function pluto.ui.rightclickmenu(item, pre)
 	if (is_owner and not item.Locked) then
 		--local tab = pluto.cl_inv[item.TabID]
 		--if (tab and tab.Type ~= "buffer") then
-			rightclick_menu:AddOption("Destroy Item", function()
+			rightclick_menu:AddOption("Destroy or Shard Item", function()
 				pluto.divine.confirm("Destroy " .. item:GetPrintName(), function()
 					local tab = pluto.cl_inv[item.TabID]
 					tab.Items[item.TabIndex] = nil

@@ -591,7 +591,7 @@ function PANEL:StartShowcase()
 end
 
 function PANEL:OnMousePressed(m)
-	--[[]]print("running onmousepressed with", m)
+	--[[print("running onmousepressed with", m)]]
 	if (self.CanPickup and m == MOUSE_LEFT and not IsValid(pluto.ui.pickedupitem) and self.Item) then
 		pluto.ui.pickupitem(self)
 	elseif (m == MOUSE_LEFT and not self.CanPickup) then
@@ -687,7 +687,7 @@ function pluto.ui.pickupitem(item)
 
 	if (itemdata) then
 		pluto.ui.realpickedupitem = item
-		--[[]]print("creating pluto.ui.pickedupitem pluto_inventory_item with itemdata", itemdata)
+		--[[print("creating pluto.ui.pickedupitem pluto_inventory_item with itemdata", itemdata)]]
 		pluto.ui.pickedupitem = vgui.Create "pluto_inventory_item"
 		local p = pluto.ui.pickedupitem
 		p:SetPaintedManually(true)
