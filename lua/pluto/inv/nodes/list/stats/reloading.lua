@@ -7,9 +7,9 @@ NODE.Name = "Reloading Speed"
 NODE.Experience = 1350
 
 function NODE:GetDescription(node)
-	return string.format("Reloading is %.2f%% faster", 2 + node.node_val1 * 8)
+	return string.format("Reloading is %.2f%% faster", 1 + node.node_val1 * 4)
 end
 
 function NODE:ModifyWeapon(node, wep)
-	wep.Pluto.ReloadAnimationSpeed = wep.Pluto.ReloadAnimationSpeed + (2 + node.node_val1 * 8) / 100
+	wep.Pluto.ReloadAnimationSpeed = wep.Pluto.ReloadAnimationSpeed + (1 + node.node_val1 * 4) / 100
 end

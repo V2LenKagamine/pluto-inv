@@ -7,9 +7,9 @@ NODE.Name = "Distance Increase"
 NODE.Experience = 1900
 
 function NODE:GetDescription(node)
-	return string.format("Falloff distance is increased by %.2f%%", 5 + node.node_val1 * 5)
+	return string.format("Distance before Falloff is increased by %.2f%%", 2.5 + node.node_val1 * 2.5)
 end
 
 function NODE:ModifyWeapon(node, wep)
-	wep.Pluto.DamageDropoffRangeMax = wep.Pluto.DamageDropoffRangeMax + (5 + node.node_val1 * 5) / 100
+	wep.Pluto.DamageDropoffRange = wep.Pluto.DamageDropoffRange + (2.5 + node.node_val1 * 2.5) / 100
 end

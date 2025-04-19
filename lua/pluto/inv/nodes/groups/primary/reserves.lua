@@ -10,10 +10,11 @@ GROUP.Guaranteed = {
 }
 
 GROUP.SmallNodes = {
-	mag = 2,
+	mag = 4,
 	firerate = {
-		Shares = 1,
+		Shares = 2,
 		Max = 1,
 	},
-	distance = 1,
+	distance = 2,
+    distancetraderc = 1
 }

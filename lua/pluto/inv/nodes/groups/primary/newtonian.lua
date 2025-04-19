@@ -10,7 +10,7 @@ GROUP.Guaranteed = {
 }
 
 function GROUP:CanRollOn(class)
-	return class and class.Primary and class.Primary.Ammo and class.Primary.Ammo:lower() == "buckshot"
+	return false --class and class.Primary and class.Primary.Ammo and class.Primary.Ammo:lower() == "buckshot"
 end
 
 GROUP.SmallNodes = {

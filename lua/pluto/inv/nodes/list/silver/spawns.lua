@@ -1,13 +1,13 @@
 --[[ * This Source Code Form is subject to the terms of the Mozilla Public
      * License, v. 2.0. If a copy of the MPL was not distributed with this
      * file, You can obtain one at https://mozilla.org/MPL/2.0/. ]]
-local NODE = pluto.nodes.get "gold_spawns"
+local NODE = pluto.nodes.get "silver_spawns"
 
-NODE.Name = "Gold: Coined"
-NODE.Experience = 6600
+NODE.Name = "Silver: Coined"
+NODE.Experience = 5400
 
 function NODE:GetDescription(node)
-	return string.format("%.2f%% more currency from this weapon.", 10 + node.node_val1 * 10)
+	return string.format("%.2f%% more currency from this weapon.", 5 + node.node_val1 * 10)
 end
 
 function NODE:ModifyWeapon(node, wep)
@@ -15,7 +15,7 @@ function NODE:ModifyWeapon(node, wep)
 		if (not IsValid(wep)) then
 			return
 		end
-		if (not wep.GoldEnchant) then
+		if (not wep.SteelEnchant) then
 			return
 		end
 
@@ -25,7 +25,7 @@ function NODE:ModifyWeapon(node, wep)
 				old(self, state)
 			end
 
-			state.Points = state.Points * (1 + (10 + node.node_val1 * 10) / 100)
+			state.Points = state.Points * (1 + (5 + node.node_val1 * 10) / 100)
 		end
 	end)
 end

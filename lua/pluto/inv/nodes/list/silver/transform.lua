@@ -1,10 +1,10 @@
 --[[ * This Source Code Form is subject to the terms of the Mozilla Public
      * License, v. 2.0. If a copy of the MPL was not distributed with this
      * file, You can obtain one at https://mozilla.org/MPL/2.0/. ]]
-local NODE = pluto.nodes.get "steel_transform"
+local NODE = pluto.nodes.get "silver_transform"
 
-NODE.Name = "Ice: Transform"
-NODE.Description = "Players killed with this gun have a 25% chance transform to steel."
+NODE.Name = "Silver: Transform"
+NODE.Description = "Players killed with this weapon have a 25% chance transform to silver."
 NODE.Experience = 1200
 
 function NODE:ModifyWeapon(node, wep)

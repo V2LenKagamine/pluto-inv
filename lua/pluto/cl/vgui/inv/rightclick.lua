@@ -94,6 +94,11 @@ function pluto.ui.rightclickmenu(item, pre)
 				pluto.ui.showconstellations(item)
 			end):SetIcon "icon16/star.png"
 		end
+        if(item.constellations) then
+            rightclick_menu:AddOption("ReRoll Constellations",function()
+                pluto.ui.rerollconstellations(item)
+            end):SetIcon "icon16/asterisk_yellow.png"
+        end
 	end
 
 	if (is_owner and not item.Locked) then

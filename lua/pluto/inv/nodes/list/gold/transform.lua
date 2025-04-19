@@ -4,8 +4,8 @@
 local NODE = pluto.nodes.get "gold_transform"
 
 NODE.Name = "Gold: Transform"
-NODE.Description = "Players killed with this gun have a 25% chance transform to gold."
-NODE.Experience = 1337
+NODE.Description = "Players killed with this weapon have a 25% chance transform to gold."
+NODE.Experience = 1200
 
 function NODE:ModifyWeapon(node, wep)
 	if (math.random() > 0.25) then

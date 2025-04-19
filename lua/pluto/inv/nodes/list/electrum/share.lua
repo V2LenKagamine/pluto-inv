@@ -1,11 +1,11 @@
 --[[ * This Source Code Form is subject to the terms of the Mozilla Public
      * License, v. 2.0. If a copy of the MPL was not distributed with this
      * file, You can obtain one at https://mozilla.org/MPL/2.0/. ]]
-local NODE = pluto.nodes.get "steel_share"
+local NODE = pluto.nodes.get "electrum_share"
 
-NODE.Name = "Ice: Share"
-NODE.Experience = 9999
-NODE.Description = "2% of currency earned with this gun is shared with other players."
+NODE.Name = "Electrum: Share"
+NODE.Experience = 10000
+NODE.Description = "1% of currency earned with this gun is shared with other players."
 
 function NODE:ModifyWeapon(node, wep)
 	if (not SERVER) then
@@ -15,7 +15,7 @@ function NODE:ModifyWeapon(node, wep)
 		if (not IsValid(wep)) then
 			return
 		end
-		if (not wep.SteelEnchant) then
+		if (not wep.ElectrumEnchant) then
 			return
 		end
 
@@ -25,14 +25,14 @@ function NODE:ModifyWeapon(node, wep)
 				old(self, state)
 			end
 
-			state.Points = state.Points * (1 + (5 + node.node_val1 * 10) / 100)
+			state.Points = state.Points * (1 + (7.5 + node.node_val1 * 10) / 100)
 			timer.Simple(0, function()
 				for _, ply in pairs(round.GetActivePlayers()) do
 					if (not IsValid(ply.Player)) then
 						continue
 					end
 				
-					pluto.currency.givespawns(ply.Player, state.Points * 0.02)
+					pluto.currency.givespawns(ply.Player, state.Points * 0.01)
 				end
 			end)
 		end

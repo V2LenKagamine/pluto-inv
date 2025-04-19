@@ -10,7 +10,7 @@ GROUP.Guaranteed = {
 }
 
 function GROUP:CanRollOn(class)
-	return class and class.Slot == 2
+	return false --]]class and class.Slot == 2
 end
 
 GROUP.SmallNodes = {

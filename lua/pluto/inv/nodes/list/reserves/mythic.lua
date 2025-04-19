@@ -5,7 +5,7 @@ local NODE = pluto.nodes.get "mythic_reserves"
 
 NODE.Name = "Mythic Reserves"
 NODE.Experience = 5600
-NODE.Description = "Every few seconds generate a bullet for this weapon while not firing. This weapon cannot reload. This weapon has 35% more mag size. This gun shoots 15% slower."
+NODE.Description = "Regenerates ammo to full over 30 seconds while not firing. This weapon cannot reload. This weapon has 35% more mag size. This weapon shoots 15% slower."
 
 function NODE:ModifyWeapon(node, wep)
 	wep.Primary.ClipSize_Original = wep.Primary.ClipSize_Original or wep.Primary.ClipSize
@@ -21,18 +21,24 @@ function NODE:ModifyWeapon(node, wep)
 	wep.Pluto.Delay = wep.Pluto.Delay - 0.15
 
 	local id = "pluto_mythic_reserves" .. wep:GetPlutoID()
-
 	local last_increase = ttt.GetRoundStateChangeTime()
+    local remainder = 0
 	hook.Add("Tick", id, function()
 		if (not IsValid(wep)) then
 			hook.Remove("Tick", id)
 			return
 		end
 
-
-		if (wep:GetRealLastShootTime() < CurTime() - 2 and last_increase + wep:GetDelay() * 4 < CurTime()) then
-			last_increase = last_increase + wep:GetDelay() * 4
-			wep:SetClip1(math.min(wep:GetMaxClip1(), wep:Clip1() + 1))
+		if (wep:GetRealLastShootTime() + 2 < CurTime() and last_increase < CurTime()) then
+			last_increase = last_increase + 1
+            local restored = math.floor(wep:GetMaxClip1() / 30)
+            remainder = remainder + (wep:GetMaxClip1() / 30) % 1
+            if(remainder >= 1) then
+                wep:SetClip1(math.min(wep:GetMaxClip1(), wep:Clip1() + restored + (remainder % 1)))
+                remainder = remainder % 1
+            else
+                wep:SetClip1(math.min(wep:GetMaxClip1(), wep:Clip1() + restored))
+            end
 		end
 	end)
 end

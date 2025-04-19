@@ -113,6 +113,31 @@ function pluto.ui.showconstellations(item)
 	PLUTO_TREE:MakePopup()
 end
 
+function pluto.ui.rerollconstellations(item)
+    if(not item.constellations) then
+        PrintMessage(HUD_PRINTCONSOLE,"Wait, what? Item has no constellations, how did you re-roll them?")
+        return 
+    end
+
+    local confirm = pluto.divine.confirm("Re-roll Constellations",function()
+        pluto.inv.message()
+            :write("rerollconstellations", item)
+            :send()
+    end)
+    local txt = confirm:Add "DLabel"
+		txt:Dock(TOP)
+		txt:SetText "Are you sure you want to Re-Roll Constellations for 100 stardust?"
+		txt:SetFont "pluto_trade_buttons"
+		txt:SetContentAlignment(5)
+		txt:SetTextColor(Color(255, 20, 25))
+		txt:SizeToContentsY()
+    return 
+end
+
+function pluto.inv.writererollconstellations(item)
+    net.WriteUInt(item.ID, 32)
+end
+
 function pluto.inv.writeunlocknode(item, bubble, node)
 	net.WriteUInt(item.ID, 32)
 	net.WriteUInt(bubble, 32)

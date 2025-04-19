@@ -9,6 +9,13 @@ for _, fname in pairs {
 	"stats/recoil",
 	"stats/reloading",
 
+    "stats/damagetradefr",
+	"stats/distancetraderc",
+	"stats/fireratetradedmg",
+	"stats/magtradereload",
+	"stats/recoiltradedis",
+	"stats/reloadingtrademag",
+
 	"enigmatic/voice",
 	"enigmatic/warn",
 	"enigmatic/siren",
@@ -29,12 +36,22 @@ for _, fname in pairs {
 	"piercer/mini",
 	"piercer/pierce",
 
-	"steel/enchanted",
-	"steel/spawns",
-	"steel/share",
-	"steel/transform",
+	"silver/enchanted",
+	"silver/spawns",
+	"silver/share",
+	"silver/transform",
+
+    "starstruck/enchanted",
+    "starstruck/spawns",
+    "starstruck/starfall",
+
+    "electrum/enchanted",
+	"electrum/spawns",
+	"electrum/share",
 
 	"reserves/mythic",
+
+    "unrelenting/unrelenting",
 
 	"pusher/push",
 } do
@@ -73,7 +90,7 @@ function GROUP:CanRollOn(class)
 end
 
 function GROUP:GetNodeCount()
-	return math.random(4, 7)
+	return math.floor(math.random(3, 6))
 end
 
 function GROUP:Generate()
@@ -127,8 +144,17 @@ for _, fname in pairs {
 	"primary/reserves",
 	"primary/newtonian",
 	"primary/piercer",
+    "primary/damager",
+    "primary/magazine",
+    "primary/puttsman",
+    "primary/railgunner",
+    "primary/snipering",
+    "primary/unrelenting",
+
 	"secondary/gold",
-	"secondary/steel",
+	"secondary/silver",
+    "secondary/electrum",
+    "secondary/starstruck",
 } do
 	include("pluto/inv/nodes/groups/" .. fname .. ".lua")
 end
@@ -308,11 +334,11 @@ function pluto.nodes.getfor(db, wep)
 		return {}
 	end
 
-	if (wep.constellations) then
+	if (wep.constellations ~= nil ) then
 		return wep.constellations
 	end
 
-	mysql_stmt_run(db, "SELECT * from pluto_item_nodes WHERE item_id = ? FOR UPDATE", wep.RowID)
+	mysql_stmt_run(db, "SELECT * FROM pluto_item_nodes WHERE item_id = ? FOR UPDATE", wep.RowID)
 	local nodes = mysql_stmt_run(db, "SELECT * FROM pluto_item_nodes WHERE item_id = ?", wep.RowID)
 
 	local bubbles = {}
@@ -386,7 +412,7 @@ function pluto.inv.readunlockmajors(cl)
 	local exp = pluto.nodes.get(tree_one[1].node_name).Experience + pluto.nodes.get(tree_two[1].node_name).Experience
 
 	pluto.db.transact(function(db)
-		mysql_stmt_run(db, "SELECT * from pluto_item_nodes WHERE item_id = ? FOR UPDATE", id)
+		mysql_stmt_run(db, "SELECT * FROM pluto_item_nodes WHERE item_id = ? FOR UPDATE", itemid)
 
 		local ret, err = mysql_stmt_run(db, "UPDATE pluto_items SET exp = exp - ? WHERE idx = ? AND exp > ?", exp, item.RowID, exp)
 		if ((not ret or ret.AFFECTED_ROWS ~= 1) and not pluto.cancheat(cl)) then
@@ -501,4 +527,36 @@ function pluto.inv.readunlockconstellations(cl)
 			:write("item", item)
 			:send()
 	end)
+end
+
+function pluto.inv.readrerollconstellations(cl)
+    local item = pluto.itemids[net.ReadUInt(32)]
+
+    if (pluto_disable_constellations:GetBool()) then
+		return
+	end
+    
+    if (not item or item.Owner ~= cl:SteamID64() or item.Type ~= "Weapon" or item.Tier and item.Tier.InternalName == "unique") then
+		cl:ChatPrint("That item is not able to have constellations.")
+		return
+	end
+
+    pluto.db.transact(function(db)
+        if (not pluto.inv.addcurrency(db, cl, "stardust", -100)) then
+			mysql_rollback(db)
+			return  
+		end
+		mysql_stmt_run(db, "DELETE FROM pluto_item_nodes WHERE item_id = ?", item.RowID)
+
+        mysql_commit(db)
+        item.constellations = nil
+        local bubbles = pluto.nodes.getfor(db, item)
+        --]]print(table.ToString(item.constellations))
+        mysql_commit(db)
+        item.constellations = bubbles
+        --]]print(table.ToString(item.constellations))
+		pluto.inv.message(cl)
+			:write("item", item)
+			:send()
+    end)
 end

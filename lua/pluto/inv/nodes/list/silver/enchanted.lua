@@ -1,10 +1,10 @@
 --[[ * This Source Code Form is subject to the terms of the Mozilla Public
      * License, v. 2.0. If a copy of the MPL was not distributed with this
      * file, You can obtain one at https://mozilla.org/MPL/2.0/. ]]
-local NODE = pluto.nodes.get "steel_enchant"
+local NODE = pluto.nodes.get "silver_enchant"
 
-NODE.Name = "Enchanted: Ice"
-NODE.Description = "Your gun is plated in steel."
+NODE.Name = "Enchanted: Silver"
+NODE.Description = "Your gun is plated in silver."
 NODE.Experience = 5300
 
 function NODE:ModifyWeapon(node, wep)

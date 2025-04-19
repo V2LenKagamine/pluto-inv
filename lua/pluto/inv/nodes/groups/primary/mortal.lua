@@ -12,3 +12,7 @@ GROUP.Guaranteed = {
 GROUP.SmallNodes = {
 	mortal_wound_s = 1,
 }
+
+function GROUP:CanRollOn(class)
+	return false
+end
