@@ -225,7 +225,6 @@ function pluto.inv.readtab()
 	for i = 1, net.ReadUInt(8) do
 		local tabindex = net.ReadUInt(8)
 		local item = pluto.inv.readitem()
-        PrintTable(item)
 		tab.Items[tabindex] = item
 		item.TabID = id
 		item.TabIndex = tabindex
