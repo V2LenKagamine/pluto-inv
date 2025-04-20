@@ -9,10 +9,10 @@ SWEP.Icon = "vgui/ttt/icon_cyberian.png"
 SWEP.HoldType = "ar2"
 
 SWEP.Primary.Ammo = "smg1"
-SWEP.Primary.Delay = 0.375
+SWEP.Primary.Delay = 0.385
 SWEP.Primary.Recoil = 0
-SWEP.Primary.Damage = 17
-SWEP.HeadshotMultiplier = 1.6
+SWEP.Primary.Damage = 19.5
+SWEP.HeadshotMultiplier = 1.4
 SWEP.Primary.Automatic = true
 SWEP.Primary.ClipSize = 30	
 SWEP.Primary.ClipMax = 90
@@ -75,6 +75,7 @@ SWEP.Offset = { --Procedural world model animation, defaulted for CS:S purposes.
 		Scale = 1.0
 }
 
+SWEP.Ortho = {4, 4, angle = Angle(0, -85, 0), size = 0.75}
 --- TTT config values
 
 -- Kind specifies the category this weapon is in. Players can only carry one of

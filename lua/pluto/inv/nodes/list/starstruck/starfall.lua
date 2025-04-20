@@ -25,7 +25,7 @@ function NODE:ModifyWeapon(node, wep)
             if (math.random() >= .25 + (node.node_val1 / 2)) then return end
             if (pluto.rounds.getcurrent()) then return end
 	        if (ttt.GetRoundState() ~= ttt.ROUNDSTATE_ACTIVE) then return end
-            if (not vic) then return end --bots.
+            if (IsValid(vic)) then return end --bots.
             if (vic:GetRoleTeam() == klr:GetRoleTeam()) then return end
             local amnt math.floor(math.Rand(3,6))
             for i = 1,amnt do
