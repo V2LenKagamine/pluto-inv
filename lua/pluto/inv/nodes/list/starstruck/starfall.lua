@@ -20,18 +20,17 @@ function NODE:ModifyWeapon(node, wep)
 		if (not wep.StarEnchant) then
 			return
 		end
-        local id = "starstruck_stars" .. wep:GetPlutoID()
-		hook.Add("PlayerDeath",id,function(self,vic,inf,killer)
-            --if (math.random() >= .25 + (node.node_val1 / 2)) then return end
+        local id = "starstruck_stars_" .. wep:GetPlutoID()
+		hook.Add("DoPlayerDeath",id,function(self,vic,klr,dmginfo)
+            if (math.random() >= .25 + (node.node_val1 / 2)) then return end
             if (pluto.rounds.getcurrent()) then return end
 	        if (ttt.GetRoundState() ~= ttt.ROUNDSTATE_ACTIVE) then return end
-	        if (not IsValid(vic) or killer ~= self:GetOwner()) then return end
-            if (vic:GetRoleTeam() == killer:GetRoleTeam()) then return end
+            if (not vic) then return end --bots.
+            if (vic:GetRoleTeam() == klr:GetRoleTeam()) then return end
             local amnt math.floor(math.Rand(3,6))
             for i = 1,amnt do
-                pluto.currency.spawnfor(vic.Player,pluto.currency.byname.stardust)
-                pluto.currency.spawnfor(killer.Player,pluto.currency.byname.stardust)
-                print("Bingo!")
+                pluto.currency.spawnfor(vic,pluto.currency.byname.stardust)
+                pluto.currency.spawnfor(klr,pluto.currency.byname.stardust)
             end
         end)
 	end)

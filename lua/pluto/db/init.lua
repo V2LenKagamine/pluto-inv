@@ -256,7 +256,7 @@ hook.Add("PlutoDatabaseInitialize", "pluto_inv_init", function(db)
 			node_id SMALLINT UNSIGNED NOT NULL,
 			node_unlocked TINYINT UNSIGNED NOT NULL DEFAULT 0,
 
-			node_name VARCHAR(16) NOT NULL,
+			node_name VARCHAR(24) NOT NULL,
 
 			node_val1 FLOAT NULL,
 			node_val2 FLOAT NULL,

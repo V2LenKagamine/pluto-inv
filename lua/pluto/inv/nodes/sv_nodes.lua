@@ -1,62 +1,6 @@
 --[[ * This Source Code Form is subject to the terms of the Mozilla Public
      * License, v. 2.0. If a copy of the MPL was not distributed with this
      * file, You can obtain one at https://mozilla.org/MPL/2.0/. ]]
-for _, fname in pairs {
-	"stats/damage",
-	"stats/distance",
-	"stats/firerate",
-	"stats/mag",
-	"stats/recoil",
-	"stats/reloading",
-
-    "stats/damagetradefr",
-	"stats/distancetraderc",
-	"stats/fireratetradedmg",
-	"stats/magtradereload",
-	"stats/recoiltradedis",
-	"stats/reloadingtrademag",
-
-	"enigmatic/voice",
-	"enigmatic/warn",
-	"enigmatic/siren",
-	"enigmatic/ground",
-
-	"demon/possess",
-	"demon/speed",
-	"demon/heal",
-	"demon/damage",
-
-	"mortal/wound",
-	"mortal/wound_s",
-
-	"gold/enchanted",
-	"gold/spawns",
-	"gold/transform",
-
-	"piercer/mini",
-	"piercer/pierce",
-
-	"silver/enchanted",
-	"silver/spawns",
-	"silver/share",
-	"silver/transform",
-
-    "starstruck/enchanted",
-    "starstruck/spawns",
-    "starstruck/starfall",
-
-    "electrum/enchanted",
-	"electrum/spawns",
-	"electrum/share",
-
-	"reserves/mythic",
-
-    "unrelenting/unrelenting",
-
-	"pusher/push",
-} do
-	include("pluto/inv/nodes/list/" .. fname .. ".lua")
-end
 
 pluto.nodes.groups = pluto.nodes.groups or {
 	byname = {},
@@ -161,10 +105,10 @@ end
 
 function pluto.inv.writenode(ply, node)
 	local NODE = pluto.nodes.get(node.node_name)
-
+    net.WriteString(node.node_name)
 	net.WriteString(NODE:GetName(node))
 	net.WriteString(NODE:GetDescription(node))
-	net.WriteFunction(NODE.ModifyWeapon)
+	--net.WriteFunction(NODE.ModifyWeapon)
 	net.WriteFloat(node.node_val1 or -1)
 	net.WriteFloat(node.node_val2 or -1)
 	net.WriteFloat(node.node_val3 or -1)
@@ -496,6 +440,9 @@ function pluto.inv.readunlocknode(cl)
 		data.node_unlocked = 1
 		item.LastUpdate = (item.LastUpdate or 0) + 1
 		item.Experience = item.Experience - exp
+        if(item.Experience < 0) then
+            item.Experience = 0
+        end
 		pluto.inv.message(cl)
 			:write("item", item)
 			:send()

@@ -3,10 +3,11 @@
      * file, You can obtain one at https://mozilla.org/MPL/2.0/. ]]
 
 function pluto.inv.readnode()
+    local realnodename = net.ReadString()
 	local node = setmetatable({
 		Name = net.ReadString(),
 		Description = net.ReadString(),
-		ModifyWeapon = net.ReadFunction(),
+		ModifyWeapon = pluto.nodes.byname[realnodename].ModifyWeapon,
 		node_val1 = net.ReadFloat(),
 		node_val2 = net.ReadFloat(),
 		node_val3 = net.ReadFloat(),
@@ -21,7 +22,6 @@ function pluto.inv.readnode()
 	if (node.node_val3 == -1) then
 		node.node_val3 = nil
 	end
-
 	return node
 end
 
