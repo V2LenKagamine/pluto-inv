@@ -2,7 +2,7 @@
      * License, v. 2.0. If a copy of the MPL was not distributed with this
      * file, You can obtain one at https://mozilla.org/MPL/2.0/. ]]
 QUEST.Name = "Survivor"
-QUEST.Description = "Win rounds in a row without dying"
+QUEST.Description = "Survive rounds in sequence without dying"
 QUEST.Color = Color(204, 170, 0)
 QUEST.RewardPool = "hourly"
 
@@ -20,5 +20,5 @@ function QUEST:Init(data)
 end
 
 function QUEST:GetProgressNeeded()
-	return math.random(2, 3)
+	return math.floor(math.random(2, 4))
 end

@@ -165,9 +165,48 @@ pluto.quests.rewardhandlers = {
 			return smalltext
 		end,
 	},
+    bonus_dust = {
+		reward = function(self, db, data)
+			mysql_cmysql()
+
+            local cur = pluto.currency.byname.stardust or pluto.currency.random()
+            local bonus_ducks = pluto.quests.rewards.bonus_dust[data.Type]
+            local amount = bonus_ducks.amount + math.floor(math.random(-bonus_ducks.variance,bonus_ducks.variance + 1))
+
+			pluto.inv.addcurrency(db, data.Player, cur, amount)
+			data.Player:ChatPrint(white_text, "You have received ", cur, " × ", amount, white_text, "as a bonus for completing ", data:GetQuestData().Color, data:GetQuestData().Name, white_text, ".")
+
+			return true
+		end,
+        small = function(quest)
+            local cur = pluto.currency.byname.stardust
+            local bonus_ducks = pluto.quests.rewards.bonus_dust[quest.Type]
+            local amount = bonus_ducks.amount + math.floor(math.random(-bonus_ducks.variance,bonus_ducks.variance + 1))
+
+            return (amount == 1 and "" or  amount .. " ") .. cur.Name .. (amount == 1 and "" or "s")
+        end,
+	},
 }
 
 pluto.quests.rewards = {
+    bonus_dust = { -- This should never be used
+		unique = {
+            amount = 1200,
+            variance = 200
+        },
+        hourly = {
+            amount = 25,
+            variance = 5
+        },
+        daily = {
+            amount = 75,
+            variance = 10
+        },
+        weekly = {
+            amount = 600,
+            variance = 80
+        },
+	},
 	unique = { -- This should never be used
 		{
 			Type = "unique",
@@ -178,28 +217,35 @@ pluto.quests.rewards = {
 		{
 			Type = "currency",
 			Currency = "tome",
-			Amount = 1,
+			Amount = 2,
 			Shares = 1,
 		},
 		{
 			Type = "currency",
 			Currency = "aciddrop",
-			Amount = 3,
+			Amount = 5,
 			Shares = 1,
 		},
 		{
 			Type = "currency",
 			Currency = "pdrop",
-			Amount = 3,
+			Amount = 5,
 			Shares = 1,
 		},
-		{
+        {
 			Type = "currency",
 			Currency = "tp",
-			Amount = 1,
+			Amount = 2,
+            Shares = 1,
+        },
+		{
+			Type = "weapon",
+            Grenade = true,
+			ModMin = 2,
+			ModMax = 3,
 			Shares = 1,
 		},
-		{
+        {
 			Type = "weapon",
 			ModMin = 4,
 			ModMax = 4,
@@ -225,39 +271,40 @@ pluto.quests.rewards = {
 	daily = {
 		{
 			Type = "currency",
-			Currency = "crate2",
-			Amount = 1,
+			Currency = "tome",
+			Amount = 10,
 			Shares = 1,
 		},
 		{
 			Type = "currency",
-			Currency = "crate3_n",
-			Amount = 1,
-			Shares = 0.1,
+			Currency = "aciddrop",
+			Amount = 25,
+			Shares = 1,
 		},
 		{
 			Type = "currency",
-			Currency = "crate3",
-			Amount = 1,
-			Shares = 0.1,
-		},
-		{
-			Type = "currency",
-			Currency = "crate1",
-			Amount = 1,
-			Shares = 0.1,
-		},
-		{
-			Type = "currency",
-			Currency = "tp",
-			Amount = 5,
-			Shares = 1.5,
+			Currency = "pdrop",
+			Amount = 25,
+			Shares = 1,
 		},
 		{
 			Type = "currency",
 			Currency = "heart",
-			Amount = 2,
-			Shares = 2,
+			Amount = 3,
+			Shares = 1,
+		},
+        {
+			Type = "currency",
+			Currency = "tp",
+			Amount = 5,
+			Shares = 1,
+        },
+        {
+			Type = "weapon",
+            Grenade = true,
+			ModMin = 3,
+			ModMax = 4,
+			Shares = 1,
 		},
 		{
 			Type = "weapon",
@@ -312,7 +359,7 @@ pluto.quests.rewards = {
 		},
 		{
 			Type = "shard",
-			ModMin = 4,
+			ModMin = 5,
 			ModMax = 5,
 			Shares = 1,
 		},
@@ -321,7 +368,7 @@ pluto.quests.rewards = {
 		{
 			Type = "currency",
 			Currency = "tome",
-			Amount = 25,
+			Amount = 50,
 			Shares = 0.5,
 		},
 		{
@@ -333,25 +380,26 @@ pluto.quests.rewards = {
 		{
 			Type = "currency",
 			Currency = "quill",
-			Amount = 1,
-			Shares = 1,
-		},
-		{
-			Type = "currency",
-			Currency = "tp",
-			Amount = 50,
-			Shares = 1,
-		},
-		{
-			Type = "currency",
-			Currency = "stardust",
-			Amount = 25,
+			Amount = 2,
 			Shares = 1,
 		},
 		{
 			Type = "weapon",
-			ModMin = 5,
+			ModMin = 6,
 			ModMax = 6,
+			Shares = 1,
+		},
+        {
+			Type = "weapon",
+            Grenade = true,
+			ModMin = 3,
+			ModMax = 4,
+			Shares = 1,
+		},
+        {
+			Type = "currency",
+			Currency = "tp",
+			Amount = 75,
 			Shares = 1,
 		},
 		{
@@ -369,7 +417,7 @@ pluto.quests.rewards = {
 		{
 			Type = "shard",
 			ModMin = 5,
-			ModMax = 5,
+			ModMax = 6,
 			Shares = 1,
 		},
 	},
@@ -381,15 +429,15 @@ function pluto.quests.poolreward(pick, db, quest)
 
 	local QUEST = quest:GetQuestData()
 	if (QUEST.Reward) then
-		return QUEST.Reward(quest)
+		return QUEST.Reward(quest) and pluto.quests.rewardhandlers["bonus_dust"].reward(pick, db, quest)
 	end
-	return pluto.quests.rewardhandlers[pick.Type].reward(pick, db, quest)
+	return pluto.quests.rewardhandlers[pick.Type].reward(pick, db, quest) and pluto.quests.rewardhandlers["bonus_dust"].reward(pick, db, quest)
 end
 
 function pluto.quests.poolrewardtext(pick, quest)
 	local QUEST = quest:GetQuestData()
 	if (QUEST.GetRewardText) then
-		return QUEST.GetRewardText(quest)
+		return QUEST.GetRewardText(quest) .. "&" .. pluto.quests.rewardhandlers["bonus_dust"].small(quest)
 	end
-	return pluto.quests.rewardhandlers[pick.Type].small(pick)
+	return pluto.quests.rewardhandlers[pick.Type].small(pick) .. " & " ..  pluto.quests.rewardhandlers["bonus_dust"].small(quest)
 end

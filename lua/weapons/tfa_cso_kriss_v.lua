@@ -19,11 +19,11 @@ SWEP.Weight				= 30			-- This controls how "good" the weapon is for autopickup.
 
 --Firing related
 SWEP.Primary.Sound 			= Sound("Kriss.Fire")				-- This is the sound of the weapon, when you shoot.
-SWEP.Primary.Damage		= 10.75					-- Damage, in standard damage points.
+SWEP.Primary.Damage		= 10.5					-- Damage, in standard damage points.
 SWEP.DamageType = DMG_BULLET --See DMG enum.  This might be DMG_SHOCK, DMG_BURN, DMG_BULLET, etc.
 SWEP.HeadshotMultiplier = 1.3
 SWEP.Primary.Automatic			= true					-- Automatic/Semi Auto
-SWEP.Primary.Delay = 0.0525
+SWEP.Primary.Delay = 0.055
 SWEP.FiresUnderwater = true
 
 SWEP.Bullets = {
@@ -72,7 +72,16 @@ SWEP.Offset = {
         },
 		Scale = 1.18,
 }
-SWEP.Ortho = {-3.5, 1.5, angle = Angle(30, 180, -60), size = 1.1}
+
+SWEP.Sounds = {draw = {{time = 0, sound = "Kriss.draw"}},
+
+	reload = {
+	    {time = .8, sound = "Kriss.ClipOut"},
+    	{time = 2.2, sound = "Kriss.ClipIn"}
+    },
+}
+
+SWEP.Ortho = {8,-1, angle = Angle(0, -90, 0), size = 0.75}
 
 
 --Ammo Related
@@ -84,12 +93,12 @@ SWEP.Primary.Ammo			= "pistol"
 
 --[[VIEWMODEL]]--
 
-SWEP.ViewModel			= "models/weapons/tfa_cso/c_kriss.mdl" --Viewmodel path
+SWEP.ViewModel			= "models/weapons/pandora/v_tfa_vector.mdl" --Viewmodel path
 SWEP.ViewModelFOV			= 82		-- This controls how big the viewmodel looks.  Less is more.
-SWEP.ViewModelFlip			= true		-- Set this to true for CSS models, or false for everything else (with a righthanded viewmodel.)
+SWEP.ViewModelFlip			= false 
 SWEP.UseHands = true --Use gmod c_arms system.
 
-SWEP.WorldModel			= "models/weapons/tfa_cso/w_kriss.mdl" -- Worldmodel path
+SWEP.WorldModel			= "models/weapons/pandora/w_tfa_vector.mdl" -- Worldmodel path
 
 SWEP.HoldType 				= "smg"
 

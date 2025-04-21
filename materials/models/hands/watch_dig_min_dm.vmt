@@ -1,0 +1,5 @@
+UnlitGeneric
+{
+	"$basetexture"			"models\hands\watch_dig_min_dm"
+	"$selfillum"			"1"
+}

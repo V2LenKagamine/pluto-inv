@@ -27,7 +27,7 @@ function NODE:ModifyWeapon(node, wep)
 	        if (ttt.GetRoundState() ~= ttt.ROUNDSTATE_ACTIVE) then return end
             if (IsValid(vic)) then return end --bots.
             if (vic:GetRoleTeam() == klr:GetRoleTeam()) then return end
-            local amnt math.floor(math.Rand(3,6))
+            local amnt math.floor(math.Rand(1,4))
             for i = 1,amnt do
                 pluto.currency.spawnfor(vic,pluto.currency.byname.stardust)
                 pluto.currency.spawnfor(klr,pluto.currency.byname.stardust)
