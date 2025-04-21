@@ -106,18 +106,18 @@ function SWEP:PrimaryAttack()
     ent:Spawn()
     local inside = false
     local aabbstart,aabbend = ent:GetPhysicsObject():GetAABB()
-    local tracedata = {}
+    --[[local tracedata = {}
     tracedata.start = aabbstart + ent:GetPhysicsObject():GetPos()
     tracedata.endpos = aabbend + ent:GetPhysicsObject():GetPos()
     tracedata.filter = ent
     tracedata.collisiongroup = 4
     tracedata.ignoreworld = true
     local trace = util.TraceHull(tracedata)
-    self.PosLock = nil
     if (trace.Hit) then
         ent:Remove()
         return 
-    end
+    end]]
+    self.PosLock = nil
     ent:GetPhysicsObject():EnableMotion(false)
 
 

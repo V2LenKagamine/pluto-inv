@@ -327,14 +327,16 @@ for name, values in pairs {
 
 					if (item:GetMaxAffixes() >= 5) then
 						hook.Run("PlutoRareDrop", ply, "Weapon")
-						local msg = discord.Message()
+                        if(discord.enabled) then
+                
+						    local msg = discord.Message()
 
-						msg:AddEmbed(item:GetDiscordEmbed()
-							:SetAuthor(ply:Nick() .. "'s", "https://steamcommunity.com/profiles/" .. ply:SteamID64())
-						)
-						msg:Send "drops"
+						    msg:AddEmbed(item:GetDiscordEmbed()
+						    	:SetAuthor(ply:Nick() .. "'s", "https://steamcommunity.com/profiles/" .. ply:SteamID64())
+						    )
+						    msg:Send "drops"
+                        end
 					end
-
 					ply:ChatPrint("You have received a ", item, white_text, "!")
 					mysql_commit(db)
 					res()
@@ -464,7 +466,7 @@ for name, values in pairs {
 		Types = "None",
 	},
 	stardust = {
-		Shares = 200,
+		Shares = 50,
 	},
 	ticket = {
 		Shares = 1,

@@ -169,7 +169,7 @@ pluto.quests.rewardhandlers = {
 		reward = function(self, db, data)
 			mysql_cmysql()
 
-            local cur = pluto.currency.byname.stardust or pluto.currency.random()
+            local cur = "stardust"
             local bonus_ducks = pluto.quests.rewards.bonus_dust[data.Type]
             local amount = bonus_ducks.amount + math.floor(math.random(-bonus_ducks.variance,bonus_ducks.variance + 1))
 
@@ -179,7 +179,7 @@ pluto.quests.rewardhandlers = {
 			return true
 		end,
         small = function(quest)
-            local cur = pluto.currency.byname.stardust
+            local cur = "stardust"
             local bonus_ducks = pluto.quests.rewards.bonus_dust[quest.Type]
             local amount = bonus_ducks.amount + math.floor(math.random(-bonus_ducks.variance,bonus_ducks.variance + 1))
 
@@ -429,9 +429,9 @@ function pluto.quests.poolreward(pick, db, quest)
 
 	local QUEST = quest:GetQuestData()
 	if (QUEST.Reward) then
-		return QUEST.Reward(quest) and pluto.quests.rewardhandlers["bonus_dust"].reward(pick, db, quest)
+		return QUEST.Reward(quest) == true and pluto.quests.rewardhandlers["bonus_dust"].reward(pick, db, quest) == true
 	end
-	return pluto.quests.rewardhandlers[pick.Type].reward(pick, db, quest) and pluto.quests.rewardhandlers["bonus_dust"].reward(pick, db, quest)
+	return pluto.quests.rewardhandlers[pick.Type].reward(pick, db, quest) == true and pluto.quests.rewardhandlers["bonus_dust"].reward(pick, db, quest) == true
 end
 
 function pluto.quests.poolrewardtext(pick, quest)

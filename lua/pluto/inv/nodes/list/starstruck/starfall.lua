@@ -29,8 +29,8 @@ function NODE:ModifyWeapon(node, wep)
             if (vic:GetRoleTeam() == klr:GetRoleTeam()) then return end
             local amnt math.floor(math.Rand(1,4))
             for i = 1,amnt do
-                pluto.currency.spawnfor(vic,pluto.currency.byname.stardust)
-                pluto.currency.spawnfor(klr,pluto.currency.byname.stardust)
+                pluto.currency.spawnfor(vic,"stardust")
+                pluto.currency.spawnfor(klr,"stardust")
             end
         end)
 	end)

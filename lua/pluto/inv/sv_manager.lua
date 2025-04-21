@@ -576,10 +576,12 @@ function pluto.inv.readcurrencyuse(ply)
 
 			if (istable(data) and data.Rare) then
 				hook.Run("PlutoRareDrop", ply, type)
-				discord.Message():AddEmbed(
-					wpn:GetDiscordEmbed()
-						:SetAuthor(ply:Nick() .. "'s", "https://steamcommunity.com/profiles/" .. ply:SteamID64())
-				):Send "drops"
+                if(discord.enabled) then
+				    discord.Message():AddEmbed(
+				    	wpn:GetDiscordEmbed()
+					    	:SetAuthor(ply:Nick() .. "'s", "https://steamcommunity.com/profiles/" .. ply:SteamID64())
+				    ):Send "drops"
+                end
 			end
 
 			hook.Run("PlayerCurrencyUse", ply, nil, currency)

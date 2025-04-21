@@ -16,7 +16,7 @@ SWEP.HeadshotMultiplier = 1.4
 SWEP.Primary.Automatic = true
 SWEP.Primary.ClipSize = 30	
 SWEP.Primary.ClipMax = 90
-SWEP.Primary.DefaultClip = 30
+SWEP.Primary.DefaultClip = 60
 SWEP.Primary.Sound       = Sound("weapons/hemlok/fire_1.ogg")
 
 SWEP.BurstAmount = 3

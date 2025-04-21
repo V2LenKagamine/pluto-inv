@@ -123,6 +123,8 @@ SWEP.Primary.Damage = 25
 SWEP.HeadshotMultiplier = 1.5
 
 SWEP.Primary.ClipSize = 20
+SWEP.Primary.ClipMax = 60
+SWEP.Primary.DefaultClip = 40
 SWEP.Primary.Delay = 0.45
 SWEP.Primary.Ammo = "none"
 SWEP.HoldType = "pistol"
