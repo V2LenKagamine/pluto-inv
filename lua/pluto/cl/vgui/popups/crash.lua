@@ -22,7 +22,7 @@ function PANEL:Init()
 
 	self.Text = self.Inner:Add "pluto_label"
 	self.Text:SetFont "pluto_inventory_font_xlg"
-	self.Text:SetText "SERVER CRASHED :((((("
+	self.Text:SetText "Changing Level/Crash?"
 	self.Text:SetTextColor(Color(255, 200, 200))
 	self.Text:SetRenderSystem(pluto.fonts.systems.shadow)
 	self.Text:Dock(TOP)
@@ -30,7 +30,7 @@ function PANEL:Init()
 
 	self.TextSmall = self.Inner:Add "pluto_label"
 	self.TextSmall:SetFont "pluto_inventory_font"
-	self.TextSmall:SetText "(blame garry)"
+	self.TextSmall:SetText "Oh boy, which will it be?\nShouldn't take too long, sit tight!"
 	self.TextSmall:SetTextColor(ColorAlpha(pluto.ui.theme "TextActive", 128))
 	self.TextSmall:SetRenderSystem(pluto.fonts.systems.shadow)
 	self.TextSmall:Dock(TOP)
@@ -38,7 +38,7 @@ function PANEL:Init()
 
 	self.PlsRejoinLabel = self.Inner:Add "pluto_label"
 	self.PlsRejoinLabel:SetFont "pluto_inventory_font_lg"
-	self.PlsRejoinLabel:SetText "Why not join another server we have?"
+	self.PlsRejoinLabel:SetText "If this shows up not during map change;\nI have bad news for you."
 	self.PlsRejoinLabel:SetTextColor(pluto.ui.theme "TextActive")
 	self.PlsRejoinLabel:SetRenderSystem(pluto.fonts.systems.shadow)
 	self.PlsRejoinLabel:Dock(TOP)
