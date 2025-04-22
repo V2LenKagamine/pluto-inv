@@ -94,6 +94,7 @@ end
 
 function ENT:ShouldTakeDamage(ent)
 	if(ent:GetClass() == "env_fire") then return false end
+    return true 
 end
 
 function ENT:_PossStart(entPossessor)

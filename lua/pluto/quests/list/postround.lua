@@ -1,7 +1,7 @@
 --[[ * This Source Code Form is subject to the terms of the Mozilla Public
      * License, v. 2.0. If a copy of the MPL was not distributed with this
      * file, You can obtain one at https://mozilla.org/MPL/2.0/. ]]
-QUEST.Name = "Final Fight"
+QUEST.Name = "Post Round Warrior"
 QUEST.Description = "Kill people after the end of the round"
 QUEST.Color = Color(153, 25, 0)
 QUEST.RewardPool = "weekly"

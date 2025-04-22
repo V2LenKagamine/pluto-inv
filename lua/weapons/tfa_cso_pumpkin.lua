@@ -13,8 +13,6 @@ SWEP.UseHands = true
 SWEP.GrenadeEntity = "pluto_atronach_grenade"
 
 SWEP.Primary.Ammo = "none"
-SWEP.Primary.ClipSize      = -1
-SWEP.Primary.DefaultClip   = -1
 
 SWEP.AutoSpawnable = false
 SWEP.PlutoSpawnable = false
@@ -31,23 +29,9 @@ SWEP.Offset = {
 	Ang = {
 		Up = -1,
 		Right = -2,
-		Forward = 180
+		Forward = 180,
 	},
 	Scale = 1.2
 }
 
 SWEP.Ortho = {-1, 0, angle = Angle(45, -80, 45)}
-
-DEFINE_BASECLASS(SWEP.Base)
-
-function SWEP:Deploy( ... )
-	return BaseClass.Deploy( self, ... )
-end
-
-function SWEP:Holster( ... )
-	return BaseClass.Holster( self, ... )
-end
-
-function SWEP:OnRemove( ... )
-	return BaseClass.OnRemove( self, ... )
-end

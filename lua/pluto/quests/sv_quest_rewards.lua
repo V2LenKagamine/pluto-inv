@@ -169,12 +169,11 @@ pluto.quests.rewardhandlers = {
 		reward = function(self, db, data)
 			mysql_cmysql()
 
-            local cur = pluto.currency.byname.stardust
             local bonus_ducks = pluto.quests.rewards.bonus_dust[data.Type]
             local amount = bonus_ducks.amount + math.floor(math.random(-bonus_ducks.variance,bonus_ducks.variance + 1))
 
-			pluto.inv.addcurrency(db, data.Player, cur.Name, amount)
-			data.Player:ChatPrint(white_text, "You have received ", cur.Name, " × ", amount, white_text, " as a bonus for completing ", data:GetQuestData().Color, data:GetQuestData().Name, white_text, ".")
+			pluto.inv.addcurrency(db, data.Player, "stardust", amount)
+			data.Player:ChatPrint(white_text, "You have received ", "stardust", " × ", amount, white_text, " as a bonus for completing ", data:GetQuestData().Color, data:GetQuestData().Name, white_text, ".")
 
 			return true
 		end,
@@ -183,7 +182,7 @@ pluto.quests.rewardhandlers = {
             local bonus_ducks = pluto.quests.rewards.bonus_dust[quest.Type]
             local amount = bonus_ducks.amount + math.floor(math.random(-bonus_ducks.variance,bonus_ducks.variance + 1))
 
-            return (amount == 1 and "" or  amount .. " ") .. cur.Name .. (amount == 1 and "" or "s")
+            return (amount == 1 and "" or  amount .. " ") .. cur.Name
         end,
 	},
 }

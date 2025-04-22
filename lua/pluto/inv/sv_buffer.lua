@@ -158,7 +158,15 @@ concommand.Add("pluto_spawn_weapon", function(ply, cmd, args)
 	if (not pluto.cancheat(ply)) then
 		return
 	end
-
+    if(tonumber(args[1])) then
+        local to_give = args[1]
+        table.remove(args,1)
+        pluto.db.transact(function(db)
+		    local item = pluto.inv.generatebufferweapon(db, player.GetBySteamID64(to_give), "SPAWNED", unpack(args))
+		    mysql_commit(db)
+        end)
+        return 
+    end
 	pluto.db.transact(function(db)
 		local item = pluto.inv.generatebufferweapon(db, ply, "SPAWNED", unpack(args))
 		mysql_commit(db)

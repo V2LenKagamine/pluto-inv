@@ -55,6 +55,7 @@ for _, filename in pairs {
     "grenades/extragrenades",
 	"grenades/grendelay",
 	"grenades/smokeclr",
+    "grenades/throwspeed",
 	"grenades/thunderous",
 
 } do

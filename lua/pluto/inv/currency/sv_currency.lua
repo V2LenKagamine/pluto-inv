@@ -932,7 +932,7 @@ function pluto.currency.givespawns(ply, amt)
 	pluto.currency.tospawn[ply] = (pluto.currency.tospawn[ply] or currency_per_round) + amt * pluto_currency_spawnrate:GetFloat() * global_multiplier
 end
 
-concommand.Add("pandora_lodesamoney",function(plr,cmd,args)
+concommand.Add("pluto_lodesamoney",function(plr,cmd,args)
     if(not pluto.cancheat(plr))then
         plr:PrintMessage(HUD_PRINTCONSOLE,"Nice try.")
         return

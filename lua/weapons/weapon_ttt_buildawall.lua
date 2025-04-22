@@ -13,6 +13,8 @@ SWEP.ViewModelFlip       = false
 SWEP.ViewModelFOV = 90
 
 SWEP.AutoSpawnable          = false
+SWEP.Spawnable              = false
+SWEP.PlutoSpawnable         = false
 
 SWEP.ViewModel              = Model "models/weapons/v_stunbaton.mdl"
 SWEP.WorldModel             = Model "models/weapons/w_stunbaton.mdl"

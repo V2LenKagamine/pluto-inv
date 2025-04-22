@@ -821,7 +821,7 @@ function ENT:GetOBBDistanceToTarget(ent)
 end
 
 function ENT:GetTargetEntity(ent)
-	return (ent:IsScriptedNPC() || ent:IsPlayer()) && ent:KnockedDown() && ent:GetRagdollEntity() || ent
+	return (ent:IsScriptedNPC() || (ent:IsPlayer() && ent ~= self:GetDamageOwner())) && ent:KnockedDown() && ent:GetRagdollEntity() || ent
 end
 
 function ENT:MoveDirect(pos)
@@ -2538,7 +2538,7 @@ function ENT:NewCheckRelations(ent)
 		end
 	end
 	if ent:IsPlayer() && self.iClass != CLASS_PLAYER_ALLY then
-		if self:Disposition(ent) != D_HT then
+		if self:Disposition(ent) != D_HT and self:Disposition(ent) != D_LI then
 			self:AddEntityRelationship(ent,D_HT,100)
 			-- print('bad ply!')
 		end

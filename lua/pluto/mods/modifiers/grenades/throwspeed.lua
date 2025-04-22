@@ -4,7 +4,6 @@
 MOD.Type = "prefix"
 MOD.ItemType = "Grenade"
 MOD.Name = "Power"
-MOD.StatModifier = "ThrowVelocity"
 MOD.Tags = {
 	"speed"
 }
@@ -17,13 +16,16 @@ function MOD:FormatModifier(index, roll)
 	return string.format("%.01f%%", roll)
 end
 
-MOD.Description = "Throw speed is increased by %s"
+function MOD:ModifyWeapon(wep,rolls)
+    wep.ThrowMultiplier = wep.ThrowMultiplier * (1 - rolls[1] / 100)
+end
+
+MOD.Description = "Throw velocity is increased by %s"
 
 MOD.Tiers = {
-	{ 35, 50 },
-	{ 25, 35 },
-	{ 15, 25 },
+	{ 20, 25 },
 	{ 10, 15 },
+	{ 5, 10 },
 }
 
 return MOD

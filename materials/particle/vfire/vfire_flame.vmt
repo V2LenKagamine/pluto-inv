@@ -1,0 +1,9 @@
+"SpriteCard"
+{
+	$basetexture "particle\tinyfiresprites\tinyfiresprites"
+	$additive 0
+	$overbrightfactor 1.5
+	$blendframes 1
+	$depthblend 1
+	$addself 1.0
+}

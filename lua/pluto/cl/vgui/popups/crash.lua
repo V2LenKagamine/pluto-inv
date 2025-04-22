@@ -26,7 +26,7 @@ function PANEL:Init()
 	self.Text:SetTextColor(Color(255, 200, 200))
 	self.Text:SetRenderSystem(pluto.fonts.systems.shadow)
 	self.Text:Dock(TOP)
-	self.Text:SizeToContentsY()
+	self.Text:SizeToContents()
 
 	self.TextSmall = self.Inner:Add "pluto_label"
 	self.TextSmall:SetFont "pluto_inventory_font"
@@ -34,7 +34,7 @@ function PANEL:Init()
 	self.TextSmall:SetTextColor(ColorAlpha(pluto.ui.theme "TextActive", 128))
 	self.TextSmall:SetRenderSystem(pluto.fonts.systems.shadow)
 	self.TextSmall:Dock(TOP)
-	self.TextSmall:SizeToContentsY()
+	self.TextSmall:SizeToContents()
 
 	self.PlsRejoinLabel = self.Inner:Add "pluto_label"
 	self.PlsRejoinLabel:SetFont "pluto_inventory_font_lg"
@@ -42,7 +42,7 @@ function PANEL:Init()
 	self.PlsRejoinLabel:SetTextColor(pluto.ui.theme "TextActive")
 	self.PlsRejoinLabel:SetRenderSystem(pluto.fonts.systems.shadow)
 	self.PlsRejoinLabel:Dock(TOP)
-	self.PlsRejoinLabel:SizeToContentsY()
+	self.PlsRejoinLabel:SizeToContents()
 	self.PlsRejoinLabel:DockMargin(0, 7, 0, 7)
 
 	self.Inner:DockPadding(7, 7, 7, 7)

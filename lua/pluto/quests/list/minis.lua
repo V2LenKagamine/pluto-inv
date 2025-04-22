@@ -15,12 +15,12 @@ function QUEST:Init(data)
 		local name = cur:GetCurrencyType()
 		local movetype = cur:GetMovementType()
 
-		if (name == "_shootingstar" or name == "_chancedice" or movetype == CURRENCY_MOVEDOWN) then
+		if (name == "_shootingstar" or name == "_chancedice" or name ==  "_lightsaber" or movetype == CURRENCY_MOVEDOWN) then
 			data:UpdateProgress(1)
 		end
 	end)
 end
 
 function QUEST:GetProgressNeeded()
-	return math.random(60, 75)
+	return math.random(20, 26)
 end

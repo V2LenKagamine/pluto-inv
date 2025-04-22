@@ -22,6 +22,8 @@ function ENT:Explode()
 		npc:SetPos(self:GetPos())
 		npc:SetAngles(angle_zero)
 		npc:SetDamageOwner(self:GetOwner())
+        npc:SetMaxHealth(750)
+        npc:AddEntityRelationship(self:GetOwner(),D_LI,101)
 		npc:Spawn()
 		npcs[i] = npc
 	end
@@ -38,10 +40,10 @@ function ENT:Explode()
 	util.BlastDamage(self, self:GetOwner(), pos, 255, 50)
 	self:StartFires(pos, 10, 20, false, self:GetOwner())
 
-	timer.Simple(30, function()
+	timer.Simple(90, function()
 		for _, npc in pairs(npcs) do
 			if (IsValid(npc)) then
-				npc:TakeDamage(100000)
+				npc:TakeDamage(math.huge)
 			end
 		end
 	end)
