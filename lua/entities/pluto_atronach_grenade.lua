@@ -22,7 +22,7 @@ function ENT:Explode()
 		npc:SetPos(self:GetPos())
 		npc:SetAngles(angle_zero)
 		npc:SetDamageOwner(self:GetOwner())
-        npc:SetMaxHealth(750)
+        npc:SetMaxHealth(250)
         npc:AddEntityRelationship(self:GetOwner(),D_LI,101)
 		npc:Spawn()
 		npcs[i] = npc

@@ -325,6 +325,7 @@ function PANEL:PaintInner(pnl, w, h, x, y)
 
 
 	if (not self.Item and not self.DefaultClass or self == pluto.ui.realpickedupitem and IsValid(pnl)) then
+        self:OverRender(pnl, w, h, x, y)
 		return
 	end
 
@@ -441,6 +442,10 @@ function PANEL:PaintInner(pnl, w, h, x, y)
 		surface.SetMaterial(pluto.getsuntexture(0))
 		surface.DrawTexturedRect(x + 3, y + 3, 12, 12)
 	end
+end
+
+function PANEL:OverRender(pnl, w, h, x, y)
+    --For drawing other things when no item.
 end
 
 function PANEL:SetCurve(curve)

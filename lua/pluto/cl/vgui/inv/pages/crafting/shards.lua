@@ -12,11 +12,17 @@ function PANEL:Init()
 	self.ShardLine = self:Add "EditablePanel"
 	self.ShardLine:SetTall(pluto.ui.sizings "ItemSize")
 	self.ShardLine:Dock(TOP)
-
+    local shardyboi = Material("pluto/newshardbg.png")
+    local default_color = Color(53, 53, 60)
+    local shardyboicolor = Color(138,138,138)
 	for i = 1, 3 do
 		local shard = self.ShardLine:Add "pluto_inventory_item"
 		self.Shards[i] = shard
-
+        function shard:OverRender(pnl, w, h, x, y)
+            surface.SetMaterial(shardyboi)
+            surface.SetDrawColor(shardyboicolor)
+            surface.DrawTexturedRectUV(x, y, w, h, 0, 0, 1, 1)
+        end
 		function shard.CanClickWith(s, other)
 			local item = other.Item
 			return item and item.Type == "Shard" and not self.UsedItems[other.Item.ID]
@@ -42,7 +48,6 @@ function PANEL:Init()
 			if (not s.Item) then
 				return
 			end
-
 			pluto.ui.highlight(s.Item)
 		end
 	end
@@ -118,11 +123,16 @@ function PANEL:Init()
 	self.ItemLine:Dock(TOP)
 	self.ItemLine:DockMargin(5, 0, 5, 10)
 	self.ItemLine:DockPadding(7, 0, 7, 0)
-
+    local itemwpncolor = Color(201,201,201)
+    local  itemwpnmark = Material("pluto/currencies/questionmark.png")
 	for i = 1, 4 do
 		local itempnl = self.ItemLine:Add "pluto_inventory_item"
 		self.Items[i] = itempnl
-
+        function itempnl:OverRender(pnl, w, h, x, y)
+            surface.SetMaterial(itemwpnmark)
+            surface.SetDrawColor(itemwpncolor)
+            surface.DrawTexturedRectUV(x, y, w, h, 0, 0, 1, 1)
+        end
 		function itempnl.CanClickWith(s, other)
 			local item = other.Item
 			return item and item.Type == "Weapon" and not self.UsedItems[other.Item.ID]
