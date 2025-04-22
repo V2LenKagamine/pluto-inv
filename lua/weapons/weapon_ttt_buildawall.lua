@@ -6,7 +6,7 @@ DEFINE_BASECLASS "weapon_tttbase"
 SWEP.HoldType               = "pistol"
 
 SWEP.PrintName           = "Build-A-Barrier"
-SWEP.Slot                = 4
+SWEP.Slot                = 3
 
 SWEP.DrawCrosshair       = true
 SWEP.ViewModelFlip       = false
@@ -29,8 +29,8 @@ SWEP.Secondary.Automatic    = true
 SWEP.Secondary.Ammo         = "none"
 SWEP.Secondary.Delay        = 0.5
 
-SWEP.AllowDelete            = false
-SWEP.AllowDrop              = false
+SWEP.AllowDelete            = true 
+SWEP.AllowDrop              = true 
 SWEP.NoSights               = true
 
 SWEP.NextReload = 3
@@ -123,6 +123,10 @@ function SWEP:PrimaryAttack()
 
     self:TakePrimaryAmmo(1)
     self:SetNextPrimaryFire(CurTime() + self:GetDelay())
+    if (self.Weapon:Clip1() <= 0) then
+		hook.Run("DropCurrentWeapon", self:GetOwner())
+		self:Remove()
+    end
 end
 
 function SWEP:SecondaryAttack()
