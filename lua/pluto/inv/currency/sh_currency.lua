@@ -20,6 +20,11 @@ local list = {
 
 		Category = "Modify",
 		AllowMass = true,
+        Amount = {
+            Min = 1,
+            Max = 5,
+            Chance = 50,
+        },
 	},
 	{
 		InternalName = "aciddrop",
@@ -32,6 +37,11 @@ local list = {
 
 		Category = "Modify",
 		AllowMass = true,
+        Amount = {
+            Min = 1,
+            Max = 3,
+            Chance = 25,
+        },
 	},
 	{
 		InternalName = "pdrop",
@@ -44,6 +54,11 @@ local list = {
 
 		Category = "Modify",
 		AllowMass = true,
+        Amount = {
+            Min = 1,
+            Max = 3,
+            Chance = 25,
+        },
 	},
 	{
 		InternalName = "hand",
@@ -59,6 +74,11 @@ local list = {
 		StardustRatio = 5,
 
 		Category = "Modify",
+        Amount = {
+            Min = 1,
+            Max = 3,
+            Chance = 20,
+        },
 	},
 	{
 		InternalName = "dice",
@@ -74,6 +94,11 @@ local list = {
 		StardustRatio = 4,
 
 		Category = "Modify",
+        Amount = {
+            Min = 3,
+            Max = 6,
+            Chance = 40,
+        },
 	},
 	{
 		InternalName = "tome",
@@ -89,6 +114,11 @@ local list = {
 		StardustRatio = 90,
 
 		Category = "Modify",
+        Amount = {
+            Min = 1,
+            Max = 2,
+            Chance = 33,
+        },
 	},
 	{
 		InternalName = "endround",

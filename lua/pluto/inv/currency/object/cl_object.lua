@@ -52,6 +52,7 @@ function pluto.inv.readcurrencyspawn()
 	cur:SetMovementVector(net.ReadVector())
 	cur:SetSize(net.ReadFloat())
 	cur:SetCurrencyType(net.ReadString())
+    cur:SetCurrencyAmount(net.ReadUInt(8))
 end
 
 local function getlist()

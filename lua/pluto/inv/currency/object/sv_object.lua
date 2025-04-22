@@ -33,20 +33,19 @@ function CURRENCY:TryReward(e)
 
     local failed = false
 	if (not cur.Fake) then
-		local grounddata = cur.GroundData or cur
+        local curramount = self:GetCurrencyAmount()
 		pluto.db.instance(function(db)
-			local succ, err = pluto.inv.addcurrency(db, e, cur.InternalName, grounddata.Amount or 1)
+			local succ, err = pluto.inv.addcurrency(db, e, cur.InternalName, curramount)
 			if (not IsValid(e)) then
 				return
 			end
 
 			if (not succ) then
                 failed = true
-				--e:ChatPrint("Failed to add currency, SS this and ping a dev you lost: " .. cur.InternalName)
 			end
 		end)
-		if ((grounddata.Amount or 1) > 1) then
-			e:ChatPrint(cur.Color, "+ ", white_text, "You have found ", cur, " × ", grounddata.Amount, ".")
+		if (curramount > 1) then
+			e:ChatPrint(cur.Color, "+ ", white_text, "You have found ", cur, " × ", curramount, ".")
 		else
 			e:ChatPrint(cur.Color, "+ ", white_text, "You have found ", startswithvowel(cur.Name) and "an " or "a ", cur, ".")
 		end
@@ -99,6 +98,7 @@ function pluto.inv.writecurrencyspawn(ply, cur)
 	net.WriteVector(cur:GetMovementVector() or vector_up)
 	net.WriteFloat(cur:GetSize())
 	net.WriteString(cur:GetCurrencyType())
+    net.WriteUInt(cur:GetCurrencyAmount() or 1,8)
 end
 
 pluto.currency.object_id = pluto.currency.object_id or 0
@@ -116,7 +116,8 @@ function pluto.currency.entity()
 	ent:SetNetworkedPosition(vector_origin)
 	ent:SetNetworkedPositionTime(CurTime())
 	ent:SetMovementType(CURRENCY_MOVESTILL)
-	ent:SetCurrencyType "unknown"
+	ent:SetCurrencyType("unknown")
+    ent:SetCurrencyAmount(1)
 	ent:SetDieRound(ttt.GetRoundNumber() + 128)
 
 	pluto.currency.object_list[id] = ent
@@ -187,16 +188,15 @@ concommand.Add("pluto_spawn_cur", function(ply, cmd, args)
 
 	local target = ply
 
-	for i = 2, #args do
-		local arg = args[i]
-		if (arg == "global") then
-			target = player.GetAll()
-		end
+	if (#args > 1 and args[1] == "global") then
+		target = player.GetAll()
+        table.remove(args,1)
 	end
 
 	local ent = pluto.currency.entity()
 	ent:SetSize(22)
 	ent:SetPos(pos + vector_up * ent:GetSize())
 	ent:SetCurrencyType(args[1] or "droplet")
+    ent:SetCurrencyAmount(args[2] or 1)
 	ent:AddListener(target)
 end)

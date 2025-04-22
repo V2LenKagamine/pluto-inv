@@ -16,6 +16,7 @@ AccessorFunc(CURRENCY, "MovementVector", "MovementVector")
 AccessorFunc(CURRENCY, "Currency", "CurrencyType", FORCE_STRING)
 AccessorFunc(CURRENCY, "Size", "Size", FORCE_NUMBER)
 AccessorFunc(CURRENCY, "ShouldSeeThroughWalls", "ShouldSeeThroughWalls", FORCE_BOOL)
+AccessorFunc(CURRENCY, "Amount", "CurrencyAmount", FORCE_NUMBER)
 
 function CURRENCY:IsValid()
 	return pluto.currency.object_list[self:GetID()]

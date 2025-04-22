@@ -435,7 +435,7 @@ function PANEL:SetItem(item)
 	if (item.CreationMethod) then
 		local fmt = ({
 			UNBOXED = "Unboxed by %s",
-			SPAWNED = "Created by %s",
+			SPAWNED = "Created for %s",
 			FOUND = "Found by %s",
 			DELETE = "Sharded by %s",
 			REWARD = "Rewarded to %s",

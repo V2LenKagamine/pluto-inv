@@ -466,7 +466,7 @@ for name, values in pairs {
 		Types = "None",
 	},
 	stardust = {
-		Shares = 50,
+		Shares = 0,
 	},
 	ticket = {
 		Shares = 1,
@@ -873,6 +873,18 @@ function pluto.currency.spawnfor(ply, currency, pos, global)
 	ent:SetSize(22)
 	ent:SetPos(pos + vector_up * ent:GetSize())
 	ent:SetCurrencyType(currency.InternalName)
+    local tospawn = 1
+    if(currency.Amount) then
+        for total = currency.Amount.Min, currency.Amount.Max do
+            if(math.random() > (currency.Amount.Chance/100)) then
+                tospawn = total
+                break 
+            else
+                tospawn = total
+            end
+        end
+    end
+    ent:SetCurrencyAmount(tospawn)
 	if (global == true or currency.Global) then
 		ent:AddListener(player.GetHumans())
 	else

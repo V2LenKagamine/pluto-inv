@@ -12,6 +12,10 @@ function MOD:FormatModifier(index, roll)
 	return string.format("%i", roll)
 end
 
+function MOD:CanRollOn(wep)
+	return wep.Base == "weapon_ttt_basegrenade"
+end
+
 MOD.Description = "Carry %s more of this grenade."
 
 MOD.Tiers = {

@@ -17,7 +17,7 @@ if (SERVER) then
 
 		local count = #player.GetHumans()
 
-		timer.Create("pluto_mini_" .. name, 0.5, 25, function()
+		timer.Create("pluto_mini_" .. name, 0.5, 50, function()
 			for _, ply in pairs(player.GetHumans()) do
 				if (not ply:Alive()) then
 					continue

@@ -3,10 +3,15 @@
      * file, You can obtain one at https://mozilla.org/MPL/2.0/. ]]
 MOD.Type = "prefix"
 MOD.ItemType = "Grenade"
-MOD.Name = "Power"
+MOD.StatModifier = "Velocity"
+MOD.Name = "Throw Power"
 MOD.Tags = {
 	"speed"
 }
+
+function MOD:CanRollOn(wep)
+	return wep.Base == "weapon_ttt_basegrenade"
+end
 
 function MOD:IsNegative(roll)
 	return roll < 0

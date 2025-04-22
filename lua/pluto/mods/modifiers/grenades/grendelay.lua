@@ -7,6 +7,10 @@ MOD.Tags = {
 	"speed"
 }
 
+function MOD:CanRollOn(wep)
+	return wep.Base == "weapon_ttt_basegrenade"
+end
+
 function MOD:IsNegative(roll)
 	return roll < 0
 end
