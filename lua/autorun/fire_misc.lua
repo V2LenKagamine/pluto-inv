@@ -476,8 +476,7 @@ if SERVER then
 		vFireLifeThrottle = math.Max(vFiresCount * 1.5, 10) * vFireDecayRate * vFireThrottleMultiplier
 	end
 end
-//Pluto Edit
-AccessorFunc(ENT, "dmgparent", "DamageParent")
+
 if SERVER then
 	--[[-------------------------------------------------------------------------
 	How much fuel does each prop material give?
@@ -577,12 +576,6 @@ if SERVER then
 	---------------------------------------------------------------------------]]
 
 	function vFireSetDamageData(ent)
-        local dmgowner
-        if IsValid(self:GetDamageParent()) then
-			dmgowner = self:GetDamageParent()
-		else
-			dmgowner = self
-		end
 		if ent.IsPlayer() then
 			ent.vFireDamageData = {dmgMul = 5, dmgType = DMG_BURN}
 		elseif ent:IsNPC() then

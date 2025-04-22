@@ -29,7 +29,7 @@ class GMAFile {
 		this.write(Buffer.alloc(8));
 		this.write(Buffer.alloc(8));
 		this.write(Buffer.alloc(1));
-		this.write(Buffer.from("PandoraTTT Content")); // change this
+		this.write(Buffer.from("Pluto 2 TTT Content")); // change this
 		this.write(Buffer.alloc(1));
 		this.write(Buffer.from(addon_data));
 		this.write(Buffer.alloc(1));
