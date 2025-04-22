@@ -14,6 +14,7 @@ end
 function ENT:Initialize()
     if (CLIENT) then end
     self.ThunderStrikes = (self:GetThunderStrikes() or 3)
+    self.Bounced = 0
     self:SetMoveType(MOVETYPE_NONE)
 	self:SetModel(self.Model)
 	self:DrawShadow(false)
@@ -39,8 +40,9 @@ function ENT:Explode()
 	effect:SetRadius(100 * self:GetRangeMultiplier())
 	effect:SetMagnitude(1)
 	util.Effect("Explosion", effect, true, true)
-	util.BlastDamage(self.Entity, self.Owner, self.Entity:GetPos(), (100 * self:GetRangeMultiplier()), (35 * self:GetDamageMultiplier()))
+	util.BlastDamage(self.Entity, self.Owner, self.Entity:GetPos(), ((250 - (self.Bounced * 25)) * self:GetRangeMultiplier()), (50 * self:GetDamageMultiplier()))
     self.ThunderStrikes = self.ThunderStrikes - 1
+    self.Bounced = self.Bounced + 1
     if self.ThunderStrikes <= 0 then
         self.Entity:Remove()
         timer.Remove("thundercrack")

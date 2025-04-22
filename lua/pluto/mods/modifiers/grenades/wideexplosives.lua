@@ -25,7 +25,7 @@ MOD.Tiers = {
 }
 
 function MOD:ModifyWeapon(wep, rolls)
-	wep.RangeMulti = (wep.RangeMulti or 0) * (1 + rolls[1] / 100)
+	wep.RangeMulti = (wep.RangeMulti or 1) * (1 + rolls[1] / 100)
 end
 
 MOD.ItemType = "Grenade"

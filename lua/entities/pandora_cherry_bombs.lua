@@ -17,7 +17,7 @@ function ENT:Explode()
 	effect:SetRadius(75 * self:GetRangeMultiplier())
 	effect:SetMagnitude(1)
 	util.Effect("Explosion", effect, true, true)
-	util.BlastDamage(self.Entity, self.Owner, self.Entity:GetPos(), (100 * self:GetRangeMultiplier()), (50 * self:GetDamageMultiplier()))
+	util.BlastDamage(self.Entity, self.Owner, self.Entity:GetPos(), (125 * self:GetRangeMultiplier()), (50 * self:GetDamageMultiplier()))
 	self:Remove()
 
 end

@@ -174,7 +174,7 @@ pluto.quests.rewardhandlers = {
             local amount = bonus_ducks.amount + math.floor(math.random(-bonus_ducks.variance,bonus_ducks.variance + 1))
 
 			pluto.inv.addcurrency(db, data.Player, cur.Name, amount)
-			data.Player:ChatPrint(white_text, "You have received ", cur.Name, " × ", amount, white_text, "as a bonus for completing ", data:GetQuestData().Color, data:GetQuestData().Name, white_text, ".")
+			data.Player:ChatPrint(white_text, "You have received ", cur.Name, " × ", amount, white_text, " as a bonus for completing ", data:GetQuestData().Color, data:GetQuestData().Name, white_text, ".")
 
 			return true
 		end,
