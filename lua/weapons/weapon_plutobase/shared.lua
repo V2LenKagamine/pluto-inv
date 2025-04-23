@@ -183,7 +183,8 @@ function SWEP:ImpactTrace(tr)
 	end
 	util.Effect("Impact", e)
 end
-
+--Old Penetration code below, replaced by
+--[[
 function SWEP:PenetrateBullet(dir, vecStart, flDistance, iPenetration, iDamage,
 	flRangeModifier, fPenetrationPower, flPenetrationDistance, flCurrentDistance, alreadyHit, realStart)
 	realStart = realStart or vecStart
@@ -304,7 +305,7 @@ function SWEP:PenetrateBullet(dir, vecStart, flDistance, iPenetration, iDamage,
 		end
 	}
 end
-
+]]
 function SWEP:GetPenetration()
 	if (self.Primary and self.Primary.PenetrationValue) then
 		return self.Primary.PenetrationValue
@@ -318,6 +319,7 @@ function SWEP:DoFireBullets(...)
 	end
 
 	local pen = self:GetPenetration()
+    --[[
 	if (pen ~= 0) then
 		local dir = self:GetOwner():GetAimVector()
 		local spread = self:GetSpread() * 0.5
@@ -330,7 +332,7 @@ function SWEP:DoFireBullets(...)
 		self:PenetrateBullet(dir, self:GetOwner():GetShootPos(), 8192, 4, self:GetDamage(),
 			nil, pen, 8000)
 		return 1
-	else
-		return BaseClass.DoFireBullets(self, ...)
-	end
+	else]]
+	return BaseClass.DoFireBullets(self, ...)
+	--end
 end
