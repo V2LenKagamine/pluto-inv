@@ -337,7 +337,6 @@ for name, values in pairs {
 						    msg:Send "drops"
                         end
 					end
-					ply:ChatPrint("You have received a ", item, white_text, "!")
 					mysql_commit(db)
 					res()
 				end)

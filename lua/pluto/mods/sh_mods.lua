@@ -10,9 +10,9 @@ function pluto.mods.chance(crafted, amount)
 	end
 
 	local chance = crafted.Chance
-	chance = chance * (1 + (amount - 1) / 5)
+	chance = chance * (1 + ((amount - 1) / (crafted.ChanceDeminish or 5)))
 
-	return chance
+	return math.min(chance,100)
 end
 
 pluto.mods.mt = pluto.mods.mt or {}

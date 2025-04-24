@@ -63,6 +63,9 @@ if SERVER then
 	    		return true
 	    	end
             if(trace.Entity) then
+                if(self.source:IsPlayer()) then
+                    self.source = self.source:GetActiveWeapon()
+                end
                 local normvec = self.velocity:GetNormalized()
                 local todeal = DamageInfo()
                 todeal:SetAttacker(self.data.Attacker)

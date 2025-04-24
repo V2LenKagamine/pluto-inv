@@ -18,4 +18,4 @@ SWEP.Ortho = {2, 2.6}
 
 SWEP.PlutoIcon             = "vgui/entities/confetti.png"
 
-SWEP.AutoSpawnable = true
+SWEP.PlutoSpawnable = true

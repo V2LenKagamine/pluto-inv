@@ -3,6 +3,10 @@ AddCSLuaFile()
 ENT.PrintName = "Big Boy"
 ENT.Base = "ttt_basegrenade"
 ENT.Model = "models/combine_helicopter/helicopter_bomb01.mdl"
+ENT.Bounds = {
+	Mins = Vector(-10, -10, -10),
+	Maxs = Vector(10, 10, 10),
+}
 DEFINE_BASECLASS("ttt_basegrenade")
 
 function ENT:Explode()

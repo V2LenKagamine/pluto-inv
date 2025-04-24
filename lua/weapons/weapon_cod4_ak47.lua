@@ -15,11 +15,11 @@ SWEP.Primary.Sound = "Weapon_CoD4_AK47.Single"
 SWEP.Primary.ClipSize = 30
 SWEP.Primary.DefaultClip = 60
 SWEP.Primary.Automatic = true
-SWEP.Primary.Ammo = "AR2"
-SWEP.Primary.Damage = 19
-SWEP.Primary.Delay = 0.1
+SWEP.Primary.Ammo          = "Pistol"
+SWEP.Primary.Damage = 19.25
+SWEP.Primary.Delay = 0.095
 
-SWEP.HeadshotMultiplier = 27 / SWEP.Primary.Damage
+SWEP.HeadshotMultiplier = 1.4
 
 sound.Add {
 	name = "Weapon_CoD4_AK47.Single",
@@ -56,10 +56,10 @@ sound.Add {
 SWEP.Bullets = {
 	HullSize = 0,
 	Num = 1,
-	DamageDropoffRange = 650,
-	DamageDropoffRangeMax = 3500,
-	DamageMinimumPercent = 0.2,
-	Spread = Vector(0.015, 0.015),
+	DamageDropoffRange = 850,
+	DamageDropoffRangeMax = 4000,
+	DamageMinimumPercent = 0.3,
+	Spread = Vector(0.0125, 0.0125),
 }
 
 SWEP.Ironsights = {
@@ -86,4 +86,3 @@ SWEP.AutoSpawnable = true
 
 SWEP.Ortho = {2.5, -4.5}
 
-SWEP.Primary.Ammo          = "Pistol"

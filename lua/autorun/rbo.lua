@@ -128,7 +128,9 @@ local function runCallback(attacker, tr, dmginfo)
 	local surf = util.GetSurfaceData(tr.SurfaceProps)
 	local mat = surf and surf.density / 1000 or 1
     local wep = attacker:GetActiveWeapon()
-
+    if(not IsValid(wep)) then
+        return 
+    end
 	local dist = ((1 / mat) * wep:GetPenetration()) * penMult:GetFloat()
 
 	local start = tr.HitPos

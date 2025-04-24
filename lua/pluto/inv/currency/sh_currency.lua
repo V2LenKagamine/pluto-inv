@@ -15,6 +15,7 @@ local list = {
 		Crafted = {
 			Chance = 1 / 4,
 			Mod = "dropletted",
+            ChanceDeminish = 10,
 		},
 		StardustRatio = 2,
 
@@ -70,6 +71,7 @@ local list = {
 		Crafted = {
 			Chance = 1 / 4,
 			Mod = "handed",
+            ChanceDeminish = 5,
 		},
 		StardustRatio = 5,
 
@@ -90,6 +92,7 @@ local list = {
 		Crafted = {
 			Chance = 1 / 3,
 			Mod = "diced",
+            ChanceDeminish = 15
 		},
 		StardustRatio = 4,
 
@@ -110,6 +113,7 @@ local list = {
 		Crafted = {
 			Chance = 1 / 5,
 			Mod = "tomed",
+            ChanceDeminish = 2.5 
 		},
 		StardustRatio = 90,
 
@@ -456,8 +460,9 @@ local list = {
 		SubDescription = "A heart shaped crystal, seemingly ruby, or maybe spinel?",
 		Color = Color(204, 43, 75),
 		Crafted = {
-			Chance = 1 / 3,
+			Chance = 1 / 2,
 			Mod = "hearted",
+            ChanceDeminish = 2,
 		},
 		StardustRatio = 250,
 
@@ -472,8 +477,9 @@ local list = {
 		Color = Color(254, 233, 105),
 		NoTarget = true,
 		Crafted = {
-			Chance = 0.5,
+			Chance = 1/2,
 			Mod = "new_coined",
+            ChanceDeminish = 5,
 		},
 		StardustRatio = 6000,
 	},

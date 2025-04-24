@@ -17,9 +17,9 @@ SWEP.WorldModel         = "models/weapons/w_eq_fraggrenade.mdl"
 
 SWEP.Ortho = {2, 2.6}
 
-SWEP.PlutoIcon             = "vgui/entities/confetti.png"
+SWEP.PlutoIcon             = "materials/pluto/inventoryicon/generic_nade.png"
 
 SWEP.DamageMulti = 1
 SWEP.RangeMulti = 1
 
-SWEP.AutoSpawnable = true 
+SWEP.PlutoSpawnable = true 

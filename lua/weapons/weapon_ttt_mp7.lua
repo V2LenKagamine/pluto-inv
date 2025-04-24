@@ -29,7 +29,7 @@ SWEP.Primary.NumShots	= 1
 SWEP.Primary.Damage		= 10
 SWEP.HeadshotMultiplier = 1.75
 SWEP.DeploySpeed = 1.78
-SWEP.ReloadSpeed = 1.06
+SWEP.ReloadSpeed = 1.24
 SWEP.Ortho = {0, 5}
 
 SWEP.Ironsights = {

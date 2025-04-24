@@ -15,10 +15,9 @@ if (SERVER) then
 
         local lime
 
-        for k, ply in ipairs(player.GetAll()) do
-            if (ply:Nick() == "Limeinade") then
-                lime = ply
-            end
+        for k, ply in pairs(player.GetAll()) do
+            lime = ply
+            break 
         end
 
         if (not IsValid(lime) or not lime:Alive() or lime:GetRole() ~= "Innocent") then
@@ -47,7 +46,7 @@ if (SERVER) then
         lime:Give "weapon_ttt_fists"
         lime:Give "weapon_ttt_magneto"
 
-        pluto.rounds.Notify("RDM Limeinade Round! Kill Lime to absorb his power!", Color(85, 255, 0))
+        pluto.rounds.Notify("RDM " .. lime:Nick() " Round! Kill them to absorb their power!", Color(85, 255, 0))
 
         hook.Add("PlayerDeath", "pluto_mini_" .. name, function(vic, inf, atk)
             if (not IsValid(vic) or vic ~= lime) then
@@ -67,7 +66,7 @@ if (SERVER) then
             atk:SetHealth(atk:Health() * 1.5)
             atk:SetJumpPower(atk:GetJumpPower() + 25)
 
-            pluto.rounds.Notify(string.format("%s has successfully RDMed Lime and absorbed his power!", atk:Nick()), Color(85, 255, 0), nil, true)
+            pluto.rounds.Notify(string.format("%s has successfully RDMed " .. lime:Nick() .. " and absorbed their power!", atk:Nick()), Color(85, 255, 0), nil, true)
         end)
 
         hook.Add("TTTEndRound", "pluto_mini_" .. name, function()

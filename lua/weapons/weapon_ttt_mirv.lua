@@ -22,4 +22,4 @@ SWEP.PlutoIcon             = "vgui/entities/confetti.png"
 SWEP.DamageMulti = 1
 SWEP.RangeMulti = 1
 
-SWEP.AutoSpawnable = true 
+SWEP.PlutoSpawnable = true 

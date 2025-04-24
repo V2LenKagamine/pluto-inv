@@ -231,10 +231,10 @@ if CLIENT then
 	--[[-------------------------------------------------------------------------
 	Toggle fire LODs
 	---------------------------------------------------------------------------]]
-	local vFireLODsConVar = CreateClientConVar("vfire_lod", "1", true, false, "Set to 0 to disable all fire LODs, 1 for automatic LODs, and 2 to force LODs on.")
+	local vFireLODsConVar = CreateClientConVar("vfire_lod", "0", true, false, "DISABLED")
 	vFireLODs = vFireLODsConVar:GetInt()
 	cvars.AddChangeCallback("vfire_lod", function(convar, old, new)
-		vFireLODs = math.Clamp(vFireLODsConVar:GetInt(), 0, 2)
+		--vFireLODs = math.Clamp(vFireLODsConVar:GetInt(), 0, 2)
 	end)
 
 	
@@ -842,11 +842,11 @@ end
 --[[-------------------------------------------------------------------------
 Content Loading
 ---------------------------------------------------------------------------]]
-
+--[[ This is packed into the content, because SHITLORD CANT MAKE PARTICLES RIGHT
 if SERVER then
 	resource.AddWorkshop("1525218777")
 end
-
+]]
 game.AddParticles("particles/vFire_Base_Tiny.pcf")
 game.AddParticles("particles/vFire_Base_Small.pcf")
 game.AddParticles("particles/vFire_Base_Medium.pcf")
@@ -854,7 +854,7 @@ game.AddParticles("particles/vFire_Base_Big.pcf")
 game.AddParticles("particles/vFire_Base_Huge.pcf")
 game.AddParticles("particles/vFire_Base_Gigantic.pcf")
 game.AddParticles("particles/vFire_Base_Inferno.pcf")
-
+--[[
 game.AddParticles("particles/vFire_Base_Tiny_LOD.pcf")
 game.AddParticles("particles/vFire_Base_Small_LOD.pcf")
 game.AddParticles("particles/vFire_Base_Medium_LOD.pcf")
@@ -862,7 +862,7 @@ game.AddParticles("particles/vFire_Base_Big_LOD.pcf")
 game.AddParticles("particles/vFire_Base_Huge_LOD.pcf")
 game.AddParticles("particles/vFire_Base_Gigantic_LOD.pcf")
 game.AddParticles("particles/vFire_Base_Inferno_LOD.pcf")
-
+]]
 game.AddParticles("particles/vFire_Flames_Tiny.pcf")
 game.AddParticles("particles/vFire_Flames_Small.pcf")
 game.AddParticles("particles/vFire_Flames_Medium.pcf")
@@ -870,7 +870,7 @@ game.AddParticles("particles/vFire_Flames_Big.pcf")
 game.AddParticles("particles/vFire_Flames_Huge.pcf")
 game.AddParticles("particles/vFire_Flames_Gigantic.pcf")
 game.AddParticles("particles/vFire_Flames_Inferno.pcf")
-
+--[[
 game.AddParticles("particles/vFire_Flames_Tiny_LOD.pcf")
 game.AddParticles("particles/vFire_Flames_Small_LOD.pcf")
 game.AddParticles("particles/vFire_Flames_Medium_LOD.pcf")
@@ -878,7 +878,7 @@ game.AddParticles("particles/vFire_Flames_Big_LOD.pcf")
 game.AddParticles("particles/vFire_Flames_Huge_LOD.pcf")
 game.AddParticles("particles/vFire_Flames_Gigantic_LOD.pcf")
 game.AddParticles("particles/vFire_Flames_Inferno_LOD.pcf")
-
+]]
 
 game.AddParticles("particles/vFire_Burst_Infant.pcf")
 game.AddParticles("particles/vFire_Burst_Lines.pcf")
@@ -896,7 +896,7 @@ PrecacheParticleSystem("vFire_Base_Big")
 PrecacheParticleSystem("vFire_Base_Huge")
 PrecacheParticleSystem("vFire_Base_Gigantic")
 PrecacheParticleSystem("vFire_Base_Inferno")
-
+--[[
 PrecacheParticleSystem("vFire_Base_Tiny_LOD")
 PrecacheParticleSystem("vFire_Base_Small_LOD")
 PrecacheParticleSystem("vFire_Base_Medium_LOD")
@@ -904,7 +904,7 @@ PrecacheParticleSystem("vFire_Base_Big_LOD")
 PrecacheParticleSystem("vFire_Base_Huge_LOD")
 PrecacheParticleSystem("vFire_Base_Gigantic_LOD")
 PrecacheParticleSystem("vFire_Base_Inferno_LOD")
-
+]]
 PrecacheParticleSystem("vFire_Flames_Tiny")
 PrecacheParticleSystem("vFire_Flames_Small")
 PrecacheParticleSystem("vFire_Flames_Medium")
@@ -912,7 +912,7 @@ PrecacheParticleSystem("vFire_Flames_Big")
 PrecacheParticleSystem("vFire_Flames_Huge")
 PrecacheParticleSystem("vFire_Flames_Gigantic")
 PrecacheParticleSystem("vFire_Flames_Inferno")
-
+--[[
 PrecacheParticleSystem("vFire_Flames_Tiny_LOD")
 PrecacheParticleSystem("vFire_Flames_Small_LOD")
 PrecacheParticleSystem("vFire_Flames_Medium_LOD")
@@ -920,7 +920,7 @@ PrecacheParticleSystem("vFire_Flames_Big_LOD")
 PrecacheParticleSystem("vFire_Flames_Huge_LOD")
 PrecacheParticleSystem("vFire_Flames_Gigantic_LOD")
 PrecacheParticleSystem("vFire_Flames_Inferno_LOD")
-
+]]
 
 PrecacheParticleSystem("vFire_Burst_Infant")
 PrecacheParticleSystem("vFire_Burst_Lines")

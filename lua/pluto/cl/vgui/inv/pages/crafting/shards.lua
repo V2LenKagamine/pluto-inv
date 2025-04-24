@@ -88,9 +88,7 @@ function PANEL:Init()
 
 		if (cur) then
 			local crafted = cur.Crafted
-			--self.CurrencyText:SetText(string.format("Chance to get %s modifier: %.2f%%", crafted.Mod, pluto.mods.chance(crafted, amt) * 100))
-		else
-			--self.CurrencyText:SetText ""
+			self.AffixChanceText:SetText(string.format("Chance to get %s Affix: %.2f%%", crafted.Mod, pluto.mods.chance(crafted, amt) * 100))
 		end
 	end
 
@@ -198,7 +196,31 @@ function PANEL:Init()
 	self.ShardResultLine = self:Add "EditablePanel"
 	self.ShardResultLine:SetTall(28)
 	self.ShardResultLine:Dock(BOTTOM)
-	self.ShardResultLine:DockMargin(0, 5, 0, 5)
+	self.ShardResultLine:DockMargin(0, 1, 0, 1)
+
+    
+    self.CurrencyText = self:Add "pluto_label"
+	self.CurrencyText:Dock(BOTTOM)
+	self.CurrencyText:SetRenderSystem(pluto.fonts.systems.shadow)
+	self.CurrencyText:SetTextColor(pluto.ui.theme "TextActive")
+	self.CurrencyText:SetFont("pluto_inventory_font")
+	self.CurrencyText:SetMouseInputEnabled(false)
+	self.CurrencyText:SetWide(self:GetWide())
+    self.CurrencyText:DockMargin(5,0,5,2.5)
+    self.CurrencyText:DockPadding(0,0,0,0)
+    self.CurrencyText:SetText("Possible Results : ")
+
+    self.AffixChanceText = self:Add "pluto_label"
+    self.AffixChanceText:Dock(BOTTOM)
+	self.AffixChanceText:SetRenderSystem(pluto.fonts.systems.shadow)
+	self.AffixChanceText:SetTextColor(pluto.ui.theme "TextActive")
+	self.AffixChanceText:SetFont("pluto_inventory_font")
+	self.AffixChanceText:SetMouseInputEnabled(false)
+	self.AffixChanceText:SetWide(self:GetWide())
+    self.AffixChanceText:DockMargin(5,0,5,1)
+    self.AffixChanceText:DockPadding(0,0,0,0)
+    self.AffixChanceText:SetText("Adding Currency may result in an Affixed Item!")
+
 
 	self.ShardResults = {}
 

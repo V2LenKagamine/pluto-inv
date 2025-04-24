@@ -20,4 +20,5 @@ SWEP.PlutoIcon             = "vgui/entities/confetti.png"
 
 SWEP.ThunderStrikes = 3
 SWEP.Bounciness = 0.75
-SWEP.AutoSpawnable = true 
+
+SWEP.PlutoSpawnable = true 
