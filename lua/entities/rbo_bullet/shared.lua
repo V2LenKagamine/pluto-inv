@@ -50,7 +50,7 @@ if SERVER then
 	    	endpos=nextpos,
 	    	mask=visflag,
 		    filter = function (ent)
-                if(ent == self.source or ent == self.source:GetOwner() or ent.Base == "base_anim") then 
+                if(ent == self.source or ent == self.source:GetOwner() or ent:GetClass() == "rbo_bullet") then 
                     return false
                 end
                 return true 
@@ -123,5 +123,6 @@ if CLIENT then
 	    end
 	    ent.position=ReadVectorPrecise()
 	    ent.velocity=ReadVectorPrecise()
+        ent:Think()
     end)
 end

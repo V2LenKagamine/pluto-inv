@@ -686,10 +686,6 @@ local list = {
 			tfa_cso_mp7unicorn = {
 				Rare = true,
 				Shares = 1
-			},
-			tfa_cso_pchan = {
-				Rare = true,
-				Shares = 1
 			}
 		},
 
@@ -738,20 +734,6 @@ local list = {
 				Rare = true,
 				Shares = 1
 			},
-			tfa_cso_pchan = {
-				Tier = "easter_unique",
-				Rare = true,
-				Shares = 1
-			},
-			--[[tfa_cso_ethereal = {
-				Rare = true,
-				Shares = 0--.1,
-			},--]]
-			tfa_cso_m82 = {
-				Tier = "unusual",
-				Shares = 150
-			},
-
 			tfa_cso_charger5 = {
 				Tier = "unusual",
 				Shares = 150,
@@ -759,11 +741,6 @@ local list = {
 			tfa_cso_m95 = {
 				Tier = "unusual",
 				Shares = 150,
-			},
-			tfa_cso_darkknight_v6 = {
-				Rare = true,
-				Tier = "easter_unique",
-				Shares = 0.1,
 			},
 		},
 

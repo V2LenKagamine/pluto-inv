@@ -103,9 +103,10 @@ class GMAFile {
 		await gma.addFile(file);
 		if (gma.length > too_big_size) {
 			await gma.finalize();
-
+            console.log("Ding, one pack down.")
 			gma = new GMAFile(`content/pack${size++}.gma`);
 		}
 	}
 	await gma.finalize();
+    console.log("Turkeys done. Wrote " + size + " files.")
 })();
