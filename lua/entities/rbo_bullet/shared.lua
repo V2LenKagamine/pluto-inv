@@ -77,7 +77,11 @@ if SERVER then
                 todeal:SetDamageType(DMG_BULLET)
                 todeal:ScaleDamage(self.source:GetHitgroupScale(trace.HitGroup))
                 self.data.Callback(self.data.Attacker,trace,todeal)
-                trace.Entity:DispatchTraceAttack(todeal,trace,normvec)
+                if(trace.Entity:GetClass() == "func_breakable_surf") then
+                    trace.Entity:DispatchTraceAttack(todeal,trace,normvec)
+                else
+                    trace.Entity:TakeDamageInfo(todeal)
+                end
             end
 		    return true 
 	    end	

@@ -16,7 +16,7 @@ function MOD:FormatModifier(index, roll)
 	return string.format("%.01f%%", roll)
 end
 
-MOD.Description = "Converts %s of your damage to Bleed on hit"
+MOD.Description = "%s of Damage dealt is converted to Bleed and Amplified by 1.5x"
 
 MOD.Tiers = {
 	{ 25, 30 },
@@ -28,25 +28,123 @@ function MOD:ModifyWeapon(wep, rolls)
 	wep:ScaleRollType("damage", rolls[1], true)
 end
 
-function MOD:OnDamage(wep, rolls, vic, dmginfo, state)
-	if (IsValid(vic) and vic:IsPlayer() and dmginfo:GetDamage() > 0) then
-		state.bleeddamage = math.ceil(wep:ScaleRollType("damage", rolls[1]) / 100 * dmginfo:GetDamage())
-		pluto.statuses.bleed(vic, {
-			Owner = wep:GetOwner(),
-			Weapon = wep,
-			Damage = state.bleeddamage
-		})
+function MOD:OnDamage(wep, rolls, target, dmg, state)
+	if (not IsValid(target) or not isentity(target)) then return end
+    if(target:IsPlayer() and dmg:GetDamage() > 0) then
+		state.bleedstacks = (wep:ScaleRollType("damage", rolls[1])/100) * dmg:GetDamage()
+		self:DoStuff(target,dmg:GetAttacker(),state.bleedstacks)
 	end
 end
 
-function MOD:PostDamage(wep, rolls, vic, dmginfo, state)
-	if (state.bleeddamage) then
-		dmginfo:SetDamage(dmginfo:GetDamage() - state.bleeddamage)
+function MOD:PostDamage(wep, rolls, target, dmg, state)
+    if(not state) then return end
+	if (state.bleedstacks) then
+		dmg:SetDamage(dmg:GetDamage() - state.bleedstacks)
+        state.bleedstacks = state.bleedstacks * 1.5
 	end
 end
+pluto.statuses.bleed = pluto.statuses.bleed or {}
+function MOD:DoStuff(target, atk, stacks)
+    local status
+    if(not isentity(target)) then return end
+    for _, ent in pairs(target:GetChildren()) do
+        if(ent.PrintName == "Pluto_Bleed") then
+            status = ent
+            break 
+        end
+    end
+    if(not IsValid(status)) then
+        status = ents.Create("pluto_status")
+        status:SetParent(target)
+        status.PrintName = "Pluto_Bleed"
+        status.Data = {
+            Dealer = atk,
+            OnThink = pluto.statuses.bleed.DoThink,
+            TicksLeft = 1,
+            ["Hook_Input"] = {
+                "PlayerButtonDown",
+                pluto.statuses.bleed.Hook_Input,
+            },
+            ThinkDelay = 1.5,
+        }
+        status:Spawn()
+    end
+    status.Data.TicksLeft = (status.Data.TicksLeft or 0) + stacks
+end
+function pluto.statuses.bleed.DoThink(ent)
 
-function MOD:CanRollOn()
-	return false
+    local vic = ent:GetParent()
+
+    local stax = ent.Data.TicksLeft
+    local todeal
+    if(stax >= 7.5) then
+        todeal = 3
+        ent.Data.TicksLeft = ent.Data.TicksLeft - 2
+    else
+        todeal = 1
+        ent.Data.TicksLeft = ent.Data.TicksLeft - 1
+    end
+    if(vic:GetVelocity():LengthSqr() > vic:GetWalkSpeed()^2) then
+        todeal = todeal * 1.5
+    end
+
+    local dinfo = DamageInfo()
+    if(IsValid(ent.Data.Dealer)) then
+        dinfo:SetAttacker(ent.Data.Dealer)
+    else
+        dinfo:SetAttacker(game.GetWorld())
+    end
+    dinfo:SetDamageType(DMG_DIRECT + DMG_SONIC)
+    dinfo:SetDamagePosition(vic:GetPos())
+    dinfo:SetDamage(todeal)
+    vic:TakeDamageInfo(dinfo)
+end
+if(SERVER)then
+    util.AddNetworkString("ClearBleedDebuff")
+
+    net.Receive("ClearBleedDebuff", function(msg,sndr) 
+        local debuff = net.ReadEntity()
+        local reported = net.ReadFloat()
+        if(not IsValid(debuff)) then return end
+        local stax = debuff.Data.TicksLeft
+        local holddown = 0.5
+        if(stax >= 15) then
+            holddown = 3
+        elseif(stax < 15 and stax >= 7.5) then
+            holddown = 1.5
+        end
+        if(holddown <= debuff.SecsDown + (engine.TickInterval()*2)) then --Ok ill beleive that.
+            debuff:Remove() --Not calling expire here because was expunged.
+        end
+    end)
+end
+function pluto.statuses.bleed.Hook_Input(ply,buttn)
+    if(CLIENT) then
+        local bleed
+        for _,son in pairs(ply.GetChildren()) do
+            if(son:GetOwner() == LocalPlayer) then
+                bleed = son
+                break 
+            end
+        end
+        if(ply ~= bleed:GetOwner()) then return end
+        if(IsFirstTimePredicted() and input.IsButtonDown(input.LookupBinding("+use"))) then
+            bleed.SecsDown = (bleed.SecsDown or 1) / engine.TickInterval()
+            local stax = bleed.Data.TicksLeft
+            local holddown = 0.5
+            if(stax >= 15) then
+                holddown = 3
+            elseif(stax < 15 and stax >= 7.5) then
+                holddown = 1.5
+            end
+            if(holddown <= bleed.SecsDown) then
+                net.Start("ClearBleedDebuff")
+                net.WriteEntity(bleed)
+                net.WriteFloat(SecsDown)
+                net.Send()
+            end
+        end
+    end
 end
 
 return MOD

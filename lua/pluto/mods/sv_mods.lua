@@ -284,3 +284,13 @@ concommand.Add("pluto_remove_mods", function(ply, cmd, args)
 		:write("item", item)
 		:send()
 end)
+
+concommand.Add("pluto_forcereload_mods",function (ply,cmd,args)
+    if (not pluto.cancheat(ply)) then
+		return
+	end
+    pluto.mods.byname = {}
+    AddCSLuaFile("pluto/mods/load_mods.lua")
+    include("pluto/mods/load_mods.lua")
+    ply:ChatPrint("Force-Reloaded Mods! Clients cant see the changes!")
+end)

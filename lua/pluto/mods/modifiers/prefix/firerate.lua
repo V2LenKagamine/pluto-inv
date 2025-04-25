@@ -3,7 +3,7 @@
      * file, You can obtain one at https://mozilla.org/MPL/2.0/. ]]
 MOD.Type = "prefix"
 MOD.Name = "RPM"
-MOD.StatModifier = "Delay"
+MOD.StatModifierValues = {"Delay", "Damage"}
 MOD.Tags = {
 	"rpm", "speed"
 }
@@ -16,15 +16,13 @@ function MOD:FormatModifier(index, roll)
 	return string.format("%.01f%%", roll)
 end
 
-function MOD:GetDescription(rolls)
-	return rolls[1] >= 0 and "This gun shoots %s faster" or "This gun shoots %s slower"
-end
+MOD.Description = "Firerate +%.01f%%; Damage -%.01f%%"
 
 MOD.Tiers = {
-	{ 15, 20 },
-	{ 10, 15 },
-	{ 6, 10 },
-	{ 1, 6 },
+	{ 15, 20, -5, -7.5 },
+	{ 10, 15, -3, -5 },
+	{ 6, 10, -1.5, -3 },
+	{ 1, 6, -0.5, -1.5 },
 }
 
 return MOD

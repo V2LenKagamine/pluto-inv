@@ -770,6 +770,11 @@ local list = {
 		NoTarget = true,
 		ClientsideUse = function()
 		end,
+        Crafted = {
+			Chance = 1 / 100,
+			Mod = "starseeker",
+            ChanceDeminish = 2,
+		},
 	},
 	{
 		InternalName = "potato",
@@ -824,7 +829,12 @@ local list = {
 		Icon = "pluto/currencies/stardust.png",
 		Color = Color(254, 233, 105),
 		Fake = true,
-		SkipNotify = true
+		SkipNotify = true,
+        Amount = {
+            Min = 5,
+            Max = 10,
+            Chance = 50,
+        },
 	},
 	{
 		InternalName = "_lightsaber",

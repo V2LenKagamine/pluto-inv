@@ -6,9 +6,52 @@ pluto.statuses = pluto.statuses or {}
 
 ENT.Type = "point"
 ENT.Base = "base_point"
+ENT.PrintName = "Base_Status"
 
 ENT.Icon = "tttrw/disagree.png"
 
+function ENT:Initialize()
+    if(self.PrintName == "Base_Status") then
+        pluto.error("Someone tried to spawn a status without NAMING IT!!!")
+        self:Remove()
+    end
+    if(not self.Data)then
+        pluto.error("Something made a status with NOTHING IN IT!!!")
+        self:Remove()
+    end
+    if(not self:GetParent()) then
+        pluto.error("Something made a status, but didnt parent it to anything!!!")
+        self:Remove()
+    end
+    for k,v in pairs(self.Data) do
+        if(string.StartsWith(k,"Hook")) then
+            hook.Add(v[1],self.PrintName .. "_" .. k,v[2])
+        end
+    end
+    hook.Add("Tick",self,self.Tick)
+    self.Next = CurTime() + (self.Data.ThinkDelay)
+end
+
+function ENT:SetupDataTables()
+    self.Data = {}
+end
+
+function ENT:OnExpire(ent)
+end
+
+function ENT:Tick()
+    if(not SERVER or (self.Next and self.Next > CurTime())) then return end
+    self.Data.OnThink(self)
+    self.Data.TicksLeft = (self.Data.TicksLeft or 0) - 1
+    if(self.Data.TicksLeft < 1) then
+        if(self.Data.OnExpire) then
+            self.Data.OnExpire(self)
+        end
+        self:Remove()
+        return 
+    end
+    self.Next = CurTime() + self.Data.ThinkDelay
+end
 
 function ENT:NetVar(name, type, default, notify)
 	if (not self.NetVarTypes) then

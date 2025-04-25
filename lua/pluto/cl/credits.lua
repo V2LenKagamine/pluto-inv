@@ -12,6 +12,16 @@ local msg = [[
 |------------------------------------------------------------------------------------------|
 ]]
 
+local msg2 = [[
+--------------------------------------------------------------------------------------------
+| Though the time of Pluto has passed, let us not forget those who the original creator,   |
+| Meepen, had thanked for their efforts in assisting them. Above lies the original credits.|
+|------------------------------------------------------------------------------------------|
+|                                   Pluto 2 Credits:                                       |
+]]
+
+local dumbo = "| Len Kagamine[DEV]| The dumbo themself; Stealer of Code, and Giver of Gifts.              |" 
+
 local people = {
 	"| Ling       [BFF] | Helped me get off the ground. One of my longest and best friends.     |",
 	"| Squigble   [BFF] | Designer since day 1. Designed all of the original currency and ui.   |",
@@ -32,6 +42,10 @@ local people = {
 	"| Hound            | Helped me in my time of need. One of the best friends I've ever had.  |\n" ..
 	"|                  | Created the staff framework. I'm sorry the pain I caused you.         |",
 }
+local people2 = {
+    "| Hound            | Provided immense support with Pluto, and provided great design docs   |\n" ..
+    "| [Wait, Again?]   | for a similar project that shaped what you see before you now.        |",
+}
 
 hook.Add("Think", "pluto_credits", function()
 	if (gui.IsConsoleVisible()) then
@@ -50,7 +64,22 @@ hook.Add("Think", "pluto_credits", function()
 		MsgC(white_text, line_sep)
 		MsgC(white_text, "| Anyone I've missed - my memory and ability to think on the spot is not good.             |\n")
 		MsgC(white_text, line_sep)
-		MsgN "\n\n"
+		MsgN("\n\n")
+        MsgC(white_text, msg2)
+        MsgC(white_text, "|")
+        MsgC(Color(240,240,0),dumbo:sub(2,19))
+        MsgC(white_text, dumbo:sub(20) .. "\n")
+        MsgC(white_text, line_sep)
+        for _, line in RandomPairs(people2) do
+			MsgC(white_text, "|")
+			MsgC(HSVToColor(math.random() * 360, 1, 1), line:sub(2, 19))
+			MsgC(white_text, line:sub(20) .. "\n")
+			MsgC(white_text, line_sep)
+		end
+        MsgC(white_text,"|    [Your Name]   | Time is long friend, you help alone by playing, but who knows, should |\n" ..
+	                    "|      [Listed]    | you prove influental; by code, assets, or ideas, you may find your own|\n" ..
+                        "|      [Here?]     | name amongst those carved in stone by time.                           |\n" ..
+                        "|------------------------------------------------------------------------------------------|")
 		hook.Remove("Think", "pluto_credits")
 	end
 end)

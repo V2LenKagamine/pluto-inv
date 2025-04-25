@@ -3,7 +3,7 @@
      * file, You can obtain one at https://mozilla.org/MPL/2.0/. ]]
 local PANEL = {}
 
-local line_color = Color(161, 161, 161)
+local line_color = Color(255, 255, 255)
 
 function PANEL:Init()
 	self.Bars = {}
@@ -37,7 +37,7 @@ function PANEL:Paint(w, h)
 		surface.SetDrawColor(bar.Color)
 		ttt.DrawCurvedRect(0, 0, w, h - 1, 2)
 		x = x + bw
-		surface.SetDrawColor(255, 255, 255, 200)
+		surface.SetDrawColor(255, 255, 255)
 		surface.DrawLine(x - 1, 0, x - 1, h - 2)
 	end
 

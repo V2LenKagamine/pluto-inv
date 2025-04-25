@@ -226,60 +226,85 @@ function PANEL:AddPrefix(prefix, item)
 	local container = self.PrefixContainer:Add "EditablePanel"
 	container:SetTall(23)
 	container:Dock(TOP)
-
 	local name = container:Add "pluto_label"
 	name:Dock(TOP)
 	name:SetFont "pluto_showcase_suffix_text"
 	name:SetRenderSystem(pluto.fonts.systems.shadow)
-	name:SetText ""
 	name:SetTextColor(Color(255, 255, 255))
-	name:SetText(MOD:GetTierName(prefix.Tier))
+    local rolls = pluto.mods.getrolls(MOD, prefix.Tier, prefix.Roll)
+    if(self.LastControlState) then
+        name:SetText(MOD:GetDescription(rolls))
+    else
+        name:SetText(MOD:GetTierName(prefix.Tier))
+    end
 	name:SizeToContentsY(2)
 	name:SetContentAlignment(4)
 
-	local rolls = pluto.mods.getrolls(MOD, prefix.Tier, prefix.Roll)
-	local num = pluto.mods.getrawvalue(baseclass.Get(item.ClassName), MOD.StatModifier)
-	local mins, maxs = GetMinMax(baseclass.Get(item.ClassName), MOD.StatModifier)
-	local frac_base = (not num or not mins or not maxs or mins == maxs) and 0.35 or 0.35 * ((value(num) - value(mins)) / (value(maxs) - value(mins)))
-	local left = 1 - frac_base - 0.2
-	local txt = MOD:FormatModifier(1, rolls[1])
-	local min, max = MOD:GetMinMax()
-	if (not min or not max) then
-		min, max = 0, 0
-	end
-	local tmin, tmax
-	if (MOD.Tiers[prefix.Tier]) then
-		tmin, tmax = MOD.Tiers[prefix.Tier][1], MOD.Tiers[prefix.Tier][2]
-	else
-		tmin, tmax = 0, 0
-	end
+    for idx = 1,(#(MOD.Tiers[prefix.Tier]) / 2) do
+        local num,mins,maxs,stat_check
+        if(MOD.StatModifierValues) then
+            stat_check = MOD.StatModifierValues[idx]
+            num = pluto.mods.getrawvalue(baseclass.Get(item.ClassName),stat_check)
+	        mins, maxs = GetMinMax(baseclass.Get(item.ClassName),stat_check)
+        else
+            stat_check = MOD.StatModifier
+            num = pluto.mods.getrawvalue(baseclass.Get(item.ClassName),stat_check)
+	        mins, maxs = GetMinMax(baseclass.Get(item.ClassName),stat_check)
+        end
+	    local txt = pluto.mods.shortname(stat_check) .. ": " .. MOD:FormatModifier(1, rolls[idx])
+	    local min, max = MOD:GetMinMax()
+	    if (not min or not max) then
+		    min, max = 0, 0
+	    end
+        local tmin, tmax
+	    if (MOD.Tiers[prefix.Tier]) then
+		    tmin, tmax = MOD.Tiers[prefix.Tier][1+(2*(idx-1))], MOD.Tiers[prefix.Tier][2+(2*(idx-1))]
+	    else
+		    tmin, tmax = 0, 0
+	    end
+	    local tier_min =(math.abs(tmin) - math.abs(min)) / (math.abs(max) - math.abs(min))
+	    local cur_value =(math.abs(rolls[idx]) - math.abs(min)) / (math.abs(max) - math.abs(min))
+	    local tier_max =(math.abs(tmax) - math.abs(min)) / (math.abs(max) - math.abs(min))
 
-	local tier_min = 0.2 + left * (tmin - min) / (max - min)
-	local cur_value = 0.2 + left * (rolls[1] - min) / (max - min)
-	local tier_max = 0.2 + left * (tmax - min) / (max - min)
 
-	local text = txt
-	if (self.LastControlState) then
-		text = string.format("%s (%s to %s)", txt, MOD:FormatModifier(1, tmin), MOD:FormatModifier(1, tmax))
-	end
+        local text = txt
+	    if (self.LastControlState) then
+		    text = string.format("%s (%s to %s)", txt, MOD:FormatModifier(idx, tmin), MOD:FormatModifier(idx, tmax))
+	    end
+        local bar = container:Add("pluto_showcase_bar")
+        bar:CopyBounds(name)
+        bar:SetHeight(12)
+        if(self.LastControlState) then
+            bar:SetWide(self:GetWide()-200)
+            bar:SetPos(bar:GetX() + 180,bar:GetY() + 2 + (idx*14))
+        else
+            bar:SetWide(self:GetWide()-100)
+            bar:SetPos(bar:GetX() + 80,bar:GetY() + 2 + (idx*14))
+        end
+        local positive = not MOD:IsNegative(rolls[idx])
+        if(positive) then
+            bar:AddFilling(tier_min, "", Color(0, 255, 0))
+            bar:AddFilling(cur_value - tier_min, "", Color(165, 255, 0))
+            bar:AddFilling(tier_max - cur_value, "", Color(125, 125, 125))
+        else
+            bar:AddFilling(tier_max, "", Color(255, 0, 0))
+            bar:AddFilling(cur_value - tier_min, "", Color(255, 110, 0))
+            bar:AddFilling(tier_max - cur_value, num, Color(125, 125, 125))
+        end
+        
+        container:SetTall(container:GetTall() + (idx*8))
 
-	local numberlabel = name:Add "pluto_label"
-	numberlabel:Dock(RIGHT)
-	numberlabel:SetFont "pluto_showcase_suffix_text"
-	numberlabel:SetRenderSystem(pluto.fonts.systems.shadow)
-	numberlabel:SetText(text)
-	numberlabel:SetTextColor(Color(255, 255, 255))
-	numberlabel:SetContentAlignment(6)
-	numberlabel:SizeToContentsX(2)
-
-	local bar = container:Add "pluto_showcase_bar"
-	bar:Dock(FILL)
-	bar:AddFilling(frac_base, num, Color(109, 147, 232))
-
-	bar:AddFilling(tier_min, "", Color(37, 225, 68))
-	bar:AddFilling(cur_value - tier_min, txt:sub(1, 1) == "-" and txt or "+" .. txt, Color(37, 225, 68))
-	bar:AddFilling(tier_max - cur_value, "", Color(169, 169, 169, 0))
-
+        local numberlabel = container:Add "pluto_label"
+        numberlabel:CopyBounds(name)
+        numberlabel:SetHeight(10)
+        numberlabel:SetPos(name:GetX()+4,name:GetY() + 2 + (idx*14) )
+	    numberlabel:SetFont "pluto_showcase_suffix_text"
+	    numberlabel:SetRenderSystem(pluto.fonts.systems.shadow)
+	    numberlabel:SetText(text)
+	    numberlabel:SetTextColor(Color(255, 255, 255))
+	    numberlabel:SetContentAlignment(6)
+	    numberlabel:SizeToContentsX(2)
+    end
 
 	if (IsValid(self.LastAddedPrefix)) then
 		self.LastAddedPrefix:DockMargin(0, 0, 0, 5)

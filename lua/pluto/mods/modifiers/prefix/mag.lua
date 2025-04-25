@@ -3,7 +3,7 @@
      * file, You can obtain one at https://mozilla.org/MPL/2.0/. ]]
 MOD.Type = "prefix"
 MOD.Name = "Capacity"
-MOD.StatModifier = "ClipSize"
+MOD.StatModifierValues = {"ClipSize","ReloadAnimationSpeed"}
 MOD.Tags = {
 	"mag"
 }
@@ -16,16 +16,17 @@ function MOD:FormatModifier(index, roll)
 	return string.format("%.01f%%", roll)
 end
 
-MOD.Description = "Clip size is increased by %s"
+MOD.Description = "Mag +%.01f%%; Reload -%.01f%%"
 
 function MOD:CanRollOn(class)
 	return class.ClassName ~= "tfa_cso_batista"
 end
 
 MOD.Tiers = {
-	{ 20, 30 },
-	{ 10, 20 },
-	{ 5, 10 },
+    { 30, 35, -20, -30 },
+	{ 20, 30, -12.5 },
+	{ 10, 20, -5, -12.5 },
+	{ 5, 10, 5, -5 },
 }
 
 function MOD:ModifyWeapon(wep, roll)

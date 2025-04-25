@@ -75,7 +75,6 @@ function SWEP:RunModFunctionSingle(funcname, ...)
 	if (not gun) then
 		return
 	end
-
 	for type, list in pairs(gun.Mods) do
 		for _, item in ipairs(list) do
 			local mod = pluto.mods.byname[item.Mod]
@@ -176,11 +175,9 @@ hook.Add("EntityTakeDamage", "pluto_dmg_mods", function(targ, dmg)
 	if (not hook.Run("PlayerShouldTakeDamage", targ, dmg:GetAttacker())) then
 		return
 	end
-
 	local self = dmg:GetInflictor()
 	if (not IsValid(self) or not self.RunModFunctionSequence) then
 		return
 	end
-
 	self:RunModFunctionSequence("Damage", nil, targ, dmg)
 end)

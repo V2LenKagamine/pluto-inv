@@ -39,6 +39,10 @@ function MOD:GetMinMax()
 	return self.Tiers[#self.Tiers][1], self.Tiers[1][2]
 end
 
+function MOD:GetDescription(rolls)
+    return string.format(self.Description,math.abs(rolls[1] or 1),math.abs(rolls[2] or 1),math.abs(rolls[3] or 1))
+end
+
 function pluto.mods.getrolls(mod, tier, rolls)
 	local retn = {}
 
@@ -132,6 +136,20 @@ function pluto.mods.getrawvalue(wep, name)
 	end
 end
 
+local stattranslations={
+    ["Delay"] = "RPM",
+    ["Damage"] = "DMG",
+    ["Spread"] = "ACC",
+    ["DamageDropoffRange"] = "RNGE",
+    ["ViewPunchAngles"] = "KICK",
+    ["ClipSize"] = "MAG",
+    ["ReloadAnimationSpeed"] = "RLD",
+    }
+
+function pluto.mods.shortname(statname)    
+    return stattranslations[statname] or "???"
+end
+
 function pluto.mods.humanreadablestat(statname, wep, value)
 	if (statname == "Delay") then
 		return math.Round(60 / value), "RPM"
@@ -161,6 +179,7 @@ function pluto.mods.getitemvalue(item, name)
 
 	local value = pluto.mods.getrawvalue(wep, name)
 	if (not value) then
+        pluto.error("Oh thats not good; [" .. wep .. "] had no raw value")
 		return "IDK XD"
 	end
 

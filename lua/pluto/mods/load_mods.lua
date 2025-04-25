@@ -19,8 +19,7 @@ for _, filename in pairs {
 	"prefix/damage",
 	"prefix/firerate",
 	"prefix/mag",
-	"prefix/max_range",
-	"prefix/min_range",
+	"prefix/range",
 	"prefix/recoil",
 	"prefix/reload",
 	

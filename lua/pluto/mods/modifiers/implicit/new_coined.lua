@@ -31,7 +31,7 @@ MOD.Tiers = {
 function MOD:OnUpdateSpawnPoints(wep, rolls, atk, vic, state)
 	if (IsValid(atk) and state.Points > 0) then
 		local gun = wep.PlutoGun
-		state.Points = state.Points * (1 + 0.11 * gun:GetMaxAffixes())
+		state.Points = state.Points * (1 + (0.13 * gun:GetMaxAffixes()))
 	end
 end
 

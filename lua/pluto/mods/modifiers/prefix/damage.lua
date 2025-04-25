@@ -3,7 +3,7 @@
      * file, You can obtain one at https://mozilla.org/MPL/2.0/. ]]
 MOD.Type = "prefix"
 MOD.Name = "Damage"
-MOD.StatModifier = "Damage"
+MOD.StatModifierValues = { "Damage", "Delay" }
 MOD.Tags = {
 	"damage"
 }
@@ -20,15 +20,13 @@ function MOD:FormatModifier(index, roll)
 	return string.format("%.01f%%", roll)
 end
 
-function MOD:GetDescription(rolls)
-	return rolls[1] >= 0 and "Damage is increased by %s" or "Damage is decreased by %s"
-end
+MOD.Description = "Damage +%.01f%%; Firerate -%.01f%%."
 
 MOD.Tiers = {
-	{ 10, 15 },
-	{ 6, 10 },
-	{ 3, 6 },
-	{ 1, 3 },
+	{ 10, 15, -7.5, -10 },
+	{ 6, 10, -5, -7.5 },
+	{ 3, 6, -3, -5 },
+	{ 1, 3, -0.5, -3 },
 }
 
 return MOD
