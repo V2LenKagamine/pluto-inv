@@ -6,6 +6,7 @@ MOD.Name = "Range"
 MOD.StatModifier = "DamageDropoffRange"
 --We cant use this because we need roll #1 for first two, but #2 for the third.
 --MOD.StatModifierValues = { "DamageDropoffRangeMax", "DamageDropoffRange", "ViewPunchAngles" }
+MOD.AffectedStats = { "DamageDropoffRangeMax", "DamageDropoffRange", "ViewPunchAngles" }
 MOD.Tags = {
 	"range"
 }

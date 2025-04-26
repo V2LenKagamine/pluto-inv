@@ -241,35 +241,35 @@ function PANEL:AddPrefix(prefix, item)
 	name:SetContentAlignment(4)
 
     for idx = 1,(#(MOD.Tiers[prefix.Tier]) / 2) do
-        local num,mins,maxs,stat_check
-        if(MOD.StatModifierValues) then
-            stat_check = MOD.StatModifierValues[idx]
+        local num,stat_check
+        if(MOD.AffectedStats) then
+            stat_check = MOD.AffectedStats[idx]
             num = pluto.mods.getrawvalue(baseclass.Get(item.ClassName),stat_check)
-	        mins, maxs = GetMinMax(baseclass.Get(item.ClassName),stat_check)
         else
-            stat_check = MOD.StatModifier
-            num = pluto.mods.getrawvalue(baseclass.Get(item.ClassName),stat_check)
-	        mins, maxs = GetMinMax(baseclass.Get(item.ClassName),stat_check)
+            pluto.error("MOD ON " .. item.ClassName .. " HAD NO AFFECTED STATS! FIX NOW.")
         end
 	    local txt = pluto.mods.shortname(stat_check) .. ": " .. MOD:FormatModifier(1, rolls[idx])
-	    local min, max = MOD:GetMinMax()
+	    local min, max = MOD:GetMinMax(idx)
+        
 	    if (not min or not max) then
 		    min, max = 0, 0
 	    end
-        local tmin, tmax
+        local tier_min, tier_max
 	    if (MOD.Tiers[prefix.Tier]) then
-		    tmin, tmax = MOD.Tiers[prefix.Tier][1+(2*(idx-1))], MOD.Tiers[prefix.Tier][2+(2*(idx-1))]
+		    tier_min, tier_max = MOD.Tiers[prefix.Tier][1+(2*(idx-1))], MOD.Tiers[prefix.Tier][2+(2*(idx-1))]
 	    else
-		    tmin, tmax = 0, 0
+		    tier_min, tier_max = 0, 0
 	    end
-	    local tier_min =(math.abs(tmin) - math.abs(min)) / (math.abs(max) - math.abs(min))
-	    local cur_value =(math.abs(rolls[idx]) - math.abs(min)) / (math.abs(max) - math.abs(min))
-	    local tier_max =(math.abs(tmax) - math.abs(min)) / (math.abs(max) - math.abs(min))
 
+        local rang = math.abs(max - min)    
+        local tier_range = math.abs(tier_max - tier_min) / rang
+        local tier_max_per = math.abs(tier_max - min) / rang
+        local cur_value = math.abs(rolls[idx] - min) / rang
+        local tier_min_per = math.abs(tier_min - min) / rang
 
         local text = txt
 	    if (self.LastControlState) then
-		    text = string.format("%s (%s to %s)", txt, MOD:FormatModifier(idx, tmin), MOD:FormatModifier(idx, tmax))
+		    text = string.format("%s (%s to %s)", txt, MOD:FormatModifier(idx, tier_min), MOD:FormatModifier(idx, tier_max))
 	    end
         local bar = container:Add("pluto_showcase_bar")
         bar:CopyBounds(name)
@@ -283,15 +283,14 @@ function PANEL:AddPrefix(prefix, item)
         end
         local positive = not MOD:IsNegative(rolls[idx])
         if(positive) then
-            bar:AddFilling(tier_min, "", Color(0, 255, 0))
-            bar:AddFilling(cur_value - tier_min, "", Color(165, 255, 0))
-            bar:AddFilling(tier_max - cur_value, "", Color(125, 125, 125))
+            bar:AddFilling(tier_min_per, "", Color(0, 255, 0))
+            bar:AddFilling(cur_value - tier_min_per, "", Color(165, 255, 0))
+            bar:AddFilling(tier_max_per - cur_value, "", Color(125, 125, 125))
         else
-            bar:AddFilling(tier_max, "", Color(255, 0, 0))
-            bar:AddFilling(cur_value - tier_min, "", Color(255, 110, 0))
-            bar:AddFilling(tier_max - cur_value, num, Color(125, 125, 125))
+            bar:AddFilling(tier_min_per, "", Color(255, 0, 0))
+            bar:AddFilling(cur_value - tier_min_per, "", Color(255, 110, 0))
+            bar:AddFilling(tier_max_per - cur_value, "", Color(125, 125, 125))
         end
-        
         container:SetTall(container:GetTall() + (idx*8))
 
         local numberlabel = container:Add "pluto_label"

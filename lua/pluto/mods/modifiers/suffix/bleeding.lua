@@ -43,6 +43,7 @@ function MOD:PostDamage(wep, rolls, target, dmg, state)
         state.bleedstacks = state.bleedstacks * 1.5
 	end
 end
+pluto.statuses = pluto.statuses or {}
 pluto.statuses.bleed = pluto.statuses.bleed or {}
 function MOD:DoStuff(target, atk, stacks)
     local status
@@ -79,10 +80,9 @@ function pluto.statuses.bleed.DoThink(ent)
     local todeal
     if(stax >= 7.5) then
         todeal = 3
-        ent.Data.TicksLeft = ent.Data.TicksLeft - 2
+        ent.Data.TicksLeft = ent.Data.TicksLeft - 1
     else
         todeal = 1
-        ent.Data.TicksLeft = ent.Data.TicksLeft - 1
     end
     if(vic:GetVelocity():LengthSqr() > vic:GetWalkSpeed()^2) then
         todeal = todeal * 1.5

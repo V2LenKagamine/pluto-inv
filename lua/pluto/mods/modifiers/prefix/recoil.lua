@@ -3,6 +3,7 @@
      * file, You can obtain one at https://mozilla.org/MPL/2.0/. ]]
 MOD.Type = "prefix"
 MOD.Name = "Recoil"
+MOD.AffectedStats = {"DamageDropoffRange","ViewPunchAngles"}
 MOD.StatModifier = "DamageDropoffRange" --Do not be fooled, this is a recoil stat trust me.
 MOD.Tags = {
 	"recoil"

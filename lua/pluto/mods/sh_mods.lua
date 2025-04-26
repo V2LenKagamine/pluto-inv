@@ -35,8 +35,8 @@ function MOD:GetTierName(tier)
 	return self:GetPrintName() .. " " .. pluto.toroman(tier)
 end
 
-function MOD:GetMinMax()
-	return self.Tiers[#self.Tiers][1], self.Tiers[1][2]
+function MOD:GetMinMax(nudge)
+	return self.Tiers[#self.Tiers][1 + (2*((nudge or 1)-1))], self.Tiers[1][2 + (2*((nudge or 1)-1))]
 end
 
 function MOD:GetDescription(rolls)

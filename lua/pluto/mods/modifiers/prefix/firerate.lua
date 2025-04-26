@@ -3,6 +3,7 @@
      * file, You can obtain one at https://mozilla.org/MPL/2.0/. ]]
 MOD.Type = "prefix"
 MOD.Name = "RPM"
+MOD.AffectedStats = {"Delay", "Damage"}
 MOD.StatModifierValues = {"Delay", "Damage"}
 MOD.Tags = {
 	"rpm", "speed"

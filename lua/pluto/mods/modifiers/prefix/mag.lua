@@ -3,7 +3,8 @@
      * file, You can obtain one at https://mozilla.org/MPL/2.0/. ]]
 MOD.Type = "prefix"
 MOD.Name = "Capacity"
-MOD.StatModifierValues = {"ClipSize","ReloadAnimationSpeed"}
+MOD.AffectedStats = {"ClipSize","ReloadAnimationSpeed"}
+MOD.StatModifierValues = {[2] = "ReloadAnimationSpeed"}
 MOD.Tags = {
 	"mag"
 }
@@ -33,7 +34,7 @@ function MOD:ModifyWeapon(wep, roll)
 	wep.Primary.ClipSize_Original = wep.Primary.ClipSize_Original or wep.Primary.ClipSize
 	wep.Primary.DefaultClip_Original = wep.Primary.DefaultClip_Original or wep.Primary.DefaultClip
 
-	wep.Pluto.ClipSize = (wep.Pluto.ClipSize or 1) + roll[1] / 100
+	wep.Pluto.ClipSize = (wep.Pluto.ClipSize or 1) + (roll[1] / 100)
 	local round = wep.Pluto.ClipSize > 1 and math.ceil or math.floor
 	wep.Primary.ClipSize = round(wep.Primary.ClipSize_Original * wep.Pluto.ClipSize)
 	wep.Primary.DefaultClip = round(wep.Primary.DefaultClip_Original * wep.Pluto.ClipSize)

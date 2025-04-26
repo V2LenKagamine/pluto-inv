@@ -132,7 +132,7 @@ end
 
 function methods:AddFrame(frame)
 	self.m_numFrames = table.insert(self.m_frames,frame)
-	print(self.m_numFrames) // Don't ask why this is here. For some reason m_numFrames becomes nil unless I print it to the console..............
+    self.m_numFrames = #self.m_frames
 end
 
 function methods:AddEvent(frame,event)

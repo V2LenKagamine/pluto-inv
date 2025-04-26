@@ -3,6 +3,7 @@
      * file, You can obtain one at https://mozilla.org/MPL/2.0/. ]]
 MOD.Type = "prefix"
 MOD.Name = "Damage"
+MOD.AffectedStats =  { "Damage", "Delay" }
 MOD.StatModifierValues = { "Damage", "Delay" }
 MOD.Tags = {
 	"damage"
