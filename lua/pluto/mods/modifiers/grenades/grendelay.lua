@@ -3,6 +3,7 @@
      * file, You can obtain one at https://mozilla.org/MPL/2.0/. ]]
 MOD.Type = "suffix"
 MOD.Name = "Timing"
+MOD.AffectedStats = {"DelayGren"}
 MOD.Tags = {
 	"speed"
 }

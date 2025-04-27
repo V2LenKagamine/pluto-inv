@@ -791,7 +791,7 @@ if SERVER then
 		local amount = self.life * math.Rand(0.01, 0.08) * vFireDamageMultiplier
 		
 
-
+        --[[
 		-- Loop through whatever we're burning
 		for k, ent in pairs(self.burning) do
 			
@@ -846,8 +846,7 @@ if SERVER then
 
 			end
 		end
-
-
+        ]]
 
 		-- Damage the parent as well (it's not in our burning table)
 		local parent = self.parent
@@ -857,14 +856,14 @@ if SERVER then
 			local dmg = DamageInfo()
 
 				-- Decide what this entity's best damage case should be... and cache it
-				if parent.vFireDamageData == nil then
-					vFireSetDamageData(parent)
+				if self.vFireDamageData == nil then
+					vFireSetDamageData(self)
 				end
 
-				if !parent.vFireDamageData then return end
+				if !self.vFireDamageData then return end
 
-				dmg:SetDamage(amount * parent.vFireDamageData.dmgMul)
-				dmg:SetDamageType(parent.vFireDamageData.dmgType)
+				dmg:SetDamage(amount * self.vFireDamageData.dmgMul)
+				dmg:SetDamageType(self.vFireDamageData.dmgType)
 
 				-- A workaround to find the doer of the damage
 				local doer

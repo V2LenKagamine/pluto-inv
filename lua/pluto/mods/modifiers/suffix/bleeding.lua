@@ -16,7 +16,7 @@ function MOD:FormatModifier(index, roll)
 	return string.format("%.01f%%", roll)
 end
 
-MOD.Description = "%s of Damage dealt is converted to Bleed and Amplified by 1.5x"
+MOD.Description = "%s of Damage dealt is converted to Bleed; Bleed does more damage to running targets."
 
 MOD.Tiers = {
 	{ 25, 30 },
@@ -32,7 +32,6 @@ function MOD:OnDamage(wep, rolls, target, dmg, state)
 	if (not IsValid(target) or not isentity(target)) then return end
     if(target:IsPlayer() and dmg:GetDamage() > 0) then
 		state.bleedstacks = (wep:ScaleRollType("damage", rolls[1])/100) * dmg:GetDamage()
-		self:DoStuff(target,dmg:GetAttacker(),state.bleedstacks)
 	end
 end
 
@@ -40,7 +39,7 @@ function MOD:PostDamage(wep, rolls, target, dmg, state)
     if(not state) then return end
 	if (state.bleedstacks) then
 		dmg:SetDamage(dmg:GetDamage() - state.bleedstacks)
-        state.bleedstacks = state.bleedstacks * 1.5
+		self:DoStuff(target,dmg:GetAttacker(),state.bleedstacks)
 	end
 end
 pluto.statuses = pluto.statuses or {}
@@ -61,16 +60,17 @@ function MOD:DoStuff(target, atk, stacks)
         status.Data = {
             Dealer = atk,
             OnThink = pluto.statuses.bleed.DoThink,
-            TicksLeft = 1,
-            ["Hook_Input"] = {
+            TicksLeft = stacks,--[[
+            Hook_Input = {
                 "PlayerButtonDown",
                 pluto.statuses.bleed.Hook_Input,
-            },
+            },]]
             ThinkDelay = 1.5,
         }
         status:Spawn()
+    else
+        status.Data.TicksLeft = status.Data.TicksLeft + stacks
     end
-    status.Data.TicksLeft = (status.Data.TicksLeft or 0) + stacks
 end
 function pluto.statuses.bleed.DoThink(ent)
 
@@ -84,7 +84,7 @@ function pluto.statuses.bleed.DoThink(ent)
     else
         todeal = 1
     end
-    if(vic:GetVelocity():LengthSqr() > vic:GetWalkSpeed()^2) then
+    if(vic:GetVelocity():LengthSqr() > vic:GetSlowWalkSpeed()^2) then
         todeal = todeal * 1.5
     end
 
@@ -99,6 +99,7 @@ function pluto.statuses.bleed.DoThink(ent)
     dinfo:SetDamage(todeal)
     vic:TakeDamageInfo(dinfo)
 end
+--[[ Maybe do this?
 if(SERVER)then
     util.AddNetworkString("ClearBleedDebuff")
 
@@ -118,6 +119,7 @@ if(SERVER)then
         end
     end)
 end
+
 function pluto.statuses.bleed.Hook_Input(ply,buttn)
     if(CLIENT) then
         local bleed
@@ -146,5 +148,6 @@ function pluto.statuses.bleed.Hook_Input(ply,buttn)
         end
     end
 end
+]]
 
 return MOD

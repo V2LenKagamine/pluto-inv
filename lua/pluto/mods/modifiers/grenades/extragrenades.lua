@@ -2,6 +2,7 @@
 MOD.Type = "suffix"
 MOD.ItemType = "Grenade"
 MOD.Name = "Spares"
+MOD.AffectedStats = {"ClipSize"}
 MOD.Tags = {}
 
 function MOD:IsNegative(roll)

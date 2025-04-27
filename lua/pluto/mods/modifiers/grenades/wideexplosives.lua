@@ -1,6 +1,7 @@
 MOD.Type = "suffix"
 MOD.Name = "Giant Blasts"
 MOD.Tags = {}
+MOD.AffectedStats = {"Range"}
 
 function MOD:CanRollOn(wep)
 	return wep.Base == "weapon_ttt_basegrenade"

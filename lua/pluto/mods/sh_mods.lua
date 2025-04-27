@@ -137,10 +137,14 @@ function pluto.mods.getrawvalue(wep, name)
 end
 
 local stattranslations={
+    ["Throw"] = "TDIS",
     ["Delay"] = "RPM",
+    ["DelayGren"] = "TTE",
     ["Damage"] = "DMG",
     ["Spread"] = "ACC",
+    ["Bounce"] = "BNCE",
     ["DamageDropoffRange"] = "RNGE",
+    ["Range"] = "RNGE",
     ["ViewPunchAngles"] = "KICK",
     ["ClipSize"] = "MAG",
     ["ReloadAnimationSpeed"] = "RLD",

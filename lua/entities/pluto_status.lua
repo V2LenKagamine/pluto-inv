@@ -25,10 +25,17 @@ function ENT:Initialize()
     end
     for k,v in pairs(self.Data) do
         if(string.StartsWith(k,"Hook")) then
-            hook.Add(v[1],self.PrintName .. "_" .. k,v[2])
+            hook.Add(v[1],self .. "_" .. k,v[2])
         end
     end
     hook.Add("Tick",self,self.Tick)
+    self:CallOnRemove(self,function(ent,data)
+        for k,v in pairs(ent.Data) do
+            if(string.StartsWith(k,"Hook")) then
+                hook.Remove(v[1],self .. "_" .. k)
+            end
+        end
+    end)
     self.Next = CurTime() + (self.Data.ThinkDelay)
 end
 
@@ -36,11 +43,11 @@ function ENT:SetupDataTables()
     self.Data = {}
 end
 
-function ENT:OnExpire(ent)
-end
-
 function ENT:Tick()
     if(not SERVER or (self.Next and self.Next > CurTime())) then return end
+    if(not self.Data or not self:GetParent():Alive()) then
+        self:Remove()
+    end
     self.Data.OnThink(self)
     self.Data.TicksLeft = (self.Data.TicksLeft or 0) - 1
     if(self.Data.TicksLeft < 1) then

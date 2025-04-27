@@ -1,5 +1,6 @@
 MOD.Type = "suffix"
 MOD.Name = "Dense Explosions"
+MOD.AffectedStats = { "Damage "}
 MOD.Tags = {
     "damage"
 }

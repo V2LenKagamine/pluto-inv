@@ -242,3 +242,14 @@ function pluto.loading_polys(x, y, size, rot)
 
 	return polys
 end
+
+
+concommand.Add("pluto_givemeradar", function(plr,cmd,args)
+    if(not pluto.cancheat(plr)) then
+        return 
+    end
+    local eq = ttt.Equipment.List["ttt_radar"]
+		plr.TTTRWEquipmentTracker = plr.TTTRWEquipmentTracker or {}
+		plr.TTTRWEquipmentTracker["ttt_radar"] = (plr.TTTRWEquipmentTracker["ttt_radar"] or 0) + 1
+		printf("Yea this is broke still.", plr:Nick(), "ttt_radar")
+end)
