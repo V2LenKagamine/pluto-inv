@@ -12,7 +12,7 @@ function MOD:IsNegative(roll)
 end
 
 function MOD:CanRollOn(class)
-	return class.Primary and class.Primary.Ammo == "357"
+	return false --class.Primary and class.Primary.Ammo == "357"
 end
 
 function MOD:FormatModifier(index, roll)

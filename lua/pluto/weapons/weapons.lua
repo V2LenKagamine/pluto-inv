@@ -128,7 +128,7 @@ function pluto.weapons.update(db, item)
 	)
 
 	if (not s) then
-		print(e)
+		pluto.error(e)
 	end
 
 	mysql_stmt_run(db, "DELETE FROM pluto_mods WHERE gun_index = ? and deleted = TRUE", item.RowID)

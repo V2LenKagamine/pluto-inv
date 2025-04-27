@@ -21,7 +21,7 @@ end
 
 MOD.NoCoined = true
 
-MOD.Description = "This item awaits the tome..."
+MOD.Description = "Tomes have a chance to not corrupt this item."
 
 MOD.Tiers = {
 	{ 1, 1 },

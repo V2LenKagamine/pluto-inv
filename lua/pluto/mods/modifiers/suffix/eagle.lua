@@ -13,14 +13,14 @@ function MOD:IsNegative(roll)
 end
 
 function MOD:CanRollOn(class)
-	return not not class.Ironsights
+	return class.Ironsights or false 
 end
 
 function MOD:FormatModifier(index, roll)
 	return string.format("%.01f", roll)
 end
 
-MOD.Description = "Shows everything within %s meters after aiming down sights for 2 seconds. Each penetration point removes 0.1 meters."
+MOD.Description = "Shows everything within %s meters after aiming down sights for 2 seconds; penetration points increase time needed by 1/40th a second."
 
 MOD.Tiers = {
 	{ 15, 20 },
@@ -49,8 +49,7 @@ function MOD:ModifyWeapon(wep, rolls)
 
 	local ang = math.cos(math.rad(15))
 	hook.Add("PostDrawOpaqueRenderables", wep, function(self)
-		local dist = dist - self:GetPenetration() * 0.1 * 39.37
-		if (not self:GetIronsights() or self:GetIronsightsTime() + 2 > CurTime()) then
+		if (not self:GetIronsights() or self:GetIronsightsTime() + 2 + (self:GetPenetration() * 0.025) > CurTime()) then
 			return
 		end
 

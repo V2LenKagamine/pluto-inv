@@ -375,14 +375,18 @@ concommand.Add("pluto_prepare_round", function(ply, cmd, args)
     if (forfun) then
         pluto.rounds.forfun = true
     end
-
+    local success,msg
     if (queue) then
-        local success, msg = pluto.rounds.queue(name, ply:SteamID64())
+        success, msg = pluto.rounds.queue(name, ply:SteamID64())
     else
-        local success, msg = pluto.rounds.prepare(name)
+        success, msg = pluto.rounds.prepare(name)
     end
-
-    ply:ChatPrint(msg)
+    if (success) then
+        ply:ChatPrint("Sure Thing: " .. msg)
+    else
+        ply:ChatPrint("No can do: " .. msg)
+    end
+    
 end)
 
 concommand.Add("pluto_clear_round", function(ply, cmd, args)

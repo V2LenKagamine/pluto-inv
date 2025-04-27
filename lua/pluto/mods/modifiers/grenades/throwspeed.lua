@@ -5,6 +5,7 @@ MOD.Type = "prefix"
 MOD.ItemType = "Grenade"
 MOD.StatModifier = "Velocity"
 MOD.Name = "Throw Power"
+MOD.AffectedStats = {"Throw"}
 MOD.Tags = {
 	"speed"
 }

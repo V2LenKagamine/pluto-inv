@@ -21,7 +21,8 @@ function ENT:Initialize()
 end
 
 function ENT:Whiz()
-	if self.wizz or GetViewEntity()==self.source:GetOwner() then
+    if(not GetViewEntity() or not self.source) then return end
+	if (self.wizz or GetViewEntity()==self.source:GetOwner()) then
 		return
 	end
 	local listenpos=GetViewEntity():EyePos()
