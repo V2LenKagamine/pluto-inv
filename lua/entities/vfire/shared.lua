@@ -784,14 +784,13 @@ if SERVER then
 		local damageEnabled = vFireEnableDamage and vFireDamageMultiplier > 0
 
 		-- Who is the owner of the fire? This will likely be the doer of the damage
-		local owner = self:GetOwner()
-		if !IsValid(owner) then owner = nil end
+		local Dmgowner = self:GetOwner()
+		if !IsValid(Dmgowner) then Dmgowner = nil end
 
 		-- How much damage are we doing this burn cycle?
-		local amount = self.life * math.Rand(0.01, 0.08) * vFireDamageMultiplier
+		local amount = self.life * 0.04 * vFireDamageMultiplier
 		
 
-        --[[
 		-- Loop through whatever we're burning
 		for k, ent in pairs(self.burning) do
 			
@@ -816,7 +815,7 @@ if SERVER then
 						dmg:SetDamageType(ent.vFireDamageData.dmgType)
 
 						-- Who's in charge of doing the burning?
-						local doer = owner or ent
+						local doer = Dmgowner or ent
 						dmg:SetAttacker(doer)
 
 						if ent.vFireDamageData.inflict then
@@ -834,7 +833,7 @@ if SERVER then
 					if ent:IsPlayer() and math.random(1, 4) == 1 or !ent:IsPlayer() then
 						local newFeed = self.feed + vFireTakeFuel(ent, 12)
 						if newFeed > 0 then
-							CreateVFire(ent, ent:GetPos(), Vector(), newFeed, self)
+							CreateVFire(ent, ent:GetPos(), Vector(), newFeed, self:GetOwner())
 						end
 					end
 				end
@@ -846,7 +845,6 @@ if SERVER then
 
 			end
 		end
-        ]]
 
 		-- Damage the parent as well (it's not in our burning table)
 		local parent = self.parent
@@ -868,13 +866,13 @@ if SERVER then
 				-- A workaround to find the doer of the damage
 				local doer
 				if parent:Health() - dmg:GetDamage() <= 0 then -- We're about to die, register the actual owner for the kill to register...
-					doer = owner or parent
+					doer = Dmgowner or parent
 				else -- Set the attacker to itself, this makes NPCs have better reaction sounds... :/
 					doer = parent
 				end
 				dmg:SetAttacker(doer)
 
-				if parent.vFireDamageData.inflict then
+				if self.vFireDamageData.inflict then
 					dmg:SetInflictor(doer) -- Not passing an inflictor can cause crashes on entities that want one
 				end
 
@@ -935,7 +933,7 @@ if SERVER then
 						if vFireIsVFireEnt(ent) then return end
 						local newFeed = self.feed + vFireTakeFuel(ent, 12)
 						if newFeed > 0 then
-							CreateVFire(ent, tr.HitPos, tr.HitNormal, newFeed, self)
+							CreateVFire(ent, tr.HitPos, tr.HitNormal, newFeed, self:GetOwner())
 						end
 					end
 
@@ -962,7 +960,7 @@ if SERVER then
 						local newFire
 						local newFeed = self.feed + vFireTakeFuel(ent, 12)
 						if newFeed > 0 then
-							newFire = CreateVFire(ent, tr.HitPos, tr.HitNormal, newFeed, self)
+							newFire = CreateVFire(ent, tr.HitPos, tr.HitNormal, newFeed, self:GetOwner())
 						end
 						
 						if IsValid(newFire) then

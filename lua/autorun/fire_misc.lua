@@ -164,7 +164,7 @@ if SERVER then
 	vFireFuelThinkTickRate = 2
 	vFireLifeThinkTickRate = 1.15
 	vFireEatThinkTickRate = 2
-	vFireBurnThinkTickRate = 1.5
+	vFireBurnThinkTickRate = 0.5
 	vFireDropThinkTickRate = 3
 	vFireSpreadThinkTickRate = 2
 
@@ -576,7 +576,12 @@ if SERVER then
 	---------------------------------------------------------------------------]]
 
 	function vFireSetDamageData(fire)
-        local ent = fire:GetParent()
+        local ent
+        if(vFireIsVFireEnt(ent)) then
+            ent = fire:GetParent()
+        else
+            ent = fire
+        end
         if (not ent) then return end
 		if ent.IsPlayer() then
 			ent.vFireDamageData = {dmgMul = 5, dmgType = DMG_BURN}

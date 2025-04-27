@@ -116,7 +116,7 @@ if SERVER then
 		timer.Simple(0, function() -- Time it to avoid changing any sort of collision rules on a collision hook
 			if !IsValid(parent) and !parent:IsWorld() then return end
 			if !self.feedCarry then return end
-			local fire = CreateVFire(parent, pos, normal, self.feedCarry * feedFactor, self)
+			local fire = CreateVFire(parent, pos, normal, self.feedCarry * feedFactor, self:GetOwner())
 
 			if IsValid(fire) then
 				fire:ChangeLife(self.life * (1 - feedFactor))
@@ -245,7 +245,9 @@ function ENT:Initialize()
 	if SERVER then
 		-- The ignore table
 		self.ignore = {}
-		self:Ignore(self:GetOwner())
+        if(IsValid(self:GetOwner())) then
+            self:Ignore(self:GetOwner())
+        end
 
 		-- What is the probability of sticking fire? Default is skip every 3rd impact
 		self.stickProbability = 2/3
@@ -345,11 +347,8 @@ function ENT:Think()
 	end
 
 	if SERVER then
-
 		-- Decrease life
 		self:ChangeLife(self.life - 1)
-
-
 	end
 
 	if SERVER then self:NextThink(CurTime() + serverTickRate) end

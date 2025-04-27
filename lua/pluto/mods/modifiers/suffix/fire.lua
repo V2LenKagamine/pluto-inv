@@ -34,7 +34,7 @@ function MOD:OnShoot(wep, rolls, trce, dmg, state)
     if(trce.Entity) then
         if(trce.Entity:IsWorld()) then
             if(math.Rand(0,100) < wep:ScaleRollType("damage",rolls[1])) then
-                CreateVFireBall(5,5,trce.HitPos,vector_origin,dmg:GetAttacker())
+                CreateVFire(trce.Entity,trce.HitPos,vector_origin,dmg:GetDamage()*1.5,dmg:GetAttacker())
             end
         end
     end
@@ -88,7 +88,7 @@ function pluto.statuses.fire.DoThink(ent)
     local vic = ent:GetParent()
     local visFire = ent.VFireP
     if(vic and not IsValid(visFire)) then
-        visFire = CreateVFire(vic,vic:GetPos(),vector_origin,10,ent.Data.Dealer)
+        visFire = CreateVFire(vic,vic:GetPos(),vector_origin,100,ent.Data.Dealer)
         visFire.vFireDamageData = {dmgMul = 0, dmgType = DMG_BURN}
         visFire:Spawn()
         ent.VFireP = visFire

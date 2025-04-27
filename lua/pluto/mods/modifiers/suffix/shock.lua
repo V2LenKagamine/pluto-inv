@@ -76,7 +76,7 @@ function pluto.statuses.shock.DoThink(ent)
     local vic = ent:GetParent()
 
     local stax = ent.Data.TicksLeft
-    ent.Data.Zapp = (ent.Data.Zapp or 0 ) + 0.9
+    ent.Data.Zapp = (ent.Data.Zapp or 0 ) + 1
 
     if (stax >= 15) then
         pluto.statuses.shock.DoShock(self,true)
@@ -89,7 +89,7 @@ function pluto.statuses.shock.DoShock(ent,forced)
 
     local todeal
     if(forced) then
-        todeal = (0.9 * 15) * 1.2
+        todeal = 15 * 1.2
     else 
         todeal = ent.Data.Zapp or 0
         ent.Data.Zapp = 0

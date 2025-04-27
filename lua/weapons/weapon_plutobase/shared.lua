@@ -98,7 +98,7 @@ function SWEP:ReceivePlutoData()
 			if (mod and mod.StatModifierValues) then
 				for _, modifier in pairs(mod.StatModifierValues) do
                     for idx = 1, #mod_data.Roll do
-					    self.Pluto[modifier] = (self.Pluto[modifier] or 0) + (rolls[idx] or 0 / 100)
+					    self.Pluto[modifier] = (self.Pluto[modifier] or 0) + ((rolls[idx] or 0) / 100)
                     end
 				end
             end

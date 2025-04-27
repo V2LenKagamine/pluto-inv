@@ -70,12 +70,11 @@ if SERVER then
                 local todeal = DamageInfo()
                 todeal:SetAttacker(self.data.Attacker)
                 todeal:SetDamage(self.data.Damage)
-                todeal:SetDamageForce(self.data.Force * normvec)
+                todeal:SetDamageForce(((self.source.PropForce or 1) * normvec) * 5000) -- SCREW YOU MOVE DAMMIT
                 todeal:SetDamagePosition(trace.HitPos)
                 todeal:SetInflictor(self.source)
                 todeal:SetReportedPosition(self.position)
                 todeal:SetDamageType(DMG_BULLET)
-                todeal:ScaleDamage(self.source:GetHitgroupScale(trace.HitGroup))
                 self.data.Callback(self.data.Attacker,trace,todeal)
                 if(trace.Entity:GetClass() == "func_breakable_surf") then
                     trace.Entity:DispatchTraceAttack(todeal,trace,normvec)

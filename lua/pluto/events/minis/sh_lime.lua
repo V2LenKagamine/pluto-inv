@@ -46,7 +46,7 @@ if (SERVER) then
         lime:Give "weapon_ttt_fists"
         lime:Give "weapon_ttt_magneto"
 
-        pluto.rounds.Notify("RDM " .. lime:Nick() " Round! Kill them to absorb their power!", Color(85, 255, 0))
+        pluto.rounds.Notify("RDM " .. lime:Nick() .. " Round! Kill them to absorb their power!", Color(85, 255, 0))
 
         hook.Add("PlayerDeath", "pluto_mini_" .. name, function(vic, inf, atk)
             if (not IsValid(vic) or vic ~= lime) then

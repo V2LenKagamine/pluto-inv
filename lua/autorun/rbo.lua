@@ -201,6 +201,7 @@ local function runCallback(attacker, tr, dmginfo)
         wep.rbo_no_refire = true
 		wep:FireBullets({
             Attacker = attacker,
+            Force = dmginfo.Force,
 			Num = 1,
 			Src = trace.HitPos + dir,
 			Dir = dir,
@@ -233,10 +234,8 @@ if SERVER then
 			    runCallback(attacker, tr, dmginfo)
 		    end
 	    else
-		    info.Callback = runCallback
-            
+		    info.Callback = runCallback 
 	    end
-
 	    local sup=RBOGetSupported(info.AmmoType)
         local SndVec = Vector(0,0,-514)
 	    for i=1,info.Num do
