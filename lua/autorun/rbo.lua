@@ -219,9 +219,9 @@ if SERVER then
 	        ent.rbo_no_refire = false
 	    	return true
 	    end
-
+        local wep
 	    if ent:IsPlayer() or ent:IsNPC() then
-		    local wep=ent:GetActiveWeapon()
+		    wep=ent:GetActiveWeapon()
 		    if IsValid(wep) and wep:IsScripted() then
 		    	info.AmmoType=weapons.Get(wep:GetClass()).Primary.Ammo
 		    end
@@ -238,6 +238,9 @@ if SERVER then
 	    end
 	    local sup=RBOGetSupported(info.AmmoType)
         local SndVec = Vector(0,0,-514)
+        if (wep) then
+            wep:GetOwner():LagCompensation(true)
+        end
 	    for i=1,info.Num do
 		    local bullet=ents.Create("rbo_bullet")
 		    local right=info.Dir:Angle():Right()
@@ -256,8 +259,12 @@ if SERVER then
 		    bullet.source=ent
 		    bullet.data=table.Copy(info)
 		    bullet:SetPos(info.Src)
+            bullet:SetLagCompensated(true)
 		    bullet:Spawn()
 	    end
+        if(wep) then
+            wep:GetOwner():LagCompensation(false)
+        end
 	return false
     end)
 end

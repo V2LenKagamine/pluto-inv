@@ -8,8 +8,7 @@ matproxy.Add({
     bind = function( self, mat, ent )
             local Place = self.ResultTo
             local texture
-
-            if (LocalPlayer():GetActiveWeapon() ~= nil) then
+            if (IsValid(LocalPlayer():GetActiveWeapon())) then
                 if(LocalPlayer():GetActiveWeapon():GetClass() ~= "weapon_hemlok") then return end
                 local OurWeapon = LocalPlayer():GetActiveWeapon()
                 local KnowYourPlace = string.sub(string.reverse(OurWeapon:Clip1()), Place, Place)

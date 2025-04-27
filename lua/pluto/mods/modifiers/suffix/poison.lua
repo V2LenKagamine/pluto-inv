@@ -38,7 +38,7 @@ end
 function MOD:PostDamage(wep, rolls, vic, dmginfo, state)
 	if (state.poisonstacks) then
 		dmginfo:SetDamage(dmginfo:GetDamage() - state.poisonstacks)
-		self:DoStuff(target,dmg:GetAttacker() , state.poisonstacks)
+		self:DoStuff(target,dmginfo:GetAttacker() , state.poisonstacks)
 	end
 end
 
