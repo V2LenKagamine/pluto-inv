@@ -9,8 +9,9 @@ MOD.Tags = {
 	"damage"
 }
 
-function MOD:IsNegative(roll)
-	return roll < 0
+function MOD:IsNegative(idx,roll)
+    if(idx == 1) then return false end
+    if(idx == 2) then return true end
 end
 
 function MOD:GetDamageMult(rolls)
@@ -18,16 +19,18 @@ function MOD:GetDamageMult(rolls)
 end
 
 function MOD:FormatModifier(index, roll)
-	return string.format("%.01f%%", roll)
+    local rtn = roll
+    if(index == 2) then rtn = - rtn end
+	return string.format("%.01f%%", rtn)
 end
 
 MOD.Description = "Damage +%.01f%%; Firerate -%.01f%%."
 
 MOD.Tiers = {
-	{ 10, 15, -7.5, -10 },
-	{ 6, 10, -5, -7.5 },
-	{ 3, 6, -3, -5 },
-	{ 1, 3, -0.5, -3 },
+	{ 10, 15, 7.5, 10 },
+	{ 6, 10, 5, 7.5 },
+	{ 3, 6, 3, 5 },
+	{ 1, 3, 0.5, 3 },
 }
 
 return MOD

@@ -220,7 +220,7 @@ if SERVER then
 	    	return true
 	    end
         local wep
-	    if ent:IsPlayer() or ent:IsNPC() then
+	    if (ent:IsPlayer() or ent:IsNPC()) then
 		    wep=ent:GetActiveWeapon()
 		    if IsValid(wep) and wep:IsScripted() then
 		    	info.AmmoType=weapons.Get(wep:GetClass()).Primary.Ammo
@@ -256,6 +256,7 @@ if SERVER then
 		    bullet:SetDTEntity(RBO_BULLET_ENT_SHOOTER,ent)
 		    bullet:SetDTString(RBO_BULLET_STR_AMMOTYPE,info.AmmoType)
 		
+            bullet.bostonbasher = info.Attacker
 		    bullet.source=ent
 		    bullet.data=table.Copy(info)
 		    bullet:SetPos(info.Src)

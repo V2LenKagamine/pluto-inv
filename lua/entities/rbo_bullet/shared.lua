@@ -53,6 +53,9 @@ if SERVER then
                 if(ent == self.source or ent == self.source:GetOwner() or ent:GetClass() == "rbo_bullet") then 
                     return false
                 end
+                --The following line prevents you from shooting yourself if you fire and drop the weapon on the same game tick.
+                --The above is suprisingly easy to do if you try. Comment it out and try it yourself!
+                if(ent == self.bostonbasher) then return false end
                 return true 
             end
 	    })

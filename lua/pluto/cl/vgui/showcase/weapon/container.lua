@@ -232,11 +232,7 @@ function PANEL:AddPrefix(prefix, item)
 	name:SetRenderSystem(pluto.fonts.systems.shadow)
 	name:SetTextColor(Color(255, 255, 255))
     local rolls = pluto.mods.getrolls(MOD, prefix.Tier, prefix.Roll)
-    if(self.LastControlState) then
-        name:SetText(MOD:GetDescription(rolls))
-    else
-        name:SetText(MOD:GetTierName(prefix.Tier))
-    end
+    name:SetText(MOD:GetTierName(prefix.Tier))
 	name:SizeToContentsY(2)
 	name:SetContentAlignment(4)
 
@@ -248,7 +244,7 @@ function PANEL:AddPrefix(prefix, item)
         else
             pluto.error("MOD ON " .. item.ClassName .. " HAD NO AFFECTED STATS! FIX NOW.")
         end
-	    local txt = pluto.mods.shortname(stat_check) .. ": " .. MOD:FormatModifier(1, rolls[idx])
+	    local txt = pluto.mods.shortname(stat_check) .. ": " .. MOD:FormatModifier(idx, rolls[idx])
 	    local min, max = MOD:GetMinMax(idx)
         
 	    if (not min or not max) then
@@ -269,22 +265,28 @@ function PANEL:AddPrefix(prefix, item)
 
         local text = txt
 	    if (self.LastControlState) then
-		    text = string.format("%s (%s to %s)", txt, MOD:FormatModifier(idx, tier_min), MOD:FormatModifier(idx, tier_max))
+		    text = string.format("%s (%s to %s)", txt, tier_min, idx, tier_max)
 	    end
         local bar = container:Add("pluto_showcase_bar")
         bar:CopyBounds(name)
-        bar:SetHeight(12)
+        bar:SetHeight(6)
         if(self.LastControlState) then
             bar:SetWide(self:GetWide()-200)
-            bar:SetPos(bar:GetX() + 180,bar:GetY() + 2 + (idx*14))
+            bar:SetPos(bar:GetX() + 184,bar:GetY() + 6 + (idx*14))
         else
             bar:SetWide(self:GetWide()-100)
-            bar:SetPos(bar:GetX() + 80,bar:GetY() + 2 + (idx*14))
+            bar:SetPos(bar:GetX() + 84,bar:GetY() + 6 + (idx*14))
         end
-        local positive = not MOD:IsNegative(rolls[idx])
+        local positive = not MOD:IsNegative(idx,rolls[idx])
+        if(tier_min_per == 0) then
+            tier_min_per = 0.004
+        end
+        if(tier_max_per == 0) then
+            tier_max_per = 0.004
+        end
         if(positive) then
             bar:AddFilling(tier_min_per, "", Color(0, 255, 0))
-            bar:AddFilling(cur_value - tier_min_per, "", Color(165, 255, 0))
+            bar:AddFilling(cur_value - tier_min_per, "", Color(200, 255, 0))
             bar:AddFilling(tier_max_per - cur_value, "", Color(125, 125, 125))
         else
             bar:AddFilling(tier_min_per, "", Color(255, 0, 0))

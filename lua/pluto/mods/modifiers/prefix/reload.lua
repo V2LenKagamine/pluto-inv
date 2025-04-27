@@ -9,8 +9,9 @@ MOD.Tags = {
 	"reload", "speed"
 }
 
-function MOD:IsNegative(roll)
-	return roll < 0
+function MOD:IsNegative(idx,roll)
+    if(idx == 1) then return roll < 0 end
+    if(idx == 2) then return true end
 end
 
 function MOD:FormatModifier(index, roll)

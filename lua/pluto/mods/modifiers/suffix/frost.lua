@@ -9,7 +9,7 @@ MOD.Tags = {
 }
 
 function MOD:IsNegative(roll)
-	return roll < 0
+	return false
 end
 
 
@@ -84,7 +84,7 @@ function pluto.statuses.frost.DoThink(ent)
     local vic = ent:GetParent()
 
     local stax = ent.Data.TicksLeft
-    local todeal = 0.75
+    local todeal = 1.1
     local frostLvl = 1 + math.floor(stax / 6)
 
     todeal = todeal * frostLvl

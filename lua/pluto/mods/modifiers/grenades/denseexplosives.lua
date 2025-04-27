@@ -6,7 +6,7 @@ MOD.Tags = {
 }
 
 function MOD:IsNegative(roll)
-	return roll < 0
+	return false 
 end
 
 function MOD:FormatModifier(index, roll)

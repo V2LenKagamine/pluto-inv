@@ -9,21 +9,24 @@ MOD.Tags = {
 	"rpm", "speed"
 }
 
-function MOD:IsNegative(roll)
-	return roll < 0
+function MOD:IsNegative(idx,roll)
+    if(idx == 1) then return false end
+    if(idx == 2) then return true end
 end
 
 function MOD:FormatModifier(index, roll)
-	return string.format("%.01f%%", roll)
+    local rtn = roll
+    if(index == 1) then rtn = - rtn end
+	return string.format("%.01f%%", rtn)
 end
 
 MOD.Description = "Firerate +%.01f%%; Damage -%.01f%%"
 
 MOD.Tiers = {
-	{ 15, 20, -5, -7.5 },
-	{ 10, 15, -3, -5 },
-	{ 6, 10, -1.5, -3 },
-	{ 1, 6, -0.5, -1.5 },
+	{ -15, -20, -5, -7.5 },
+	{ -10, -15, -3, -5 },
+	{ -6, -10, -1.5, -3 },
+	{ -1, -6, -0.5, -1.5 },
 }
 
 return MOD

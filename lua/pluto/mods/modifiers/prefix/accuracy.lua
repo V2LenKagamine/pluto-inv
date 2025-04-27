@@ -9,21 +9,26 @@ MOD.Tags = {
 	"accuracy"
 }
 
-function MOD:IsNegative(roll)
-	return roll > 0
+function MOD:IsNegative(idx,roll)
+    if(idx == 1) then return false end
+    if(idx == 2) then return true end
+    if(idx == 3) then return true end
 end
 
 function MOD:FormatModifier(index, roll)
-	return string.format("%.01f%%", roll)
+    local rtn = roll
+    if(index == 1) then rtn = - rtn end
+    if(index == 3) then rtn = - rtn end
+	return string.format("%.01f%%", rtn)
 end
 
 MOD.Description = "Accuracy +%.01f%%; Firerate -%.01f%%; Clipsize -%.01f%%."
 
 MOD.Tiers = {
-	{ -25, -35, 3.75, 5, 12.5, 20},
-	{ -15, -25, 2.5, 3.75, 5, 12.5},
-	{ -7.5, -15, 1.25, 2.5, 2.5, 5},
-	{ -1, -7.5, 0.25, 1.25, 1.25, 2.5},
+	{ -25, -35, -3.75, -5, 12.5, 20},
+	{ -15, -25, -2.5, -3.75, 5, 12.5},
+	{ -7.5, -15, -1.25, -2.5, 2.5, 5},
+	{ -1, -7.5, -0.25, -1.25, 1.25, 2.5},
 }
 
 function MOD:ModifyWeapon(wep, roll)

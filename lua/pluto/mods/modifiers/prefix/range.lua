@@ -11,12 +11,15 @@ MOD.Tags = {
 	"range"
 }
 
-function MOD:IsNegative(roll)
-	return roll < 0
+function MOD:IsNegative(idx,roll)
+    if(idx == 1) then return false end
+    if(idx == 2) then return true end
 end
 
 function MOD:FormatModifier(index, roll)
-	return string.format("%.01f%%", roll)
+    local rtn = roll
+    if(index == 2) then rtn = - rtn end
+	return string.format("%.01f%%", rtn)
 end
 
 MOD.Description = "Range +%.01f%%; Recoil +%.01f%%"

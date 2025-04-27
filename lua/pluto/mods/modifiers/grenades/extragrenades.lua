@@ -6,11 +6,11 @@ MOD.AffectedStats = {"ClipSize"}
 MOD.Tags = {}
 
 function MOD:IsNegative(roll)
-	return roll < 0
+	return false
 end
 
 function MOD:FormatModifier(index, roll)
-	return string.format("%i", roll)
+	return string.format("%.1f%%", roll)
 end
 
 function MOD:CanRollOn(wep)

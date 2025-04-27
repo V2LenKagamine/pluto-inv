@@ -10,7 +10,7 @@ MOD.Tags = {
 MOD.Color = Color(211, 111, 3)
 
 function MOD:IsNegative(roll)
-	return roll < 0
+	return false
 end
 
 function MOD:FormatModifier(index, roll)
@@ -97,10 +97,10 @@ function pluto.statuses.fire.DoThink(ent)
     local stax = ent.Data.TicksLeft
     local todeal = 0.1
     if(stax >= 12) then
-        todeal = 0.4
+        todeal = 0.46
         ent.Data.TicksLeft = ent.Data.TicksLeft + 0.5
     elseif(stax < 12 and stax >= 6) then
-        todeal = 0.2
+        todeal = 0.22
         ent.Data.TicksLeft = ent.Data.TicksLeft + 0.25
     end
 

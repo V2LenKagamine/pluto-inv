@@ -3,11 +3,11 @@
      * file, You can obtain one at https://mozilla.org/MPL/2.0/. ]]
 MOD.Type = "suffix"
 MOD.Name = "Elasticity"
-MOD.AffectedStats = { "Bounce"}
+MOD.AffectedStats = { "Bounce" }
 MOD.Tags = {}
 
 function MOD:IsNegative(roll)
-	return roll < 0
+	return false
 end
 
 function MOD:FormatModifier(index, roll)

@@ -9,7 +9,7 @@ MOD.Tags = {
 }
 
 function MOD:IsNegative(roll)
-	return roll < 0
+	return false
 end
 
 function MOD:FormatModifier(index, roll)
@@ -19,9 +19,9 @@ end
 MOD.Description = "%s of Damage dealt is converted to Bleed; Bleed does more damage to running targets."
 
 MOD.Tiers = {
-	{ 25, 30 },
-	{ 10, 25 },
-	{ 5,  10 },
+	{ 25, 35 },
+	{ 15, 25 },
+	{ 5, 15 },
 }
 
 function MOD:ModifyWeapon(wep, rolls)
@@ -79,13 +79,13 @@ function pluto.statuses.bleed.DoThink(ent)
     local stax = ent.Data.TicksLeft
     local todeal
     if(stax >= 7.5) then
-        todeal = 3
+        todeal = 3.2
         ent.Data.TicksLeft = ent.Data.TicksLeft - 1
     else
-        todeal = 1
+        todeal = 1.6
     end
     if(vic:GetVelocity():LengthSqr() > vic:GetSlowWalkSpeed()^2) then
-        todeal = todeal * 1.5
+        todeal = todeal * 1.25
     end
 
     local dinfo = DamageInfo()

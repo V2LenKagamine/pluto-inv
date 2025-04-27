@@ -191,12 +191,10 @@ function pluto.mods.getitemvalue(item, name)
 	if (item.Mods and item.Mods.prefix) then
 		for _, mod in pairs(item.Mods.prefix) do
 			local MOD = pluto.mods.byname[mod.Mod]
-			if (MOD.StatModifier ~= name) then
-				continue
-			end
-
-			local rolls = pluto.mods.getrolls(MOD, mod.Tier, mod.Roll)
-			modifier = modifier + rolls[1] / 100
+            for idx=1, (#(MOD.Tiers[mod.Tier]) / 2) do
+			    local rolls = pluto.mods.getrolls(MOD, mod.Tier, mod.Roll)
+                modifier = modifier + (rolls[idx] / 100)
+            end
 		end
 	end
 	

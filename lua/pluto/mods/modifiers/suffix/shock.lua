@@ -61,24 +61,22 @@ function MOD:DoStuff(target, atk, stacks)
         status.Data = {
             Dealer = atk,
             OnThink = pluto.statuses.shock.DoThink,
-            TicksLeft = stacks,
-            ThinkDelay = 0.75,
+            TicksLeft = 10,
+            ThinkDelay = 0.5,
             OnExpire = pluto.statuses.shock.DoShock,
+            Stax = stacks,
         }
         status:Spawn()
     else
-        status.Data.TicksLeft = status.Data.TicksLeft + stacks
+        status.Data.Stax = stacks
+        status.Data.TicksLeft = 10
     end
 end
 
 function pluto.statuses.shock.DoThink(ent)
     if(not ent) then return end
-    local vic = ent:GetParent()
 
-    local stax = ent.Data.TicksLeft
-    ent.Data.Zapp = (ent.Data.Zapp or 0 ) + 1
-
-    if (stax >= 15) then
+    if (ent.Data.Stax >= 15) then
         pluto.statuses.shock.DoShock(self,true)
     end
 end
@@ -89,10 +87,9 @@ function pluto.statuses.shock.DoShock(ent,forced)
 
     local todeal
     if(forced) then
-        todeal = 15 * 1.2
+        todeal = 9.9 * 1.2
     else 
-        todeal = ent.Data.Zapp or 0
-        ent.Data.Zapp = 0
+        dodeal = ent.Data.Stax * 0.66
     end
     
     local dinfo = DamageInfo()
