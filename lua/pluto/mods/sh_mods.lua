@@ -189,12 +189,21 @@ function pluto.mods.getitemvalue(item, name)
 
 	local override, modifier = pluto.stattranslate(name)
 	if (item.Mods and item.Mods.prefix) then
+        local to_check = name
+        if(name == "DamageDropoffRangeMax") then
+            to_check = "DamageDropoffRange"
+        end
 		for _, mod in pairs(item.Mods.prefix) do
 			local MOD = pluto.mods.byname[mod.Mod]
+            local bonus = 0
             for idx=1, (#(MOD.Tiers[mod.Tier]) / 2) do
+                if (MOD.AffectedStats[idx] ~= to_check) then
+				    continue
+			    end
 			    local rolls = pluto.mods.getrolls(MOD, mod.Tier, mod.Roll)
-                modifier = modifier + (rolls[idx] / 100)
+                bonus = bonus + (rolls[idx] / 100)
             end
+            modifier = modifier + bonus
 		end
 	end
 	

@@ -55,7 +55,7 @@ function pluto.inv.readcurrencyspawn()
     cur:SetCurrencyAmount(net.ReadUInt(8))
 end
 
-local function getlist()
+function pluto.inv.getcurrlist()
 	local t = {}
 	local n = 1
 	local lpos = LocalPlayer():GetPos()
@@ -79,7 +79,7 @@ hook.Add("PostDrawTranslucentRenderables", "pluto_new_currency_render", function
 
 	local dist = math.min(16000, LocalPlayer():GetCurrencyDistance())
 
-	for _, self in pairs(getlist()) do
+	for _, self in pairs(pluto.inv.getcurrlist()) do
 		cam.IgnoreZ(LocalPlayer():GetCurrencyTime() > CurTime() and dist > self:GetPos():Distance(LocalPlayer():GetPos()))
 
 		render.SetMaterial(self:GetMaterial(true))

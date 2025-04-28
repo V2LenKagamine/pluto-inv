@@ -265,7 +265,7 @@ function PANEL:AddPrefix(prefix, item)
 
         local text = txt
 	    if (self.LastControlState) then
-		    text = string.format("%s (%s to %s)", txt, tier_min, idx, tier_max)
+		    text = string.format("%s (%s to %s)", txt, tier_min, tier_max)
 	    end
         local bar = container:Add("pluto_showcase_bar")
         bar:CopyBounds(name)

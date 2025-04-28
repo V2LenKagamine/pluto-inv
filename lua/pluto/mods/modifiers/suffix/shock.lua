@@ -61,14 +61,14 @@ function MOD:DoStuff(target, atk, stacks)
         status.Data = {
             Dealer = atk,
             OnThink = pluto.statuses.shock.DoThink,
-            TicksLeft = 10,
+            TicksLeft = 6,
             ThinkDelay = 0.5,
             OnExpire = pluto.statuses.shock.DoShock,
             Stax = stacks,
         }
         status:Spawn()
     else
-        status.Data.Stax = stacks
+        status.Data.Stax = status.Data.Stax + stacks
         status.Data.TicksLeft = 10
     end
 end
@@ -76,8 +76,8 @@ end
 function pluto.statuses.shock.DoThink(ent)
     if(not ent) then return end
 
-    if (ent.Data.Stax >= 15) then
-        pluto.statuses.shock.DoShock(self,true)
+    if (ent.Data.Stax >= 20) then
+        pluto.statuses.shock.DoShock(ent,true)
     end
 end
 
@@ -85,23 +85,23 @@ function pluto.statuses.shock.DoShock(ent,forced)
     if(not ent) then return end
     local vic = ent:GetParent()
 
-    local todeal
+    local todeal = ent.Data.Stax * 0.66
     if(forced) then
-        todeal = 9.9 * 1.2
-    else 
-        dodeal = ent.Data.Stax * 0.66
+        todeal = ent.Data.Stax * .88
     end
-    
+    ent.Data.Stax = 0
     local dinfo = DamageInfo()
     if(IsValid(ent.Data.Dealer)) then
         dinfo:SetAttacker(ent.Data.Dealer)
     else
         dinfo:SetAttacker(game.GetWorld())
     end
-    dinfo:SetDamageType(DMG_DIRECT + DMG_DISSOLVE)
+    dinfo:SetDamageType(DMG_DIRECT + DMG_BULLET)
     dinfo:SetDamagePosition(vic:GetPos())
     dinfo:SetDamage(todeal)
-    vic:TakeDamageInfo(dinfo)
+    if(dinfo:GetDamage() > 0) then
+        vic:TakeDamageInfo(dinfo)
+    end
 end
 
 return MOD

@@ -95,7 +95,7 @@ function pluto.statuses.frost.DoThink(ent)
     else
         dinfo:SetAttacker(game.GetWorld())
     end
-    dinfo:SetDamageType(DMG_DIRECT + DMG_DROWN)
+    dinfo:SetDamageType(DMG_DIRECT + DMG_BULLET)
     dinfo:SetDamagePosition(vic:GetPos())
     dinfo:SetDamage(todeal)
     vic:TakeDamageInfo(dinfo)
