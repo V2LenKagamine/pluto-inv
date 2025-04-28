@@ -9,12 +9,15 @@ MOD.Tags = {
 	"recoil"
 }
 
-function MOD:IsNegative(roll)
-	return roll < 0
+function MOD:IsNegative(idx,roll)
+    if(idx == 1) then return false end
+    if(idx == 2) then return true end
 end
 
 function MOD:FormatModifier(index, roll)
-	return string.format("%.01f%%", roll)
+    local rtn = roll
+    if(index == 1) then rtn = - rtn end
+	return string.format("%.01f%%", rtn)
 end
 
 MOD.Description = "Range -%.01f%%; Recoil -%.01f%%"
@@ -24,10 +27,10 @@ function MOD:ModifyWeapon(wep, roll) --And here is why.
 end
 
 MOD.Tiers = {
-	{ -15, -20, 35, 50 },
-	{ -10, -15, 25, 35 },
-	{ -5, -10, 15, 25 },
-	{ -2.5, -5, -15, 15 },
+	{ 15, 20, -35, -50 },
+	{ 10, 15, -25, -35 },
+	{ 5, 10, -15, -25 },
+	{ 2.5, 5, 15, -15 },
 }
 
 return MOD

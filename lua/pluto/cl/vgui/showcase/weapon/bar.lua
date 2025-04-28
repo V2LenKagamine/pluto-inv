@@ -29,6 +29,7 @@ function PANEL:Paint(w, h)
 	surface.SetDrawColor(85, 85, 85)
 	ttt.DrawCurvedRect(0, 0, w, h - 1, 2)
 	local x = 1
+    local cntr = 1
 	for _, bar in ipairs(self.Bars) do
 		local bw = math.Round((w - 2) * bar.Percent)
 
@@ -37,10 +38,12 @@ function PANEL:Paint(w, h)
 		surface.SetDrawColor(bar.Color)
 		ttt.DrawCurvedRect(0, 0, w, h - 1, 2)
 		x = x + bw
-		surface.SetDrawColor(255, 255, 255)
-		surface.DrawLine(x - 1, 0, x - 1, h - 2)
+        if(cntr % 2 ~= 0) then
+            surface.SetDrawColor(255, 255, 255)
+	        surface.DrawLine(x - 1.5, 0, x - 1.5, h - 2)
+        end
+        cntr = cntr + 1
 	end
-
 	render.SetScissorRect(0, 0, 0, 0, false)
 end
 

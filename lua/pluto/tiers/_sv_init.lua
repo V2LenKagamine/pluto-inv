@@ -5,15 +5,20 @@ local share_count = {
 	common = 50000,
 	confused = 1000,
 	junk = 600000,
-	otherworldly = 500,
+	otherworldly = 500, 
 	shadowy = 750,
 	uncommon = 10000,
 	vintage = 300000,
-	unstable = 100,
 	powerful = 10000,
-	stable = 7000,
-	mystical = 1000,
+	stable = 7000, 
+	mystical = 1000, 
+
+    unstable = 100,
+    stabilized = 100,
+    explosive = 100,
 }
+--Guns = 980250w
+--Grenades = 100w
 
 for _, typelist in pairs(pluto.tiers.bytype) do
 	typelist.shares = 0

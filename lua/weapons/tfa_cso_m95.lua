@@ -96,7 +96,8 @@ end
 function SWEP:GetSpread()
 	return BaseClass.GetSpread(self) + Vector(0.2, 0.2) * (1 - self:GetCurrentZoomPercent())
 end
-
+--[[
+This explodes and I CBA to figure out why.
 function SWEP:ScaleRollType(type, roll, init)
 	if (type == "damage") then
 		local ret = roll / 2
@@ -111,7 +112,7 @@ function SWEP:ScaleRollType(type, roll, init)
 	end
 	return roll
 end
-
+]]
 function SWEP:ShootBullet(...)
 	local r = BaseClass.ShootBullet(self, ...)
 

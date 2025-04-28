@@ -41,6 +41,10 @@ pluto.quests.rewardhandlers = {
 					return false
 				end
 
+                if(self.Grenade and not t.Type == "Grenade") then
+                    return false
+                end
+
 				return true
 			end).InternalName
 

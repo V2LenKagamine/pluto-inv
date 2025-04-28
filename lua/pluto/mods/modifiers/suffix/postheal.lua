@@ -34,7 +34,7 @@ function MOD:OnKill(wep, rolls, atk, vic)
 	end
 
 	if (atk:GetRoleTeam() ~= vic:GetRoleTeam()) then
-		self:DoStuff(atk,rolls[1]/100,rolls[2])
+		self:DoStuff(atk,rolls[1],rolls[2])
 	end
 end
 
@@ -62,23 +62,23 @@ function MOD:DoStuff(target, healper, time)
         }
         status:Spawn()
     else
-        status.Data.TicksLeft = status.Data.TicksLeft + stacks
+        status.Data.TicksLeft = status.Data.TicksLeft + time
     end
 end
 
 function pluto.statuses.heal.DoThink(ent)
-    local p = self:GetParent()
+    local p = ent:GetParent()
 	if (not IsValid(p) or not p:IsPlayer() or not p:Alive()) then
-		self:Remove()
+		ent:Remove()
 		return
 	end
 
-	local heal = self.Data.HealPer
+	local heal = ent.Data.HealPer
 	
 	if (p:Health() >= p:GetMaxHealth() or hook.Run("PlutoHealthGain", p, heal)) then
 		return
 	end
 
-	p:SetHealth(math.max(p:GetMaxHealth(), p:Health() + heal))
+	p:SetHealth(math.min(p:GetMaxHealth(), p:Health() + heal))
 end
 return MOD

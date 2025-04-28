@@ -25,14 +25,14 @@ function ENT:Initialize()
     end
     for k,v in pairs(self.Data) do
         if(string.StartsWith(k,"Hook")) then
-            hook.Add(v[1],self .. "_" .. k,v[2])
+            hook.Add(v[1],self.PrintName .. "_" .. self:EntIndex(),v[2])
         end
     end
     hook.Add("Tick",self,self.Tick)
     self:CallOnRemove(self,function(ent,data)
         for k,v in pairs(ent.Data) do
             if(string.StartsWith(k,"Hook")) then
-                hook.Remove(v[1],self .. "_" .. k)
+                hook.Remove(v[1],self.PrintName .. "_" ..  self:EntIndex())
             end
         end
     end)

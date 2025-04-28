@@ -10,7 +10,7 @@ MOD.Tags = {
 MOD.Color = Color(211, 3, 211)
 
 function MOD:IsNegative(roll)
-	return roll < 0
+	return false
 end
 
 function MOD:FormatModifier(index, roll)
@@ -38,7 +38,7 @@ end
 function MOD:PostDamage(wep, rolls, vic, dmginfo, state)
 	if (state.poisonstacks) then
 		dmginfo:SetDamage(dmginfo:GetDamage() - state.poisonstacks)
-		self:DoStuff(target,dmg:GetAttacker() , state.poisonstacks)
+		self:DoStuff(target,dmginfo:GetAttacker() , state.poisonstacks)
 	end
 end
 
@@ -77,7 +77,7 @@ function pluto.statuses.poison.DoThink(ent)
     if(not ent) then return end
     local vic = ent:GetParent()
 
-    local todeal = 0.5
+    local todeal = 0.8
 
     local dinfo = DamageInfo()
     if(IsValid(ent.Data.Dealer)) then
@@ -85,7 +85,7 @@ function pluto.statuses.poison.DoThink(ent)
     else
         dinfo:SetAttacker(game.GetWorld())
     end
-    dinfo:SetDamageType(DMG_DIRECT + DMG_POISON)
+    dinfo:SetDamageType(DMG_DIRECT + DMG_BULLET)
     dinfo:SetDamagePosition(vic:GetPos())
     dinfo:SetDamage(todeal)
     vic:TakeDamageInfo(dinfo)
