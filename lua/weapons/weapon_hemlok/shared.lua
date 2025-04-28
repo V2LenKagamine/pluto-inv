@@ -24,6 +24,9 @@ SWEP.BurstAmount = 3
 SWEP.Secondary.Sound = Sound("Default.Zoom")
 SWEP.HasScope = true
 
+SWEP.AutoSpawnable = false 
+SWEP.PlutoSpawnable = true 
+
 SWEP.Sounds = {
     reload = {
         {time = 0.25,sound = "weapons/hemlok/wpn_hemlok_reload_removemag_fr15_2ch_v1_01.ogg"},
@@ -75,17 +78,13 @@ SWEP.Offset = { --Procedural world model animation, defaulted for CS:S purposes.
 		Scale = 1.0
 }
 
-SWEP.Ortho = {4, 4, angle = Angle(0, -85, 0), size = 0.75}
+SWEP.Ortho = {-6, 12, angle = Angle(35, 180, -52.5), size = 0.65}
 --- TTT config values
 
 -- Kind specifies the category this weapon is in. Players can only carry one of
 -- each. Can be: WEAPON_... MELEE, PISTOL, HEAVY, NADE, CARRY, EQUIP1, EQUIP2 or ROLE.
 -- Matching SWEP.Slot values: 0      1       2     3      4      6       7        8
 SWEP.Kind = WEAPON_HEAVY
-
--- If AutoSpawnable is true and SWEP.Kind is not WEAPON_EQUIP1/2, then this gun can
--- be spawned as a random weapon.
-SWEP.AutoSpawnable = true
 
 -- The AmmoEnt is the ammo entity that can be picked up when carrying this gun.
 SWEP.AmmoEnt = "item_ammo_smg1_ttt"

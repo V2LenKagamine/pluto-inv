@@ -5,7 +5,7 @@ MOD.Type = "suffix"
 MOD.Name = "Lightning"
 MOD.Color = Color(0, 162, 255)
 MOD.Tags = {
-	"damage", "hinder",
+	"damage", "shock", "dot" ,
 }
 
 function MOD:IsNegative(roll)

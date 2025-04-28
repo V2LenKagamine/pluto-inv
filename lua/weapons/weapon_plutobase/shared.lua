@@ -89,17 +89,17 @@ function SWEP:ReceivePlutoData()
 	local data = self:GetInventoryItem()
 
 	for _, modlist in pairs(data.Mods or {}) do
-		for _, mod_data in pairs(modlist) do
+		for idx = 1, #modlist do
+            local mod_data = modlist[idx]
 			local mod = pluto.mods.byname[mod_data.Mod]
             local rolls = pluto.mods.getrolls(mod, mod_data.Tier, mod_data.Roll)
             if (mod and mod.StatModifier) then
 				self.Pluto[mod.StatModifier] = (self.Pluto[mod.StatModifier] or 0) + (rolls[1] / 100)
 			end
 			if (mod and mod.StatModifierValues) then
-				for _, modifier in pairs(mod.StatModifierValues) do
-                    for idx = 1, #mod_data.Roll do
-					    self.Pluto[modifier] = (self.Pluto[modifier] or 0) + ((rolls[idx] or 0) / 100)
-                    end
+                for subidx = 1, #mod.StatModifierValues do
+                    local modifier = mod.StatModifierValues[subidx]
+					self.Pluto[modifier] = (self.Pluto[modifier] or 0) + ((rolls[subidx] or 0) / 100)
 				end
             end
             if (mod and mod.ModifyWeapon) then

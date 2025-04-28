@@ -11,6 +11,12 @@ function pluto.ui.rightclickmenu(item, pre)
 	local is_owner = item.Owner == LocalPlayer():SteamID64()
 
     local tab = pluto.cl_inv[item.TabID]
+
+    if(tab and tab.Type ~= "buffer") then
+        rightclick_menu:AddOption("Equip", function()
+            pluto.inv.equip(item)
+        end):SetIcon("icon16/add.png")
+    end
 	rightclick_menu:AddOption("Upload item stats", function()
 		local StatsRT = GetRenderTarget("ItemStatsRT" .. ScrW() .. "_" ..  ScrH(), ScrW(), ScrH())
 		PLUTO_OVERRIDE_CONTROL_STATUS = true
@@ -65,9 +71,6 @@ function pluto.ui.rightclickmenu(item, pre)
                         :send()
                 end):SetIcon("icon16/cog_delete.png")
             end
-		    rightclick_menu:AddOption("Equip", function()
-                pluto.inv.equip(item)
-            end):SetIcon("icon16/add.png")
 
             rightclick_menu:AddOption("Copy Chat Link", function()
                 SetClipboardText("{item:" .. item.ID .. "}")

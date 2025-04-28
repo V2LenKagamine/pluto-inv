@@ -89,13 +89,13 @@ function pluto.tiers.random(gun)
 	local type = pluto.weapons.type(gun)
 
 	if (not type) then
-		return
+		pluto.error("No type to pluto.tiers.random!")
 	end
 
 	local typelist = pluto.tiers.bytype[type]
 
 	if (not typelist) then
-		return
+		pluto.error("No typelist to pluto.tiers.random!")
 	end
 
 	local rand = math.random() * typelist.shares

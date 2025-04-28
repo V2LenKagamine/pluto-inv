@@ -9,9 +9,9 @@ matproxy.Add({
             local Place = self.ResultTo
             local texture
             if (IsValid(LocalPlayer():GetActiveWeapon())) then
-                if(LocalPlayer():GetActiveWeapon():GetClass() ~= "weapon_hemlok") then return end
-                local OurWeapon = LocalPlayer():GetActiveWeapon()
-                local KnowYourPlace = string.sub(string.reverse(OurWeapon:Clip1()), Place, Place)
+                local wep = LocalPlayer():GetActiveWeapon()
+                if(wep:GetClass() ~= "weapon_hemlok" and wep:GetClass() ~= "weapon_hemlok_normal") then return end
+                local KnowYourPlace = string.sub(string.reverse(wep:Clip1()), Place, Place)
                 local digits = string.format( tonumber(KnowYourPlace) or 0 )
                     
                 texture = self.Prefix .. digits
