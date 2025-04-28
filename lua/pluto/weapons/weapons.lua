@@ -50,12 +50,16 @@ function pluto.weapons.generatetier(tier, wep, tagbiases, rolltier, roll, affixm
 		wep = baseclass.Get(wep)
 	end
 
-	if (not wep) then
-		wep = baseclass.Get(pluto.weapons.randomgun())
-	end
-
 	if (type(tier) == "string") then
 		tier = pluto.tiers.byname[tier]
+	end
+
+	if (not wep and tier) then
+        if(tier.Type == "Grenade") then
+            wep = baseclass.Get(pluto.weapons.randomgrenade())
+        else
+            wep = baseclass.Get(pluto.weapons.randomgun())
+        end
 	end
 
 	if (not tier) then
@@ -156,7 +160,13 @@ function pluto.weapons.save(db, item, owner)
 
 	tab.Items[item.TabIndex] = item
 
-	local data, err = mysql_stmt_run(db, "INSERT INTO pluto_items (tier, class, tab_id, tab_idx, nick, special_name, original_owner, creation_method) VALUES(?, ?, ?, ?, ?, ?, ?, ?)", 
+    local savecolor
+    if(item.Color) then
+        local arr,gee,bee = item.Color:Unpack()
+        savecolor = (arr * 65536) + (gee * 256) + bee
+    end
+    
+	local data, err = mysql_stmt_run(db, "INSERT INTO pluto_items (tier, class, tab_id, tab_idx, nick, special_name, original_owner, creation_method, color) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)", 
 		type(item.Tier) == "string" and item.Tier or item.Tier and item.Tier.InternalName or "",
 		item.ClassName,
 		item.TabID,
@@ -164,7 +174,8 @@ function pluto.weapons.save(db, item, owner)
 		item.Nickname,
 		item.SpecialName,
 		item.Owner,
-		item.CreationMethod
+		item.CreationMethod,
+        savecolor
 	)
 	if (not data) then
 		error(err)

@@ -612,14 +612,8 @@ function PANEL:OnRightClick()
 	if (not self.Item) then
 		return
 	end
-
-	pluto.ui.rightclickmenu(self.Item, function(menu, item)
-		if (self.TabIndex) then
-			menu:AddOption("Equip", function()
-				pluto.inv.equip(item)
-			end):SetIcon "icon16/add.png"
-		end
-	end)
+    pluto.ui.rightclickmenu(self.Item, function(menu, item)
+    end)
 end
 
 function PANEL:OnLeftClick()

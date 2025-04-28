@@ -219,7 +219,7 @@ function PANEL:Init()
 	self.ImplicitChanceText:SetWide(self:GetWide())
     self.ImplicitChanceText:DockMargin(5,0,5,1)
     self.ImplicitChanceText:DockPadding(0,0,0,0)
-    self.ImplicitChanceText:SetText("Adding Currency may result in an item with an Implicit!")
+    self.ImplicitChanceText:SetText("Add Currency for a chance of Implicited Items!")
 
 
 	self.ShardResults = {}

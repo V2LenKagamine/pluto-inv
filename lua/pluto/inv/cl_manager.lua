@@ -139,6 +139,13 @@ function pluto.inv.readitem()
 	item.CreationMethod = net.ReadString()
 	item.Owner = net.ReadString()
 	item.Untradeable = net.ReadBool()
+
+    if(net.ReadBool()) then
+        item.Color = net.ReadColor()
+    else
+        item.Color = nil
+    end
+    
 	if (net.ReadBool()) then
 		item.constellations = pluto.inv.readconstellations()
 	else

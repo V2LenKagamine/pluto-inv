@@ -129,6 +129,14 @@ function pluto.tiers.craft(tiers)
 		return pluto.tiers.crafted[name]
 	end
 
+    local color
+
+    local Clr1,Clr2,Clr3 = t1.Color,t2.Color,t3.Color
+
+    if(Clr1 and Clr2 and Clr3) then
+        color = pluto.tiers.craftedcolor(Clr1,Clr2,Clr3)
+    end
+
 	local tier = setmetatable({
 		Name = "Crafted",
 		InternalName = "crafted",
@@ -138,6 +146,7 @@ function pluto.tiers.craft(tiers)
 			t3.InternalName,
 		},
 		Crafted = true,
+        ["Color"] = color,
 	}, pluto.tier_mt)
 
 	pluto.tiers.crafted[name] = tier
@@ -166,6 +175,18 @@ function pluto.tiers.craft(tiers)
 	tier.affixes = t1.affixes or 0
 
 	return tier
+end
+
+function pluto.tiers.craftedcolor(Clr1,Clr2,Clr3)
+    local color
+    local C1R,C1G,C1B = Clr1:Unpack()
+    local C2R,C2G,C2B = Clr2:Unpack()
+    local C3R,C3G,C3B = Clr3:Unpack()
+    local newR = (C1R * 0.5) + ((C2R + C3R) * 0.25)
+    local newG = (C2G * 0.5) + ((C1G + C3G) * 0.25)
+    local newB = (C3B * 0.5) + ((C1B + C2B) * 0.25)
+    color = Color(newR,newG,newB)
+    return color
 end
 
 for _, name in pairs {

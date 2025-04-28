@@ -478,11 +478,10 @@ function ITEM:GetColor()
 	if (self.Type == "Weapon" or self.Type == "Shard") then
 		if (self.Tier.Color) then
 			return self.Tier.Color
-		end
-
+        elseif (self.Color) then
+		    return self.Color
+        end
 		return mod_colors[self:GetMaxAffixes() + (self.Tier.Type == "Grenade" and 1 or 0)] or mod_colors[0]
-	elseif (self.Color) then
-		col = self.Color
 	elseif (self.Type == "Model") then
 		col = self.Model.Color
 	end

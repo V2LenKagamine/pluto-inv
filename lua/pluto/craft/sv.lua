@@ -290,12 +290,12 @@ function pluto.inv.readcraft(cl)
 	end
 
 	local tier = pluto.tiers.craft(tiers)
-
+    --[[
 	if (promised and not class) then
 		class = "tfa_cso_sapientia"
 		tier = pluto.tiers.byname.unique
 	end
-
+    ]]
 	local wpn = pluto.weapons.generatetier(tier, class)
 
 	if (cur) then
@@ -319,7 +319,7 @@ function pluto.inv.readcraft(cl)
 		discord.Message():AddEmbed(
 			wpn:GetDiscordEmbed()
 				:SetAuthor(cl:Nick() .. "'s", "https://steamcommunity.com/profiles/" .. cl:SteamID64())
-		):Send "crafts"
+		):Send("crafts")
 	end
 
 	pluto.db.transact(function(db)
@@ -337,6 +337,7 @@ function pluto.inv.readcraft(cl)
 		end
 
 		wpn.CreationMethod = "CRAFT"
+        wpn.Color = tier.Color
 		pluto.inv.savebufferitem(db, cl, wpn)
 		mysql_commit(db)
 	end)

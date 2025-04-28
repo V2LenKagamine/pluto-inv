@@ -10,4 +10,5 @@ return {
 	},
 	NoChange = true,
 	CraftChance = 0,
+    Color(255, 0, 255, 128)
 }

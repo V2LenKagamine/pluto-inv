@@ -138,7 +138,7 @@ function pluto.statuses.frost.HookSpeed(plr,data)
     local sloweduntil = plr:GetFrostUntil()
 
 	if (sloweduntil > CurTime() and plr:GetFrostStarted() < CurTime()) then
-		data.FinalMultiplier = data.FinalMultiplier * (1 - (frost_scalar[plr:GetFrostLvl()] or 1))
+		data.FinalMultiplier = data.FinalMultiplier * (1 - (frost_scalar[plr:GetFrostLvl()] or 0))
 	end
 end
 

@@ -87,6 +87,13 @@ function pluto.inv.writeitem(ply, item)
 		net.WriteString(item.Owner or "0")
 		net.WriteBool(item.Untradeable)
 
+        if(item.Color) then
+            net.WriteBool(true)
+            net.WriteColor(item.Color)
+        else
+            net.WriteBool(false)
+        end
+
 		if (item.constellations) then
 			net.WriteBool(true)
 			pluto.inv.writeconstellations(ply, item.constellations)

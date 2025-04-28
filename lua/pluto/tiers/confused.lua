@@ -23,6 +23,7 @@ return {
 	rolltier = function(mod)
 		return #mod.Tiers
 	end,
+    Color = Color(255, 0, 0, 128),
 	rolltierdraw = function(x, y, sx, sy, w, h, rand)
 		surface.SetDrawColor(255, 0, 0, 128)
 		draw.NoTexture()

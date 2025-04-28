@@ -304,6 +304,7 @@ function pluto.inv.itemfromrow(item)
 		Experience = item.exp,
 		Nickname = item.nick,
 		Locked = tobool(item.locked),
+        ["Color"] = item.Color,
 		OriginalOwner = item.original_owner,
 		OriginalOwnerName = item.original_name,
 		Untradeable = item.untradeable == 1,
