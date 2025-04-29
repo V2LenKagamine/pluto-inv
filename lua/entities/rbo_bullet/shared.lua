@@ -65,26 +65,6 @@ if SERVER then
 	    		self:Remove()
 	    		return true
 	    	end
-            if(trace.Entity) then
-                if(self.source:IsPlayer()) then
-                    self.source = self.source:GetActiveWeapon()
-                end
-                local normvec = self.velocity:GetNormalized()
-                local todeal = DamageInfo()
-                todeal:SetAttacker(self.data.Attacker)
-                todeal:SetDamage(self.data.Damage)
-                todeal:SetDamageForce(((self.source.PropForce or 1) * normvec) * 5000) -- SCREW YOU MOVE DAMMIT
-                todeal:SetDamagePosition(trace.HitPos)
-                todeal:SetInflictor(self.source)
-                todeal:SetReportedPosition(self.position)
-                todeal:SetDamageType(DMG_BULLET)
-                self.data.Callback(self.data.Attacker,trace,todeal)
-                if(trace.Entity:GetClass() == "func_breakable_surf") then
-                    trace.Entity:DispatchTraceAttack(todeal,trace,normvec)
-                else
-                    trace.Entity:TakeDamageInfo(todeal)
-                end
-            end
 		    return true 
 	    end	
 	    self.position=nextpos
