@@ -97,7 +97,7 @@ function pluto.inv.writeitem(ply, item)
             net.WriteBool(false)
         end
 
-		if (item.constellations and not pluto_disable_constellations) then
+		if (item.constellations and not pluto_disable_constellations:GetBool()) then
 			net.WriteBool(true)
 			pluto.inv.writeconstellations(ply, item.constellations)
 		else

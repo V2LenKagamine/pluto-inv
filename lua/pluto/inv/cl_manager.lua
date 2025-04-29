@@ -120,7 +120,7 @@ end
 
 function pluto.inv.readitem()
 	local id = net.ReadUInt(32)
-    if(pluto_cl_debug_inv) then
+    if(pluto_cl_debug_inv:GetBool()) then
         print("Attempting loading of Item ID: " .. id)
     end
 	if (not net.ReadBool()) then
@@ -178,7 +178,7 @@ function pluto.inv.readitem()
 	pluto.received.item[id] = item
 
 	hook.Run("PlutoItemUpdate", item, item.TabID, item.TabIndex)
-    if(pluto_cl_debug_inv) then
+    if(pluto_cl_debug_inv:GetBool()) then
         print("The item looks like this after read: ")
         PrintTable(item)
     end
