@@ -168,7 +168,7 @@ function pluto.weapons.save(db, item, owner)
         savecolor = (arr * 65536) + (gee * 256) + bee
     end
     
-	local data, err = mysql_stmt_run(db, "INSERT INTO pluto_items (tier, class, tab_id, tab_idx, nick, special_name, original_owner, creation_method, color) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)", 
+	local data, err = mysql_stmt_run(db, "INSERT INTO pluto_items (tier, class, tab_id, tab_idx, nick, special_name, original_owner, creation_method, icolor) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)", 
 		type(item.Tier) == "string" and item.Tier or item.Tier and item.Tier.InternalName or "",
 		item.ClassName,
 		item.TabID,
