@@ -292,6 +292,16 @@ function pluto.inv.getfreespace(ply, item)
 	end
 end
 
+local function theColor(uintcolor)
+    if(not uintcolor)then return end
+    local red,green,blue,alpha
+    alp = bit.band(bit.arshift(uintcolor,24),0xFF)
+    r = bit.band(bit.arshift(uintcolor,16),0xFF)
+    g = bit.band(bit.arshift(uintcolor,8),0xFF)
+    b = bit.band(uintcolor,0xFF)
+    return Color(r,g,b,alp)
+end
+
 function pluto.inv.itemfromrow(item)
 	local it = setmetatable({
 		RowID = item.idx,
@@ -304,7 +314,7 @@ function pluto.inv.itemfromrow(item)
 		Experience = item.exp,
 		Nickname = item.nick,
 		Locked = tobool(item.locked),
-        ["Color"] = item.Color,
+        ["Color"] = theColor(item.itmclr),
 		OriginalOwner = item.original_owner,
 		OriginalOwnerName = item.original_name,
 		Untradeable = item.untradeable == 1,
@@ -382,7 +392,7 @@ function pluto.inv.queryitems(db, where_clause, ...)
 		return tostring(args[i])
 	end)
 
-	local rows, err = mysql_stmt_run(db, "SELECT i.idx as idx, tier, class, tab_id, tab_idx, exp, special_name, nick, tier1, tier2, tier3, locked, untradeable, CAST(original_owner as CHAR(32)) as original_owner, owner.displayname as original_name, cast(creation_method as CHAR(16)) as creation_method FROM pluto_items i LEFT OUTER JOIN pluto_player_info owner ON owner.steamid = i.original_owner LEFT OUTER JOIN pluto_craft_data c ON c.gun_index = i.idx JOIN pluto_tabs t ON t.idx = i.tab_id " .. join_clause .. " ".. where_clause, ...)
+	local rows, err = mysql_stmt_run(db, "SELECT i.idx as idx, tier, class, tab_id, tab_idx, exp, special_name, nick, tier1, tier2, tier3, locked, untradeable, CAST(original_owner as CHAR(32)) as original_owner, owner.displayname as original_name, cast(creation_method as CHAR(16)) as creation_method, cast(icolor as INT) as itmclr FROM pluto_items i LEFT OUTER JOIN pluto_player_info owner ON owner.steamid = i.original_owner LEFT OUTER JOIN pluto_craft_data c ON c.gun_index = i.idx JOIN pluto_tabs t ON t.idx = i.tab_id " .. join_clause .. " ".. where_clause, ...)
 
 	if (not rows) then
 		return nil, err

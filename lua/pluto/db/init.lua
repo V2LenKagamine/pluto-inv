@@ -35,14 +35,14 @@ hook.Add("PlutoDatabaseInitialize", "pluto_inv_init", function(db)
 
 			creation_method enum("DROPPED", "SPAWNED", "UNBOXED", "FOUND", "DELETE", "QUEST", "REWARD", "MIRROR", "CRAFT", "BOUGHT") NOT NULL DEFAULT "DROPPED",
 
-            color INT UNSIGNED,
+            icolor INT UNSIGNED,
 
 			UNIQUE INDEX (tab_id, tab_idx),
 			INDEX itemid(idx)
 		)
 	]]))
 
-    mysql_check_error(mysql_query(db, [[ALTER TABLE pluto_items ADD IF NOT EXISTS color INT UNSIGNED]]))
+    mysql_check_error(mysql_query(db, [[ALTER TABLE pluto_items RENAME COLUMN IF EXISTS color to icolor]]))
 	
 	mysql_check_error(mysql_query(db, [[
 		CREATE TABLE IF NOT EXISTS pluto_mods (

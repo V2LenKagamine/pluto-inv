@@ -89,10 +89,7 @@ function pluto.inv.writeitem(ply, item)
 
         if(item.Color) then
             net.WriteBool(true)
-            local arr,gee,bee = item.Color:Unpack()
-            net.WriteUInt(arr,8)
-            net.WriteUInt(gee,8)
-            net.WriteUInt(bee,8)
+            net.WriteColor(item.Color)
         else
             net.WriteBool(false)
         end

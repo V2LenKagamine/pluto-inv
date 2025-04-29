@@ -141,7 +141,7 @@ function pluto.inv.readitem()
 	item.Untradeable = net.ReadBool()
 
     if(net.ReadBool()) then
-        item.Color = Color(net.ReadUInt(8),net.ReadUInt(8),net.ReadUInt(8),0)
+        item.Color = net.ReadColor()
     end
     
 	if (net.ReadBool()) then
