@@ -230,6 +230,9 @@ function pluto.inv.readtab()
 	for i = 1, net.ReadUInt(8) do
 		local tabindex = net.ReadUInt(8)
 		local item = pluto.inv.readitem()
+        if(not item) then
+            pluto.error("Item read invalidly! Last read item is: " .. tabindex - 1)
+        end
 		tab.Items[tabindex] = item
 		item.TabID = id
 		item.TabIndex = tabindex
