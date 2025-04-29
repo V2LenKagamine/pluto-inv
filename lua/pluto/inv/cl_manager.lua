@@ -119,7 +119,7 @@ end
 
 function pluto.inv.readitem()
 	local id = net.ReadUInt(32)
-
+    print(id)
 	if (not net.ReadBool()) then
 		return pluto.received.item[id]
 	end
@@ -139,11 +139,12 @@ function pluto.inv.readitem()
 	item.CreationMethod = net.ReadString()
 	item.Owner = net.ReadString()
 	item.Untradeable = net.ReadBool()
-    --[[
+
     if(net.ReadBool()) then
-        item.Color = net.ReadColor()
+        item.Color = Color(net.ReadUInt(8),net.ReadUInt(8),net.ReadUInt(8),0)
+    else
+        item.Color = nil
     end
-    ]]
     
 	if (net.ReadBool()) then
 		item.constellations = pluto.inv.readconstellations()
@@ -232,7 +233,7 @@ function pluto.inv.readtab()
 		local tabindex = net.ReadUInt(8)
 		local item = pluto.inv.readitem()
         if(not item) then
-            pluto.error("Item read invalidly! Last read item is: " .. id)
+            pluto.error("Item read invalidly! Reading Tab: "..id)
         end
 		tab.Items[tabindex] = item
 		item.TabID = id
