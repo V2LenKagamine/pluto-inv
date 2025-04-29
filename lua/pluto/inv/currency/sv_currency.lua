@@ -188,8 +188,11 @@ for name, values in pairs {
 			if (item.Tier.InternalName == "easter_unique") then
 				outcomes.classreroll.Shares = 0
 			end
-
-			local was_tomed = item:GetMod "tomed"
+            if(item:GetModCount() < item:GetMaxAffixes() + 2) then
+                outcomes.add1mod.Shares = 0
+                outcomes.add2mod.Shares = 0
+            end
+			local was_tomed = item:GetMod("tomed")
 			if (was_tomed) then
 				for k,v in pairs(outcomes) do
 					if (v.Type == "good") then
@@ -225,18 +228,16 @@ for name, values in pairs {
 				}
 			end
 
-			for i = 1, 1 do
-				local outcome = outcomes[pluto.inv.roll(outcomes)]
- 
-				outcome.Use(item)
-			end
+			
+			local outcome = outcomes[pluto.inv.roll(outcomes)]
+			outcome.Use(item)
 
 			if (was_tomed) then -- some outcomes can remove tomed
 				pluto.weapons.addmod(item, "tomed")
 				pluto.weapons.addmod(item, "arcane")
 			end
 
-			if (not item:GetMod "tomed" or math.random() < 0.125) then
+			if (not item:GetMod("tomed") or math.random() < 0.05) then
 				pluto.weapons.addmod(item, "unchanging")
 			end
 
