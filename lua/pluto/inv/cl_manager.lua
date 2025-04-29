@@ -142,8 +142,6 @@ function pluto.inv.readitem()
 
     if(net.ReadBool()) then
         item.Color = Color(net.ReadUInt(8),net.ReadUInt(8),net.ReadUInt(8),0)
-    else
-        item.Color = nil
     end
     
 	if (net.ReadBool()) then
