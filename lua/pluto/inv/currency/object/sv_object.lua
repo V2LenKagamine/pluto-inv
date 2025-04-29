@@ -188,9 +188,9 @@ concommand.Add("pluto_spawn_cur", function(ply, cmd, args)
 
 	local target = ply
 
-	if (#args > 1 and args[1] == "global") then
+	if (#args > 1 and ) then
 		target = player.GetAll()
-        table.remove(args,1)
+        table.remove(args,2)
 	end
 
 	local ent = pluto.currency.entity()
