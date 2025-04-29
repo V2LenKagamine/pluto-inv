@@ -3,6 +3,7 @@
      * file, You can obtain one at https://mozilla.org/MPL/2.0/. ]]
 
 pluto_buffer_notify = CreateConVar("pluto_buffer_notify", "0", FCVAR_ARCHIVE, "", 0, 1)
+pluto_cl_debug_inv = CreateConVar("pluto_do_inv_net_debug", "0",FCVAR_ARCHIVE, "Prints debug stuff for nerds about inventory reading.",0,1)
 
 pluto.cl_inv = pluto.cl_inv or {}
 --[[
@@ -119,7 +120,9 @@ end
 
 function pluto.inv.readitem()
 	local id = net.ReadUInt(32)
-    print(id)
+    if(pluto_cl_debug_inv) then
+        print("Attempting loading of Item ID: " .. id)
+    end
 	if (not net.ReadBool()) then
 		return pluto.received.item[id]
 	end
@@ -175,7 +178,10 @@ function pluto.inv.readitem()
 	pluto.received.item[id] = item
 
 	hook.Run("PlutoItemUpdate", item, item.TabID, item.TabIndex)
-
+    if(pluto_cl_debug_inv) then
+        print("The item looks like this after read: ")
+        PrintTable(item)
+    end
 	return item
 end
 
