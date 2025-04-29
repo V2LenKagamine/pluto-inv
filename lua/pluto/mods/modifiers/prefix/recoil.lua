@@ -10,8 +10,8 @@ MOD.Tags = {
 }
 
 function MOD:IsNegative(idx,roll)
-    if(idx == 1) then return false end
-    if(idx == 2) then return true end
+    if(idx == 1) then return true end
+    if(idx == 2) then return roll > 0 end
 end
 
 function MOD:FormatModifier(index, roll)

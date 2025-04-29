@@ -73,7 +73,7 @@ function MOD:DoStuff(target, atk, stacks)
             Dealer = atk,
             OnThink = pluto.statuses.fire.DoThink,
             TicksLeft = stacks,
-            ThinkDelay = 0.1,
+            ThinkDelay = 0.25,
             OnExpire = pluto.statuses.fire.OnExpire,
         }
         status:Spawn()

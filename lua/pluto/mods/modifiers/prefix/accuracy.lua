@@ -18,7 +18,6 @@ end
 function MOD:FormatModifier(index, roll)
     local rtn = roll
     if(index == 1) then rtn = - rtn end
-    if(index == 3) then rtn = - rtn end
 	return string.format("%.01f%%", rtn)
 end
 
