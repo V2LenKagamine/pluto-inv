@@ -95,12 +95,12 @@ function pluto.statuses.fire.DoThink(ent)
     end
 
     local stax = ent.Data.TicksLeft
-    local todeal = 0.1
+    local todeal = 1.05
     if(stax >= 12) then
-        todeal = 0.23
+        todeal = 1.175
         ent.Data.TicksLeft = ent.Data.TicksLeft + 0.25
     elseif(stax < 12 and stax >= 6) then
-        todeal = 0.11
+        todeal = 1.1
         ent.Data.TicksLeft = ent.Data.TicksLeft + 0.05
     end
 

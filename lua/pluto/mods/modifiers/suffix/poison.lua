@@ -30,15 +30,17 @@ function MOD:ModifyWeapon(wep, rolls)
 end
 
 function MOD:OnDamage(wep, rolls, vic, dmginfo, state)
-	if (IsValid(vic) and vic:IsPlayer() and dmginfo:GetDamage() > 0) then
-		state.poisonstacks = math.ceil(wep:ScaleRollType("damage", rolls[1]) / 100 * dmginfo:GetDamage())
+	if (not IsValid(vic) or not isentity(vic)) then return end
+    if(vic:IsPlayer() and dmginfo:GetDamage() > 0) then
+		state.poisonstacks = (wep:ScaleRollType("damage", rolls[1])/100) * dmginfo:GetDamage()
 	end
 end
 
-function MOD:PostDamage(wep, rolls, vic, dmginfo, state)
+function MOD:PostDamage(wep, rolls, target, dmg, state)
+    if(not state) then return end
 	if (state.poisonstacks) then
-		dmginfo:SetDamage(dmginfo:GetDamage() - state.poisonstacks)
-		self:DoStuff(target,dmginfo:GetAttacker() , state.poisonstacks)
+		dmg:SetDamage(dmg:GetDamage() - state.poisonstacks)
+		self:DoStuff(target,dmg:GetAttacker(),state.poisonstacks)
 	end
 end
 
@@ -61,7 +63,7 @@ function MOD:DoStuff(target, atk, stacks)
             Dealer = atk,
             OnThink = pluto.statuses.poison.DoThink,
             TicksLeft = stacks,
-            ThinkDelay = 0.375,
+            ThinkDelay = 0.5,
             Hook_Noheal = {
                 "PlutoHealthGain",
                 pluto.statuses.poison.NoHeal,
@@ -77,7 +79,7 @@ function pluto.statuses.poison.DoThink(ent)
     if(not ent) then return end
     local vic = ent:GetParent()
 
-    local todeal = 0.4
+    local todeal = 1.025
 
     local dinfo = DamageInfo()
     if(IsValid(ent.Data.Dealer)) then

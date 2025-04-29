@@ -85,9 +85,9 @@ function pluto.statuses.shock.DoShock(ent,forced)
     if(not ent) then return end
     local vic = ent:GetParent()
 
-    local todeal = ent.Data.Stax * 0.66
+    local todeal = ent.Data.Stax * 1.1
     if(forced) then
-        todeal = ent.Data.Stax * 0.88
+        todeal = ent.Data.Stax * 1.2
     end
     ent.Data.Stax = 0
     local dinfo = DamageInfo()

@@ -23,9 +23,9 @@ return {
 	rolltier = function(mod)
 		return #mod.Tiers
 	end,
-    Color = Color(255, 0, 0, 128),
+    Color = Color(255, 230, 0, 175),
 	rolltierdraw = function(x, y, sx, sy, w, h, rand)
-		surface.SetDrawColor(255, 0, 0, 128)
+		surface.SetDrawColor(200, 200, 0, 175)
 		draw.NoTexture()
 
 		DrawArrow(x + w * 0.1, y + (CurTime() % speed) / speed * h, aw, ah)
