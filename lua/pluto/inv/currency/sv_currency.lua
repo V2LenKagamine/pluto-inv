@@ -558,7 +558,7 @@ for name, values in pairs {
 			end
 
 			pluto.db.instance(function(db)
-				pluto.inv.addcurrency(db, ply, "stardust", math.floor(math.random(7,13)))
+				pluto.inv.addcurrency(db, ply, "stardust", math.floor(math.random(2,4)))
 				ply:ChatPrint(white_text, "You got some", pluto.currency.byname.stardust, white_text, " but ouch, that burns!")
 			end)
 

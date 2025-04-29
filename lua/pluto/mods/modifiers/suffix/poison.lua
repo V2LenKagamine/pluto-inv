@@ -61,7 +61,7 @@ function MOD:DoStuff(target, atk, stacks)
             Dealer = atk,
             OnThink = pluto.statuses.poison.DoThink,
             TicksLeft = stacks,
-            ThinkDelay = 0.75,
+            ThinkDelay = 0.375,
             Hook_Noheal = {
                 "PlutoHealthGain",
                 pluto.statuses.poison.NoHeal,
@@ -77,7 +77,7 @@ function pluto.statuses.poison.DoThink(ent)
     if(not ent) then return end
     local vic = ent:GetParent()
 
-    local todeal = 0.8
+    local todeal = 0.4
 
     local dinfo = DamageInfo()
     if(IsValid(ent.Data.Dealer)) then

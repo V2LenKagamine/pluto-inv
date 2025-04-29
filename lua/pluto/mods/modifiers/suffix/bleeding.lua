@@ -65,7 +65,7 @@ function MOD:DoStuff(target, atk, stacks)
                 "PlayerButtonDown",
                 pluto.statuses.bleed.Hook_Input,
             },]]
-            ThinkDelay = 1.5,
+            ThinkDelay = .75,
         }
         status:Spawn()
     else
@@ -79,10 +79,10 @@ function pluto.statuses.bleed.DoThink(ent)
     local stax = ent.Data.TicksLeft
     local todeal
     if(stax >= 7.5) then
-        todeal = 3.2
+        todeal = 1.6
         ent.Data.TicksLeft = ent.Data.TicksLeft - 1
     else
-        todeal = 1.6
+        todeal = 0.8
     end
     if(vic:GetVelocity():LengthSqr() > vic:GetSlowWalkSpeed()^2) then
         todeal = todeal * 1.25

@@ -63,7 +63,7 @@ function MOD:DoStuff(target, atk, stacks)
             Dealer = atk,
             OnThink = pluto.statuses.frost.DoThink,
             TicksLeft = stacks,
-            ThinkDelay = 1,
+            ThinkDelay = 0.5,
             Hook_Speed = {
                 "TTTUpdatePlayerSpeed",
                 pluto.statuses.frost.HookSpeed,
@@ -84,7 +84,7 @@ function pluto.statuses.frost.DoThink(ent)
     local vic = ent:GetParent()
 
     local stax = ent.Data.TicksLeft
-    local todeal = 1.1
+    local todeal = 0.6
     local frostLvl = 1 + math.floor(stax / 6)
 
     todeal = todeal * frostLvl

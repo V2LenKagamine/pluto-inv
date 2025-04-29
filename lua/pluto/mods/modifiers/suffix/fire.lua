@@ -73,7 +73,7 @@ function MOD:DoStuff(target, atk, stacks)
             Dealer = atk,
             OnThink = pluto.statuses.fire.DoThink,
             TicksLeft = stacks,
-            ThinkDelay = 0.2,
+            ThinkDelay = 0.1,
             OnExpire = pluto.statuses.fire.OnExpire,
         }
         status:Spawn()
@@ -97,11 +97,11 @@ function pluto.statuses.fire.DoThink(ent)
     local stax = ent.Data.TicksLeft
     local todeal = 0.1
     if(stax >= 12) then
-        todeal = 0.46
-        ent.Data.TicksLeft = ent.Data.TicksLeft + 0.5
-    elseif(stax < 12 and stax >= 6) then
-        todeal = 0.22
+        todeal = 0.23
         ent.Data.TicksLeft = ent.Data.TicksLeft + 0.25
+    elseif(stax < 12 and stax >= 6) then
+        todeal = 0.11
+        ent.Data.TicksLeft = ent.Data.TicksLeft + 0.05
     end
 
     local dinfo = DamageInfo()

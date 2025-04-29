@@ -69,7 +69,7 @@ function MOD:DoStuff(target, atk, stacks)
         status:Spawn()
     else
         status.Data.Stax = status.Data.Stax + stacks
-        status.Data.TicksLeft = 10
+        status.Data.TicksLeft = 6
     end
 end
 
@@ -87,7 +87,7 @@ function pluto.statuses.shock.DoShock(ent,forced)
 
     local todeal = ent.Data.Stax * 0.66
     if(forced) then
-        todeal = ent.Data.Stax * .88
+        todeal = ent.Data.Stax * 0.88
     end
     ent.Data.Stax = 0
     local dinfo = DamageInfo()

@@ -60,7 +60,7 @@ function pluto.weapons.generatetier(tier, wep, tagbiases, rolltier, roll, affixm
         else
             wep = baseclass.Get(pluto.weapons.randomgun())
         end
-	else
+	elseif (not wep) then
         wep = baseclass.Get(pluto.weapons.randomgun())
     end
     
