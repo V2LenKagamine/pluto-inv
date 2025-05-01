@@ -100,7 +100,7 @@ local rbo_fallback_support={
 function RBOAddSupport(info)
 	assert(type(info.ammo)=="string")
 	if game.GetAmmoID(info.ammo)<0 and SERVER then
-		MsgC("RBO Tried to add unknown ammo type "..info.ammo.." doesn't exist\n")
+		MsgC("RBO Tried to add unknown ammo type '"..info.ammo.."' doesn't exist\n")
 		return
 	end
 	assert(type(info.velocity)=="number")
@@ -118,13 +118,13 @@ end
 include("rbo/supports.lua")
 
 local STEP_SIZE = 4
-local penMult = CreateConVar("ubp_penetration_multiplier", 2, {FCVAR_ARCHIVE, FCVAR_REPLICATED}, "A multiplier for how hard a bullet penetrates through materials")
+local penMult = CreateConVar("ubp_penetration_multiplier", 4, {FCVAR_ARCHIVE, FCVAR_REPLICATED}, "A multiplier for how hard a bullet penetrates through materials")
 local function runCallback(attacker, tr, dmginfo)
 	local ent = tr.Entity
 	if not tr.Hit or tr.StartSolid then
 		return
 	end
-
+    
 	local surf = util.GetSurfaceData(tr.SurfaceProps)
 	local mat = surf and surf.density / 1000 or 1
     local wep = attacker:GetActiveWeapon()
@@ -149,14 +149,14 @@ local function runCallback(attacker, tr, dmginfo)
 				start = endPos,
 				endpos = endPos - dir * STEP_SIZE,
 				mask = bit.bor(MASK_SHOT, CONTENTS_HITBOX),
+                filter = ent
 			})
-
 			if trace.StartSolid and bit.band(trace.SurfaceFlags, SURF_HITBOX) == SURF_HITBOX then
 				trace = util.TraceLine({
 					start = endPos,
 					endpos = endPos - dir * STEP_SIZE,
 					mask = MASK_SHOT,
-					filter = trace.Entity
+					filter = {trace.Entity,ent}
 				})
 			end
 
@@ -173,7 +173,6 @@ local function runCallback(attacker, tr, dmginfo)
 			end
 
 			hit = true
-
 			break
 		end
 	end
@@ -196,9 +195,7 @@ local function runCallback(attacker, tr, dmginfo)
 		effect:SetHitBox(trace.HitBox)
 
 		util.Effect("Impact", effect, false)
-
-		local ignore = ent:IsRagdoll() and ent or NULL
-        wep.rbo_no_refire = true
+		local ignore = ent
 		wep:FireBullets({
             Attacker = attacker,
             Force = dmginfo.Force,
@@ -214,7 +211,7 @@ local function runCallback(attacker, tr, dmginfo)
 end
 
 if SERVER then
-    hook.Add("EntityFireBullets","rbo_efb_ubo",function(ent,info)
+    hook.Add("EntityFireBullets","pluto_whizz",function(ent,info)
         local wep
 	    if (ent:IsPlayer() or ent:IsNPC()) then
 		    wep=ent:GetActiveWeapon()
@@ -254,5 +251,6 @@ if SERVER then
 		    bullet:SetPos(info.Src)
 		    bullet:Spawn()
 	    end
+        return true 
     end)
 end

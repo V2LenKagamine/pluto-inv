@@ -218,7 +218,7 @@ end
 
 function SWEP:GetPenetration()
 	if (self:GetMode() == 1) then
-		return 100
+		return 30
 	end
 
 	return BaseClass.GetPenetration(self)

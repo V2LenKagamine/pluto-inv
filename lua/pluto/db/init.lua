@@ -41,8 +41,6 @@ hook.Add("PlutoDatabaseInitialize", "pluto_inv_init", function(db)
 			INDEX itemid(idx)
 		)
 	]]))
-
-    mysql_check_error(mysql_query(db, [[ALTER TABLE pluto_items RENAME COLUMN IF EXISTS color to icolor]]))
 	
 	mysql_check_error(mysql_query(db, [[
 		CREATE TABLE IF NOT EXISTS pluto_mods (
