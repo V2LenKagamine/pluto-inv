@@ -582,7 +582,7 @@ function pluto.inv.readcurrencyuse(ply)
 				wpn = pluto.inv.generatebuffermodel(db, ply, "UNBOXED", gotten:match "^model_(.+)$")
 			elseif (type == "Weapon") then -- unique
 				wpn = pluto.inv.generatebufferweapon(db, ply, "UNBOXED", istable(data) and data.Tier or cur.DefaultTier or "unique", gotten)
-            elseif (type == "Consumable")
+            elseif (type == "Consumable") then -- Consumable
                 wpn = pluto.inv.generatebufferweapon(db, ply, "UNBOXED", istable(data) and data.Tier or cur.DefaultTier or "generic", gotten)
 			end
 
