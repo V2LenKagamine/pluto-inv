@@ -13,7 +13,7 @@ function QUEST:Init(data)
 		end
 
 		for _, item in pairs(items) do
-			if (item.Tier and item.Tier.InternalName and (item.Tier.InternalName == "inevitable" or item.Tier.InternalName == "unusual" or item.Tier.InternalName == "promised")) then
+			if (item.Tier and item.Tier.InternalName and (item.Tier.InternalName == "weapons/inevitable" or item.Tier.InternalName == "weapons/unusual" or item.Tier.InternalName == "weapons/promised")) then
 				data:UpdateProgress(1)
 			end
 		end

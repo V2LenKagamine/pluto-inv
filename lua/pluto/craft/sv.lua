@@ -84,9 +84,9 @@ end
 
 function pluto.craft.alloutcomes(items)
 	local tiers = {
-		items[1].Tier.InternalName,
-		items[2].Tier.InternalName,
-		items[3].Tier.InternalName,
+		pluto.weapons.realtiername(items[1].Tier.InternalName),
+		pluto.weapons.realtiername(items[2].Tier.InternalName),
+		pluto.weapons.realtiername(items[3].Tier.InternalName),
 	}
 
 	local out = {}
@@ -239,15 +239,15 @@ function pluto.inv.readcraft(cl)
 
 	local tiers = {
 		{
-			tier = items[1].Tier.InternalName,
+			tier = pluto.weapons.realtiername(items[1].Tier.InternalName),
 			r = math.random(),
 		},
 		{
-			tier = items[2].Tier.InternalName,
+			tier = pluto.weapons.realtiername(items[2].Tier.InternalName),
 			r = math.random(),
 		},
 		{
-			tier = items[3].Tier.InternalName,
+			tier = pluto.weapons.realtiername(items[3].Tier.InternalName),
 			r = math.random(),
 		},
 	}
@@ -263,7 +263,7 @@ function pluto.inv.readcraft(cl)
 			break
 		end
 
-		if (item.Tier.InternalName == "promised") then
+		if (item.Tier.InternalName == "weapons/promised") then
 			promised = true
 		end
 	end

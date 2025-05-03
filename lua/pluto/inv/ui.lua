@@ -377,7 +377,7 @@ function PANEL:SetItem(item)
 		if (item.CreationMethod) then
 			local fmt = ({
 				UNBOXED = "Unboxed by %s",
-				SPAWNED = "Created by %s",
+				SPAWNED = "Created for %s",
 				FOUND = "Found by %s",
 				DELETE = "Sharded by %s",
 				REWARD = "Rewarded to %s",
@@ -416,9 +416,14 @@ function PANEL:SetItem(item)
 	self.ItemBackground:SetTall(self.ItemName:GetTall() * 1.5)
 	local pad = self.ItemName:GetTall() * 0.25
 	self.ItemBackground:DockPadding(pad, pad, pad, pad)
-	self.ItemBackground:SetColor(item.GetColor and item:GetColor() or item.Color)
-
-	self.ItemDesc:SetText(item.Description or "")
+	self.ItemBackground:SetColor(item.Tier and item:GetColor() or item.Color)
+    if(item.Type == "Consumable") then
+        local basecon = baseclass.Get(item.ClassName)
+		self.ItemDesc:SetFont "pluto_item_showcase_smol"
+        self.ItemDesc:SetText(basecon.Description or "Uh oh, someone forgot to add a description to a consumable! Whoops! Class: " .. item.ClassName)
+    else
+	    self.ItemDesc:SetText(item.Description or "")
+    end
 	local subdesc = item.Tier and item.Tier:GetSubDescription() or ""
 	if (item.GetMaxAffixes and item:GetMaxAffixes() > 0) then
 		subdesc = subdesc .. "\n" .. "You can get up to " .. item:GetMaxAffixes() .. " modifiers on this item."

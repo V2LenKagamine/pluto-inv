@@ -31,6 +31,7 @@ end
 
 hook.Add("PlayerPostLoadout", "pluto_tracker", function(ply)
 	for _, wep in pairs(ply:GetWeapons()) do
+        if(string.StartWith(wep:GetClass(),"consumable")) then continue end
 		if (not IsPlutoGun(wep)) then
 			continue
 		end

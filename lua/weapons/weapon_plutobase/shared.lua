@@ -67,6 +67,7 @@ function SWEP:PlutoInitialize()
 end
 
 function WEAPON:GetInventoryItem()
+    if(self.PlutoConsumable) then return end
 	return pluto.wpn_db[self:GetPlutoID()]
 end
 
@@ -79,6 +80,10 @@ function SWEP:ReceivePlutoData()
 		pwarnf("Already received data!")
 		return
 	end
+
+    if(self.PlutoConsumable) then
+        return  --No data :frwon:
+    end
 
 	self.AlreadyReceived = true
 

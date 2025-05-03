@@ -120,7 +120,7 @@ for name, values in pairs {
 
 				local data = wep:GetInventoryItem()
 
-				if (not data or not data.Tier or not data.Tier.InternalName or data.Tier.InternalName ~= "unique") then
+				if (not data or not data.Tier or not data.Tier.InternalName or data.Tier.InternalName ~= "weapons/unique") then
 					return
 				end
 
@@ -145,7 +145,7 @@ for name, values in pairs {
 
 				local data = wep:GetInventoryItem()
 
-				if (not data or not data.Tier or not data.Tier.InternalName or data.Tier.InternalName ~= "confused") then
+				if (not data or not data.Tier or not data.Tier.InternalName or data.Tier.InternalName ~= "weapons/confused") then
 					return
 				end
 

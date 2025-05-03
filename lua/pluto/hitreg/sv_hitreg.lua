@@ -47,7 +47,7 @@ function RunCallback(cldata, entry)
 	local hitent = cldata.hitent
 	local hitbox = cldata.hitbox
 
-	if (not IsValid(shootent) or not IsValid(hitent) or not shootent:IsWeapon() or not hitent:IsPlayer() or not hitent:Alive()) then
+	if (not IsValid(shootent) or not shootent:IsWeapon()) then
 		return
 	end
 
@@ -57,25 +57,121 @@ function RunCallback(cldata, entry)
 		return
 	end
 ]]
+    if(PlutoDoPenetration(cl,entry)) then
+        if (not IsValid(hitent) or not hitent:IsPlayer() or not hitent:Alive()) then
+            return 
+        end
+        local hitboxes = entry.Hitboxes[hitent]
 
-	local hitboxes = entry.Hitboxes[hitent]
+        local dmg = DamageInfo()
+        
+        dmg:SetAttacker(cl)
+        dmg:SetInflictor(shootent)
+        dmg:SetDamage(entry.Damage)
+        dmg:SetDamagePosition(hitpos)
+        dmg:SetDamageType(entry.DamageType)
 
-	local dmg = DamageInfo()
+        entry.Trace.HitPos = hitpos
+        entry.Trace.HitGroup = hitboxes and hitboxes[hitbox].Group or nil 
+        entry.Trace.HitBox = hitbox
+        
+        shootent:DoDamageDropoff(entry.Trace, dmg)
 
-	dmg:SetAttacker(cl)
-	dmg:SetInflictor(shootent)
-	dmg:SetDamage(entry.Damage)
-	dmg:SetDamagePosition(hitpos)
-	dmg:SetDamageType(entry.DamageType)
-
-	entry.Trace.HitPos = hitpos
-	entry.Trace.HitGroup = hitboxes[hitbox].Group
-	entry.Trace.HitBox = hitbox
-	
-	shootent:DoDamageDropoff(entry.Trace, dmg)
-
-	hitent:TakeDamageInfo(dmg)
+        hitent:TakeDamageInfo(dmg)
+    end
 	hook.Run("PlutoHitregOverride", shootent)
+end
+
+local STEP_SIZE = 4
+local penMult = CreateConVar("pluto_penetration_multiplier", 1, {FCVAR_ARCHIVE, FCVAR_REPLICATED}, "A multiplier for how hard a bullet penetrates through materials")
+function PlutoDoPenetration(attacker, entry)
+	local ent = entry.Trace.Entity
+	if (not entry.Trace.Hit or entry.Trace.StartSolid) then
+		return false
+	end
+	local surf = util.GetSurfaceData(entry.Trace.SurfaceProps)
+	local mat = surf and surf.density / 1000 or 1
+    local wep = attacker:GetActiveWeapon()
+    if(not IsValid(wep)) then
+        return false
+    end
+	local dist = ((1 / mat) * wep:GetPenetration() * 4) * penMult:GetFloat()
+
+	local start = entry.Trace.HitPos
+	local dir = entry.Trace.Normal
+
+	local trace
+	local hit = false
+
+	for i = STEP_SIZE, dist + STEP_SIZE, STEP_SIZE do
+		local endPos = start + dir * i
+
+		local contents = util.PointContents(endPos)
+
+		if bit.band(contents, MASK_SHOT) == 0 or bit.band(contents, CONTENTS_HITBOX) == CONTENTS_HITBOX then
+			trace = util.TraceLine({
+				start = endPos,
+				endpos = endPos - dir * STEP_SIZE,
+				mask = bit.bor(MASK_SHOT, CONTENTS_HITBOX),
+			})
+			if trace.StartSolid and bit.band(trace.SurfaceFlags, SURF_HITBOX) == SURF_HITBOX then
+				trace = util.TraceLine({
+					start = endPos,
+					endpos = endPos - dir * STEP_SIZE,
+					mask = MASK_SHOT,
+					filter = trace.Entity
+				})
+			end
+            if(IsValid(ent)) then
+                if trace.HitPos == endPos - dir * STEP_SIZE then
+                    trace = util.TraceLine({
+                        start = endPos + dir * ent:BoundingRadius(),
+                        endpos = endPos,
+                        mask = bit.bor(MASK_SHOT, CONTENTS_HITBOX),
+                        filter = function(hent)
+                            return hent == ent
+                        end,
+                        ignoreworld = true
+                    })
+                end
+            end
+			hit = true
+			break
+		end
+	end
+
+	if hit then
+		local finalDist = start:Distance(trace.HitPos)
+		local ratio = 1 - (finalDist / dist)
+        local newdamage = entry.Damage * ratio
+		if newdamage <= 0 then
+			return false
+		end
+
+		local effect = EffectData()
+
+		effect:SetEntity(trace.Entity)
+		effect:SetOrigin(trace.HitPos)
+		effect:SetStart(trace.StartPos)
+		effect:SetSurfaceProp(trace.SurfaceProps)
+		effect:SetDamageType(entry.DamageType)
+		effect:SetHitBox(trace.HitBox)
+
+		util.Effect("Impact", effect, false)
+		local ignore = ent
+		wep:FireBullets({
+            Attacker = attacker,
+            Force = entry.Force,
+			Num = 1,
+			Src = trace.HitPos + dir,
+			Dir = dir,
+			Damage = newdamage,
+			Spread = vector_origin,
+			Tracer = 0,
+			IgnoreEntity = ignore
+		})
+	end
+    return false 
 end
 
 net.Receive("pluto_hitreg", function(len, cl)
@@ -93,7 +189,6 @@ net.Receive("pluto_hitreg", function(len, cl)
 		hitbox = hitbox,
 		cl = cl
 	}
-
 	local entry = hitreg_pellets[shootent][bullet_num][pellet]
 	if (not entry) then
 		local cldata1 = hitreg_queue[shootent]
@@ -155,11 +250,12 @@ local function SnapshotHitboxes()
 	return ret
 end
 
+
 hook.Add("EntityFireBullets", "pluto_hitreg", function(ent, data)
 	if (not ent.GetBulletsShot) then
 		return
 	end
-
+    
 	local cb = data.Callback
 
 	local bullet_num = ent:GetBulletsShot()
@@ -176,7 +272,6 @@ hook.Add("EntityFireBullets", "pluto_hitreg", function(ent, data)
 			if (pellet == (data.Num or 1)) then
 				donezo = true
 			end
-	
 			if (not IsValid(tr.Entity) or not tr.Entity:IsPlayer()) then
 				hitreg_pellets[ent][bullet_num][pellet] = {
 					StartPos = tr.StartPos,
@@ -186,8 +281,9 @@ hook.Add("EntityFireBullets", "pluto_hitreg", function(ent, data)
 					Hitboxes = hitboxes,
 					Callback = data.Callback,
 					DamageType = dmginfo:GetDamageType(),
-					Trace = util.TraceLine(tr),
+					Trace = tr,
 					Damage = damage,
+                    Force = dmginfo.Force,
 				}
 			end
 		end

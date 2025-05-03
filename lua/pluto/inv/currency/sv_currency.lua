@@ -185,7 +185,7 @@ for name, values in pairs {
 
 			}
 
-			if (item.Tier.InternalName == "easter_unique") then
+			if (item.Tier.InternalName == "weapons/easter_unique") then
 				outcomes.classreroll.Shares = 0
 			end
             if(item:GetModCount() < item:GetMaxAffixes() + 2) then
@@ -631,7 +631,12 @@ for name, values in pairs {
 
 			return true
 		end,
-	}
+	},
+    --:b:luto 2 begins
+    crate_cons1 = {
+		Shares = 8,
+		Types = "None",
+	},
 } do
 	table.Merge(pluto.currency.byname[name], values)
 end

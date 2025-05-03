@@ -20,17 +20,15 @@ hook.Add("EntityFireBullets", "pluto_hitreg", function(ent, data)
 			cb(atk, tr, dmginfo)
 		end
 		pellet = pellet + 1
-		if (not IsValid(tr.Entity) or not tr.Entity:IsPlayer()) then
-			return
-		end
-
-		net.Start("pluto_hitreg")
+		if (IsValid(tr.Entity) or tr.Entity) then
+			net.Start("pluto_hitreg")
 			net.WriteEntity(ent)
 			net.WriteVector(tr.HitPos)
 			net.WriteEntity(tr.Entity)
 			net.WriteUInt(bullet_num, 8)
 			net.WriteUInt(pellet, 8)
 			net.WriteUInt(tr.HitBox, 8)
-		net.SendToServer()
+		    net.SendToServer()
+		end
 	end
 end)

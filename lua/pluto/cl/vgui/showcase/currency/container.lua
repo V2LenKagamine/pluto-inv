@@ -77,7 +77,7 @@ function PANEL:SetItem(item)
 		local list = {}
 		for name, data in pairs(item.Contents) do
 			local fake = setmetatable({Type = pluto.inv.itemtype(name), ClassName = name}, pluto.inv.item_mt)
-			if (fake.Type == "Weapon") then
+			if (fake.Type == "Weapon" or fake.Type == "Consumable") then
 				fake.Tier = pluto.tiers.byname[istable(data) and data.Tier or item.DefaultTier or "unique"]
 			elseif (fake.Type == "Model") then
 				fake.Model = pluto.models[name:match "model_(.+)"]

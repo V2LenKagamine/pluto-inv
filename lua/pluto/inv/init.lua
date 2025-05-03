@@ -307,7 +307,7 @@ function pluto.inv.itemfromrow(item)
 		RowID = item.idx,
 		TabIndex = item.tab_idx,
 		TabID = item.tab_id,
-		Tier = pluto.tiers.byname[item.tier] or pluto.tiers.byname.unique,
+		Tier = pluto.tiers.byname[pluto.weapons.realtiername(item.tier)] or pluto.tiers.byname.unique,
 		ClassName = item.class,
 		Owner = steamid,
 		SpecialName = item.special_name,

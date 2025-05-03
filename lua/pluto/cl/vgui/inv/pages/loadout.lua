@@ -132,42 +132,42 @@ local filters = {
 			return false
 		end
 		local class = baseclass.Get(item.ClassName)
-		return class.Slot == 2
+		return class.Slot == 2 --Secondary
 	end,
 	[2] = function(item)
 		if (item.Type ~= "Weapon") then
 			return false
 		end
 		local class = baseclass.Get(item.ClassName)
-		return class.Slot == 1
+		return class.Slot == 1 --Secondary
 	end,
 	[3] = function(item)
 		if (item.Type ~= "Weapon") then
 			return false
 		end
 		local class = baseclass.Get(item.ClassName)
-		return class.Slot == 0
+		return class.Slot == 0 --Melee
 	end,
 	[4] = function(item)
-		if (item.Type ~= "Weapon") then
+		if (item.Type ~= "Weapon" and item.Type ~= "Consumable") then
 			return false
 		end
 		local class = baseclass.Get(item.ClassName)
-		return class.Slot == 3
+		return class.Slot == 3 --Grenade
 	end,
 	[5] = function(item)
 		if (item.Type ~= "Weapon") then
 			return false
 		end
 		local class = baseclass.Get(item.ClassName)
-		return class.Slot == 4
+		return class.Slot == 4 -- Magneto
 	end,
 	[6] = function(item)
-		if (item.Type ~= "Weapon") then
+		if (item.Type ~= "Weapon" and item.Type ~= "Consumable") then
 			return false
 		end
 		local class = baseclass.Get(item.ClassName)
-		return class.Slot == 5
+		return class.Slot == 5 --Unarmed
 	end,
 }
 

@@ -404,7 +404,7 @@ function PANEL:SetItem(item)
 	self.Item = item
 	self.NameContainer:SetColor(item:GetColor())
 
-	if (item.Tier.SubDescription) then
+	if (item.Tier and item.Tier.SubDescription) then
 		self.SubDescription = self.TierInfo:Add "pluto_text_inner"
 		self.SubDescription:SetWide(self:GetWide() - 14)
 		self.SubDescription:Dock(TOP)
@@ -673,7 +673,7 @@ function PANEL:SetItem(item)
 				local min = stat:Add "pluto_label"
 				min:SetText(statdata.Value)
 				min:SetFont "pluto_showcase_suffix_text"
-				min:SetTextColor(Color(255, 255, 255))
+				min:SetTextColor(Color(177, 177, 177))
 				min:SetRenderSystem(pluto.fonts.systems.shadow)
 				min:SizeToContentsX()
 				min:Dock(LEFT)

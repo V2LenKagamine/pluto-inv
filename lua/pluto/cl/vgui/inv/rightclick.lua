@@ -125,7 +125,7 @@ function pluto.ui.rightclickmenu(item, pre)
 	    end):SetIcon("icon16/newspaper_link.png")
 	end
     
-    if (tab) then
+    if (tab and tab.Type ~= "buffer") then
         rightclick_menu:AddOption("Destroy or Shard Item", function()
 			pluto.divine.confirm("Destroy " .. item:GetPrintName(), function()
 				local tab = pluto.cl_inv[item.TabID]

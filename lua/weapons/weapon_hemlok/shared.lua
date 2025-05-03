@@ -78,7 +78,7 @@ SWEP.Offset = { --Procedural world model animation, defaulted for CS:S purposes.
 		Scale = 1.0
 }
 
-SWEP.Ortho = {-6, 12, angle = Angle(35, 180, -52.5), size = 0.65}
+SWEP.Ortho = {-11.5, -4.5, angle = Angle(0, -60, -100), size = 0.65}
 --- TTT config values
 
 -- Kind specifies the category this weapon is in. Players can only carry one of

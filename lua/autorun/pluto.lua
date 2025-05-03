@@ -139,6 +139,8 @@ pluto.files.load {
 		"roles/ttc.lua",
 		"roles/pluto.lua",
 
+        "statuses/sh_init.lua",
+
 		"util.lua",
 
 		"chat/sh_chat.lua",

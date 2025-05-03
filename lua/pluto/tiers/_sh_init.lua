@@ -109,6 +109,14 @@ function pluto.tiers.random(gun)
 
 	error "Reached end of loop in pluto.tiers.random!" 
 end
+--Why here? Because weapons isnt shared.
+function pluto.weapons.realtiername(name)
+    if(string.find(name,"-") ~= nil) then
+        local undone = string.Split(name,"-")
+        return undone[2]
+    end
+    return name
+end
 
 function pluto.tiers.craft(tiers)
 	for i, t in pairs(tiers) do
@@ -123,7 +131,7 @@ function pluto.tiers.craft(tiers)
 		return t1
 	end
 
-	local name = t1.InternalName .. "-" .. t2.InternalName .. "-" .. t3.InternalName
+	local name = pluto.weapons.realtiername(t1.InternalName) .. "-" .. pluto.weapons.realtiername(t2.InternalName) .. "-" .. pluto.weapons.realtiername(t3.InternalName)
 
 	if (pluto.tiers.crafted[name]) then
 		return pluto.tiers.crafted[name]
@@ -141,9 +149,9 @@ function pluto.tiers.craft(tiers)
 		Name = "Crafted",
 		InternalName = "crafted",
 		Tiers = {
-			t1.InternalName,
-			t2.InternalName,
-			t3.InternalName,
+			pluto.weapons.realtiername(t1.InternalName),
+			pluto.weapons.realtiername(t2.InternalName),
+			pluto.weapons.realtiername(t3.InternalName),
 		},
 		Crafted = true,
         ["Color"] = color,
@@ -189,30 +197,33 @@ function pluto.tiers.craftedcolor(Clr1,Clr2,Clr3)
     return color
 end
 
+--Do not name something the same as another, even if different folder.
 for _, name in pairs {
-	"common",
-	"confused",
-	"easter_unique",
-	"festive",
-	"gamer",
-	"inevitable",
-	"junk",
-	"legendary",
-	"mystical",
-	"otherworldly",
-	"powerful",
-	"promised",
-	"shadowy",
-	"stable",
-	"tester",
-	"uncommon",
-	"unique",
-	"unusual",
-	"vintage",
+	"weapons/common",
+	"weapons/confused",
+	"weapons/easter_unique",
+	"weapons/festive",
+	"weapons/gamer",
+	"weapons/inevitable",
+	"weapons/junk",
+	"weapons/legendary",
+	"weapons/mystical",
+	"weapons/otherworldly",
+	"weapons/powerful",
+	"weapons/promised",
+	"weapons/shadowy",
+	"weapons/stable",
+	"weapons/tester",
+	"weapons/uncommon",
+	"weapons/unique",
+	"weapons/unusual",
+	"weapons/vintage",
 
-	"unstable",
-	"stabilized",
-	"explosive",
+	"grenades/unstable",
+	"grenades/stabilized",
+	"grenades/explosive",
+
+    "consumables/generic",
     
 } do
 	AddCSLuaFile("pluto/tiers/" .. name .. ".lua")
@@ -221,7 +232,9 @@ for _, name in pairs {
 		pwarnf("Tier %s didn't return a value", name)
 		continue
 	end
-
+    local pathtable = string.Split(name,"/")
+    name = pathtable[2]
+    local fullname = table.concat(pathtable,"-")
 	setmetatable(item, pluto.tier_mt)
 
 	local prev = pluto.tiers.byname[name]
@@ -232,7 +245,7 @@ for _, name in pairs {
 		item = prev
 	end
 
-	item.InternalName = name
+	item.InternalName = fullname
 
 	pluto.tiers.byname[name] = item
 
