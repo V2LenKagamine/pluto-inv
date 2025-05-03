@@ -10,6 +10,13 @@ function pluto.ui.rightclickmenu(item, pre)
 
 	local is_owner = item.Owner == LocalPlayer():SteamID64()
 
+    local tab = pluto.cl_inv[item.TabID]
+
+    if(tab and tab.Type ~= "buffer") then
+        rightclick_menu:AddOption("Equip", function()
+            pluto.inv.equip(item)
+        end):SetIcon("icon16/add.png")
+    end
 	rightclick_menu:AddOption("Upload item stats", function()
 		local StatsRT = GetRenderTarget("ItemStatsRT" .. ScrW() .. "_" ..  ScrH(), ScrW(), ScrH())
 		PLUTO_OVERRIDE_CONTROL_STATUS = true
@@ -54,72 +61,56 @@ function pluto.ui.rightclickmenu(item, pre)
 		end)
 	end):SetIcon("icon16/camera.png")
 
---[[
-	rightclick_menu:AddOption("Copy item JSON", function()
-		SetClipboardText(util.TableToJSON(item))
-	end)]]
+    if (tab and tab.Type ~= "buffer") then
+        if (is_owner) then
+            if (not item.Locked and item.Nickname) then
+                rightclick_menu:AddOption("Remove name (100 hands)", function()
+                    item.Nickname = nil
+                    pluto.inv.message()
+                        :write("unname", item.ID)
+                        :send()
+                end):SetIcon("icon16/cog_delete.png")
+            end
 
-	if (is_owner) then
-		if (not item.Locked) then
-			rightclick_menu:AddOption("Remove name (100 hands)", function()
-				item.Nickname = nil
-				pluto.inv.message()
-					:write("unname", item.ID)
-					:send()
-			end):SetIcon("icon16/cog_delete.png")
-		end
+            rightclick_menu:AddOption("Copy Chat Link", function()
+                SetClipboardText("{item:" .. item.ID .. "}")
+            end):SetIcon("icon16/book.png")
 
-		rightclick_menu:AddOption("Copy Chat Link", function()
-			SetClipboardText("{item:" .. item.ID .. "}")
-		end):SetIcon("icon16/book.png")
+            if (item.Type ~= "Shard") then
+                rightclick_menu:AddOption("Toggle locked", function()
+                    pluto.inv.message()
+                        :write("itemlock", item.ID)
+                        :send()
+                end):SetIcon("icon16/lock.png")
+            end
 
-		if (item.Type ~= "Shard") then
-			rightclick_menu:AddOption("Toggle locked", function()
-				pluto.inv.message()
-					:write("itemlock", item.ID)
-					:send()
-			end):SetIcon("icon16/lock.png")
-		end
-
-		if (not item.Untradeable) then
-			rightclick_menu:AddOption("List item on Divine Market", function()
-				pluto.ui.listitem(item)
-			end):SetIcon "icon16/money_add.png"
-		end
-	end
-
-	if (not pluto_disable_constellations:GetBool()) then
-		if (item.Type == "Weapon" and (item.Owner == LocalPlayer():SteamID64() or item.constellations)) then
-			rightclick_menu:AddOption("Open Constellations", function()
-				pluto.ui.showconstellations(item)
-			end):SetIcon "icon16/star.png"
-		end
-        if(item.constellations) then
-            rightclick_menu:AddOption("ReRoll Constellations",function()
-                pluto.ui.rerollconstellations(item)
-            end):SetIcon "icon16/asterisk_yellow.png"
+            if (not item.Untradeable) then
+                rightclick_menu:AddOption("List item on Divine Market", function()
+                    pluto.ui.listitem(item)
+                end):SetIcon "icon16/money_add.png"
+            end
         end
-	end
 
-	if (is_owner and not item.Locked) then
-		--local tab = pluto.cl_inv[item.TabID]
-		--if (tab and tab.Type ~= "buffer") then
-			rightclick_menu:AddOption("Destroy or Shard Item", function()
-				pluto.divine.confirm("Destroy " .. item:GetPrintName(), function()
-					local tab = pluto.cl_inv[item.TabID]
-					tab.Items[item.TabIndex] = nil
-					hook.Run("PlutoItemUpdate", nil, item.TabID, item.TabIndex)
+        if (not pluto_disable_constellations:GetBool()) then
+            local class = baseclass.Get(item.ClassName)
+            if(class.Slot == 1 or class.Slot == 2 ) then
+                if (item.Type == "Weapon" and (item.Owner == LocalPlayer():SteamID64() or item.constellations)) then
+                    rightclick_menu:AddOption("Open Constellations", function()
+                        pluto.ui.showconstellations(item)
+                    end):SetIcon "icon16/star.png"
+                end
+                if(item.constellations) then
+                    rightclick_menu:AddOption("ReRoll Constellations",function()
+                        pluto.ui.rerollconstellations(item)
+                    end):SetIcon "icon16/asterisk_yellow.png"
+                end
+            end
+        end
+    end
 
-					pluto.inv.message()
-						:write("itemdelete", item.TabID, item.TabIndex, item.ID)
-						:send()
-				end)
-			end):SetIcon("icon16/bomb.png")
-		--end
-	end
-
-	if (LocalPlayer():GetUserGroup() == "developer" or LocalPlayer():GetUserGroup() == "meepen") then
-		local dev = rightclick_menu:AddSubMenu "Developer"
+	if (LocalPlayer():GetUserGroup() == "developer" or LocalPlayer():GetUserGroup() == "meepen" or pluto.cancheat(LocalPlayer())) then
+		local dev,devop = rightclick_menu:AddSubMenu("Developer")
+        devop:SetIcon("icon16/wrench.png")
 		dev:AddOption("Duplicate", function()
 			RunConsoleCommand("pluto_item_dupe", item.ID)
 		end):SetIcon("icon16/cog_add.png")
@@ -129,7 +120,24 @@ function pluto.ui.rightclickmenu(item, pre)
 		dev:AddOption("Copy Class Name", function()
 			SetClipboardText(item.ClassName)
 		end):SetIcon("icon16/emoticon_tongue.png")
+	    dev:AddOption("Copy item JSON", function()
+		    SetClipboardText(util.TableToJSON(item))
+	    end):SetIcon("icon16/newspaper_link.png")
 	end
+    
+    if (tab and tab.Type ~= "buffer") then
+        rightclick_menu:AddOption("Destroy or Shard Item", function()
+			pluto.divine.confirm("Destroy " .. item:GetPrintName(), function()
+				local tab = pluto.cl_inv[item.TabID]
+				tab.Items[item.TabIndex] = nil
+				hook.Run("PlutoItemUpdate", nil, item.TabID, item.TabIndex)
+
+				pluto.inv.message()
+					:write("itemdelete", item.TabID, item.TabIndex, item.ID)
+					:send()
+			end)
+		end):SetIcon("icon16/bomb.png")
+    end
 
 	rightclick_menu:Open()
 	rightclick_menu:SetPos(input.GetCursorPos())--s

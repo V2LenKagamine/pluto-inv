@@ -87,7 +87,17 @@ function pluto.inv.writeitem(ply, item)
 		net.WriteString(item.Owner or "0")
 		net.WriteBool(item.Untradeable)
 
-		if (item.constellations) then
+        if(item.Color) then
+            net.WriteBool(true)
+            local arr,gee,bee = item.Color:Unpack()
+            net.WriteUInt(arr,8)
+            net.WriteUInt(gee,8)
+            net.WriteUInt(bee,8)
+        else
+            net.WriteBool(false)
+        end
+
+		if (item.constellations and not pluto_disable_constellations:GetBool()) then
 			net.WriteBool(true)
 			pluto.inv.writeconstellations(ply, item.constellations)
 		else
@@ -247,7 +257,7 @@ function pluto.inv.writebaseitem(ply, item)
 		net.WriteBool(false)
 	end
 
-	if (item.Type == "Shard" or item.Type == "Weapon") then
+	if (item.Type == "Shard" or item.Type == "Weapon" or item.Type == "Consumable") then
 		if (item.Tier.InternalName == "crafted") then
 			net.WriteBool(true)
 			for i = 1, 3 do
@@ -255,7 +265,7 @@ function pluto.inv.writebaseitem(ply, item)
 			end
 		else
 			net.WriteBool(false)
-			net.WriteString(item.Tier.InternalName)
+			net.WriteString(pluto.weapons.realtiername(item.Tier.InternalName))
 		end
 	end
 
@@ -513,9 +523,9 @@ function pluto.inv.readitemdelete(ply)
 			return
 		end
 		
-		if (IsValid(ply) and i.Type == "Weapon" and i.Tier.InternalName ~= "crafted" and math.random() < 0.8) then
-			pluto.inv.generatebuffershard(db, ply, "DELETE", i.Tier.InternalName)
-			if (pluto.tiers.byname[i.Tier.InternalName] and pluto.tiers.byname[i.Tier.InternalName].affixes >= 5) then
+		if (IsValid(ply) and i.Type == "Weapon" and i.Tier.InternalName ~= "crafted" and math.random() <= 0.8) then
+			pluto.inv.generatebuffershard(db, ply, "DELETE", pluto.weapons.realtiername(i.Tier.InternalName))
+			if (pluto.tiers.byname[pluto.weapons.realtiername(i.Tier.InternalName)] and pluto.tiers.byname[pluto.weapons.realtiername(i.Tier.InternalName)].affixes >= 5) then
 				hook.Run("PlutoRareDrop", ply, "Shard")
 			end
 		end

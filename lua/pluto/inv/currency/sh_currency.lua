@@ -7,7 +7,7 @@ pluto.currency.byname = pluto.currency.byname or {}
 local list = {
 	{
 		InternalName = "droplet",
-		Name = "Crystal Droplet",
+		Name = "Sapphire Droplet",
 		Icon = "pluto/currencies/droplet.png",
 		Description = "Removes all modifiers and rolls new ones",
 		SubDescription = "Some kind of crystal.",
@@ -29,7 +29,7 @@ local list = {
 	},
 	{
 		InternalName = "aciddrop",
-		Name = "Acidic Droplet",
+		Name = "Jade Droplet",
 		Icon = "pluto/currencies/green_droplet.png",
 		Description = "Rerolls prefix modifiers on an item",
 		SubDescription = "Some kind of caustic crystal.",
@@ -46,7 +46,7 @@ local list = {
 	},
 	{
 		InternalName = "pdrop",
-		Name = "Phoric Droplet",
+		Name = "Amethyst Droplet",
 		Icon = "pluto/currencies/purple_droplet.png",
 		Description = "Rerolls suffix modifiers on an item",
 		SubDescription = "Some kind of crystal imbued with a strange energy.",
@@ -63,7 +63,7 @@ local list = {
 	},
 	{
 		InternalName = "hand",
-		Name = "Hand",
+		Name = "Golden Monkey Paw",
 		Icon = "pluto/currencies/goldenhand.png",
 		Description = "Remove random mod,+1 tier of another",
 		SubDescription = "Some kind of hand from a monkey, coated in gold.",
@@ -84,7 +84,7 @@ local list = {
 	},
 	{
 		InternalName = "dice",
-		Name = "Randomizer Die",
+		Name = "Fate's Die",
 		Icon = "pluto/currencies/dice.png",
 		Description = "Randomizes all the rolls on modifiers",
 		SubDescription = "A die made of unknown material, coated in gold.",
@@ -105,7 +105,7 @@ local list = {
 	},
 	{
 		InternalName = "tome",
-		Name = "Magic Tome",
+		Name = "Forbidden Tome",
 		Icon = "pluto/currencies/tome.png",
 		Description = "Corrupts an item unpredictably",
 		SubDescription = "A book containing secrets not meant for most.",
@@ -126,10 +126,10 @@ local list = {
 	},
 	{
 		InternalName = "endround",
-		Name = "End-round Crate",
+		Name = "Weapons Crate",
 		Icon = "pluto/currencies/crate0.png",
-		Description = "Contains an item!",
-		SubDescription = "A seemingly standard crate, containing who knows what.",
+		Description = "Contains a random base weapon!",
+		SubDescription = "An inconspicuous crate, probably holds a weapon.",
 		NoTarget = true,
 		Color = Color(133, 92, 58),
 		ClientsideUse = function()
@@ -153,7 +153,7 @@ local list = {
 		Name = "Blue Egg",
 		Icon = "pluto/currencies/crate0_new.png",
 		Description = "Contains a model or a very rare weapon!",
-		SubDescription = "Who's there? It's been so long... please don't open me... I want to live...",
+		SubDescription = "You hear whispers from inside...",
 		NoTarget = true,
 		Color = Color(71, 170, 222),
 		ClientsideUse = function()
@@ -211,7 +211,7 @@ local list = {
 		Name = "Orange Egg",
 		Icon = "pluto/currencies/crate2.png",
 		Description = "Contains a model or a very rare weapon!",
-		SubDescription = "Hi! I missed you!! How have you been?!",
+		SubDescription = "Sounds like a party in there.",
 		NoTarget = true,
 		Color = Color(242, 132, 57),
 		ClientsideUse = function()
@@ -306,9 +306,9 @@ local list = {
 	},
 	{
 		InternalName = "crate1",
-		Name = "Present (2019)",
+		Name = "Ancient Red Present",
 		Icon = "pluto/currencies/crate1.png",
-		Description = "Contains a 2019 Holiday Item!",
+		Description = "Contains something from the 2019 Pluto Christmas event.",
 		SubDescription = "Is that... it couldn't be... and what is he holding?",
 		NoTarget = true,
 		Color = Color(188, 2, 1),
@@ -385,9 +385,9 @@ local list = {
 	},
 	{
 		InternalName = "xmas2020",
-		Name = "Present",
+		Name = "Ancient Blue Present",
 		Icon = "pluto/currencies/xmas2020.png",
-		Description = "Contains a 2020 Holiday Item!",
+		Description = "Contains Something from the 2020 Pluto Christmas event.",
 		SubDescription = "Joy to the world!",
 		NoTarget = true,
 		Color = Color(17, 110, 191),
@@ -454,10 +454,10 @@ local list = {
 	},
 	{
 		InternalName = "heart",
-		Name = "Crystal Heart",
+		Name = "Ruby Heart",
 		Icon = "pluto/currencies/heart.png",
 		Description = "Adds a random modifier.",
-		SubDescription = "A heart shaped crystal, seemingly ruby, or maybe spinel?",
+		SubDescription = "A heart shaped ruby, teeming with strange energy.",
 		Color = Color(204, 43, 75),
 		Crafted = {
 			Chance = 1 / 2,
@@ -470,10 +470,10 @@ local list = {
 	},
 	{
 		InternalName = "coin",
-		Name = "Coin",
+		Name = "Golden Coin",
 		Icon = "pluto/currencies/coin.png",
 		Description = "Adds a storage tab.",
-		SubDescription = "Hollar hollar get dollar.",
+		SubDescription = "A solid gold coin!",
 		Color = Color(254, 233, 105),
 		NoTarget = true,
 		Crafted = {
@@ -485,10 +485,10 @@ local list = {
 	},
 	{
 		InternalName = "mirror",
-		Name = "Silver Mirror",
-		Icon = "pluto/currencies/brokenmirror.png",
+		Name = "Enchanted Mirror",
+		Icon = "pluto/currencies/mirrormagic.png",
 		Description = "Creates a mirror image of an item which is unmodifiable.",
-		SubDescription = "A strange mirror, once used to copy something too large for its own good.",
+		SubDescription = "A strange mirror, you could almost reach inside...",
 		Color = Color(177, 173, 205),
 
 		Category = "Modify",
@@ -566,7 +566,7 @@ local list = {
 		InternalName = "brainegg",
 		Name = "Infested Brain",
 		Icon = "pluto/currencies/brainegg.png",
-		Description = "Contains a Halloween 2020 Item",
+		Description = "Contains an item from the Pluto 2020 Halloween event.",
 		SubDescription = "Heya Tom its Bob, from the office down the hall...",
 		Color = Color(0x92, 0xd4, 0x00),
 		NoTarget = true,
@@ -658,8 +658,8 @@ local list = {
 		InternalName = "crate3",
 		Name = "Consumed Pink Egg",
 		Icon = "pluto/currencies/crate3.png",
-		Description = "Contains a Easter Unique",
-		SubDescription = "...they are torturing me in here.",
+		Description = "Contains an Easter Unique item.",
+		SubDescription = "Faster than the tortise, but at what cost?",
 		Color = Color(235, 70, 150, 255),
 		NoTarget = true,
 		ClientsideUse = function()
@@ -701,8 +701,8 @@ local list = {
 		InternalName = "crate3_n",
 		Name = "Pink Egg",
 		Icon = "pluto/currencies/crate3_norm.png",
-		Description = "Contains an Easter Item",
-		SubDescription = "hi! :)",
+		Description = "Contains an Easter Item.",
+		SubDescription = "Sounds mostly hollow; mostly.",
 		Color = Color(235, 70, 150, 255),
 		NoTarget = true,
 		ClientsideUse = function()
@@ -764,8 +764,8 @@ local list = {
 		InternalName = "stardust",
 		Name = "Stardust",
 		Icon = "pluto/currencies/stardust.png",
-		Description = "Currency in the God's Market",
-		SubDescription = "Dust from a star far away.",
+		Description = "Currency for the Star-Exchange",
+		SubDescription = "Hot, yet cold. Twinkles strangely.",
 		Color = Color(254, 233, 105),
 		NoTarget = true,
 		ClientsideUse = function()
@@ -782,7 +782,7 @@ local list = {
 		Name = "Developer Bag",
 		Icon = "pluto/currencies/potatoes.png",
 		Description = "Contains a developer-only model",
-		SubDescription = "potato",
+		SubDescription = "Tomato,Tomato,Ching-Chong: Potato!",
 		Color = Color(254, 233, 105),
 		ClientsideUse = function()
 		end,
@@ -895,7 +895,7 @@ local list = {
 	{
 		Shares = 0,
 		InternalName = "_emojibag",
-		Name = "Random Emoji",
+		Name = "Emoji Grab-Bag",
 		Icon = "pluto/emoji/b1.png",
 		Color = Color(192, 191, 190),
 		SkipNotify = true,
@@ -911,6 +911,81 @@ local list = {
 		Color = Color(255, 213, 0),
 		SkipNotify = true,
 		Fake = true,
+	},
+    //Pluto attempt 2 begins here
+    {
+		InternalName = "crate_cons1",
+		Name = "Supplies Crate : E1",
+		Icon = "pluto/currencies/cratecon.png",
+		Description = "A crate, containing supportive items.",
+		SubDescription = "The crude spray-paint seems to imply it's contents are not weapons,probably.",
+		NoTarget = true,
+		Color = Color(133, 92, 58),
+		ClientsideUse = function()
+			if (IsValid(pluto.opener)) then
+				pluto.opener:Remove()
+			end
+
+			pluto.opener = vgui.Create "tttrw_base"
+
+			pluto.opener:AddTab("Open Box", vgui.Create("pluto_box_open"):SetCurrency("crate_cons1"))
+
+			pluto.opener:SetSize(640, 400)
+			pluto.opener:Center()
+			pluto.opener:MakePopup()
+		end,
+		Contents = {
+			consumable_pluto_adren = {
+				Tier = "generic",
+				Shares = 10,
+			},
+            consumable_pluto_antidot = {
+				Tier = "generic",
+				Shares = 10,
+			},
+            consumable_pluto_htmk = {
+				Tier = "generic",
+				Shares = 10,
+			},
+            consumable_pluto_nano_bandage = {
+				Tier = "generic",
+				Shares = 10,
+			},
+            consumable_pluto_rage = {
+				Tier = "generic",
+				Shares = 10,
+			},
+            consumable_pluto_regenerator = {
+				Tier = "generic",
+				Shares = 10,
+			},
+            consumable_pluto_sight = {
+				Tier = "generic",
+				Shares = 10,
+			},
+            consumable_pluto_slregenerator = {
+				Tier = "generic",
+				Shares = 10,
+			},
+            consumable_pluto_stak = {
+				Tier = "generic",
+				Shares = 10,
+			},
+            consumable_pluto_tmk = {
+				Tier = "generic",
+				Shares = 10,
+			},
+            consumable_pluto_tsk = {
+				Tier = "generic",
+				Shares = 10,
+			},
+            consumable_ttt_buildawall = {
+				Rare = true,
+				Tier = "generic",
+				Shares = 0.2,
+			},
+		},
+		Category = "Unbox",
 	},
 }
 

@@ -3,6 +3,7 @@
      * file, You can obtain one at https://mozilla.org/MPL/2.0/. ]]
 
 pluto_buffer_notify = CreateConVar("pluto_buffer_notify", "0", FCVAR_ARCHIVE, "", 0, 1)
+pluto_cl_debug_inv = CreateConVar("pluto_do_inv_net_debug", "0",FCVAR_ARCHIVE, "Prints debug stuff for nerds about inventory reading.",0,1)
 
 pluto.cl_inv = pluto.cl_inv or {}
 --[[
@@ -68,7 +69,7 @@ function pluto.inv.readbaseitem(item)
 
 	item.Type = pluto.inv.itemtype(item)
 
-	if (item.Type == "Weapon" or item.Type == "Shard") then
+	if (item.Type == "Weapon" or item.Type == "Shard" or item.Type == "Consumable") then
 		if (net.ReadBool()) then
 			local t1, t2, t3 = net.ReadString(), net.ReadString(), net.ReadString()
 			item.Tier = pluto.tiers.craft {t1, t2, t3}
@@ -119,7 +120,9 @@ end
 
 function pluto.inv.readitem()
 	local id = net.ReadUInt(32)
-
+    if(pluto_cl_debug_inv:GetBool()) then
+        print("Attempting loading of Item ID: " .. id)
+    end
 	if (not net.ReadBool()) then
 		return pluto.received.item[id]
 	end
@@ -139,6 +142,13 @@ function pluto.inv.readitem()
 	item.CreationMethod = net.ReadString()
 	item.Owner = net.ReadString()
 	item.Untradeable = net.ReadBool()
+
+    if(net.ReadBool()) then
+        item.Color = Color(net.ReadUInt(8),net.ReadUInt(8),net.ReadUInt(8),0)
+    else
+        item.Color = nil
+    end
+    
 	if (net.ReadBool()) then
 		item.constellations = pluto.inv.readconstellations()
 	else
@@ -168,7 +178,10 @@ function pluto.inv.readitem()
 	pluto.received.item[id] = item
 
 	hook.Run("PlutoItemUpdate", item, item.TabID, item.TabIndex)
-
+    if(pluto_cl_debug_inv:GetBool()) then
+        print("The item looks like this after read: ")
+        PrintTable(item)
+    end
 	return item
 end
 
@@ -225,6 +238,9 @@ function pluto.inv.readtab()
 	for i = 1, net.ReadUInt(8) do
 		local tabindex = net.ReadUInt(8)
 		local item = pluto.inv.readitem()
+        if(not item) then
+            pluto.error("Item read invalidly! Reading Tab: "..id)
+        end
 		tab.Items[tabindex] = item
 		item.TabID = id
 		item.TabIndex = tabindex

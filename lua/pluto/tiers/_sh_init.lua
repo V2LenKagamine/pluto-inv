@@ -89,13 +89,13 @@ function pluto.tiers.random(gun)
 	local type = pluto.weapons.type(gun)
 
 	if (not type) then
-		return
+		pluto.error("No type to pluto.tiers.random!")
 	end
 
 	local typelist = pluto.tiers.bytype[type]
 
 	if (not typelist) then
-		return
+		pluto.error("No typelist to pluto.tiers.random!")
 	end
 
 	local rand = math.random() * typelist.shares
@@ -108,6 +108,14 @@ function pluto.tiers.random(gun)
 	end
 
 	error "Reached end of loop in pluto.tiers.random!" 
+end
+--Why here? Because weapons isnt shared.
+function pluto.weapons.realtiername(name)
+    if(string.find(name,"-") ~= nil) then
+        local undone = string.Split(name,"-")
+        return undone[2]
+    end
+    return name
 end
 
 function pluto.tiers.craft(tiers)
@@ -123,21 +131,30 @@ function pluto.tiers.craft(tiers)
 		return t1
 	end
 
-	local name = t1.InternalName .. "-" .. t2.InternalName .. "-" .. t3.InternalName
+	local name = pluto.weapons.realtiername(t1.InternalName) .. "-" .. pluto.weapons.realtiername(t2.InternalName) .. "-" .. pluto.weapons.realtiername(t3.InternalName)
 
 	if (pluto.tiers.crafted[name]) then
 		return pluto.tiers.crafted[name]
 	end
 
+    local color
+
+    local Clr1,Clr2,Clr3 = t1.Color,t2.Color,t3.Color
+
+    if(Clr1 and Clr2 and Clr3) then
+        color = pluto.tiers.craftedcolor(Clr1,Clr2,Clr3)
+    end
+
 	local tier = setmetatable({
 		Name = "Crafted",
 		InternalName = "crafted",
 		Tiers = {
-			t1.InternalName,
-			t2.InternalName,
-			t3.InternalName,
+			pluto.weapons.realtiername(t1.InternalName),
+			pluto.weapons.realtiername(t2.InternalName),
+			pluto.weapons.realtiername(t3.InternalName),
 		},
 		Crafted = true,
+        ["Color"] = color,
 	}, pluto.tier_mt)
 
 	pluto.tiers.crafted[name] = tier
@@ -168,30 +185,45 @@ function pluto.tiers.craft(tiers)
 	return tier
 end
 
-for _, name in pairs {
-	"common",
-	"confused",
-	"easter_unique",
-	"festive",
-	"gamer",
-	"inevitable",
-	"junk",
-	"legendary",
-	"mystical",
-	"otherworldly",
-	"powerful",
-	"promised",
-	"shadowy",
-	"stable",
-	"tester",
-	"uncommon",
-	"unique",
-	"unusual",
-	"vintage",
+function pluto.tiers.craftedcolor(Clr1,Clr2,Clr3)
+    local color
+    local C1R,C1G,C1B = Clr1:Unpack()
+    local C2R,C2G,C2B = Clr2:Unpack()
+    local C3R,C3G,C3B = Clr3:Unpack()
+    local newR = (C1R * 0.5) + ((C2R + C3R) * 0.25)
+    local newG = (C2G * 0.5) + ((C1G + C3G) * 0.25)
+    local newB = (C3B * 0.5) + ((C1B + C2B) * 0.25)
+    color = Color(newR,newG,newB)
+    return color
+end
 
-	"unstable",
-	"stabilized",
-	"explosive",
+--Do not name something the same as another, even if different folder.
+for _, name in pairs {
+	"weapons/common",
+	"weapons/confused",
+	"weapons/easter_unique",
+	"weapons/festive",
+	"weapons/gamer",
+	"weapons/inevitable",
+	"weapons/junk",
+	"weapons/legendary",
+	"weapons/mystical",
+	"weapons/otherworldly",
+	"weapons/powerful",
+	"weapons/promised",
+	"weapons/shadowy",
+	"weapons/stable",
+	"weapons/tester",
+	"weapons/uncommon",
+	"weapons/unique",
+	"weapons/unusual",
+	"weapons/vintage",
+
+	"grenades/unstable",
+	"grenades/stabilized",
+	"grenades/explosive",
+
+    "consumables/generic",
     
 } do
 	AddCSLuaFile("pluto/tiers/" .. name .. ".lua")
@@ -200,7 +232,9 @@ for _, name in pairs {
 		pwarnf("Tier %s didn't return a value", name)
 		continue
 	end
-
+    local pathtable = string.Split(name,"/")
+    name = pathtable[2]
+    local fullname = table.concat(pathtable,"-")
 	setmetatable(item, pluto.tier_mt)
 
 	local prev = pluto.tiers.byname[name]
@@ -211,7 +245,7 @@ for _, name in pairs {
 		item = prev
 	end
 
-	item.InternalName = name
+	item.InternalName = fullname
 
 	pluto.tiers.byname[name] = item
 

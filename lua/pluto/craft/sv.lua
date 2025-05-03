@@ -84,9 +84,9 @@ end
 
 function pluto.craft.alloutcomes(items)
 	local tiers = {
-		items[1].Tier.InternalName,
-		items[2].Tier.InternalName,
-		items[3].Tier.InternalName,
+		pluto.weapons.realtiername(items[1].Tier.InternalName),
+		pluto.weapons.realtiername(items[2].Tier.InternalName),
+		pluto.weapons.realtiername(items[3].Tier.InternalName),
 	}
 
 	local out = {}
@@ -239,15 +239,15 @@ function pluto.inv.readcraft(cl)
 
 	local tiers = {
 		{
-			tier = items[1].Tier.InternalName,
+			tier = pluto.weapons.realtiername(items[1].Tier.InternalName),
 			r = math.random(),
 		},
 		{
-			tier = items[2].Tier.InternalName,
+			tier = pluto.weapons.realtiername(items[2].Tier.InternalName),
 			r = math.random(),
 		},
 		{
-			tier = items[3].Tier.InternalName,
+			tier = pluto.weapons.realtiername(items[3].Tier.InternalName),
 			r = math.random(),
 		},
 	}
@@ -263,7 +263,7 @@ function pluto.inv.readcraft(cl)
 			break
 		end
 
-		if (item.Tier.InternalName == "promised") then
+		if (item.Tier.InternalName == "weapons/promised") then
 			promised = true
 		end
 	end
@@ -290,12 +290,12 @@ function pluto.inv.readcraft(cl)
 	end
 
 	local tier = pluto.tiers.craft(tiers)
-
+    --[[
 	if (promised and not class) then
 		class = "tfa_cso_sapientia"
 		tier = pluto.tiers.byname.unique
 	end
-
+    ]]
 	local wpn = pluto.weapons.generatetier(tier, class)
 
 	if (cur) then
@@ -319,7 +319,7 @@ function pluto.inv.readcraft(cl)
 		discord.Message():AddEmbed(
 			wpn:GetDiscordEmbed()
 				:SetAuthor(cl:Nick() .. "'s", "https://steamcommunity.com/profiles/" .. cl:SteamID64())
-		):Send "crafts"
+		):Send("crafts")
 	end
 
 	pluto.db.transact(function(db)
@@ -337,6 +337,7 @@ function pluto.inv.readcraft(cl)
 		end
 
 		wpn.CreationMethod = "CRAFT"
+        wpn.Color = tier.Color
 		pluto.inv.savebufferitem(db, cl, wpn)
 		mysql_commit(db)
 	end)

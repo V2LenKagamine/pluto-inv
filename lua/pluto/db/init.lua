@@ -35,6 +35,8 @@ hook.Add("PlutoDatabaseInitialize", "pluto_inv_init", function(db)
 
 			creation_method enum("DROPPED", "SPAWNED", "UNBOXED", "FOUND", "DELETE", "QUEST", "REWARD", "MIRROR", "CRAFT", "BOUGHT") NOT NULL DEFAULT "DROPPED",
 
+            icolor INT UNSIGNED,
+
 			UNIQUE INDEX (tab_id, tab_idx),
 			INDEX itemid(idx)
 		)

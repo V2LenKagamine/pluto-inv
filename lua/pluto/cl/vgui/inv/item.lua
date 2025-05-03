@@ -340,7 +340,7 @@ function PANEL:PaintInner(pnl, w, h, x, y)
 
 	render.SetColorModulation(1, 1, 1)
 	local item_type = self.Item and self.Item.Type or self.DefaultType
-	if (IsValid(mdl) and item_type == "Weapon") then
+	if (IsValid(mdl) and (item_type == "Weapon" or item_type == "Consumable")) then
 		local class_name = self.Item and self.Item.ClassName or self.DefaultClass
 		local item_color = self.Item and self.Item:GetColor() or Color(255, 255, 255, 25)
 		local blend = render.GetBlend()
@@ -489,7 +489,7 @@ function PANEL:GetCurrentModel()
 
 	local item_type = item and item.Type or self.DefaultType
 
-	if (item_type == "Weapon") then
+	if (item_type == "Weapon" or item_type == "Consumable") then
 		local class = baseclass.Get(item and item.ClassName or self.DefaultClass)
 		return class.PlutoModel or class.WorldModel
 	elseif (item_type == "Model") then
@@ -511,7 +511,7 @@ function PANEL:GetCurrentModelMaterial()
 		return
 	end
 
-	if (item.Type == "Weapon") then
+	if (item.Type == "Weapon" or item.Type == "Consumable") then
 		local class = baseclass.Get(item.ClassName)
 		return class.PlutoMaterial
 	end
@@ -612,14 +612,8 @@ function PANEL:OnRightClick()
 	if (not self.Item) then
 		return
 	end
-
-	pluto.ui.rightclickmenu(self.Item, function(menu, item)
-		if (self.TabIndex) then
-			menu:AddOption("Equip", function()
-				pluto.inv.equip(item)
-			end):SetIcon "icon16/add.png"
-		end
-	end)
+    pluto.ui.rightclickmenu(self.Item, function(menu, item)
+    end)
 end
 
 function PANEL:OnLeftClick()

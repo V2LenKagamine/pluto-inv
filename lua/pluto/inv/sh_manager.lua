@@ -149,14 +149,17 @@ pluto.inv.messages = {
 }
 
 function pluto.inv.itemtype(i)
-	local class = type(i) == "table" and i.ClassName or i
+    local class = istable(i) and i.ClassName or i
+    if(not class) then return "Unknown" end
 	if (class == "shard") then
 		return "Shard"
-	elseif (class:StartWith "weapon_" or class:StartWith "tfa_") then
+	elseif (string.StartsWith(class,"weapon_") or string.StartsWith(class,"tfa_")) then
 		return "Weapon"
-	elseif (class:StartWith "model_") then
+	elseif (string.StartsWith(class,"model_")) then
 		return "Model"
-	else
+    elseif (string.StartsWith(class,"consumable_")) then
+        return "Consumable"
+    else
 		return "Unknown"
 	end
 end
@@ -323,13 +326,13 @@ function ITEM:GetMod(name)
 end
 
 function ITEM:GetBackgroundTexture()
-	if (self.Type == "Shard" or self.Type == "Weapon") then
+	if (self.Type == "Shard" or self.Type == "Weapon" or self.Type == "Consumable") then
 		return self.Tier and self.Tier.tags and self.Tier.tags.texture
 	end
 end
 
 function ITEM:GetOverlayFunction()
-	if (self.Type == "Shard" or self.Type == "Weapon") then
+	if (self.Type == "Shard" or self.Type == "Weapon" or self.Type == "Consumable") then
 		return function(...)
 			local fn = self.Tier and self.Tier.rolltierdraw or nil
 			if (fn) then
@@ -389,18 +392,25 @@ end
 
 function ITEM:GetRawName(ignoretier)
 	if (self.Type == "Shard") then
-		local tier = self.Tier
+		local tier = self.Tier or ""
 		if (istable(tier)) then
 			tier = tier.Name
 		end
 		return tier .. " Tier Shard"
 	elseif (self.Type == "Weapon") then -- item
 		local w = baseclass.Get(self.ClassName)
-		local tier = self.Tier
+		local tier = self.Tier or ""
 		if (istable(tier)) then
 			tier = tier.Name
 		end
 		return (ignoretier and "" or tier .. " ") .. (w and w.PrintName or "N/A")
+    elseif (self.Type == "Consumable") then
+		local w = baseclass.Get(self.ClassName)
+        local tier = self.Tier or ""
+        if (istable(tier)) then
+			tier = tier.Name
+		end
+        return (w and w.PrintName or "object?")
 	elseif (self.Type == "Model") then
 		return self.Model.Name .. " Model"
 	end
@@ -475,14 +485,15 @@ local mod_colors = {
 
 function ITEM:GetColor()
 	local col = color_white
-	if (self.Type == "Weapon" or self.Type == "Shard") then
-		if (self.Tier.Color) then
-			return self.Tier.Color
-		end
-
-		return mod_colors[self:GetMaxAffixes() + (self.Tier.Type == "Grenade" and 1 or 0)] or mod_colors[0]
-	elseif (self.Color) then
-		col = self.Color
+	if (self.Type == "Weapon" or self.Type == "Shard" or self.Type == "Consumable") then
+        if(self.Tier) then
+            if (self.Tier.Color) then
+                return self.Tier.Color
+            elseif (self.Color) then
+                return self.Color
+            end
+		    return mod_colors[self:GetMaxAffixes() + (self.Tier.Type == "Grenade" and 1 or 0)] or mod_colors[0]
+        end
 	elseif (self.Type == "Model") then
 		col = self.Model.Color
 	end

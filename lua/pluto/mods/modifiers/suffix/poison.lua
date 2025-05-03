@@ -30,73 +30,18 @@ function MOD:ModifyWeapon(wep, rolls)
 end
 
 function MOD:OnDamage(wep, rolls, vic, dmginfo, state)
-	if (IsValid(vic) and vic:IsPlayer() and dmginfo:GetDamage() > 0) then
-		state.poisonstacks = math.ceil(wep:ScaleRollType("damage", rolls[1]) / 100 * dmginfo:GetDamage())
+	if (not IsValid(target) or not isentity(target) or dmg:GetInflictor():GetClass() == "pluto_status") then return end
+    if(vic:IsPlayer() and dmginfo:GetDamage() > 0) then
+		state.poisonstacks = (wep:ScaleRollType("damage", rolls[1])/100) * dmginfo:GetDamage()
 	end
 end
 
-function MOD:PostDamage(wep, rolls, vic, dmginfo, state)
+function MOD:PostDamage(wep, rolls, target, dmg, state)
+    if(not state) then return end
 	if (state.poisonstacks) then
-		dmginfo:SetDamage(dmginfo:GetDamage() - state.poisonstacks)
-		self:DoStuff(target,dmginfo:GetAttacker() , state.poisonstacks)
+		dmg:SetDamage(dmg:GetDamage() - state.poisonstacks)
+		pluto.statuses.byname["poison"]:AddStatus(target,dmg:GetAttacker(),state.poisonstacks)
 	end
-end
-
-pluto.statuses = pluto.statuses or {}
-pluto.statuses.poison = pluto.statuses.poison or {}
-function MOD:DoStuff(target, atk, stacks)
-    local status
-    if(not isentity(target)) then return end
-    for _, ent in pairs(target:GetChildren()) do
-        if(ent.PrintName == "Pluto_Poison") then
-            status = ent
-            break
-        end
-    end
-    if(not IsValid(status)) then
-        status = ents.Create("pluto_status")
-        status:SetParent(target)
-        status.PrintName = "Pluto_Poison"
-        status.Data = {
-            Dealer = atk,
-            OnThink = pluto.statuses.poison.DoThink,
-            TicksLeft = stacks,
-            ThinkDelay = 0.75,
-            Hook_Noheal = {
-                "PlutoHealthGain",
-                pluto.statuses.poison.NoHeal,
-            },
-        }
-        status:Spawn()
-    else
-        status.Data.TicksLeft = status.Data.TicksLeft + stacks
-    end
-end
-
-function pluto.statuses.poison.DoThink(ent)
-    if(not ent) then return end
-    local vic = ent:GetParent()
-
-    local todeal = 0.8
-
-    local dinfo = DamageInfo()
-    if(IsValid(ent.Data.Dealer)) then
-        dinfo:SetAttacker(ent.Data.Dealer)
-    else
-        dinfo:SetAttacker(game.GetWorld())
-    end
-    dinfo:SetDamageType(DMG_DIRECT + DMG_BULLET)
-    dinfo:SetDamagePosition(vic:GetPos())
-    dinfo:SetDamage(todeal)
-    vic:TakeDamageInfo(dinfo)
-end
-
-function pluto.statuses.poison.NoHeal(healer,amnt)
-    for _,ent in pairs(healer:GetChildren()) do
-        if(ent.PrintName == "Pluto_Poison") then 
-            return false 
-        end
-    end
 end
 
 return MOD

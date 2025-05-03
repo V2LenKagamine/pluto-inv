@@ -20,17 +20,16 @@ end
 
 function MOD:FormatModifier(index, roll)
     local rtn = roll
-    if(index == 2) then rtn = - rtn end
 	return string.format("%.01f%%", rtn)
 end
 
 MOD.Description = "Damage +%.01f%%; Firerate -%.01f%%."
 
 MOD.Tiers = {
-	{ 10, 15, 7.5, 10 },
-	{ 6, 10, 5, 7.5 },
-	{ 3, 6, 3, 5 },
-	{ 1, 3, 0.5, 3 },
+	{ 10, 15, -3.75, -5 },
+	{ 6, 10, -2.5, -3.75 },
+	{ 3, 6, -1.5, -2.5 },
+	{ 1, 3, -0.25, -1.5 },
 }
 
 return MOD

@@ -11,7 +11,7 @@ local function FindTierByName(name)
 	end
 
 	for _, tier in pairs(pluto.tiers.byname) do
-		if (tier.InternalName == "unique") then
+		if (tier.InternalName == "weapons/unique") then
 			continue
 		end
 

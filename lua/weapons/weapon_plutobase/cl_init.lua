@@ -78,8 +78,9 @@ end
 
 function SWEP:Initialize()
 	BaseClass.Initialize(self)
-
-	self:PlutoInitialize()
+    if(not self.PlutoConsumable) then
+	    self:PlutoInitialize()
+    end
 
 	pluto.wpn.list[self:GetPlutoID()] = self
 end

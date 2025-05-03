@@ -34,51 +34,8 @@ function MOD:OnKill(wep, rolls, atk, vic)
 	end
 
 	if (atk:GetRoleTeam() ~= vic:GetRoleTeam()) then
-		self:DoStuff(atk,rolls[1],rolls[2])
+		pluto.statuses.byname["heal"]:AddStatus(target,atk,rolls[1],rolls[2])
 	end
 end
 
-pluto.statuses = pluto.statuses or {}
-pluto.statuses.heal = pluto.statuses.heal or {}
-function MOD:DoStuff(target, healper, time)
-    local status
-    if(not isentity(target)) then return end
-    for _, ent in pairs(target:GetChildren()) do
-        if(ent.PrintName == "Pluto_Heal") then
-            status = ent
-            break
-        end
-    end
-    if(not IsValid(status)) then
-        status = ents.Create("pluto_status")
-        status:SetParent(target)
-        status.PrintName = "Pluto_Heal"
-        status.Data = {
-            Dealer = target,
-            OnThink = pluto.statuses.heal.DoThink,
-            TicksLeft = time,
-            ThinkDelay = 1,
-            HealPer = (healper/time)
-        }
-        status:Spawn()
-    else
-        status.Data.TicksLeft = status.Data.TicksLeft + time
-    end
-end
-
-function pluto.statuses.heal.DoThink(ent)
-    local p = ent:GetParent()
-	if (not IsValid(p) or not p:IsPlayer() or not p:Alive()) then
-		ent:Remove()
-		return
-	end
-
-	local heal = ent.Data.HealPer
-	
-	if (p:Health() >= p:GetMaxHealth() or hook.Run("PlutoHealthGain", p, heal)) then
-		return
-	end
-
-	p:SetHealth(math.min(p:GetMaxHealth(), p:Health() + heal))
-end
 return MOD

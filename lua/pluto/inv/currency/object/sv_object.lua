@@ -186,11 +186,11 @@ concommand.Add("pluto_spawn_cur", function(ply, cmd, args)
 
 	local pos = ply:GetEyeTrace().HitPos
 
-	local target = ply
-
-	if (#args > 1 and args[1] == "global") then
-		target = player.GetAll()
-        table.remove(args,1)
+	local target = player.GetAll()
+    local maybe = player.GetBySteamID64(args[2])
+	if (#args > 1 and maybe) then
+		target = player.GetBySteamID64
+        table.remove(args,2)
 	end
 
 	local ent = pluto.currency.entity()

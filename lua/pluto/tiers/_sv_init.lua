@@ -2,23 +2,26 @@
      * License, v. 2.0. If a copy of the MPL was not distributed with this
      * file, You can obtain one at https://mozilla.org/MPL/2.0/. ]]
 local share_count = {
-	common = 50000,
-	confused = 1000,
-	junk = 600000,
-	otherworldly = 500, 
-	shadowy = 750,
-	uncommon = 10000,
-	vintage = 300000,
-	powerful = 10000,
-	stable = 7000, 
-	mystical = 1000, 
+	common = 50000, --.05
+	confused = 1000, -- .001
+	junk = 600000, -- .6
+	otherworldly = 500, -- .0005
+	shadowy = 750, -- 0.00075
+	uncommon = 10000, -- 0.01
+	vintage = 300000, -- .3
+	powerful = 10000, -- .01
+	stable = 7000, -- .007
+	mystical = 1000, -- .001
 
     unstable = 100,
     stabilized = 100,
     explosive = 100,
+
+    generic = 100,
 }
 --Guns = 980250w
---Grenades = 100w
+--Grenades = 300w
+--Consumables 100w
 
 for _, typelist in pairs(pluto.tiers.bytype) do
 	typelist.shares = 0

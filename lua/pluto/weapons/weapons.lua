@@ -3,6 +3,10 @@
      * file, You can obtain one at https://mozilla.org/MPL/2.0/. ]]
 pluto.weapons = pluto.weapons or {}
 
+function pluto.weapons.randomconsumable()
+    return (table.Random(pluto.weapons.consumables))
+end
+
 function pluto.weapons.randomgun()
 	return (table.Random(pluto.weapons.guns))
 end
@@ -16,7 +20,9 @@ function pluto.weapons.randomgrenade()
 end
 
 function pluto.weapons.randomoftype(type)
-	if (type == "Weapon") then
+    if (type == "Consumable") then
+        return pluto.weapons.randomconsumable()
+	elseif (type == "Weapon") then
 		return pluto.weapons.randomgun()
 	elseif (type == "Grenade") then
 		return pluto.weapons.randomgrenade()
@@ -32,12 +38,16 @@ function pluto.weapons.type(gun)
 		return
 	end
 
-	if (gun.Slot == 1 or gun.Slot == 2) then
-		return "Weapon"
-	end
+    if(gun.PlutoConsumable) then
+        return "Consumable"
+    end
 
 	if (gun.Slot == 3) then
 		return "Grenade"
+	end
+
+	if (gun.Slot == 1 or gun.Slot == 2) then
+		return "Weapon"
 	end
 
 	if (gun.Slot == 0) then
@@ -50,14 +60,22 @@ function pluto.weapons.generatetier(tier, wep, tagbiases, rolltier, roll, affixm
 		wep = baseclass.Get(wep)
 	end
 
-	if (not wep) then
-		wep = baseclass.Get(pluto.weapons.randomgun())
-	end
-
 	if (type(tier) == "string") then
 		tier = pluto.tiers.byname[tier]
 	end
 
+	if (not wep and tier) then
+        if(tier.Type == "Consumable") then
+            wep = baseclass.Get(pluto.weapons.randomconsumable())
+        elseif(tier.Type == "Grenade") then
+            wep = baseclass.Get(pluto.weapons.randomgrenade())
+        else
+            wep = baseclass.Get(pluto.weapons.randomgun())
+        end
+	elseif (not wep) then
+        wep = baseclass.Get(pluto.weapons.randomgun())
+    end
+    
 	if (not tier) then
 		tier = pluto.tiers.random(wep)
 	end
@@ -78,7 +96,7 @@ function pluto.weapons.generatetier(tier, wep, tagbiases, rolltier, roll, affixm
 	return setmetatable({
 		ClassName = wep.ClassName,
 		Tier = tier,
-		Type = "Weapon",
+		Type = tier.Type or "Weapon",
 		Mods = tier.affixes < 1 and {} or pluto.mods.generateaffixes(
 			wep,
 			math.random(1, affixmax or tier.affixes or 0),
@@ -101,7 +119,7 @@ function pluto.weapons.update(db, item)
 	assert(item.TabIndex, "no tabindex")
 
 	mysql_stmt_run(db, "SELECT * from pluto_items WHERE idx = ? FOR UPDATE", item.RowID)
-	mysql_stmt_run(db, "UPDATE pluto_items SET tier = ?, class = ?, special_name = ?, nick = ? WHERE idx = ?", item.Tier.InternalName, item.ClassName, item.SpecialName, item.Nickname, item.RowID)
+	mysql_stmt_run(db, "UPDATE pluto_items SET tier = ?, class = ?, special_name = ?, nick = ? WHERE idx = ?", pluto.weapons.realtiername(item.Tier.InternalName), item.ClassName, item.SpecialName, item.Nickname, item.RowID)
 	mysql_stmt_run(db, "UPDATE pluto_mods SET deleted = TRUE WHERE gun_index = ?", item.RowID)
 
 	local mod_datas = {}
@@ -156,15 +174,23 @@ function pluto.weapons.save(db, item, owner)
 
 	tab.Items[item.TabIndex] = item
 
-	local data, err = mysql_stmt_run(db, "INSERT INTO pluto_items (tier, class, tab_id, tab_idx, nick, special_name, original_owner, creation_method) VALUES(?, ?, ?, ?, ?, ?, ?, ?)", 
-		type(item.Tier) == "string" and item.Tier or item.Tier and item.Tier.InternalName or "",
+    local savecolor
+    if(item.Color) then
+        local arr,gee,bee = item.Color:Unpack()
+        savecolor = (arr * 65536) + (gee * 256) + bee
+    end
+    
+    local savename = type(item.Tier) == "string" and item.Tier or item.Tier and pluto.weapons.realtiername(item.Tier.InternalName) or ""
+	local data, err = mysql_stmt_run(db, "INSERT INTO pluto_items (tier, class, tab_id, tab_idx, nick, special_name, original_owner, creation_method, icolor) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)", 
+		savename,
 		item.ClassName,
 		item.TabID,
 		item.TabIndex,
 		item.Nickname,
 		item.SpecialName,
 		item.Owner,
-		item.CreationMethod
+		item.CreationMethod,
+        savecolor
 	)
 	if (not data) then
 		error(err)
@@ -297,7 +323,7 @@ function pluto.weapons.generatemod(item, prefix_max, suffix_max, ignoretier)
 	if (prefixes < prefix_max and typemods.prefix) then
 		local t = {}
 		for _, item in pairs(typemods.prefix) do
-			if (not have[item.InternalName]) then
+			if (not have[pluto.weapons.realtiername(item.Tier)]) then
 				t[#t + 1] = item
 			end
 		end
@@ -309,7 +335,7 @@ function pluto.weapons.generatemod(item, prefix_max, suffix_max, ignoretier)
 	if (suffixes < suffix_max and typemods.suffix) then
 		local t = {}
 		for _, item in pairs(typemods.suffix) do
-			if (not have[item.InternalName]) then
+			if (not have[pluto.weapons.realtiername(item.Tier)]) then
 				t[#t + 1] = item
 			end
 		end
