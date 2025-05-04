@@ -256,7 +256,13 @@ end
 function pluto.inv.readcurrencyupdate(ply)
 	local currency = net.ReadString()
 	local amt = net.ReadUInt(32)
+    local oldamnt = pluto.cl_currency[currency]
 	pluto.cl_currency[currency] = amt
+    if(not oldamnt or oldamnt <= 0) then
+        if(IsValid(pluto.ui.pnl) and IsValid(pluto.ui.pnl.Tabs["Currency"])) then
+            pluto.ui.pnl.Tabs["Currency"]:InvalidateLayout()
+        end
+    end
 end
 
 function pluto.inv.readtabupdate()

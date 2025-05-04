@@ -1,7 +1,9 @@
 --[[ * This Source Code Form is subject to the terms of the Mozilla Public
      * License, v. 2.0. If a copy of the MPL was not distributed with this
      * file, You can obtain one at https://mozilla.org/MPL/2.0/. ]]
-local pluto_weapon_droprate = CreateConVar("pluto_weapon_droprate", "0.5", nil, nil, 0, 1)
+local pluto_weapon_droprate = CreateConVar("pluto_weapon_droprate", "0.6", nil, nil, 0, 1)
+local pluto_equip_droprate = CreateConVar("pluto_equipcrate_droprate", "0.01", nil, nil, 0, 1)
+local pluto_toys_droprate = CreateConVar("pluto_toycrate_droprate","0.0025",nil, nil, 0, 1)
 
 pluto.afk = pluto.afk or {}
 
@@ -141,14 +143,29 @@ hook.Add("TTTEndRound", "pluto_endround", function()
 			continue
 		end
 		ply.WasAFK = false
-
-		if (not IsValid(ply) or math.random() > pluto_weapon_droprate:GetFloat()) then
+        
+		if (not IsValid(ply)) then
 			continue
 		end
-		pluto.db.instance(function(db)
-			pluto.inv.addcurrency(db, ply, "endround", 1)
-			ply:ChatPrint(white_text, "You obtained ", pluto.currency.byname.endround, " × 1.")
-		end)
+        local dropnum = math.random()
+        if(dropnum < pluto_weapon_droprate:GetFloat()) then
+		    pluto.db.instance(function(db)
+			    pluto.inv.addcurrency(db, ply, "endround", 1)
+			    ply:ChatPrint(white_text, "You obtained ", pluto.currency.byname.endround, " × 1.")
+		    end)
+        end
+        if(dropnum < pluto_equip_droprate:GetFloat()) then
+		    pluto.db.instance(function(db)
+			    pluto.inv.addcurrency(db, ply, "crate_cons1", 1)
+			    ply:ChatPrint(white_text, "You obtained ", pluto.currency.byname.crate_cons1, " × 1.")
+		    end)
+        end
+        if(dropnum < pluto_toys_droprate:GetFloat()) then --Todo: Toys crate
+		    pluto.db.instance(function(db)
+			    pluto.inv.addcurrency(db, ply, "endround", 1)
+			    ply:ChatPrint(white_text, "You obtained ", pluto.currency.byname.endround, " × 1.")
+		    end)
+        end
 	end
 end)
 

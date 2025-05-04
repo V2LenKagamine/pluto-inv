@@ -634,7 +634,7 @@ for name, values in pairs {
 	},
     --:b:luto 2 begins
     crate_cons1 = {
-		Shares = 8,
+		Shares = 0,
 		Types = "None",
 	},
 } do

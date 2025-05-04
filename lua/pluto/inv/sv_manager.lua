@@ -565,7 +565,12 @@ function pluto.inv.readcurrencyuse(ply)
 	end
 
 	if (cur.Contents) then
-		local gotten, data = pluto.inv.roll(cur.Contents)
+		local gotten, data
+        if(cur.RareDesc) then
+            gotten,data = pluto.inv.rollraritydesc(cur.Contents)
+        else
+            gotten,data = pluto.inv.roll(cur.Contents)
+        end
 		local type = pluto.inv.itemtype(gotten)
 
 		pluto.db.transact(function(db)

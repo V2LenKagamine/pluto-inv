@@ -934,55 +934,56 @@ local list = {
 			pluto.opener:Center()
 			pluto.opener:MakePopup()
 		end,
+        RareDesc = true,
 		Contents = {
 			consumable_pluto_adren = {
 				Tier = "generic",
-				Shares = 10,
+				Chance = 10,
 			},
             consumable_pluto_antidot = {
 				Tier = "generic",
-				Shares = 10,
+				Chance = 10,
 			},
             consumable_pluto_htmk = {
 				Tier = "generic",
-				Shares = 10,
+				Chance = 10,
 			},
             consumable_pluto_nano_bandage = {
 				Tier = "generic",
-				Shares = 10,
+				Chance = 10,
 			},
             consumable_pluto_rage = {
 				Tier = "generic",
-				Shares = 10,
+				Chance = 10,
 			},
             consumable_pluto_regenerator = {
 				Tier = "generic",
-				Shares = 10,
+				Chance = 10,
 			},
             consumable_pluto_sight = {
 				Tier = "generic",
-				Shares = 10,
+				Chance = 10,
 			},
             consumable_pluto_slregenerator = {
 				Tier = "generic",
-				Shares = 10,
+				Chance = 10,
 			},
             consumable_pluto_stak = {
 				Tier = "generic",
-				Shares = 10,
+				Chance = 10,
 			},
             consumable_pluto_tmk = {
 				Tier = "generic",
-				Shares = 10,
+				Chance = 10,
 			},
             consumable_pluto_tsk = {
 				Tier = "generic",
-				Shares = 10,
+				Chance = 10,
 			},
             consumable_ttt_buildawall = {
 				Rare = true,
 				Tier = "generic",
-				Shares = 0.2,
+				Chance = 2,
 			},
 		},
 		Category = "Unbox",
