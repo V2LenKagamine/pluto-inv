@@ -3,6 +3,10 @@
      * file, You can obtain one at https://mozilla.org/MPL/2.0/. ]]
 pluto.weapons = pluto.weapons or {}
 
+function pluto.weapons.randommisc()
+	return (table.Random(pluto.weapons.miscs))
+end
+
 function pluto.weapons.randomconsumable()
     return (table.Random(pluto.weapons.consumables))
 end
@@ -20,7 +24,9 @@ function pluto.weapons.randomgrenade()
 end
 
 function pluto.weapons.randomoftype(type)
-    if (type == "Consumable") then
+    if(type == "Misc") then
+        return pluto.weapons.randommisc()
+    elseif (type == "Consumable") then
         return pluto.weapons.randomconsumable()
 	elseif (type == "Weapon") then
 		return pluto.weapons.randomgun()
@@ -37,6 +43,10 @@ function pluto.weapons.type(gun)
 	if (not gun) then
 		return
 	end
+
+    if(gun.PlutoMisc) then
+        return "Misc"
+    end
 
     if(gun.PlutoConsumable) then
         return "Consumable"
@@ -65,7 +75,9 @@ function pluto.weapons.generatetier(tier, wep, tagbiases, rolltier, roll, affixm
 	end
 
 	if (not wep and tier) then
-        if(tier.Type == "Consumable") then
+        if(teir.Type == "Misc") then
+            wep = baseclass.Get(pluto.weapons.randommisc())
+        elseif(tier.Type == "Consumable") then
             wep = baseclass.Get(pluto.weapons.randomconsumable())
         elseif(tier.Type == "Grenade") then
             wep = baseclass.Get(pluto.weapons.randomgrenade())

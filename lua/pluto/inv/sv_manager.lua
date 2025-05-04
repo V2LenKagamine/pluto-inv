@@ -257,7 +257,7 @@ function pluto.inv.writebaseitem(ply, item)
 		net.WriteBool(false)
 	end
 
-	if (item.Type == "Shard" or item.Type == "Weapon" or item.Type == "Consumable") then
+	if (item.Type == "Shard" or item.Type == "Weapon" or item.Type == "Consumable" or item.Type == "Misc") then
 		if (item.Tier.InternalName == "crafted") then
 			net.WriteBool(true)
 			for i = 1, 3 do
@@ -582,6 +582,10 @@ function pluto.inv.readcurrencyuse(ply)
 				wpn = pluto.inv.generatebuffermodel(db, ply, "UNBOXED", gotten:match "^model_(.+)$")
 			elseif (type == "Weapon") then -- unique
 				wpn = pluto.inv.generatebufferweapon(db, ply, "UNBOXED", istable(data) and data.Tier or cur.DefaultTier or "unique", gotten)
+            elseif (type == "Consumable") then -- Consumable
+                wpn = pluto.inv.generatebufferweapon(db, ply, "UNBOXED", istable(data) and data.Tier or cur.DefaultTier or "generic", gotten)
+			elseif (type == "Misc") then -- Miscs
+                wpn = pluto.inv.generatebufferweapon(db, ply, "UNBOXED", istable(data) and data.Tier or cur.DefaultTier or "regular", gotten)
 			end
 
 			if (istable(data) and data.Rare) then

@@ -224,6 +224,8 @@ for _, name in pairs {
 	"grenades/explosive",
 
     "consumables/generic",
+
+    "miscs/regular",
     
 } do
 	AddCSLuaFile("pluto/tiers/" .. name .. ".lua")

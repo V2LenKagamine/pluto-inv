@@ -66,11 +66,11 @@ function ENT:Tick()
         self:Remove()
         return
     end
-    if(pluto.statuses.byname[self.PrintName].DoThink) then
+    if(IsValid(self) and pluto.statuses.byname[self.PrintName].DoThink) then
         pluto.statuses.byname[self.PrintName]:DoThink(self)
     end
     self.Data.TicksLeft = (self.Data.TicksLeft or 0) - 1
-    if(self.Data.TicksLeft < 1 and not self.Data.DontExpire and not self.Expired) then
+    if(IsValid(self) and self.Data.TicksLeft < 1 and not self.Data.DontExpire and not self.Expired) then
         if(pluto.statuses.byname[self.PrintName].OnExpire) then
             pluto.statuses.byname[self.PrintName]:OnExpire(self)
         end

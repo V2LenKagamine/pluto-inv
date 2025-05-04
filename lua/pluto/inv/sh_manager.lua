@@ -159,8 +159,10 @@ function pluto.inv.itemtype(i)
 		return "Model"
     elseif (string.StartsWith(class,"consumable_")) then
         return "Consumable"
+    elseif (string.StartsWith(class,"miscitem_")) then
+        return "Misc"
     else
-		return "Unknown"
+	    return "Unknown"
 	end
 end
 
@@ -326,13 +328,13 @@ function ITEM:GetMod(name)
 end
 
 function ITEM:GetBackgroundTexture()
-	if (self.Type == "Shard" or self.Type == "Weapon" or self.Type == "Consumable") then
+	if (self.Type == "Shard" or self.Type == "Weapon" or self.Type == "Consumable" or self.Type == "Misc") then
 		return self.Tier and self.Tier.tags and self.Tier.tags.texture
 	end
 end
 
 function ITEM:GetOverlayFunction()
-	if (self.Type == "Shard" or self.Type == "Weapon" or self.Type == "Consumable") then
+	if (self.Type == "Shard" or self.Type == "Weapon" or self.Type == "Consumable" or self.Type == "Misc") then
 		return function(...)
 			local fn = self.Tier and self.Tier.rolltierdraw or nil
 			if (fn) then
@@ -405,6 +407,13 @@ function ITEM:GetRawName(ignoretier)
 		end
 		return (ignoretier and "" or tier .. " ") .. (w and w.PrintName or "N/A")
     elseif (self.Type == "Consumable") then
+		local w = baseclass.Get(self.ClassName)
+        local tier = self.Tier or ""
+        if (istable(tier)) then
+			tier = tier.Name
+		end
+        return (w and w.PrintName or "object?")
+    elseif (self.Type == "Misc") then
 		local w = baseclass.Get(self.ClassName)
         local tier = self.Tier or ""
         if (istable(tier)) then
@@ -485,7 +494,7 @@ local mod_colors = {
 
 function ITEM:GetColor()
 	local col = color_white
-	if (self.Type == "Weapon" or self.Type == "Shard" or self.Type == "Consumable") then
+	if (self.Type == "Weapon" or self.Type == "Shard" or self.Type == "Consumable" or self.Type == "Misc") then
         if(self.Tier) then
             if (self.Tier.Color) then
                 return self.Tier.Color

@@ -153,6 +153,27 @@ hook.Add("TTTEndRound", "pluto_endround", function()
 end)
 
 local pluto_loaded = {}
+--[[ --Todo: Make this work, need to pass plr in somehow from loadout.lua
+hook.Add("PlutoLoadoutChanged", "pluto_reequip",function(slot,_,plr)
+    local event = pluto.rounds.getcurrent()
+    if(event) then return end
+    if(ttt.GetRoundState() == ttt.ROUNDSTATE_ACTIVE or ttt.GetRoundState() == ttt.ROUNDSTATE_ENDED) then return end
+	local wepid = tonumber(ply:GetInfo("pluto_loadout_slot" .. slot, nil))
+	local wep = pluto.itemids[wepid]
+	if (wep and wep.Owner == ply:SteamID64()) then
+        for wpnslot,has in ipairs(plr:GetWeapons()) do
+            print(wpnslot)
+            if(wpnslot == wep:GetSlot()) then
+                plr:StripWeapon(has:GetClass())
+                break
+            end
+        end
+		pluto.NextWeaponSpawn = wep
+		ply:Give(wep.ClassName)
+	end
+    return true
+end)
+]]
 
 hook.Add("TTTPlayerGiveWeapons", "pluto_loadout", function(ply)
 	local event = pluto.rounds.getcurrent()

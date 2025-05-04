@@ -30,7 +30,7 @@ pluto.tabs = {
 
 			local typ = pluto.inv.itemtype(item)
 
-			if (typ == "Weapon" or typ == "Consumable") then
+			if (typ == "Weapon" or typ == "Consumable" or typ == "Misc") then
 				local wep = baseclass.Get(item.ClassName)
 				if (not wep) then
 					return false

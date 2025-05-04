@@ -417,14 +417,20 @@ function PANEL:SetItem(item)
 	local pad = self.ItemName:GetTall() * 0.25
 	self.ItemBackground:DockPadding(pad, pad, pad, pad)
 	self.ItemBackground:SetColor(item.Tier and item:GetColor() or item.Color)
+	local subdesc = item.Tier and item.Tier:GetSubDescription() or ""
     if(item.Type == "Consumable") then
         local basecon = baseclass.Get(item.ClassName)
-		self.ItemDesc:SetFont "pluto_item_showcase_smol"
+		self.ItemDesc:SetFont("pluto_item_showcase_med")
         self.ItemDesc:SetText(basecon.Description or "Uh oh, someone forgot to add a description to a consumable! Whoops! Class: " .. item.ClassName)
+        subdesc = basecon.SubDescription or ""
+    elseif(item.Type == "Misc") then
+        local basecon = baseclass.Get(item.ClassName)
+		self.ItemDesc:SetFont("pluto_item_showcase_med")
+        self.ItemDesc:SetText(basecon.Description or "Uh oh, someone forgot to add a description to a misc! Whoops! Class: " .. item.ClassName)
+        subdesc = basecon.SubDescription or ""
     else
 	    self.ItemDesc:SetText(item.Description or "")
     end
-	local subdesc = item.Tier and item.Tier:GetSubDescription() or ""
 	if (item.GetMaxAffixes and item:GetMaxAffixes() > 0) then
 		subdesc = subdesc .. "\n" .. "You can get up to " .. item:GetMaxAffixes() .. " modifiers on this item."
 	end
@@ -506,6 +512,12 @@ surface.CreateFont("pluto_item_showcase_desc", {
 	font = "Roboto",
 	extended = true,
 	size = math.max(20, h / 35)
+})
+
+surface.CreateFont("pluto_item_showcase_med", {
+	font = "Roboto",
+	extended = true,
+	size = math.max(17, h / 40)
 })
 
 surface.CreateFont("pluto_item_showcase_impl", {

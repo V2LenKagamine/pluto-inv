@@ -10,6 +10,6 @@ return {
 	SubDescription = {
 		tags = "This weapon seems to roll Damage modifiers 2x as often",
 	},
-    Color = Color(255, 0, 149, 128),
+    Color = Color(151, 100, 42),
 	Type = "Grenade",
 }

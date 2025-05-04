@@ -67,7 +67,7 @@ function SWEP:PlutoInitialize()
 end
 
 function WEAPON:GetInventoryItem()
-    if(self.PlutoConsumable) then return end
+    if(self.PlutoConsumable or self.PlutoMisc) then return end
 	return pluto.wpn_db[self:GetPlutoID()]
 end
 
@@ -81,7 +81,7 @@ function SWEP:ReceivePlutoData()
 		return
 	end
 
-    if(self.PlutoConsumable) then
+    if(self.PlutoConsumable or self.PlutoMisc) then
         return  --No data :frwon:
     end
 
