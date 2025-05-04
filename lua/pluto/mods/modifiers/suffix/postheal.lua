@@ -20,7 +20,11 @@ function MOD:FormatModifier(index, roll)
 	end
 end
 
-MOD.Description = "After a righteous kill, heal %s of your health over %s seconds"
+MOD.Description = "After a righteous kill, heal %s of your health over %s seconds."
+
+MOD.Synergies = {
+    ["protec"] = "Also grants 25% of heal as armor.",
+}
 
 MOD.Tiers = {
 	{ 13, 20, 3, 7.5 },
@@ -34,8 +38,18 @@ function MOD:OnKill(wep, rolls, atk, vic)
 	end
 
 	if (atk:GetRoleTeam() ~= vic:GetRoleTeam()) then
-		pluto.statuses.byname["heal"]:AddStatus(target,atk,rolls[1],rolls[2])
+		pluto.statuses.byname["heal"]:AddStatus(atk,atk,rolls[1],rolls[2])
 	end
+
+    if(wep.Mods and wep.Mods.suffix) then
+        for _,mod in ipairs(wep.Mods.suffix) do
+            if(mod.Mod == "protec") then
+                if (atk:Armor() > 30) then break end
+                atk:SetArmor(math.min(30, atk:Armor() + math.Round(rolls[1]/4)))
+                break
+            end
+        end
+    end
 end
 
 return MOD

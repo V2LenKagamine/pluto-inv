@@ -604,10 +604,10 @@ function pluto.inv.rollraritydesc(crate)
 	for idx,obj in ipairs(ctable) do
         local item,chance = obj["Item"],obj["Chance"]
         if(idx >= #ctable) then
-            return item, chance --We failed every other drop, just drop the most common thing in the table.
+            return item, obj --We failed every other drop, just drop the most common thing in the table.
         end
         if(m <= chance) then
-            return item, chance --Hey, neat, we did it!
+            return item, obj --Hey, neat, we did it!
         end
     end
     pluto.error("How the hell did you miss a 100% chance drop in rollraritydesc?!?!? Actually how.")

@@ -16,7 +16,11 @@ function MOD:FormatModifier(index, roll)
 	return string.format("%.01f%%", roll)
 end
 
-MOD.Description = "Consecutive hits do %s more damage"
+MOD.Description = "Consecutive hits do %s more damage."
+
+MOD.Synergies = {
+    ["recycle"] = "Chance to refund consecutive hits to mag.",
+}
 
 MOD.Tiers = {
 	{ 7.5, 9 },
@@ -35,6 +39,15 @@ function MOD:PreDamage(wep, rolls, vic, dmginfo, state)
 	end
 
 	dmginfo:ScaleDamage(1 + (rolls[1] / 100 * (wep.CurMarksmanship or 0)))
+
+    if(wep.Mods and wep.Mods.suffix) then
+        for _,mod in ipairs(wep.Mods.suffix) do
+            if(mod.Mod == "recycle" and math.random() <= rolls[1] * 4) then
+                wep:SetClip1(math.min(wep:GetMaxClip1(), wep:Clip1() + 1))
+                break
+            end
+        end
+    end
 end
 
 function MOD:OnFire(wep)

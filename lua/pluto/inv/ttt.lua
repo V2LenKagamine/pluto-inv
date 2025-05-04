@@ -154,22 +154,22 @@ end)
 function pluto.inv.endrounddrops(ply)
     local dropnum = math.random()
     if(dropnum < pluto_weapon_droprate:GetFloat()) then
-		pluto.inv.spawnfor(ply, "endround")
+		pluto.currency.spawnfor(ply, "endround")
 		ply:ChatPrint(white_text, "You feel that ", pluto.currency.byname.endround, " has appeared somewhere!")
     end
     dropnum = math.random()
     if(dropnum < pluto_equip_droprate:GetFloat()) then
-		pluto.inv.spawnfor(ply, "crate_nade1")
+		pluto.currency.spawnfor(ply, "crate_nade1")
 		ply:ChatPrint(white_text, "You feel that ", pluto.currency.byname.crate_nade1, " has appeared somewhere!")
     end
     dropnum = math.random()
     if(dropnum < pluto_equip_droprate:GetFloat()) then
-		pluto.inv.spawnfor(ply, "crate_cons1")
+		pluto.currency.spawnfor(ply, "crate_cons1")
 		ply:ChatPrint(white_text, "You feel that ", pluto.currency.byname.crate_cons1, " has appeared somewhere!")
     end
     dropnum = math.random()
-    if(dropnum < pluto_toys_droprate:GetFloat()) then --Todo: Toys crate
-		pluto.inv.spawnfor(ply, "crate_toy1")
+    if(dropnum < pluto_toys_droprate:GetFloat()) then
+		pluto.currency.spawnfor(ply, "crate_toy1")
 		ply:ChatPrint(white_text, "You feel that ", pluto.currency.byname.crate_toy1, " has appeared somewhere!")
     end
 end

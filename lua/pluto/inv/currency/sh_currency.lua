@@ -1038,7 +1038,7 @@ local list = {
 			},
             tfa_cso_pumpkin = {
                 Rare = true,
-                Tier = "unique"
+                Tier = "unique",
                 Chance = 2,
             },
 		},

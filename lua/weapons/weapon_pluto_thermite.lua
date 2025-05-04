@@ -25,12 +25,6 @@ SWEP.Animations = {
             {s = "weapons/grenades/thermite/Wpn_ThermiteGrenade_Draw_2ch_v2_01.ogg", t = 0 / 30},
         },
     },
-    ["draw"] = {
-        Source = "draw",
-        SoundTable = {
-            {s = "weapons/grenades/thermite/Wpn_ThermiteGrenade_Draw_2ch_v2_01.ogg", t = 0 / 30},
-        },
-    },
     ["holster"] = {
         Source = "holster",
         SoundTable = {
