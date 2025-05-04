@@ -1,7 +1,9 @@
 --[[ * This Source Code Form is subject to the terms of the Mozilla Public
      * License, v. 2.0. If a copy of the MPL was not distributed with this
      * file, You can obtain one at https://mozilla.org/MPL/2.0/. ]]
-local pluto_weapon_droprate = CreateConVar("pluto_weapon_droprate", "0.5", nil, nil, 0, 1)
+local pluto_weapon_droprate = CreateConVar("pluto_weapon_droprate", "0.65", nil, nil, 0, 1)
+local pluto_equip_droprate = CreateConVar("pluto_equipcrate_droprate", "0.01", nil, nil, 0, 1)
+local pluto_toys_droprate = CreateConVar("pluto_toycrate_droprate","0.0025",nil, nil, 0, 1)
 
 pluto.afk = pluto.afk or {}
 
@@ -141,18 +143,60 @@ hook.Add("TTTEndRound", "pluto_endround", function()
 			continue
 		end
 		ply.WasAFK = false
-
-		if (not IsValid(ply) or math.random() > pluto_weapon_droprate:GetFloat()) then
+        
+		if (not IsValid(ply)) then
 			continue
 		end
-		pluto.db.instance(function(db)
-			pluto.inv.addcurrency(db, ply, "endround", 1)
-			ply:ChatPrint(white_text, "You obtained ", pluto.currency.byname.endround, " × 1.")
-		end)
+        pluto.inv.endrounddrops(ply)
 	end
 end)
 
+function pluto.inv.endrounddrops(ply)
+    local dropnum = math.random()
+    if(dropnum < pluto_weapon_droprate:GetFloat()) then
+		pluto.currency.spawnfor(ply, "endround")
+		ply:ChatPrint(white_text, "You feel that ", pluto.currency.byname.endround, " has appeared somewhere!")
+    end
+    dropnum = math.random()
+    if(dropnum < pluto_equip_droprate:GetFloat()) then
+		pluto.currency.spawnfor(ply, "crate_nade1")
+		ply:ChatPrint(white_text, "You feel that ", pluto.currency.byname.crate_nade1, " has appeared somewhere!")
+    end
+    dropnum = math.random()
+    if(dropnum < pluto_equip_droprate:GetFloat()) then
+		pluto.currency.spawnfor(ply, "crate_cons1")
+		ply:ChatPrint(white_text, "You feel that ", pluto.currency.byname.crate_cons1, " has appeared somewhere!")
+    end
+    dropnum = math.random()
+    if(dropnum < pluto_toys_droprate:GetFloat()) then
+		pluto.currency.spawnfor(ply, "crate_toy1")
+		ply:ChatPrint(white_text, "You feel that ", pluto.currency.byname.crate_toy1, " has appeared somewhere!")
+    end
+end
+
+
 local pluto_loaded = {}
+--[[ --Todo: Make this work, need to pass plr in somehow from loadout.lua
+hook.Add("PlutoLoadoutChanged", "pluto_reequip",function(slot,_,plr)
+    local event = pluto.rounds.getcurrent()
+    if(event) then return end
+    if(ttt.GetRoundState() == ttt.ROUNDSTATE_ACTIVE or ttt.GetRoundState() == ttt.ROUNDSTATE_ENDED) then return end
+	local wepid = tonumber(ply:GetInfo("pluto_loadout_slot" .. slot, nil))
+	local wep = pluto.itemids[wepid]
+	if (wep and wep.Owner == ply:SteamID64()) then
+        for wpnslot,has in ipairs(plr:GetWeapons()) do
+            print(wpnslot)
+            if(wpnslot == wep:GetSlot()) then
+                plr:StripWeapon(has:GetClass())
+                break
+            end
+        end
+		pluto.NextWeaponSpawn = wep
+		ply:Give(wep.ClassName)
+	end
+    return true
+end)
+]]
 
 hook.Add("TTTPlayerGiveWeapons", "pluto_loadout", function(ply)
 	local event = pluto.rounds.getcurrent()

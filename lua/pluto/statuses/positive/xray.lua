@@ -25,7 +25,7 @@ function STAT:AddStatus(target, atk, stacks, seconds)
         }
         status:Spawn()
     else
-        status.Data.Stax = (status.Data.Stax or 0) + stacks
+        status.Data.Stax = stacks > status.Data.Stax and stacks or status.Data.Stax
         status.Data.TicksLeft = (status.Data.TicksLeft or 0) + seconds
     end
     net.Start("PlutoXrayUpdate")

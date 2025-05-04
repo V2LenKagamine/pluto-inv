@@ -16,7 +16,11 @@ function MOD:FormatModifier(index, roll)
 	return string.format("%i", math.Round(roll))
 end
 
-MOD.Description = "After a righteous kill, gain %s suit armor"
+MOD.Description = "After a righteous kill, gain %s suit armor. Max 30."
+
+MOD.Synergies = {
+    ["frost"] = "Max Armor now 40.",
+}
 
 MOD.Tiers = {
 	{ 10, 15 },
@@ -26,11 +30,20 @@ MOD.Tiers = {
 
 function MOD:OnKill(wep, rolls, atk, vic)
 	if (atk:GetRoleTeam() ~= vic:GetRoleTeam()) then
-		if (atk:Armor() > 30) then
-			return
-		end
+        local maxarmor = 30
+        if(wep.Mods and wep.Mods.suffix) then
+            for _,mod in ipairs(wep.Mods.suffix) do
+                if(mod.Mod == "frost") then
+                    maxarmor = 40
+                end
+            end
+        end
 
-		atk:SetArmor(math.min(30, atk:Armor() + math.Round(rolls[1])))
+        if (atk:Armor() > maxarmor) then
+            return
+        end
+
+        atk:SetArmor(math.min (maxarmor, atk:Armor() + math.Round(rolls[1])))
 	end
 end
 

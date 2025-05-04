@@ -30,20 +30,37 @@ function PANEL:Init()
 
 	self.TextSmall = self.Inner:Add "pluto_label"
 	self.TextSmall:SetFont "pluto_inventory_font"
-	self.TextSmall:SetText "Oh boy, which will it be?\nShouldn't take too long, sit tight!"
+	self.TextSmall:SetText "Oh boy, which will it be?"
 	self.TextSmall:SetTextColor(ColorAlpha(pluto.ui.theme "TextActive", 128))
 	self.TextSmall:SetRenderSystem(pluto.fonts.systems.shadow)
 	self.TextSmall:Dock(TOP)
 	self.TextSmall:SizeToContents()
 
+    self.TextSmall2 = self.Inner:Add "pluto_label"
+	self.TextSmall2:SetFont "pluto_inventory_font"
+	self.TextSmall2:SetText("Shouldnt be too long, right?")
+	self.TextSmall2:SetTextColor(ColorAlpha(pluto.ui.theme "TextActive", 128))
+	self.TextSmall2:SetRenderSystem(pluto.fonts.systems.shadow)
+	self.TextSmall2:Dock(TOP)
+	self.TextSmall2:SizeToContents()
+
 	self.PlsRejoinLabel = self.Inner:Add "pluto_label"
 	self.PlsRejoinLabel:SetFont "pluto_inventory_font_lg"
-	self.PlsRejoinLabel:SetText "If this shows up not during map change;\nI have bad news for you."
+	self.PlsRejoinLabel:SetText "If this shows up not during map change;"
 	self.PlsRejoinLabel:SetTextColor(pluto.ui.theme "TextActive")
 	self.PlsRejoinLabel:SetRenderSystem(pluto.fonts.systems.shadow)
 	self.PlsRejoinLabel:Dock(TOP)
 	self.PlsRejoinLabel:SizeToContents()
 	self.PlsRejoinLabel:DockMargin(0, 7, 0, 7)
+
+    self.PlsRejoinLabel2 = self.Inner:Add "pluto_label"
+	self.PlsRejoinLabel2:SetFont "pluto_inventory_font_lg"
+	self.PlsRejoinLabel2:SetText("Boy do I have bad news for you.")
+	self.PlsRejoinLabel2:SetTextColor(pluto.ui.theme "TextActive")
+	self.PlsRejoinLabel2:SetRenderSystem(pluto.fonts.systems.shadow)
+	self.PlsRejoinLabel2:Dock(TOP)
+	self.PlsRejoinLabel2:SizeToContents()
+	self.PlsRejoinLabel2:DockMargin(0, 7, 0, 7)
 
 	self.Inner:DockPadding(7, 7, 7, 7)
 

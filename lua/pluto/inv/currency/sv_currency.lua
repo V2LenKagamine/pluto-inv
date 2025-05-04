@@ -634,7 +634,15 @@ for name, values in pairs {
 	},
     --:b:luto 2 begins
     crate_cons1 = {
-		Shares = 8,
+		Shares = 0,
+		Types = "None",
+	},
+    crate_nade1 = {
+		Shares = 0,
+		Types = "None",
+	},
+    crate_toy1 = {
+		Shares = 0,
 		Types = "None",
 	},
 } do
@@ -896,7 +904,7 @@ function pluto.currency.spawnfor(ply, currency, pos, global)
 		ent:AddListener(ply)
 	end
 
-	if (currency.Shares and currency.Shares <= pluto.currency.byname.heart.Shares and not currency.SkipNotify) then
+	if (currency.Shares and currency.Shares <= pluto.currency.byname.heart.Shares and currency.Shares ~= 0 and not currency.SkipNotify) then
 		ply:ChatPrint(currency.Color, "... ", white_text, "You feel the essence of a ", currency.Color, "rare currency ", white_text, "vibrate your soul")
 	end
 

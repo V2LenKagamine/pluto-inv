@@ -139,7 +139,7 @@ local filters = {
 			return false
 		end
 		local class = baseclass.Get(item.ClassName)
-		return class.Slot == 1 --Secondary
+		return class.Slot == 1 --Primary
 	end,
 	[3] = function(item)
 		if (item.Type ~= "Weapon") then
@@ -156,14 +156,14 @@ local filters = {
 		return class.Slot == 3 --Grenade
 	end,
 	[5] = function(item)
-		if (item.Type ~= "Weapon") then
+		if (item.Type ~= "Weapon" and item.Type ~= "Misc") then
 			return false
 		end
 		local class = baseclass.Get(item.ClassName)
 		return class.Slot == 4 -- Magneto
 	end,
 	[6] = function(item)
-		if (item.Type ~= "Weapon" and item.Type ~= "Consumable") then
+		if (item.Type ~= "Weapon" and item.Type ~= "Misc") then
 			return false
 		end
 		local class = baseclass.Get(item.ClassName)

@@ -17,7 +17,7 @@ function MOD:FormatModifier(index, roll)
 	return string.format("%.01f%%", roll)
 end
 
-MOD.Description = "%s of Damage dealt is converted to Frost."
+MOD.Description = "%s of Damage dealt is converted to Frost. Frost slows targets the more stacks they have."
 
 MOD.Tiers = {
 	{ 25, 35 },

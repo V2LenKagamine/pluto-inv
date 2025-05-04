@@ -31,7 +31,7 @@ end
 
 hook.Add("PlayerPostLoadout", "pluto_tracker", function(ply)
 	for _, wep in pairs(ply:GetWeapons()) do
-        if(string.StartWith(wep:GetClass(),"consumable")) then continue end
+        if(string.StartWith(wep:GetClass(),"consumable_") or string.StartWith(wep:GetClass(),"miscitem_")) then continue end
 		if (not IsPlutoGun(wep)) then
 			continue
 		end
@@ -45,12 +45,14 @@ hook.Add("PlayerPostLoadout", "pluto_tracker", function(ply)
 
 		local modcount = 0
 		local modtiers = 0
-		for type, modlist in pairs(item.Mods) do
-			modcount = modcount + #modlist
-			for _, mod in pairs(modlist) do
-				modtiers = modtiers + mod.Tier
-			end
-		end
+        if(item.Mods) then
+            for type, modlist in pairs(item.Mods) do
+                modcount = modcount + #modlist
+                for _, mod in pairs(modlist) do
+                    modtiers = modtiers + mod.Tier
+                end
+            end
+        end
 		
 		addstat(class, "mods", modcount)
 		addstat(class, "mod_tiers", modtiers)

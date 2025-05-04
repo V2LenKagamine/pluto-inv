@@ -15,11 +15,10 @@ function PANEL:Init()
 	self.Description = canvas:Add "pluto_label"
 	self.Description:SetRenderSystem(pluto.fonts.systems.shadow)
 	self.Description:SetFont "pluto_showcase_small"
-	self.Description:SetText(text)
 	self.Description:SetContentAlignment(5)
 	self.Description:Dock(TOP)
 	self.Description:SetTextColor(Color(255, 255, 255))
-	self.Description:SetText "HI"
+	self.Description:SetText("That can't be good.")
 	self.Description:SizeToContentsY()
 	self.Description:DockMargin(0, 2, 0, 0)
 
@@ -77,28 +76,43 @@ function PANEL:SetItem(item)
 		local list = {}
 		for name, data in pairs(item.Contents) do
 			local fake = setmetatable({Type = pluto.inv.itemtype(name), ClassName = name}, pluto.inv.item_mt)
-			if (fake.Type == "Weapon" or fake.Type == "Consumable") then
+			if (fake.Type == "Weapon" or fake.Type == "Consumable" or fake.Type == "Misc") then
 				fake.Tier = pluto.tiers.byname[istable(data) and data.Tier or item.DefaultTier or "unique"]
 			elseif (fake.Type == "Model") then
 				fake.Model = pluto.models[name:match "model_(.+)"]
 			end
-			table.insert(list, {
-				Color = fake:GetColor(),
-				Name = fake:GetPrintName(),
-				Shares = istable(data) and data.Shares or data
-			})
-			total_shares = total_shares + (istable(data) and data.Shares or data)
+            if(item.RareDesc) then
+                table.insert(list, {
+                    Color = fake:GetColor(),
+                    Name = fake:GetPrintName(),
+                    Shares = istable(data) and data.Chance or data
+                })
+            else
+                table.insert(list, {
+                    Color = fake:GetColor(),
+                    Name = fake:GetPrintName(),
+                    Shares = istable(data) and data.Shares or data
+                })
+                total_shares = total_shares + (istable(data) and data.Shares or data)
+            end
 		end
 
 		table.sort(list, function(a, b)
 			return a.Shares < b.Shares
 		end)
-
-		for i, item in ipairs(list) do
-			self.Text:AppendText(item.Color, item.Name)
-			self.Text:SetCurrentTextColor()
-			self.Text:AppendText(" (" .. string.format("%.02f%%", item.Shares / total_shares * 100) .. ")\n")
-		end
+        if(item.RareDesc) then
+            for i, item in ipairs(list) do
+                self.Text:AppendText(item.Color, item.Name)
+                self.Text:SetCurrentTextColor()
+                self.Text:AppendText(" (" .. string.format("%.02f%%", item.Shares) .. ")\n")
+            end
+        else
+            for i, item in ipairs(list) do
+                self.Text:AppendText(item.Color, item.Name)
+                self.Text:SetCurrentTextColor()
+                self.Text:AppendText(" (" .. string.format("%.02f%%", item.Shares / total_shares * 100) .. ")\n")
+            end
+        end
 		self.Text:SizeToContentsY()
 		self.TextContainer:SetTall(math.min(150, self.Text:GetTall()))
 	else
@@ -106,59 +120,83 @@ function PANEL:SetItem(item)
 		self:SetTall(150)
 	end
 	
-	if (item.Description) then
-		self.Description:SetText(item.Description)
+    local curline
+	local text = ""
+	local curw = 0
+	local function finalizeline(dock2)
+		if (text == "") then
+			return
+		end
+        local lbl = dock2:Add "pluto_label"
+		lbl:SetRenderSystem(pluto.fonts.systems.shadow)
+		lbl:SetFont "pluto_showcase_xsmall"
+		lbl:SetText(text)
+		lbl:SetContentAlignment(5)
+		lbl:Dock(TOP)
+		lbl:SetTextColor(Color(255, 255, 255))
+		lbl:SizeToContentsY()
+		lbl:DockMargin(0, 1, 0, 1)
+	
+		first = false
+	end
+	local function createnewline(dock2)
+		if (text) then
+			finalizeline(dock2)
+		end
+
+		text = ""
+		curw = 0
 	end
 
 
-	if (item.SubDescription) then
-		local curline
-		local text
-		local curw = 0
-		local function finalizeline()
-			if (text == "") then
-				return
-			end
-	
-			local lbl = self:GetCanvas():Add "pluto_label"
-			lbl:SetRenderSystem(pluto.fonts.systems.shadow)
-			lbl:SetFont "pluto_showcase_xsmall"
-			lbl:SetText(text)
-			lbl:SetContentAlignment(5)
-			lbl:Dock(TOP)
-			lbl:SetTextColor(Color(255, 255, 255))
-			lbl:SizeToContentsY()
-			lbl:DockMargin(0, 2, 0, 0)
-	
-			first = false
-		end
-		local function createnewline()
-			if (text) then
-				finalizeline()
-			end
-	
-			text = ""
-			curw = 0
-		end
-	
-		createnewline()
-
-		local subdesc = item.SubDescription
-		for _, splitpart in ipairs(subdesc:Split " ") do
+	if (item.Description) then
+        self.Description:SetText("")
+		local lbl = self.Description
+		createnewline(lbl)
+		local desc = item.Description
+        if(item.RareDesc) then
+            desc = desc .. "\nThis item rolls Rarity Descending."
+        end
+		for _, splitpart in ipairs(desc:Split " ") do
 			for part, newline in (splitpart .. " "):gmatch("([^\n]+)(.?)") do
 				curw = curw + surface.GetTextSize(part)
 				if (curw > self:GetCanvas():GetWide() * 0.9) then
-					createnewline()
+					createnewline(lbl)
+                    self.Description:SetTall(self.Description:GetTall() + 16)
 				end
 
 				text = text .. part
 
 				if (newline == "\n" and text ~= "") then
-					createnewline()
+					createnewline(lbl)
+                    self.Description:SetTall(self.Description:GetTall() + 16)
 				end
 			end
 		end
-		finalizeline()
+		finalizeline(lbl)
+	end
+
+    text = ""
+	curw = 0
+	if (item.SubDescription) then
+        local lbl = self:GetCanvas()
+		createnewline(lbl)
+		local subdesc = item.SubDescription
+		for _, splitpart in ipairs(subdesc:Split " ") do
+			for part, newline in (splitpart .. " "):gmatch("([^\n]+)(.?)") do
+				curw = curw + surface.GetTextSize(part)
+				if (curw > self:GetCanvas():GetWide() * 0.9) then
+					createnewline(lbl)
+				end
+
+				text = text .. part
+
+				if (newline == "\n" and text ~= "") then
+					createnewline(lbl)
+				end
+			end
+		end
+		finalizeline(lbl)
 
 		self.Text:SetScrollOffset(0) -- hack to enable centering lol
 	end
@@ -170,8 +208,8 @@ function PANEL:SetItem(item)
 		child:InvalidateParent(true)
 		child:InvalidateLayout(true)
 	end
-	self:GetCanvas():SizeToChildren(false, true)
-	self:SizeToChildren(false, true)
+	self:GetCanvas():SizeToChildren(true, true)
+	self:SizeToChildren(true, true)
 	self:SetTall(self:GetTall() + 5)
 end
 

@@ -3,5 +3,5 @@ return {
 	affixes = 0,
 
 	Type = "Consumable",
-    Color = Color(92, 172, 169),
+    Color = Color(155, 0, 194),
 }

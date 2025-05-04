@@ -18,10 +18,13 @@ local share_count = {
     explosive = 100,
 
     generic = 100,
+
+    regular = 100,
 }
---Guns = 980250w
---Grenades = 300w
+--Guns 980250w
+--Grenades 300w
 --Consumables 100w
+--Miscs 100w
 
 for _, typelist in pairs(pluto.tiers.bytype) do
 	typelist.shares = 0

@@ -69,7 +69,7 @@ function pluto.inv.readbaseitem(item)
 
 	item.Type = pluto.inv.itemtype(item)
 
-	if (item.Type == "Weapon" or item.Type == "Shard" or item.Type == "Consumable") then
+	if (item.Type == "Weapon" or item.Type == "Shard" or item.Type == "Consumable" or item.Type == "Misc" or item.Type == "Grenade") then
 		if (net.ReadBool()) then
 			local t1, t2, t3 = net.ReadString(), net.ReadString(), net.ReadString()
 			item.Tier = pluto.tiers.craft {t1, t2, t3}
@@ -78,7 +78,7 @@ function pluto.inv.readbaseitem(item)
 		end
 	end
 
-	if (item.Type == "Weapon") then
+	if (item.Type == "Weapon" or item.Type == "Grenade") then
 		item.Mods = {
 			implicit = {},
 			prefix = {},
@@ -256,7 +256,13 @@ end
 function pluto.inv.readcurrencyupdate(ply)
 	local currency = net.ReadString()
 	local amt = net.ReadUInt(32)
+    local oldamnt = pluto.cl_currency[currency]
 	pluto.cl_currency[currency] = amt
+    if(not oldamnt or oldamnt <= 0) then
+        if(IsValid(pluto.ui.pnl) and IsValid(pluto.ui.pnl.Tabs["Currency"])) then
+            pluto.ui.pnl.Tabs["Currency"]:InvalidateLayout()
+        end
+    end
 end
 
 function pluto.inv.readtabupdate()

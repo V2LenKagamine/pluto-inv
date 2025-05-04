@@ -3,5 +3,5 @@ return {
 	affixes = 4,
 
 	Type = "Grenade",
-    Color = Color(255, 166, 0, 196)
+    Color = Color(121, 44, 115)
 }

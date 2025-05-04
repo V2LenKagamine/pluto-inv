@@ -582,6 +582,36 @@ function pluto.inv.roll(crate)
 		end
 	end
 end
+--This function uses a different system than the above roll. Use carefully.
+--This system rolls down, meaning if you fail a 1% roll, it then trys a 2%, 3%....
+--You will always drop, at the very least, the last item in the list.
+function pluto.inv.rollraritydesc(crate)
+	local m = math.random() * 100
+
+    local ctable = {}
+    local idx = 1
+	for k,v in pairs(crate) do
+		table.insert(ctable,idx,{["Item"] = k,["Chance"] = istable(v) and v.Chance or v})
+        idx = idx + 1
+	end
+    --Highest rarity is at the top,idx 1
+    table.sort(ctable, function(alpha,beta)
+        if(alpha.Chance ~= beta.Chance) then
+            return  alpha.Chance < beta.Chance
+        end
+        return math.random() >= 0.5 --We want a random order here, so items with the same drop chance get randomly sorted.
+    end)
+	for idx,obj in ipairs(ctable) do
+        local item,chance = obj["Item"],obj["Chance"]
+        if(idx >= #ctable) then
+            return item, obj --We failed every other drop, just drop the most common thing in the table.
+        end
+        if(m <= chance) then
+            return item, obj --Hey, neat, we did it!
+        end
+    end
+    pluto.error("How the hell did you miss a 100% chance drop in rollraritydesc?!?!? Actually how.")
+end
 
 function pluto.inv.printroll(crate)
 	local total = 0

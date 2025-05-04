@@ -20,12 +20,16 @@ function MOD:FormatModifier(index, roll)
 	return string.format("%.01f", roll)
 end
 
-MOD.Description = "Shows everything within %s meters after aiming down sights for 2 seconds; penetration points increase time needed by 1/40th a second."
+MOD.Description = "Shows most entities within %s meters after aiming down sights for 2 seconds; penetration points increase time needed by 1/40th a second."
+
+MOD.Synergies = {
+    ["greed"] = "Also shows currency.",
+}
 
 MOD.Tiers = {
-	{ 15, 20 },
-	{ 10, 15 },
-	{ 5, 10 },
+	{ 30, 40 },
+	{ 20, 30 },
+	{ 10, 20 },
 }
 
 function MOD:ModifyWeapon(wep, rolls)
@@ -44,10 +48,20 @@ function MOD:ModifyWeapon(wep, rolls)
 	if (not CLIENT) then
 		return
 	end
+    local buffed = false 
+    if(wep.Mods and wep.Mods.suffix) then
+        for _,mod in ipairs(wep.Mods.suffix) do
+            if(mod.Mod == "eagle") then
+                buffed = true
+                break
+            end
+        end
+    end
 
 	local dist = rolls[1] * 39.37
 
-	local ang = math.cos(math.rad(15))
+	local ang = math.cos(math.rad(25))
+
 	hook.Add("PostDrawOpaqueRenderables", wep, function(self)
 		if (not self:GetIronsights() or self:GetIronsightsTime() + 2 + (self:GetPenetration() * 0.025) > CurTime()) then
 			return
@@ -119,6 +133,46 @@ function MOD:ModifyWeapon(wep, rolls)
 		render.SetStencilEnable(false)
 		render.SuppressEngineLighting(false)
 	end)
+    if(buffed) then
+        hook.Add("PostDrawTranslucentRenderables", wep, function(self)
+            if (not self:GetIronsights() or self:GetIronsightsTime() + 2 + (self:GetPenetration() * 0.025) > CurTime()) then
+                return
+            end
+
+            local owner = self:GetOwner()
+            if (ttt.GetHUDTarget() ~= owner) then
+                return
+            end
+
+            if (owner:GetActiveWeapon() ~= self) then
+                return
+            end
+            local wait = 1.5
+            local timing = 1 - ((wait + CurTime()) % wait) / wait * 2
+            local up_offset = vector_up * (math.sin(timing * math.pi) + 1) / 2 * 15 * 0.25
+            local es = pluto.inv.getcurrlist()
+            for i = #es, 1, -1 do
+                local e = es[i]
+                if not(util.IsPointInCone(e:GetPos(),owner:GetShootPos(), owner:GetAimVector(),ang,dist)) then
+                    table.remove(es, i)
+                    continue
+                end
+            end
+
+            for _, curren in pairs(es) do
+                cam.IgnoreZ(dist > curren:GetPos():Distance(LocalPlayer():GetPos()))
+
+                render.SetMaterial(curren:GetMaterial(true))
+                local pos = curren:GetPos()
+                
+                pos = pos + up_offset
+                local size = curren:GetSize()
+
+                render.DrawSprite(pos, size, size, color_white)
+            end
+            cam.IgnoreZ(false)
+        end)
+    end
 end
 
 return MOD

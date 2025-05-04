@@ -257,7 +257,7 @@ function pluto.inv.writebaseitem(ply, item)
 		net.WriteBool(false)
 	end
 
-	if (item.Type == "Shard" or item.Type == "Weapon" or item.Type == "Consumable") then
+	if (item.Type == "Shard" or item.Type == "Weapon" or item.Type == "Consumable" or item.Type == "Misc" or item.Type == "Grenade") then
 		if (item.Tier.InternalName == "crafted") then
 			net.WriteBool(true)
 			for i = 1, 3 do
@@ -269,7 +269,7 @@ function pluto.inv.writebaseitem(ply, item)
 		end
 	end
 
-	if (item.Type == "Weapon") then
+	if (item.Type == "Weapon" or item.Type == "Grenade") then
 		net.WriteUInt(table.Count(item.Mods), 8)
 		for type, mods in pairs(item.Mods) do
 			net.WriteString(type)
@@ -565,8 +565,17 @@ function pluto.inv.readcurrencyuse(ply)
 	end
 
 	if (cur.Contents) then
-		local gotten, data = pluto.inv.roll(cur.Contents)
+		local gotten, data
+        if(cur.RareDesc) then
+            gotten,data = pluto.inv.rollraritydesc(cur.Contents)
+        else
+            gotten,data = pluto.inv.roll(cur.Contents)
+        end
 		local type = pluto.inv.itemtype(gotten)
+
+        if(data and (not data.Tier or cur.DefaultTier)) then
+            data.Tier = pluto.tiers.random(baseclass.Get(gotten))
+        end
 
 		pluto.db.transact(function(db)
 			pluto.inv.lockbuffer(db, ply)
@@ -584,6 +593,8 @@ function pluto.inv.readcurrencyuse(ply)
 				wpn = pluto.inv.generatebufferweapon(db, ply, "UNBOXED", istable(data) and data.Tier or cur.DefaultTier or "unique", gotten)
             elseif (type == "Consumable") then -- Consumable
                 wpn = pluto.inv.generatebufferweapon(db, ply, "UNBOXED", istable(data) and data.Tier or cur.DefaultTier or "generic", gotten)
+			elseif (type == "Misc") then -- Miscs
+                wpn = pluto.inv.generatebufferweapon(db, ply, "UNBOXED", istable(data) and data.Tier or cur.DefaultTier or "regular", gotten)
 			end
 
 			if (istable(data) and data.Rare) then

@@ -7,6 +7,7 @@ pluto.weapons.guns = pluto.weapons.guns or {}
 pluto.weapons.melees = pluto.weapons.melees or {}
 pluto.weapons.grenades = pluto.weapons.grenades or {}
 pluto.weapons.consumables = pluto.weapons.consumables or {}
+pluto.weapons.miscs = pluto.weapons.miscs or {}
 
 weapons.RealOnLoaded = weapons.RealOnLoaded or weapons.OnLoaded
 
@@ -36,8 +37,10 @@ function weapons.OnLoaded()
 		if (not wep.AutoSpawnable and not wep.PlutoSpawnable) then
 			continue
 		end
-        
-        if(wep.PlutoConsumable) then --Please FTLOG only use this for things that go in grenade slot but arent 'grenades'
+    
+        if(wep.PlutoMisc) then -- The below, but for holster/mag-sticks
+            table.insert(pluto.weapons.miscs,wep.ClassName)
+        elseif(wep.PlutoConsumable) then --Please FTLOG only use this for things that go in grenade slot but arent 'grenades'
             table.insert(pluto.weapons.consumables,wep.ClassName)
 		elseif (wep.Slot == 3) then
 			table.insert(pluto.weapons.grenades, wep.ClassName)

@@ -2,7 +2,7 @@ STAT.Name = "weaken"
 STAT.IsNegative = true
 STAT.NoCleanse = true
 
-function STAT:AddStatus(target, atk, stacks)
+function STAT:AddStatus(target, atk, stacks, time)
     local status
     if(not isentity(target)) then return end
     for _, ent in pairs(target:GetChildren()) do
@@ -18,15 +18,23 @@ function STAT:AddStatus(target, atk, stacks)
         status.Data = {
             Dealer = atk,
             Stax = stacks,
+            ThinkDelay = 1,
             Hook_Dmg = {
                 "EntityTakeDamage",
                 pluto.statushooks.HookDamage,
             },
             DontExpire = true,
         }
+        if(time) then
+            status.TicksLeft = time
+            status.DontExpire = false
+        end
         status:Spawn()
     else
-        status.Data.Stax = (status.Data.Stax or 0) + stacks
+        status.Data.Stax = stacks > status.Data.Stax and stacks or status.Data.Stax
+        if(not status.Data.DontExpire) then
+            status.Data.TicksLeft = (status.Data.TicksLeft or 0) + (time or 0)
+        end
     end
 end
 

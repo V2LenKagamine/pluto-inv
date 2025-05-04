@@ -357,6 +357,14 @@ function PANEL:AddSuffix(suffix, item)
 
 	local curtext
 	local desc = pluto.mods.formatdescription(suffix, item, fmt)
+
+    for _,test in ipairs(item.Mods.suffix) do
+        if(MOD.Synergies and MOD.Synergies[test.Mod]) then
+            local syn = pluto.mods.byname[test.Mod]
+            desc = desc .. "\n" .. "Synergy-" .. syn.Name .. ":".. MOD.Synergies[test.Mod]
+        end
+    end
+
 	surface.SetFont "pluto_showcase_suffix_text"
 
 	local function addtext()
@@ -375,14 +383,18 @@ function PANEL:AddSuffix(suffix, item)
 	for m in desc:gmatch "%S+" do
 		local nexttext = curtext
 		if (curtext) then
-			nexttext = curtext .. " " .. m
+            if(m == "\n") then
+                addtext()
+				continue 
+            end
+            nexttext = curtext .. " " .. m
 			local tw, th = surface.GetTextSize(nexttext)
-			if (tw > self:GetWide() - 20) then
+            if (tw > self:GetWide() - 20) then
 				addtext()
 				curtext = m
-			else
-				curtext = nexttext
+                continue
 			end
+            curtext = nexttext
 		else
 			curtext = m
 		end
