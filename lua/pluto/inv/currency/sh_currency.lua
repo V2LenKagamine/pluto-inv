@@ -988,6 +988,85 @@ local list = {
 		},
 		Category = "Unbox",
 	},
+    {
+		InternalName = "crate_nade1",
+		Name = "Grenade Crate : E1",
+		Icon = "pluto/currencies/cratenade.png",
+		Description = "A crate, containing throwable weapons.",
+		SubDescription = "FRAG OUT!",
+		NoTarget = true,
+		Color = Color(133, 92, 58),
+		ClientsideUse = function()
+			if (IsValid(pluto.opener)) then
+				pluto.opener:Remove()
+			end
+
+			pluto.opener = vgui.Create "tttrw_base"
+
+			pluto.opener:AddTab("Open Box", vgui.Create("pluto_box_open"):SetCurrency("crate_nade1"))
+
+			pluto.opener:SetSize(640, 400)
+			pluto.opener:Center()
+			pluto.opener:MakePopup()
+		end,
+        RareDesc = true,
+		Category = "Unbox",
+        Contents = {
+			weapon_ttt_barrel_grenade = {
+				Chance = 12.5,
+			},
+            weapon_ttt_big_boy = {
+				Chance = 12.5,
+			},
+            weapon_ttt_cherry_bombs = {
+				Chance = 12.5,
+			},
+            weapon_ttt_rolling_thunder = {
+				Chance = 12.5,
+			},
+            weapon_pluto_thermite = {
+				Chance = 12.5,
+			},
+            weapon_ttt_molotov = {
+				Chance = 12.5,
+			},
+            weapon_ttt_smoke_grenade = {
+				Chance = 12.5,
+			},
+            weapon_ttt_sticky_grenade = {
+				Chance = 12.5,
+			},
+            tfa_cso_pumpkin = {
+                Rare = true,
+                Tier = "unique"
+                Chance = 2,
+            },
+		},
+	},
+    {
+		InternalName = "crate_toy1",
+		Name = "Toy Crate : E1",
+		Icon = "pluto/currencies/cratetoy.png",
+		Description = "A crate, containing fun, but useless, curiosities.\nDoesn't seem to be anything inside yet...",
+		SubDescription = ":smiel:",
+		NoTarget = true,
+		Color = Color(133, 92, 58),
+		--[[ClientsideUse = function()
+			if (IsValid(pluto.opener)) then
+				pluto.opener:Remove()
+			end
+
+			pluto.opener = vgui.Create "tttrw_base"
+
+			pluto.opener:AddTab("Open Box", vgui.Create("pluto_box_open"):SetCurrency("crate_toy1"))
+
+			pluto.opener:SetSize(640, 400)
+			pluto.opener:Center()
+			pluto.opener:MakePopup()
+		end,]]
+		Category = "Unbox",
+        RareDesc = true,
+	},
 }
 
 hook.Add("Think", "pluto_currency_think", function()

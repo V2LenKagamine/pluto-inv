@@ -1,7 +1,7 @@
 --[[ * This Source Code Form is subject to the terms of the Mozilla Public
      * License, v. 2.0. If a copy of the MPL was not distributed with this
      * file, You can obtain one at https://mozilla.org/MPL/2.0/. ]]
-local pluto_weapon_droprate = CreateConVar("pluto_weapon_droprate", "0.6", nil, nil, 0, 1)
+local pluto_weapon_droprate = CreateConVar("pluto_weapon_droprate", "0.65", nil, nil, 0, 1)
 local pluto_equip_droprate = CreateConVar("pluto_equipcrate_droprate", "0.01", nil, nil, 0, 1)
 local pluto_toys_droprate = CreateConVar("pluto_toycrate_droprate","0.0025",nil, nil, 0, 1)
 
@@ -147,27 +147,33 @@ hook.Add("TTTEndRound", "pluto_endround", function()
 		if (not IsValid(ply)) then
 			continue
 		end
-        local dropnum = math.random()
-        if(dropnum < pluto_weapon_droprate:GetFloat()) then
-		    pluto.db.instance(function(db)
-			    pluto.inv.addcurrency(db, ply, "endround", 1)
-			    ply:ChatPrint(white_text, "You obtained ", pluto.currency.byname.endround, " × 1.")
-		    end)
-        end
-        if(dropnum < pluto_equip_droprate:GetFloat()) then
-		    pluto.db.instance(function(db)
-			    pluto.inv.addcurrency(db, ply, "crate_cons1", 1)
-			    ply:ChatPrint(white_text, "You obtained ", pluto.currency.byname.crate_cons1, " × 1.")
-		    end)
-        end
-        if(dropnum < pluto_toys_droprate:GetFloat()) then --Todo: Toys crate
-		    pluto.db.instance(function(db)
-			    pluto.inv.addcurrency(db, ply, "endround", 1)
-			    ply:ChatPrint(white_text, "You obtained ", pluto.currency.byname.endround, " × 1.")
-		    end)
-        end
+        pluto.inv.endrounddrops(ply)
 	end
 end)
+
+function pluto.inv.endrounddrops(ply)
+    local dropnum = math.random()
+    if(dropnum < pluto_weapon_droprate:GetFloat()) then
+		pluto.inv.spawnfor(ply, "endround")
+		ply:ChatPrint(white_text, "You feel that ", pluto.currency.byname.endround, " has appeared somewhere!")
+    end
+    dropnum = math.random()
+    if(dropnum < pluto_equip_droprate:GetFloat()) then
+		pluto.inv.spawnfor(ply, "crate_nade1")
+		ply:ChatPrint(white_text, "You feel that ", pluto.currency.byname.crate_nade1, " has appeared somewhere!")
+    end
+    dropnum = math.random()
+    if(dropnum < pluto_equip_droprate:GetFloat()) then
+		pluto.inv.spawnfor(ply, "crate_cons1")
+		ply:ChatPrint(white_text, "You feel that ", pluto.currency.byname.crate_cons1, " has appeared somewhere!")
+    end
+    dropnum = math.random()
+    if(dropnum < pluto_toys_droprate:GetFloat()) then --Todo: Toys crate
+		pluto.inv.spawnfor(ply, "crate_toy1")
+		ply:ChatPrint(white_text, "You feel that ", pluto.currency.byname.crate_toy1, " has appeared somewhere!")
+    end
+end
+
 
 local pluto_loaded = {}
 --[[ --Todo: Make this work, need to pass plr in somehow from loadout.lua
