@@ -573,7 +573,7 @@ function pluto.inv.readcurrencyuse(ply)
         end
 		local type = pluto.inv.itemtype(gotten)
 
-        if(data and (not data.Tier or cur.DefaultTier)) then
+        if(type ~= "Model" and istable(data) and not data.Tier and not cur.DefaultTier) then
             data.Tier = pluto.tiers.random(baseclass.Get(gotten))
         end
 
