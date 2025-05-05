@@ -103,7 +103,7 @@ hook.Add("PlutoDatabaseInitialize", "pluto_inv_init", function(db)
 	mysql_check_error(mysql_query(db, [[
 		CREATE TABLE IF NOT EXISTS pluto_currency_tab (
 			owner BIGINT UNSIGNED NOT NULL,
-			currency VARCHAR(8) NOT NULL,
+			currency VARCHAR(16) NOT NULL,
 			amount INT UNSIGNED NOT NULL DEFAULT 0,
 			PRIMARY KEY(owner, currency),
 			INDEX USING HASH(owner)
@@ -258,7 +258,7 @@ hook.Add("PlutoDatabaseInitialize", "pluto_inv_init", function(db)
 			node_id SMALLINT UNSIGNED NOT NULL,
 			node_unlocked TINYINT UNSIGNED NOT NULL DEFAULT 0,
 
-			node_name VARCHAR(24) NOT NULL,
+			node_name VARCHAR(32) NOT NULL,
 
 			node_val1 FLOAT NULL,
 			node_val2 FLOAT NULL,

@@ -69,9 +69,9 @@ function PANEL:AddTab(col, category, add_rest, buffer)
 		if (cur.Fake) then
 			continue
 		end
-        if(pluto.cl_currency[cur.InternalName] <= 0) then continue end
+        if(pluto.cl_currency[cur.InternalName] <= 0 and category == "Unbox") then continue end
 
-		if (not self.CurrencyDone[cur.InternalName] and (add_rest or cur.Category == category)) then
+		if (not self.CurrencyDone[cur.InternalName] and ((add_rest and not cur.Category) or cur.Category == category)) then
 			self.CurrencyDone[cur.InternalName] = true
 			if (not filter(cur)) then
 				continue

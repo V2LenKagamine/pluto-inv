@@ -47,7 +47,7 @@ pluto.quests.rewardhandlers = {
 
 				return true
 			end).InternalName
-
+            tier = pluto.weapons.realtiername(tier)
 			local new_item = pluto.weapons.generatetier(tier, classname)
 
 			for _, mod in ipairs(self.Mods or {}) do
@@ -131,7 +131,7 @@ pluto.quests.rewardhandlers = {
 
 				return true
 			end).InternalName
-
+            tier = pluto.weapons.realtiername(tier)
 			pluto.inv.generatebuffershard(db, data.Player, "QUEST", tier)
 			tier = pluto.tiers.byname[tier]
 
@@ -241,13 +241,6 @@ pluto.quests.rewards = {
 			Amount = 2,
             Shares = 1,
         },
-		{
-			Type = "weapon",
-            Grenade = true,
-			ModMin = 2,
-			ModMax = 3,
-			Shares = 1,
-		},
         {
 			Type = "weapon",
 			ModMin = 4,
@@ -302,13 +295,6 @@ pluto.quests.rewards = {
 			Amount = 5,
 			Shares = 1,
         },
-        {
-			Type = "weapon",
-            Grenade = true,
-			ModMin = 3,
-			ModMax = 4,
-			Shares = 1,
-		},
 		{
 			Type = "weapon",
 			ClassName = "weapon_cod4_ak47_silencer",
@@ -390,13 +376,6 @@ pluto.quests.rewards = {
 			Type = "weapon",
 			ModMin = 6,
 			ModMax = 6,
-			Shares = 1,
-		},
-        {
-			Type = "weapon",
-            Grenade = true,
-			ModMin = 3,
-			ModMax = 4,
 			Shares = 1,
 		},
         {
