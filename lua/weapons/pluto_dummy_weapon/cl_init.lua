@@ -1,5 +1,4 @@
 include "shared.lua"
-include "cl_muzzle.lua"
 
 local ttt_lowered = CreateConVar("ttt_ironsights_lowered", "1", FCVAR_ARCHIVE)
 local ttt_crosshair_ironsights = CreateConVar("ttt_crosshair_ironsights", "1", FCVAR_ARCHIVE)

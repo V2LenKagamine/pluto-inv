@@ -1,1 +1,0 @@
-CreateConVar("sv_customnodegraph_enabled", 1, FCVAR_NOTIFY)
