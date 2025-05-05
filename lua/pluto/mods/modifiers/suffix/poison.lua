@@ -29,10 +29,10 @@ function MOD:ModifyWeapon(wep, rolls)
 	wep:ScaleRollType("damage", rolls[1], true)
 end
 
-function MOD:OnDamage(wep, rolls, vic, dmginfo, state)
-	if (not IsValid(target) or not isentity(target) or dmg:GetInflictor():GetClass() == "pluto_status") then return end
-    if(vic:IsPlayer() and dmginfo:GetDamage() > 0) then
-		state.poisonstacks = (wep:ScaleRollType("damage", rolls[1])/100) * dmginfo:GetDamage()
+function MOD:OnDamage(wep, rolls, target, dmg, state)
+    if (not IsValid(target) or not isentity(target) or dmg:GetInflictor():GetClass() == "pluto_status") then return end
+    if(target:IsPlayer() and dmg:GetDamage() > 0) then
+		state.poisonstacks = (wep:ScaleRollType("damage", rolls[1])/100) * dmg:GetDamage()
 	end
 end
 

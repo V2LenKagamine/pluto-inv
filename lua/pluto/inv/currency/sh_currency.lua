@@ -1051,7 +1051,7 @@ local list = {
 		SubDescription = ":smiel:",
 		NoTarget = true,
 		Color = Color(133, 92, 58),
-		--[[ClientsideUse = function()
+		ClientsideUse = function()
 			if (IsValid(pluto.opener)) then
 				pluto.opener:Remove()
 			end
@@ -1063,7 +1063,7 @@ local list = {
 			pluto.opener:SetSize(640, 400)
 			pluto.opener:Center()
 			pluto.opener:MakePopup()
-		end,]]
+		end,
 		Category = "Unbox",
         RareDesc = true,
 	},

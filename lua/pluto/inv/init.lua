@@ -591,7 +591,7 @@ function pluto.inv.rollraritydesc(crate)
     local ctable = {}
     local idx = 1
 	for k,v in pairs(crate) do
-		table.insert(ctable,idx,{["Item"] = k,["Chance"] = istable(v) and v.Chance or v})
+		table.insert(ctable,idx,{["Item"] = k,["Chance"] = istable(v) and v.Chance or v,["OIDX"] = idx})
         idx = idx + 1
 	end
     --Highest rarity is at the top,idx 1
@@ -599,15 +599,29 @@ function pluto.inv.rollraritydesc(crate)
         if(alpha.Chance ~= beta.Chance) then
             return  alpha.Chance < beta.Chance
         end
-        return math.random() >= 0.5 --We want a random order here, so items with the same drop chance get randomly sorted.
+        return alpha.OIDX < beta.OIDX
     end)
 	for idx,obj in ipairs(ctable) do
         local item,chance = obj["Item"],obj["Chance"]
         if(idx >= #ctable) then
-            return item, obj --We failed every other drop, just drop the most common thing in the table.
+            local drops = {}
+            for _,drop in ipairs(ctable) do
+                if(drop.Chance ~= chance) then continue end
+                local insert = drop
+                insert.Shares = 1
+                drops[drop["Item"]] = insert
+            end
+            return pluto.inv.roll(drops)
         end
         if(m <= chance) then
-            return item, obj --Hey, neat, we did it!
+            local drops = {}
+            for _,drop in ipairs(ctable) do
+                if(drop.Chance ~= chance) then continue end
+                local insert = drop
+                insert.Shares = 1
+                drops[drop["Item"]] = insert
+            end
+            return pluto.inv.roll(drops)
         end
     end
     pluto.error("How the hell did you miss a 100% chance drop in rollraritydesc?!?!? Actually how.")
