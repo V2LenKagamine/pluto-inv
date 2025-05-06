@@ -10,6 +10,7 @@ pluto.files.load {
 		"sv/config.lua",
 		"sv/crash.lua",
 		"sv/maxplayers.lua",
+        "sv/raids.lua",
 
 		"weapons/weapons.lua",
 		"weapons/random_spawns.lua",

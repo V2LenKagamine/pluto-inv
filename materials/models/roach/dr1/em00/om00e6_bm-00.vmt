@@ -1,0 +1,5 @@
+"VertexLitGeneric"
+{
+$basetexture "models/roach/dr1/em00/om00e6_BM-00"
+$nocull 1
+}

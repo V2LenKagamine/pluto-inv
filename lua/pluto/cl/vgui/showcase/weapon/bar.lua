@@ -17,6 +17,14 @@ function PANEL:AddFilling(pct, txt, col)
 	})
 end
 
+function PANEL:AddBar()
+	table.insert(self.Bars, {
+		Color = Color(255,255,255),
+		Text = "",
+		Percent = 0
+	})
+end
+
 function PANEL:ScissorBar(bar, sx, w, h)
 	local scrx, scry = self:LocalToScreen(sx, 0)
 	local scrx2, scry2 = self:LocalToScreen(sx + w, h)
@@ -29,8 +37,12 @@ function PANEL:Paint(w, h)
 	surface.SetDrawColor(85, 85, 85)
 	ttt.DrawCurvedRect(0, 0, w, h - 1, 2)
 	local x = 1
-    local cntr = 1
 	for _, bar in ipairs(self.Bars) do
+        if(bar.Percent == 0) then
+            surface.SetDrawColor(255, 255, 255)
+	        surface.DrawLine(x - 1.5, 0, x - 1.5, h - 2)
+            continue 
+        end
 		local bw = math.Round((w - 2) * bar.Percent)
 
 		self:ScissorBar(bar, x, bw, h)
@@ -38,11 +50,7 @@ function PANEL:Paint(w, h)
 		surface.SetDrawColor(bar.Color)
 		ttt.DrawCurvedRect(0, 0, w, h - 1, 2)
 		x = x + bw
-        if(cntr % 2 ~= 0) then
-            surface.SetDrawColor(255, 255, 255)
-	        surface.DrawLine(x - 1.5, 0, x - 1.5, h - 2)
-        end
-        cntr = cntr + 1
+        
 	end
 	render.SetScissorRect(0, 0, 0, 0, false)
 end
