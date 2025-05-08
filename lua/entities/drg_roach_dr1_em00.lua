@@ -263,9 +263,9 @@ function ENT:OnRangeAttack(enemy)
 		self:PlaySequenceAndMove("att_shoot_3",1,self.PossessionFaceForward)
 	end
 end
-ENT.DamageMultiplier = 3
+ENT.DamageMultiplier = 1
 function ENT:OnTakeDamage(dmg, dir, tr)
-	dmg:ScaleDamage(self.DamageMultiplier*(self.DamageMultiplier+math.random()))
+	dmg:ScaleDamage(self.DamageMultiplier)
 	if self:IsDead() and not self.Flinching and not self:GetHeadless() then
 		self.Flinching = true
 		self:CICO(function(self)
@@ -525,7 +525,7 @@ ENT3.IdleSoundDelay = 2
 ENT.SightDistance = 8192
 
 if SERVER then
-ENT3.DamageMultiplier = 0.5
+ENT3.DamageMultiplier = 0.25
 function ENT3:ShouldRun()return true end
 function ENT3:OnMeleeAttack(enemy)
 	if math.random(2)==1 then

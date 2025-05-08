@@ -42,7 +42,7 @@ end
 
 function MOD:OnDamage(wep, rolls, target, dmg, state)
     if (not IsValid(target) or not isentity(target) or dmg:GetInflictor():GetClass() == "pluto_status") then return end
-    if(target:IsPlayer() and dmg:GetDamage() > 0) then
+    if((target:IsPlayer() or target:IsNextBot()) and dmg:GetDamage() > 0) then
 		state.firestacks = (wep:ScaleRollType("damage", rolls[1])/100) * dmg:GetDamage()
 	end
 end

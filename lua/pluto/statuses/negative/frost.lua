@@ -92,6 +92,7 @@ end)
 
 function pluto.statushooks.HookSpeed(plr,data)
     if(not plr) then return end
+    if(not plr:IsPlayer()) then return end
     local sloweduntil = plr:GetFrostUntil()
 
 	if (sloweduntil > CurTime() and plr:GetFrostStarted() < CurTime()) then
