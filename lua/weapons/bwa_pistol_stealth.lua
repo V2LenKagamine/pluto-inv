@@ -21,7 +21,7 @@ SWEP.WorldModel = "models/weapons/w_pist_usp_silencer.mdl"
 -- Primary --
 
 -- Shooting
-SWEP.Primary.Damage = 7
+SWEP.Primary.Damage = 3.5
 SWEP.Primary.Bullets = 1
 SWEP.Primary.Spread = 0.1
 SWEP.Primary.Automatic = false

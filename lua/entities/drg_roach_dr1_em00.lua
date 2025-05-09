@@ -66,6 +66,26 @@ ENT.ClimbSpeed = 600
 ENT.ClimbUpAnimation = "glide"
 ENT.ClimbAnimRate = 1
 ENT.ClimbOffset = Vector(-10, 0, 10)
+
+function ENT:OnContact(ent)
+	if string.find( ent:GetClass():lower(), "prop_*" ) or (ent:GetClass() == "func_physbox") or (ent:GetClass() == "func_breakable") or (ent:GetClass() == "func_breakable_surf") then
+		if IsValid(ent) then
+			local velocity = math.Round(self:GetVelocity():Length())*2
+			local forwardvel = Vector(self:GetForward().x,self:GetForward().y,self:GetForward().z)*velocity
+				
+			if IsValid(ent:GetPhysicsObject()) then
+				ent:GetPhysicsObject():EnableMotion( true )
+				ent:GetPhysicsObject():SetVelocity(forwardvel)
+				ent:TakeDamage( 100, self,self )
+			end
+		end
+	end
+	if ent:GetClass() == "prop_door_rotating" or ent:GetClass() == "func_door_rotating" or ent:GetClass() == "func_door" then
+		if IsValid(ent) then
+			ent:Fire('Open')
+		end
+	end
+end
 function ENT:WhileClimbing(ladder, left)
 	self:ResetSequence("glide")
 	if left <=75 then return true end 
@@ -454,7 +474,7 @@ function ENT:CICO(callback)
 		self.BehaveThread = oldThread
 	end)
 end
-function ENT:ShouldRun()return false end
+function ENT:ShouldRun()return true end
 elseif CLIENT then
 	ENT.HUDMat_Main = Material("hud/dr1/hud_main_hp.png", "smooth unlitgeneric")
 	ENT.HUDMat_Block = Material("hud/dr1/hud_hp_block.png", "smooth unlitgeneric")

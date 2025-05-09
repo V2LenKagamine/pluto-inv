@@ -20,7 +20,7 @@ SWEP.WMAng = Vector(-5, 88, 180)
 -- Primary --
 
 -- Shooting
-SWEP.Primary.Damage = 75
+SWEP.Primary.Damage = 32.5
 SWEP.Primary.Bullets = 1
 SWEP.Primary.Spread = 0.01
 SWEP.Primary.Automatic = false

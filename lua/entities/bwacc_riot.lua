@@ -63,7 +63,7 @@ if SERVER then
 		if GetConVar("bwa_friends"):GetBool() then
 			self:AddRelationship("player D_LI 99")
 		end
-      	self:SetHealth(175)
+      	self:SetHealth(125)
       	self:WeaponReload()
 		self:SetSkin(math.random(0,11))
 		self:SetBodygroup(3, math.random(0,2))

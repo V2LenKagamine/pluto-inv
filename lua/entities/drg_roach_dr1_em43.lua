@@ -9,7 +9,7 @@ ENT.PrintName = "Cultist"
 ENT.Category = "Dead Rising (PC)"
 ENT.Models = {"models/roach/dr1/em43.mdl"}
 ENT.CollisionBounds = Vector(15, 15, 70)
-ENT.SpawnHealth = 120
+ENT.SpawnHealth = 100
 ENT.MeleeAttackRange = 50
 ENT.Factions = {"DR1_PSYCHO_SEAN"}
 ENT.PossessionViews = {{offset = Vector(0, 30, 10),distance = 100,eyepos=true}}
@@ -83,6 +83,25 @@ ENT.ClimbSpeed = 600
 ENT.ClimbUpAnimation = "climb_1"
 ENT.ClimbAnimRate = 1
 ENT.ClimbOffset = Vector(-10, 0, 10)
+function ENT:OnContact(ent)
+	if string.find( ent:GetClass():lower(), "prop_*" ) or (ent:GetClass() == "func_physbox") or (ent:GetClass() == "func_breakable") or (ent:GetClass() == "func_breakable_surf") then
+		if IsValid(ent) then
+			local velocity = math.Round(self:GetVelocity():Length())*2
+			local forwardvel = Vector(self:GetForward().x,self:GetForward().y,self:GetForward().z)*velocity
+				
+			if IsValid(ent:GetPhysicsObject()) then
+				ent:GetPhysicsObject():EnableMotion( true )
+				ent:GetPhysicsObject():SetVelocity(forwardvel)
+				ent:TakeDamage( 100, self,self )
+			end
+		end
+	end
+	if ent:GetClass() == "prop_door_rotating" or ent:GetClass() == "func_door_rotating" or ent:GetClass() == "func_door" then
+		if IsValid(ent) then
+			ent:Fire('Open')
+		end
+	end
+end
 function ENT:WhileClimbing(ladder, left)
 	self:ResetSequence("climb_1")
 	if left <=75 then return true end 
@@ -225,7 +244,6 @@ function ENT:OnTakeDamage(dmg, dir, tr)
 			self.Flinching = false
 		end)
 	else
-		dmg:ScaleDamage(2)
 		if self.IsIdle then self.IsIdle = false self.Ready = true end
 		self:SpotEntity(dmg:GetAttacker())
 		if self:Health() < 100/4 and not self.Flinching then

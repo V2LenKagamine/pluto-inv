@@ -4,6 +4,7 @@ if SERVER then
     pluto.RAIDS = pluto.RAIDS or {}
     pluto.RAIDS.RAIDS_MAP_NODES = pluto.RAIDS.RAIDS_MAP_NODES or {}
     pluto.RAIDS.RAIDS_NODES_DISTANCE_MULT = pluto.RAIDS.RAIDS_NODES_DISTANCE_MULT or 2
+    pluto_noraids = CreateConVar("pluto_disable_raids","0",FCVAR_ARCHIVE,nil,0,1)
 
     local AINET_VERSION_NUMBER = 37
 
@@ -18,10 +19,11 @@ if SERVER then
     local raids ={
         zombies = {
             name = "Undead",
-            enemy_mul = 8,
+            enemy_mul = 4,
             Shares = 1,
             enemies = {
-                ["drg_roach_dr1_em00"] = 1,
+                ["drg_roach_dr1_em00"] = 95,
+                ["drg_roach_dr1_em43"] = 5,
             },
         },
         soldiers = {
@@ -33,7 +35,7 @@ if SERVER then
                 ["bwaaf_grenadier"] = 12,
                 ["bwaaf_machinegunner"] = 12,
                 ["bwaaf_medic"] = 12,
-                ["bwaaf_shield"] = 12,
+                ["bwaaf_shield"] = 2,
                 ["bwaaf_sniper"] = 12,
                 ["bwaaf_soldier"] = 12,
                 ["bwaaf_stealth"] = 12,
@@ -44,7 +46,7 @@ if SERVER then
     }
 
     local function checkIfMapJustBuiltNodes()
-        if table.IsEmpty(pluto.RAIDS.RAIDS_MAP_NODES) then 
+        if table.IsEmpty(pluto.RAIDS.RAIDS_MAP_NODES) and not table.IsEmpty(pluto.currency.cached_positions) then 
             pluto.RAIDS.RAIDS_MAP_NODES = table.Copy(pluto.currency.cached_positions)
         end
     end
@@ -70,9 +72,11 @@ if SERVER then
         npc.spawnedPos = pos
         npc.spawnedTime = CurTime()
         npc:JoinFaction("FACTION_RAID")
-        npc:SetOmniscient(true)
+        if(class == "drg_roach_dr1_em00") then
+            npc:SetOmniscient(true) --they s m e l l you.
+        end
 
-        -- The rest of this function's code only applies to NPC's spawned by raids_spawn_* commands, not assault/arena mode.        
+        -- Non arena code follows       
         timer.Simple(0.1, function()
             if !IsValid(offsetNodePos) then return end
             if !IsValid(npc) then return end
@@ -84,7 +88,7 @@ if SERVER then
             if !IsValid(offsetNodePos) then return end
             if !IsValid(npc) then return end
             if !IsValid(ply) then return end
-            local direction = (ply:GetPos() - npc:GetPos()):GetNormalized() -- These 4 lines get the npc's to face towards the player
+            local direction = (ply:GetPos() - npc:GetPos()):GetNormalized()
             local angle = direction:Angle() 
             angle.p = 0
             npc:SetAngles(angle)
@@ -207,6 +211,7 @@ if SERVER then
     pluto.RAIDS.allowDuringRound = false
     pluto.RAIDS.raidScores = pluto.RAIDS.raidScores or {}
     local curEnemiesOnField = 0
+    local killcount = 0
     local nextThink = CurTime()
 
 
@@ -224,10 +229,13 @@ if SERVER then
         end
     end
 
-    util.AddNetworkString("pluto_raids_update")
     local function initiateAssault(class, raidLevel, escalate)
         if(not pluto.RAIDS.allowDuringRound and ((ttt.GetRoundState() ~= ttt.ROUNDSTATE_WAITING or ttt.GetRoundState() ~= ttt.ROUNDSTATE_PREPARING) and #player.GetAll() >= GetConVar("ttt_minimum_players"):GetInt())) then 
             pluto.warn("You cant start a raid during rounds without setting pluto.RAIDS.allowDuringRound to true!")
+            return 
+        end
+        if(pluto_noraids:GetBool()) then
+            pluto.warn("Raids are disabled with a console command! Turn it back on!")
             return 
         end
         pluto.RAIDS.disableArena = false 
@@ -235,6 +243,9 @@ if SERVER then
         pluto.RAIDS.curMaxEnemiesAllowed = raidLevel or DefaultRaidLevel
         pluto.RAIDS.alivePlayers = {}
         pluto.RAIDS.raidScores = {}
+        killcount = 0
+
+        checkIfMapJustBuiltNodes()
 
         for idx,pla in ipairs(player.GetAll()) do
             RaidRespawn(pla)
@@ -245,24 +256,19 @@ if SERVER then
             pluto.RAIDS.disableArena = true 
             return 
         end
-        nextThink = CurTime() + 5 --Give everyone a chance to respawn
-        net.Start("pluto_raids_update")
-        net.WriteBool(true)
-        net.WriteUInt(pluto.RAIDS.curMaxEnemiesAllowed,8)
-        net.WriteString(pluto.RAIDS.arenaModeEnemyClass["name"] or "Something!")
-        net.Broadcast()
+        nextThink = CurTime() + 10 --Give everyone a chance to respawn
 
-        if (not escalate) then return end
-        timer.Create("raids_increase_arena_mode_escalation", 30, -1, function()
-            pluto.RAIDS.curMaxEnemiesAllowed = pluto.RAIDS.curMaxEnemiesAllowed + 1
-            net.Start("pluto_raids_update")
-            net.WriteBool(false)
-            net.WriteUInt(pluto.RAIDS.curMaxEnemiesAllowed,8)
-            net.Broadcast()
-        end)
+        for _,plot in ipairs(player.GetAll()) do
+            plot:ChatPrint("A raid is begining! Difficulty: " .. pluto.RAIDS.curMaxEnemiesAllowed .. "; You will be fighting: " .. pluto.RAIDS.arenaModeEnemyClass.name or "Something!")
+        end
+        --[[
+        timer.Create("raids_increase_arena_mode_escalation", 45, -1, function()
+            
+        end)]]
     end
 
     local function DoRaidEnd(dontanother)
+        killcount = 0
         dontanother = dontanother or false
         if(dontanother) then
             pluto.RAIDS.disableArena = true
@@ -271,19 +277,17 @@ if SERVER then
             if not npc.raidsNPC then continue end
             npc:Remove()
         end
-        if timer.Exists("raids_increase_arena_mode_escalation") then 
-            timer.Remove("raids_increase_arena_mode_escalation") 
-        end
         if(#pluto.RAIDS.raidScores > 0) then
             for _,plor in ipairs(player.GetAll()) do
                 plor:ChatPrint("Top 3 Player Scores this raid: ")
             end
-            local sorted = table.SortByKey(pluto.RAIDS.raidScores)
-            for i=1,i <= 3 do
-                if(not sorted[i]) then break end
+            local idx = 1
+            for ply,score in SortedPairsByValue(pluto.RAIDS.raidScores) do
                 for _,plee in ipairs(player.GetAll()) do
-                    plee:ChatPrint("    " .. i .. ": " .. string.format("%s - %f0.2",sorted[i]:Nick(),pluto.RAIDS.raidScores[sorted[i]]))
+                    plee:ChatPrint("    " .. idx .. ": " .. string.format("%s - %f0.2",ply:Nick(),score))
                 end
+                idx = idx + 1
+                if(idx > 3) then break end
             end
         end
         if(not dontanother) then
@@ -291,14 +295,11 @@ if SERVER then
                 RaidRespawn(ply)
                 ply:ChatPrint("A new raid will begin shortly...")
             end
-            timer.Create("pluto_raids_restart",15,1,function()
-                initiateAssault(raids[pluto.inv.roll(raids)], DefaultRaidLevel, true)
-            end)
         end
     end
 
     local function arenaFindNPCSpawn()
-        if(#pluto.RAIDS.alivePlayers<=0) then return end
+        if(#pluto.RAIDS.alivePlayers<=0 or not pluto.RAIDS.RAIDS_MAP_NODES) then return end
         local minDistance 
         local maxDistance 
         local spawn = nil
@@ -319,7 +320,7 @@ if SERVER then
                 curDist = nodePos:DistToSqr(ply:GetPos())   
                 plyCurHighestDistFromNode = plyDistancesFromNodes[ply:SteamID()] 
                 plyDistancesFromNodes[ply:SteamID()] = (curDist  > plyCurHighestDistFromNode) and curDist or plyCurHighestDistFromNode
-                if (#samplednodes >= 30) then break end
+                if (#samplednodes >= 60) then break end
             end
         end
 
@@ -355,8 +356,17 @@ if SERVER then
     end
 
     function pluto.RAIDS.RaidThink()
-        if pluto.RAIDS.disableArena then return end
+        if(pluto_noraids:GetBool()) then return end
         if nextThink > CurTime() then return end
+        if pluto.RAIDS.disableArena then 
+            if (#player.GetAll() < GetConVar("ttt_minimum_players"):GetInt() and #player.GetAll() > 0) then
+                initiateAssault(raids[pluto.inv.roll(raids)], DefaultRaidLevel, true)
+                nextThink = CurTime() + 30 --Give a minute for joiners on mapchange/join
+            else
+                nextThink = CurTime() + 45
+            end
+            return 
+        end
         if(not pluto.RAIDS.arenaModeEnemyClass) then
             pluto.error("RAIDS: No enemy class! Ending raid...")
             DoRaidEnd()
@@ -383,7 +393,7 @@ if SERVER then
         end
         curEnemiesOnField = 0
         for _, npc in ents.Iterator() do
-            if (not IsValid(npc) or not npc:IsNextBot() or not npc.raidsNPC) then continue end
+            if (not IsValid(npc) or not npc:IsNextBot() or not npc.raidsNPC or not npc:Alive()) then continue end
             if (not npc.checkedForStuck and CurTime() > npc.spawnedTime + 5) then
                 npc.checkedForStuck = true
                 local distNoZ = math.abs(npc:GetPos().x - npc.spawnedPos.x) + math.abs(npc:GetPos().y - npc.spawnedPos.y) -- ignoring z cause sometimes npcs drop down
@@ -395,7 +405,8 @@ if SERVER then
         end
 
         -- add enemies to field
-        local maxen = pluto.RAIDS.curMaxEnemiesAllowed * (pluto.RAIDS.arenaModeEnemyClass.enemy_mul or 1)
+        -- maxen = diff * enemymul * (1 + 0.4 per player over 1)
+        local maxen = math.floor(pluto.RAIDS.curMaxEnemiesAllowed * (pluto.RAIDS.arenaModeEnemyClass.enemy_mul or 1)*(1+((#player.GetAll()-1) * 0.4)))
         if (curEnemiesOnField < maxen) then
             for idx = 1, (pluto.RAIDS.arenaModeEnemyClass.enemy_mul or 1) do
                 local pos = arenaFindNPCSpawn()
@@ -407,24 +418,43 @@ if SERVER then
 
     hook.Add("Think", "pluto_RAIDS_think", pluto.RAIDS.RaidThink)
 
+    local function TryAddExp(ply,points)
+        local wep = ply:GetActiveWeapon()
+        if(wep.PlutoGun and wep.PlutoGun.Owner == wep:GetOwner():SteamID64()) then
+            pluto.inv.addexperience(wep.PlutoGun.RowID,math.floor(points/2))
+        end
+    end
+
     hook.Add("OnNPCKilled","pluto_raids_kill_listen",function (npc,atk,inf)
         if(not npc.raidsNPC or not atk:IsPlayer()) then return end
-        local points = (npc:GetMaxHealth()/10)
         local multi = pluto.RAIDS.arenaModeEnemyClass.enemy_mul or 1
+        local points = npc:GetMaxHealth()/(10*multi) * (1+((pluto.RAIDS.curMaxEnemiesAllowed-4) * (0.2/multi))) --Higher round -> more points.
+        TryAddExp(atk,points)
         pluto.RAIDS.raidScores[atk] = (pluto.RAIDS.raidScores[atk] or 0) + points
-        if(math.random() < points/(250 * multi)) then -- 4% per 100 health per enemy difficulty.
+        killcount = (killcount or 0) + 1
+        if(killcount >= pluto.RAIDS.curMaxEnemiesAllowed*multi) then
+            pluto.RAIDS.curMaxEnemiesAllowed = pluto.RAIDS.curMaxEnemiesAllowed + 1
+            for _,plee in ipairs(player.GetAll()) do
+                plee:ChatPrint("RAID ANTE-UP! Difficulty now: " .. pluto.RAIDS.curMaxEnemiesAllowed)
+            end
+            killcount = 0
+        end
+        if(math.random() < points/(150 * multi)) then
             atk:ChatPrint("You feel something resonate...")
             pluto.currency.spawnfor(atk)
         end
-        if(math.random() <= (0.25/multi)) then
+        if(math.random() < points/(200 * multi)) then
+            pluto.inv.endrounddrops(atk)
+        end
+        if(math.random() <= (0.3/multi)) then
             atk:ChatPrint("You feel your wounds slowly stitch shut...")
             pluto.statuses.byname["heal_flat"]:AddStatus(atk,_,20,10)
         end
-        if(math.random() <= 0.5) then
+        if(math.random() <= 0.7) then
             local wep = atk:GetActiveWeapon()
             if (IsValid(wep)) then
                 local orig = baseclass.Get(wep:GetClass())
-                atk:GiveAmmo(math.floor(orig.Primary.ClipSize/2),orig.Primary.Ammo,true)
+                atk:GiveAmmo(math.floor(orig.Primary.ClipSize),orig.Primary.Ammo,true)
             end
         end
     end)
@@ -450,9 +480,6 @@ if SERVER then
     hook.Add("PostCleanupMap", "RAIDS_Arena_Post_Cleanup", function() 
         pluto.RAIDS.disableArena = true
         curMaxEnemiesAllowed = DefaultRaidLevel
-        if timer.Exists("raids_increase_arena_mode_escalation") then 
-            timer.Remove("raids_increase_arena_mode_escalation") 
-        end
     end)
 
 
@@ -480,15 +507,5 @@ if SERVER then
         DoRaidEnd(true)
 
         pluto.RAIDS.disableArena = true
-    end)
-end
-
-if CLIENT then
-    net.Receive("pluto_raids_update", function()
-        if(net.ReadBool()) then
-            LocalPlayer():ChatPrint("A raid is begining! Difficulty: " .. net.ReadUInt(8) .. "; You will be fighting: " .. net.ReadString())
-        else
-            LocalPlayer():ChatPrint("RAID ANTE-UP! Difficulty now: " .. net.ReadUInt(8))
-        end
     end)
 end
