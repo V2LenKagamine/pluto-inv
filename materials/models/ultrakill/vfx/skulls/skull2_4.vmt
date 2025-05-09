@@ -1,0 +1,8 @@
+"UnlitGeneric"
+{
+	"$Basetexture" "models/ULTRAKILL/vfx/Skulls/skull2 compressed 4"
+	"$NoCull" "1"
+	"$Model" "1"
+	"$NoDecal" "1"
+	
+}

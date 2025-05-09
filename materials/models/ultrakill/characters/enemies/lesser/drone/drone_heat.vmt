@@ -1,0 +1,6 @@
+"UnlitGeneric"
+{
+	"$Basetexture" "models/ULTRAKILL/characters/enemies/lesser/drone/dronetexture3"
+	"$Model" "1"
+	"$NoDecal" "1"
+}

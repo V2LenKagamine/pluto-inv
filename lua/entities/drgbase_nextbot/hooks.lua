@@ -21,8 +21,30 @@ end
 if SERVER then
 
 	-- Damage --
+    
+    local scales = {
+        [HITGROUP_LEFTARM] = 0.7,
+        [HITGROUP_RIGHTARM] = 0.7,
+        [HITGROUP_LEFTLEG] = 0.7,
+        [HITGROUP_RIGHTLEG] = 0.7,
+        [HITGROUP_GEAR] = 0
+    }
+    --Pluto edit
+    function ENT:ScaleHitDamage(dmginfo,hitgroup) 
+        local weapon = dmginfo:GetInflictor()
+        if(not weapon and dmginfo:GetAttacker()) then
+            weapon = dmginfo:GetAttacker():GetActiveWeapon()
+        end
+        if (weapon) then
+            if (hitgroup == HITGROUP_HEAD) then
+                dmginfo:ScaleDamage(weapon.HeadshotMultiplier or 1)
+            end
+            dmginfo:ScaleDamage(scales[hitgroup] or 1)
+        end
+    end
 
-	function ENT:OnTakeDamage(dmg)
+	function ENT:OnTakeDamage(dmg, hitgroup)
+        self:ScaleHitDamage(dmg,hitgroup)--Pluto edit end
 		self:SpotEntity(dmg:GetAttacker())
 	end
 	--function ENT:OnTookDamage() end

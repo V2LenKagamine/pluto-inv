@@ -1,0 +1,8 @@
+"VertexlitGeneric"
+{
+	"$Basetexture" "models/ULTRAKILL/characters/enemies/boss/maliciousface/T_MaliciousFaceCracked"
+	"$HalfLambert" "0"
+	"$Model" "1"
+	"$NoDecal" "1"
+}
+

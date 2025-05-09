@@ -1,0 +1,50 @@
+"UnlitGeneric"
+{
+	"$Basetexture" "models/ULTRAKILL/vfx/Sand"
+	
+	"$Model" "1"
+	"$Translucent" "1"
+	"$Color2" "[4 2 1]"
+	"$NoDecal" "1"
+
+	"$OffsetVar" 0
+	"$CenterVar" "[.5 .5]"
+	"$ScaleVar" "[1 1]"
+	"$TranslateVar" "[0 0]"
+	"$RotateVar" 0
+
+	Proxies
+	{
+
+		EntityRandom
+		{
+			scale 1
+			resultVar $OffsetVar
+		}
+
+		LinearRamp
+		{
+			rate 0.05
+			initialvalue $OffsetVar
+			resultvar "$TranslateVar[0]"
+		}
+
+		LinearRamp
+		{
+			rate 0.05
+			initialvalue $OffsetVar
+			resultvar "$TranslateVar[1]"
+		}
+
+		TextureTransform
+		{
+			centervar $CenterVar
+			scalevar $ScaleVar
+			rotatevar $RotateVar
+			translatevar $TranslateVar
+			resultvar $basetexturetransform
+		}
+
+	}
+
+}

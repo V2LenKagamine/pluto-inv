@@ -1,0 +1,7 @@
+"UnlitGeneric"
+{
+	"$Basetexture" "models/ULTRAKILL/characters/enemies/greater/mindflayer/T_MindflayerEnraged"
+
+	"$Model" "1"
+	"$NoDecal" "1"
+}

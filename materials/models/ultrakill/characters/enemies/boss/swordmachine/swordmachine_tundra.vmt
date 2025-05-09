@@ -1,0 +1,19 @@
+"VertexlitGeneric"
+{
+	$Basetexture models/ULTRAKILL/characters/enemies/boss/swordmachine/T_Swordsmachine_Tundra
+
+	$SelfIllum 1
+
+	$EmissiveBlendEnabled 		1				
+	$EmissiveBlendStrength 		1
+	$EmissiveBlendTexture 		models/ultrakill/shared/White
+	$EmissiveBlendBaseTexture 	models/ULTRAKILL/characters/enemies/boss/swordmachine/T_SwordsMachine_GlowMap
+	$EmissiveBlendFlowTexture 	models/ultrakill/shared/White
+	$EmissiveBlendTint 			"[ 1.2 0 0.16 ]"
+	$EmissiveBlendScrollVector 	"[ 0 0 ]"
+
+	$Model 1
+	$NoDecal 1
+
+}
+

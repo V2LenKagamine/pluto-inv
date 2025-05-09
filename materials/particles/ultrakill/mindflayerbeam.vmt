@@ -1,0 +1,7 @@
+"UnlitGeneric"
+{
+	"$Basetexture" "particles/ultrakill/MindflayerBeam2"
+
+	"$VertexColor" "1"
+	"$VertexAlpha" "1"
+}

@@ -1,0 +1,7 @@
+"UnlitGeneric"
+{
+		"$BaseTexture" "models/ULTRAKILL/shared/white"
+		"$NoCull" "1"
+		"$IgnoreZ" "1"
+		"$Model" "1"
+}

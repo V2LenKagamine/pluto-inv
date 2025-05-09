@@ -1,0 +1,8 @@
+"UnlitGeneric"
+{
+	"$Basetexture" "models/ULTRAKILL/shared/Black"
+
+	"$Model" "1"
+	"$NoDecal" "1"
+}
+

@@ -1,0 +1,7 @@
+"UnlitGeneric"
+{
+	"$Basetexture" "models/ULTRAKILL/characters/enemies/boss/maliciousface/T_MaliciousFaceEnraged"
+	"$Model" "1"
+	"$NoDecal" "1"
+}
+

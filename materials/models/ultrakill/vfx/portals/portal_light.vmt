@@ -1,0 +1,20 @@
+"VertexlitGeneric"
+{
+	$Basetexture "particles/ultrakill/charge compressed"
+
+	$SelfIllum 1
+
+	$EmissiveBlendEnabled 		1				
+	$EmissiveBlendStrength 		1
+	$EmissiveBlendTexture 		models/ultrakill/shared/White
+	$EmissiveBlendBaseTexture 	models/ULTRAKILL/shared/White
+	$EmissiveBlendFlowTexture 	models/ultrakill/shared/White
+	$EmissiveBlendTint 			"[ 0.3 0.85 1 ]"
+	$EmissiveBlendScrollVector 	"[ 0 0 ]"
+
+	$Model 1
+	$VertexColor 1
+	$VertexAlpha 1
+	$NoDecal 1
+
+}

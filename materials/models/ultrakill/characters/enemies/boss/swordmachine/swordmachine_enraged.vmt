@@ -1,0 +1,19 @@
+"VertexlitGeneric"
+{
+	$Basetexture models/ULTRAKILL/characters/enemies/boss/swordmachine/T_Swordsmachine_Enraged
+
+	$SelfIllum 1
+
+	$EmissiveBlendEnabled 		1				
+	$EmissiveBlendStrength 		1
+	$EmissiveBlendTexture 		models/ultrakill/shared/White
+	$EmissiveBlendBaseTexture 	models/ULTRAKILL/characters/enemies/boss/swordmachine/T_SwordsMachine_GlowMap
+	$EmissiveBlendFlowTexture 	models/ultrakill/shared/White
+	$EmissiveBlendTint 			"[ 1.2 0.49 0 ]"
+	$EmissiveBlendScrollVector 	"[ 0 0 ]"
+
+	$Model 1
+	$NoDecal 1
+
+}
+

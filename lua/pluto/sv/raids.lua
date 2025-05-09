@@ -20,7 +20,7 @@ if SERVER then
         zombies = {
             name = "Undead",
             enemy_mul = 4,
-            Shares = 1,
+            Shares = 49,
             enemies = {
                 ["drg_roach_dr1_em00"] = 95,
                 ["drg_roach_dr1_em43"] = 5,
@@ -29,7 +29,7 @@ if SERVER then
         soldiers = {
             name = "Hostile Military Forces",
             enemy_mul = 1,
-            Shares = 1,
+            Shares = 49,
             enemies = {
                 ["bwaaf_commander"] = 1,
                 ["bwaaf_grenadier"] = 12,
@@ -41,6 +41,22 @@ if SERVER then
                 ["bwaaf_stealth"] = 12,
                 ["bwacc_patrol"] = 12,
                 ["bwacc_riot"] = 12,
+            },
+        },
+        hellisfull = {
+            name = "hellisfull",
+            enemy_mul = 2,
+            Shares = 2,
+            enemies = {
+                ["ultrakill_filth"] = 30,
+                ["ultrakill_stray"] = 20,
+                ["ultrakill_schism"] = 20,
+                ["ultrakill_soldier"] = 15,
+                ["ultrakill_drone"] = 15,
+                ["ultrakill_streetcleaner"] = 10,
+                ["ultrakill_maliciousface_normal"] = 3,
+                ["ultrakill_cerberus_normal"] = 3,
+                ["ultrakill_swordsmachine_normal"] = 1,
             },
         },
     }
@@ -72,7 +88,7 @@ if SERVER then
         npc.spawnedPos = pos
         npc.spawnedTime = CurTime()
         npc:JoinFaction("FACTION_RAID")
-        if(class == "drg_roach_dr1_em00") then
+        if(class == "drg_roach_dr1_em00" or class == "drg_roach_dr1_em43") then
             npc:SetOmniscient(true) --they s m e l l you.
         end
 
@@ -258,13 +274,14 @@ if SERVER then
         end
         nextThink = CurTime() + 10 --Give everyone a chance to respawn
 
+        local hell = Color(173,0,0)
         for _,plot in ipairs(player.GetAll()) do
-            plot:ChatPrint("A raid is begining! Difficulty: " .. pluto.RAIDS.curMaxEnemiesAllowed .. "; You will be fighting: " .. pluto.RAIDS.arenaModeEnemyClass.name or "Something!")
+            if(pluto.RAIDS.arenaModeEnemyClass.name == "hellisfull") then
+                plot:ChatPrint("A raid is begining! Difficulty: ".. pluto.RAIDS.curMaxEnemiesAllowed .. "; You will be fighting: ",hell,"HELL IS FULL.")
+            else
+                plot:ChatPrint("A raid is begining! Difficulty: " .. pluto.RAIDS.curMaxEnemiesAllowed .. "; You will be fighting: " .. pluto.RAIDS.arenaModeEnemyClass.name or "Something!")
+            end
         end
-        --[[
-        timer.Create("raids_increase_arena_mode_escalation", 45, -1, function()
-            
-        end)]]
     end
 
     local function DoRaidEnd(dontanother)
@@ -277,14 +294,19 @@ if SERVER then
             if not npc.raidsNPC then continue end
             npc:Remove()
         end
-        if(#pluto.RAIDS.raidScores > 0) then
+        if(table.Count(pluto.RAIDS.raidScores) > 0) then
             for _,plor in ipairs(player.GetAll()) do
-                plor:ChatPrint("Top 3 Player Scores this raid: ")
+                plor:ChatPrint(Color(255,145,0),"Top 3 Player Scores this raid: ")
             end
+            local colors = {
+                [1] = Color(233,217,0),
+                [2] = Color(173,173,173),
+                [3] = Color(214,121,0),
+            }
             local idx = 1
             for ply,score in SortedPairsByValue(pluto.RAIDS.raidScores) do
                 for _,plee in ipairs(player.GetAll()) do
-                    plee:ChatPrint("    " .. idx .. ": " .. string.format("%s - %f0.2",ply:Nick(),score))
+                    plee:ChatPrint(colors[idx],string.format("%s : %f0.2",ply:Nick(),score))
                 end
                 idx = idx + 1
                 if(idx > 3) then break end
@@ -293,7 +315,7 @@ if SERVER then
         if(not dontanother) then
             for _,ply in ipairs(player.GetAll()) do
                 RaidRespawn(ply)
-                ply:ChatPrint("A new raid will begin shortly...")
+                ply:ChatPrint(Color(255,174,0),"A new raid will begin shortly...")
             end
         end
     end
@@ -375,7 +397,7 @@ if SERVER then
         nextThink = CurTime() + 1
         if(not pluto.RAIDS.allowDuringRound and (#player.GetAll() >= GetConVar("ttt_minimum_players"):GetInt())) then
             for _,ply in ipairs(player.GetAll()) do
-                ply:ChatPrint("Enough players have joined to start the game! Force ending raid...")
+                ply:ChatPrint(Color(255,174,0),"Enough players have joined to start the game! Force ending raid...")
             end
             DoRaidEnd(true)
             return
@@ -386,7 +408,7 @@ if SERVER then
         end
         if(#pluto.RAIDS.alivePlayers <= 0) then
             for _,ply in ipairs(player.GetAll()) do
-                ply:ChatPrint("All players have perished! Ending raid...")
+                ply:ChatPrint(Color(255,115,0),"All players have perished! Ending raid...")
             end
             DoRaidEnd()
             return 
@@ -435,19 +457,19 @@ if SERVER then
         if(killcount >= pluto.RAIDS.curMaxEnemiesAllowed*multi) then
             pluto.RAIDS.curMaxEnemiesAllowed = pluto.RAIDS.curMaxEnemiesAllowed + 1
             for _,plee in ipairs(player.GetAll()) do
-                plee:ChatPrint("RAID ANTE-UP! Difficulty now: " .. pluto.RAIDS.curMaxEnemiesAllowed)
+                plee:ChatPrint(Color(255,230,0),"RAID ANTE-UP! Difficulty now: ",Color(255,0,0), pluto.RAIDS.curMaxEnemiesAllowed)
             end
             killcount = 0
         end
-        if(math.random() < points/(150 * multi)) then
-            atk:ChatPrint("You feel something resonate...")
+        if(math.random() < points/(100 * multi)) then
+            atk:ChatPrint(Color(145,255,0),"You feel something resonate...")
             pluto.currency.spawnfor(atk)
         end
-        if(math.random() < points/(200 * multi)) then
+        if(math.random() < points/(150 * multi)) then
             pluto.inv.endrounddrops(atk)
         end
         if(math.random() <= (0.3/multi)) then
-            atk:ChatPrint("You feel your wounds slowly stitch shut...")
+            atk:ChatPrint(Color(0,255,0),"You feel your wounds begin to stitch shut...")
             pluto.statuses.byname["heal_flat"]:AddStatus(atk,_,20,10)
         end
         if(math.random() <= 0.7) then
@@ -462,16 +484,16 @@ if SERVER then
     hook.Add("DoPlayerDeath", "pluto_raids_death",function(ply,atk,dmg)
         if(pluto.RAIDS.disableArena) then return end
         for _,plr in ipairs(player.GetAll()) do
-            plr:ChatPrint("RAIDS: " .. ply:Nick() .. " has fallen to the onslaught!")
+            plr:ChatPrint(Color(255,0,0),"RAIDS: " .. ply:Nick() .. " has fallen to the onslaught!")
         end
         pluto.RAIDS.raidScores[ply] = math.max((pluto.RAIDS.raidScores[ply] or 0)-10,0)
         if(pluto.RAIDS.raidScores[ply] >= 90 and #pluto.RAIDS.alivePlayers > 1) then -- They had 100 and wern't last.
-            ply:ChatPrint("You will auto-revive in 5 seconds due to your score!")
+            ply:ChatPrint(Color(0,255,0),"You will auto-revive in 5 seconds due to your score!")
             timer.Simple(5,function()
                 RaidRespawn(ply)
                 pluto.RAIDS.raidScores[ply] = (pluto.RAIDS.raidScores[ply] or 0) - 90
                 for _,plr in ipairs(player.GetAll()) do
-                    plr:ChatPrint("RAIDS: " .. ply:Nick() .. " has returned to the fray through sheer will!")
+                    plr:ChatPrint(Color(125,255,0),"RAIDS: " .. ply:Nick() .. " has returned to the fray through sheer will!")
                 end
             end)
         end

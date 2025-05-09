@@ -1,0 +1,9 @@
+"UnlitGeneric"
+{
+		"$BaseTexture" "models/ULTRAKILL/vfx/BonusWhite"
+		"$Additive" "1"
+		"$Translucent" "1"
+		"$HalfLambert" "1"
+		"$Model" "1"
+		"$NoCull" "1"
+}

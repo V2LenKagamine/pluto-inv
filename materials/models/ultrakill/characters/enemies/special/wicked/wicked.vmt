@@ -1,0 +1,8 @@
+"VertexlitGeneric"
+{
+	"$Basetexture" "models/ULTRAKILL/characters/enemies/special/wicked/WickedDiffuse"
+
+	"$HalfLambert" "1"
+	"$Model" "1"
+	"$NoDecal" "1"
+}

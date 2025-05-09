@@ -1,0 +1,29 @@
+"VertexlitGeneric"
+{
+	"$Basetexture" "models/ULTRAKILL/shared/White"
+	"$BumpMap" "dev\bump_normal"
+
+	"$EmissiveBlendEnabled "		"1"
+	"$EmissiveBlendStrength" 		"0.65"
+	"$EmissiveBlendTexture "		"vgui/white"
+	"$EmissiveBlendBaseTexture "	"models/ULTRAKILL/shared/White"
+	"$EmissiveBlendFlowTexture" 	"vgui/white"
+	"$EmissiveBlendTint" 			"[ 1.4980392 0.85490197 0 ]"
+	"$EmissiveBlendScrollVector" 	"[ 0 0 ]"
+	
+	"$Phong" 						"1"
+	"$Phongboost"					"0"
+	"$Phongfresnelranges"    "[0.1 2 2]"
+	"$Phongexponent"			"0"
+
+	"$EnvMap" "models/ultrakill/shared/WhiteCube"
+	"$EnvMapTint" "[ 0.72 0.92 1 ]"
+	"$EnvMapFresnel" "1"
+
+	"$Model" "1"
+	"$Additive" "1"
+	"$Translucent" "1"
+	"$NoCull" "1"
+	"$Color2" "[0 0 0]"
+	"$NoDecal" "1"
+}

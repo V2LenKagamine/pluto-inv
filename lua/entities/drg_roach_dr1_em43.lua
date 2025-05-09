@@ -236,7 +236,8 @@ function ENT:OnMeleeAttack(enemy)
 		end
 	end
 end
-function ENT:OnTakeDamage(dmg, dir, tr)
+function ENT:OnTakeDamage(dmg, hg)
+    self:ScaleHitDamage(dmg,hg)
 	if self:IsDead() and not self.Flinching then
 		self.Flinching = true
 		self:CICO(function(self)

@@ -1,0 +1,8 @@
+"UnlitGeneric"
+{
+	"$Basetexture" "models/ULTRAKILL/shared/WhiteTri"
+	"$Translucent" "1"
+	"$Additive" "1"
+	"$VertexColor" "1"
+	"$VertexAlpha" "1"
+}

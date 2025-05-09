@@ -284,7 +284,8 @@ function ENT:OnRangeAttack(enemy)
 	end
 end
 ENT.DamageMultiplier = 1
-function ENT:OnTakeDamage(dmg, dir, tr)
+function ENT:OnTakeDamage(dmg, hg)
+    self:ScaleHitDamage(dmg,hg)
 	dmg:ScaleDamage(self.DamageMultiplier)
 	if self:IsDead() and not self.Flinching and not self:GetHeadless() then
 		self.Flinching = true

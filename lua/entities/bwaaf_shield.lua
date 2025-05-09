@@ -102,7 +102,8 @@ if SERVER then
 		end)
 	end
 
-	function ENT:OnTakeDamage(dmg)
+	function ENT:OnTakeDamage(dmg,hg)
+        self:ScaleHitDamage(dmg,hg)
 		self:SpotEntity(dmg:GetAttacker())
 		if self:Health() > 0 and dmg:GetDamage() >= self:Health() and math.random(1,8) == 1 and not self.laststand then
 			self.laststand = true

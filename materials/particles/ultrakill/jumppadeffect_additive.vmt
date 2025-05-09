@@ -1,0 +1,9 @@
+"UnlitGeneric"
+{
+	"$BaseTexture" "particles/ultrakill/JumpPadEffect"
+	"$Translucent" "1"
+	"$Additive" "1"
+	"$Model" "1"
+	"$VertexColor" "1"
+	"$VertexAlpha" "1"
+}

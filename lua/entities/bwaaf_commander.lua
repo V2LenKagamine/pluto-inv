@@ -278,7 +278,8 @@ if SERVER then
 		end
 	end
 
-	function ENT:OnTakeDamage(dmg)
+	function ENT:OnTakeDamage(dmg,hg)
+        self:ScaleHitDamage(dmg,hg)
 		self:SpotEntity(dmg:GetAttacker())
 		self:SetCooldown("cover", self:GetCooldown("cover")-1*dmg:GetDamage()/10)
 		if dmg:GetDamage() < self:Health() and math.random(1,8) == 1 and not self.rolling and not self.melee then

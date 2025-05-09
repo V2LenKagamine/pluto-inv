@@ -294,7 +294,8 @@ if SERVER then
 		end
 	end
 
-	function ENT:OnTakeDamage(dmg)
+	function ENT:OnTakeDamage(dmg,hg)
+        self:ScaleHitDamage(dmg,hg)
 		self:SpotEntity(dmg:GetAttacker())
 		self:SetCooldown("cover", self:GetCooldown("cover")-1*dmg:GetDamage()/10)
 		if self.Covering and self.Covering_Anim then

@@ -98,7 +98,8 @@ if SERVER then
 		end
 	end
 
-	function ENT:OnTakeDamage(dmg)
+	function ENT:OnTakeDamage(dmg,hg)
+        self:ScaleHitDamage(dmg,hg)
 		self:SpotEntity(dmg:GetAttacker())
 		if dmg:GetDamage() < self:Health() and math.random(1,10) == 1 and not self.rolling and not self.melee then
 			self:DoStun()

@@ -1,0 +1,8 @@
+"UnlitGeneric"
+{
+	"$Basetexture" "models/ULTRAKILL/weapons/shotgun/T_ShotgunNew"
+
+	"$Model" "1"
+	"$NoDecal" "1"
+}
+
