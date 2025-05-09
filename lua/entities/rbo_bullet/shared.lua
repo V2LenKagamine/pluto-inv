@@ -50,6 +50,7 @@ if SERVER then
 	    	endpos=nextpos,
 	    	mask=visflag,
 		    filter = function (ent)
+                if(not IsValid(self.source)) then return false end
                 if(ent == self.source or ent == self.source:GetOwner() or ent:GetClass() == "rbo_bullet") then 
                     return false
                 end

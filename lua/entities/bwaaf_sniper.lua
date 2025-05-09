@@ -26,7 +26,7 @@ ENT.OnDeathSounds = {"bwaaf/pain1.wav", "bwaaf/pain2.wav", "bwaaf/pain3.wav", "b
 ENT.OnDamageSounds = {"bwaaf/pain1.wav", "bwaaf/pain2.wav", "bwaaf/pain3.wav", "bwaaf/pain4.wav"}
 ENT.DamageSoundDelay = 0.25
 
-ENT.WeaponAccuracy = 0.1
+ENT.WeaponAccuracy = 0.25
 
 if SERVER then
 
