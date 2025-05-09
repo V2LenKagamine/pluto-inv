@@ -173,9 +173,14 @@ hook.Add("EntityTakeDamage", "pluto_dmg_mods", function(targ, dmg)
 		return
 	end
 
-	if (not hook.Run("PlayerShouldTakeDamage", targ, dmg:GetAttacker())) then
+	if (not targ:IsNextBot() and not hook.Run("PlayerShouldTakeDamage", targ, dmg:GetAttacker())) then
 		return
 	end
+
+    if (targ:IsNextBot() and not targ:Alive()) then
+        return
+    end
+    
 	local self = dmg:GetInflictor()
 	if (not IsValid(self) or not self.RunModFunctionSequence) then
 		return

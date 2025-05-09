@@ -1,0 +1,9 @@
+"UnlitGeneric"
+{
+		"$BaseTexture" "models/ULTRAKILL/shared/White"
+		"$Additive" "1"
+		"$Translucent" "1"
+		"$NoCull" "1"
+		"$Color2" "[ 1.74 1.3 0.73 ]"
+		"$Model" "1"
+}

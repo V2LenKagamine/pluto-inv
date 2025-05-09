@@ -21,9 +21,8 @@ function ENT:Initialize()
 end
 
 function ENT:Whiz()
-	if (not self or not self.source or self.wizz or GetViewEntity()==self.source:GetOwner()) then
-		return
-	end
+	if (not IsValid(self) or not IsValid(self.source) or self.wizz) then return end
+    if(not IsValid(self.source:GetOwner()) or GetViewEntity()==self.source:GetOwner()) then return end
 	local listenpos=GetViewEntity():EyePos()
 	local vn=self.velocity:GetNormalized()
 	if Sign(self.position,listenpos,vn)>0 then

@@ -1,0 +1,7 @@
+"UnlitGeneric"
+{
+	"$Basetexture" "models/ULTRAKILL/characters/enemies/greater/soldier/huskbasecolour"
+
+	"$Model" "1"
+	"$NoDecal" "1"
+}

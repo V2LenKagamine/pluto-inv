@@ -1,0 +1,8 @@
+"UnlitGeneric"
+{
+	"$Basetexture" "models/ULTRAKILL/characters/enemies/boss/cerberus/floordecoration14B"
+
+	"$Model" "1"
+	"$NoDecal" "1"
+}
+

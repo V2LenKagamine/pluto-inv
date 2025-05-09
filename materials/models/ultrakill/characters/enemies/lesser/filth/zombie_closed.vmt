@@ -1,0 +1,7 @@
+"UnlitGeneric"
+{
+	"$Basetexture" "models/ULTRAKILL/characters/enemies/lesser/filth/zombie_meleehusk_closed"
+
+	"$Model" "1"
+	"$NoDecal" "1"
+}

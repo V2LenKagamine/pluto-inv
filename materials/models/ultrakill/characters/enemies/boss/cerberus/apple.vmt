@@ -1,0 +1,21 @@
+"VertexLitGeneric"
+{
+	"$Basetexture" "models\debug\debugwhite"
+	"$BumpMap" "dev\bump_normal"
+	
+    "$Phong" "1"
+    "$PhongBoost"    "100"
+    "$PhongExponent" "1"
+    "$PhongFresnelRanges"    "[0.05 0.2 1]"
+
+    //Env Map(Fresnel PSX!)
+
+	"$EnvMap" "models/ultrakill/shared/WhiteCube"
+	"$EnvMapTint" "[1 1 1]"
+	"$EnvMapFresnel" "1"
+
+	"$Color2" "[1 1 1]"
+	"$Additive" "0"
+	"$Model" "1"
+	"$NoDecal" "1"
+}

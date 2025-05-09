@@ -1,0 +1,10 @@
+"VertexLitGeneric"
+{
+$basetexture "models/roach/dr1/em00/em01_BM-00"
+$bumpmap "models/roach/dr1/em00/em01_NM-00"
+
+$phong 1
+$phongexponenttexture "models/roach/dr1/em00/em01_MM-00"
+$phongfresnelranges "[0 0.5 1]"
+$phongboost 1
+}

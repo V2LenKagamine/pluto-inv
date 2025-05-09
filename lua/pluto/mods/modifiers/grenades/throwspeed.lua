@@ -3,7 +3,7 @@
      * file, You can obtain one at https://mozilla.org/MPL/2.0/. ]]
 MOD.Type = "prefix"
 MOD.ItemType = "Grenade"
-MOD.StatModifier = "Velocity"
+MOD.StatModifier = "ThrowVelocity"
 MOD.Name = "Throw Power"
 MOD.AffectedStats = {"Throw"}
 MOD.Tags = {
@@ -20,10 +20,6 @@ end
 
 function MOD:FormatModifier(index, roll)
 	return string.format("%.01f%%", roll)
-end
-
-function MOD:ModifyWeapon(wep,rolls)
-    wep.ThrowMultiplier = wep.ThrowMultiplier * (1 - rolls[1] / 100)
 end
 
 MOD.Description = "Throw velocity is increased by %s"

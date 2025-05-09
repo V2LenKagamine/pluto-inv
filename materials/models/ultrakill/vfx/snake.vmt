@@ -1,0 +1,27 @@
+"VertexLitGeneric"
+{
+
+	"$Basetexture" "models/ULTRAKILL/vfx/Skulls/skull2 compressed 2"
+	"$BumpMap" "dev\bump_normal"
+
+	"$Detail" "models/ULTRAKILL/vfx/Skulls/skull2 compressed 2"
+	"$DetailScale" "1"
+	"$DetailBlendFactor" "1"
+	"$DetailBlendMode" "5"
+
+	"$Phong" 						"1"
+	"$Phongboost"					"0"
+	"$Phongfresnelranges"    "[0 1 1]"
+	"$Phongexponent"			"0"
+
+//Env Map(Fresnel PSX!)
+
+	"$EnvMap" "models/ultrakill/shared/WhiteCube"
+	"$EnvMapTint" "[0.125 0.125 0.5]"
+	"$EnvMapFresnel" "1"
+
+	"$Model" "1"
+	"$Additive" "0"
+	"$Color2" "[0 0 0]"
+	"$NoDecal" "1"
+}

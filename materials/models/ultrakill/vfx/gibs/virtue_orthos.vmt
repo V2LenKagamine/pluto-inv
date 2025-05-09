@@ -1,0 +1,9 @@
+"UnlitGeneric"
+{
+		"$BaseTexture" "models/ULTRAKILL/vfx/Gibs/Divine_Orthos_Sphere"
+		"$Translucent" "1"
+		"$NoCull" "1"
+		"$Model" "1"
+		"$NoDecal" "1"
+		"$Color2" "[1 1 1]"
+}

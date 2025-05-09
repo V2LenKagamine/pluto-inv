@@ -242,7 +242,7 @@ function PANEL:AddPrefix(prefix, item)
             stat_check = MOD.AffectedStats[idx]
             num = pluto.mods.getrawvalue(baseclass.Get(item.ClassName),stat_check)
         else
-            pluto.error("MOD ON " .. item.ClassName .. " HAD NO AFFECTED STATS! FIX NOW.")
+            pluto.error("MOD ".. MOD.Name  .. " ON " .. item.ClassName .. " HAD NO AFFECTED STATS! FIX NOW.")
         end
 	    local txt = pluto.mods.shortname(stat_check) .. ": " .. MOD:FormatModifier(idx, rolls[idx])
 	    local min, max = MOD:GetMinMax(idx)
@@ -256,12 +256,12 @@ function PANEL:AddPrefix(prefix, item)
 	    else
 		    tier_min, tier_max = 0, 0
 	    end
-
-        local rang = math.abs(max - min)    
-        local tier_range = math.abs(tier_max - tier_min) / rang
-        local tier_max_per = math.abs(tier_max - min) / rang
-        local cur_value = math.abs(rolls[idx] - min) / rang
-        local tier_min_per = math.abs(tier_min - min) / rang
+        local blueper = 0.5
+        local rang = math.abs(max - min)
+        local tier_range = (1- blueper) * (math.abs(tier_max - tier_min) / rang)
+        local tier_max_per = (1- blueper) * (math.abs(tier_max - min) / rang)
+        local cur_value = (1- blueper) * (math.abs(rolls[idx] - min) / rang)
+        local tier_min_per = (1- blueper) * (math.abs(tier_min - min) / rang)
 
         local text = txt
 	    if (self.LastControlState) then
@@ -274,8 +274,8 @@ function PANEL:AddPrefix(prefix, item)
             bar:SetWide(self:GetWide()-200)
             bar:SetPos(bar:GetX() + 184,bar:GetY() + 6 + (idx*14))
         else
-            bar:SetWide(self:GetWide()-100)
-            bar:SetPos(bar:GetX() + 84,bar:GetY() + 6 + (idx*14))
+            bar:SetWide(self:GetWide()-20)
+            bar:SetPos(bar:GetX() + 2,bar:GetY() + 8 + (idx*7))
         end
         local positive = not MOD:IsNegative(idx,rolls[idx])
         if(tier_min_per == 0) then
@@ -285,31 +285,48 @@ function PANEL:AddPrefix(prefix, item)
             tier_max_per = 0.004
         end
         if(positive) then
+            bar:AddFilling(blueper,"",Color(67,182,218))
+            --bar:AddBar()
             bar:AddFilling(tier_min_per, "", Color(0, 255, 0))
-            bar:AddFilling(cur_value - tier_min_per, "", Color(200, 255, 0))
+            --bar:AddBar()
+            bar:AddFilling(cur_value - tier_min_per, "", Color(0, 255, 0))
             bar:AddFilling(tier_max_per - cur_value, "", Color(125, 125, 125))
+            --bar:AddBar()
         else
+            bar:AddFilling(blueper - tier_max_per,"",Color(67,182,218))
+            --bar:AddBar()
+            bar:AddFilling(tier_max_per - cur_value, "", Color(67,182,218))
+            bar:AddFilling(cur_value - tier_min_per, "", Color(255, 0, 0))
+            --bar:AddBar()
             bar:AddFilling(tier_min_per, "", Color(255, 0, 0))
-            bar:AddFilling(cur_value - tier_min_per, "", Color(255, 110, 0))
-            bar:AddFilling(tier_max_per - cur_value, "", Color(125, 125, 125))
+            --bar:AddBar()
         end
-        container:SetTall(container:GetTall() + (idx*8))
-
-        local numberlabel = container:Add "pluto_label"
-        numberlabel:CopyBounds(name)
-        numberlabel:SetHeight(10)
-        numberlabel:SetPos(name:GetX()+4,name:GetY() + 2 + (idx*14) )
-	    numberlabel:SetFont "pluto_showcase_suffix_text"
-	    numberlabel:SetRenderSystem(pluto.fonts.systems.shadow)
-	    numberlabel:SetText(text)
-	    numberlabel:SetTextColor(Color(255, 255, 255))
-	    numberlabel:SetContentAlignment(6)
-	    numberlabel:SizeToContentsX(2)
-    end
+        if(self.LastControlState) then
+            container:SetTall(container:GetTall() + (idx*8))
+        else
+            container:SetTall(container:GetTall() + (idx*2))
+        end
+        if (self.LastControlState) then
+            local numberlabel = container:Add "pluto_label"
+                numberlabel:CopyBounds(name)
+                numberlabel:SetHeight(10)
+                numberlabel:SetPos(name:GetX()+4,name:GetY() + 2 + (idx*14) )
+                numberlabel:SetFont "pluto_showcase_suffix_text"
+                numberlabel:SetRenderSystem(pluto.fonts.systems.shadow)
+                numberlabel:SetText(text)
+                numberlabel:SetTextColor(Color(255, 255, 255))
+                numberlabel:SetContentAlignment(6)
+                numberlabel:SizeToContentsX(2)
+            end
+        end
 
 	if (IsValid(self.LastAddedPrefix)) then
-		self.LastAddedPrefix:DockMargin(0, 0, 0, 5)
-		added_size = added_size + 5
+        if (self.LastControlState) then
+		    self.LastAddedPrefix:DockMargin(0, 0, 0, 5)
+            added_size = added_size + 5
+        else
+            self.LastAddedPrefix:DockMargin(0, 0, 0, 1)
+        end
 	end
 	self.LastAddedPrefix = container
 
@@ -321,6 +338,7 @@ end
 
 function PANEL:AddSuffix(suffix, item)
 	local MOD = pluto.mods.byname[suffix.Mod]
+    local rolls = pluto.mods.getrolls(MOD, suffix.Tier, suffix.Roll)
 	local fmt = pluto.mods.format(suffix, item)
 	local minmaxs = pluto.mods.getminmaxs(suffix, item)
 
@@ -336,9 +354,12 @@ function PANEL:AddSuffix(suffix, item)
 		local seperator = self.InfoContainer:Add "EditablePanel"
 		seperator:SetTall(1)
 		seperator:Dock(TOP)
-		seperator:DockMargin(0, 8, 0, 0)
-
-		size = size + 9
+        if (self.LastControlState) then
+		    seperator:DockMargin(0, 8, 0, 0)
+            size = size + 9
+		else
+            size = size + 1
+        end
 	else
 		self.BottomLine2:DockMargin(0, 13, 0, 0)
 		size = size + 13
@@ -379,31 +400,32 @@ function PANEL:AddSuffix(suffix, item)
 
 		size = size + modtext:GetTall()
 	end
-
-	for m in desc:gmatch "%S+" do
-		local nexttext = curtext
-		if (curtext) then
-            if(m == "\n") then
-                addtext()
-				continue 
+    if (self.LastControlState) then
+        for m in desc:gmatch "%S+" do
+            local nexttext = curtext
+            if (curtext) then
+                if(m == "\n") then
+                    addtext()
+                    continue 
+                end
+                nexttext = curtext .. " " .. m
+                local tw, th = surface.GetTextSize(nexttext)
+                if (tw > self:GetWide() - 20) then
+                    addtext()
+                    curtext = m
+                    continue
+                end
+                curtext = nexttext
+            else
+                curtext = m
             end
-            nexttext = curtext .. " " .. m
-			local tw, th = surface.GetTextSize(nexttext)
-            if (tw > self:GetWide() - 20) then
-				addtext()
-				curtext = m
-                continue
-			end
-            curtext = nexttext
-		else
-			curtext = m
-		end
-	end
+        end
 
-	if (curtext) then
-		addtext()
-	end
-
+        if (curtext) then
+            addtext()
+        end
+    end
+    
 	self.HasSuffix = true
 	self:SetTall(self:GetTall() + modname:GetTall() + size)
 end

@@ -1,0 +1,13 @@
+"Refract"
+{
+	"$NormalMap" "particles/ultrakill/Smoke"
+	"$DudvMap" "particles/ultrakill/Smoke"
+
+
+	"$RefractAmount" "0.1"
+	"$BlurAmount" "1"
+
+
+	"$Additive" "1"
+	"$VertexColorModulate" "1"
+}

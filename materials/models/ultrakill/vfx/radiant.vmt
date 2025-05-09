@@ -1,0 +1,51 @@
+"UnlitGeneric"
+{
+	"$Basetexture" "models/ULTRAKILL/vfx/rainbowgradient"
+	
+	"$Additive" "1"
+	"$Color2" "[ 1 1 1 ]"
+	"$NoDecal" "1"
+	"$NoCull" "1"
+	"$Model" "1"
+
+	"$OffsetVar" 0
+	"$CenterVar" "[.5 .5]"
+	"$ScaleVar" "[ 10 6 ]"
+	"$TranslateVar" "[0 0]"
+	"$RotateVar" 0
+
+	Proxies
+	{
+
+		EntityRandom
+		{
+			scale 1
+			resultVar $OffsetVar
+		}
+
+		LinearRamp
+		{
+			rate -0.3
+			initialvalue $OffsetVar
+			resultvar "$TranslateVar[1]"
+		}
+
+		LinearRamp
+		{
+			rate 1
+			initialvalue $OffsetVar
+			resultvar "$TranslateVar[0]"
+		}
+
+		TextureTransform
+		{
+			centervar $CenterVar
+			scalevar $ScaleVar
+			rotatevar $RotateVar
+			translatevar $TranslateVar
+			resultvar $basetexturetransform
+		}
+
+	}
+
+}

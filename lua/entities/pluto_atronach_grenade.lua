@@ -17,6 +17,7 @@ function ENT:Explode()
 	end
 
 	local npcs = {}
+    --[[
 	for i = 1, 1 do 
 		local npc = ents.Create "npc_atronach_flame"
 		npc:SetPos(self:GetPos())
@@ -27,7 +28,7 @@ function ENT:Explode()
 		npc:Spawn()
 		npcs[i] = npc
 	end
-
+    ]]
 	local pos = self:GetPos()
 	local effect = EffectData()
 	effect:SetStart(pos)
@@ -39,12 +40,12 @@ function ENT:Explode()
 	util.Effect("Explosion", effect, true, true)
 	util.BlastDamage(self, self:GetOwner(), pos, 255, 50)
 	self:StartFires(pos, 10, 20, false, self:GetOwner())
-
+    --[[
 	timer.Simple(90, function()
 		for _, npc in pairs(npcs) do
 			if (IsValid(npc)) then
 				npc:TakeDamage(math.huge)
 			end
 		end
-	end)
+	end)]]
 end

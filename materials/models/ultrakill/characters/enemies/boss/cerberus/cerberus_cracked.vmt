@@ -1,0 +1,7 @@
+"VertexlitGeneric"
+{
+	"$Basetexture" "models/ULTRAKILL/characters/enemies/boss/cerberus/floordecoration6B"
+	"$HalfLambert" "0"
+	"$Model" "1"
+	"$NoDecal" "1"
+}

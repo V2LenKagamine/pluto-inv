@@ -1,0 +1,9 @@
+"VertexlitGeneric"
+{
+	"$Basetexture" "models/ULTRAKILL/vfx/Gibs/Gibs_LowResRed"
+	"$BaseTextureTransform" "center .5 .5 scale 2 2 rotate 0 translate 0 0"
+
+	"$Model" "1"
+	"$HalfLambert" "1"
+	"$NoDecal" "1"
+}

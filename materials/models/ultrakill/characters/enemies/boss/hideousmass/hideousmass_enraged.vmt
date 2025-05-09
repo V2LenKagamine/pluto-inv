@@ -1,0 +1,6 @@
+"UnlitGeneric"
+{
+	"$Basetexture" "models/ULTRAKILL/characters/enemies/boss/hideousmass/scorpionboss_tex_v3"
+	"$Model" "1"
+	"$NoDecal" "1"
+}

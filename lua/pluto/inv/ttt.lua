@@ -33,38 +33,38 @@ local function name(x)
 end
 
 local types = {
-	"were crushed to death",
-	"were shot to death",
-	"were slashed to death",
-	"burned to death",
-	"got driven over",
-	"fell to your death",
-	"exploded",
-	"were clubbed to death",
-	"were shocked to death",
-	"bled to death",
-	"were lasered to death",
-	nil,
-	nil,
-	nil,
-	"drowned to death",
-	"were paralyzed to death",
-	"were gassed to death",
-	"were poisoned to death",
-	"were radiated to death",
-	nil,
-	"were acidified to death",
-	"were slowly cooked alive",
-	nil,
-	"were graity gunned to death",
-	"were plasmaed to death",
-	"were shot by an airboat",
-	"were dissolved to death",
-	"were blasted to death",
-	nil, -- "were damaged directly",
-	"were shotgunned to death",
-	"were sniped to death",
-	"were exploded by a missile defense",
+	"were crushed into paste",
+	"were shot to swiss cheese",
+	"were cleaved in-twain",
+	"were cooked to well-done",
+	"were made roadkill",
+	"fell a little too far",
+	"were sent home in a soup can",
+	"took too many blows to the head",
+	"cut a live wire",
+	"were electrocuted to death",
+	"were sliced in half by lasers",
+	nil, --prevent-physics force
+	nil, --nevergib
+	nil, --alwaysgib
+	"ran out of air",
+	"were turned to stone",
+	"had your neurons stop firing",
+	"were turned a sickly-poison-green",
+	"made the geiger counter break",
+	nil, --Drown-recover
+	"were melted",
+	"were thoroughly cooked",
+	nil, --No ragdoll
+	"were blasted by gravity",
+	"were turned into green goo",
+	"had a large hole put through you",
+	"were disassembled on an atomic level",
+	"were blasted into oblivion",
+	nil, -- direct damage, dont use.
+	"were filled with buckshot",
+	"were taken out from the next zip code",
+	"were utterly obliterated by missles",
 }
 
 local function damagedesc(n)
@@ -74,7 +74,7 @@ local function damagedesc(n)
 		end
 	end
 
-	return "You died"
+	return "You had your lifeforce taken forcibly"
 end
 
 hook.Add("DoPlayerDeath", "pluto_info", function(vic, atk, dmg)

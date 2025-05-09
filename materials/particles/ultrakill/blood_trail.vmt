@@ -1,0 +1,11 @@
+"UnlitGeneric"
+{
+	"$Basetexture" "particles/ultrakill/bloodtrail"
+
+	"$Translucent" "1"
+
+	"$Color2" "[ 1  0  0 ]"
+
+	"$VertexColor" "1"
+	"$VertexAlpha" "1"
+}

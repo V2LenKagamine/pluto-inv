@@ -1,0 +1,10 @@
+"UnlitGeneric"
+{
+		"$BaseTexture" "models/ULTRAKILL/vfx/Bonus/Bonus 1_2"
+		"$BaseTextureTransform" "center .35 .35 scale 0.5 0.5 rotate 0 translate 0 0"
+
+		"$Translucent" "1"
+		"$NoCull" "1"
+		"$Color2" "[ 2 1 1 ]"
+		"$Model" "1"
+}

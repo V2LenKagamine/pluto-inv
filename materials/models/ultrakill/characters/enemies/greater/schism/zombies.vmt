@@ -1,0 +1,7 @@
+"UnlitGeneric"
+{
+	"$Basetexture" "models/ULTRAKILL/characters/enemies/greater/schism/T_GreyHusk"
+
+	"$Model" "1"
+	"$NoDecal" "1"
+}
