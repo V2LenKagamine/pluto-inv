@@ -1,6 +1,19 @@
 local WeaponHearDist = 70
 local VoiceHearDist = 327
 
+local function AddSoundInterval(NAME,IMIN,IMAX,CHAN,VOL,LEV,PITMIN,PITMAX,PATH)
+	for S=IMIN, IMAX do
+		sound.Add( {
+			name = NAME..S,
+			channel = CHAN,
+			volume = VOL,
+			level = LEV,
+			pitch = { PITMIN, PITMAX },
+			sound = PATH..S..".wav"
+		} )
+	end
+end
+
 local function AddSound(NAME,CHAN,VOL,LEV,PITMIN,PITMAX,PATH)
 	sound.Add( {
 		name = NAME,
