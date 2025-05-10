@@ -1,0 +1,7 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models/Tripwire/Killing Floor/Zeds/Gore_Effects"
+	"$bumpmap" "models/Tripwire/Killing Floor/Zeds/Gore_Effects_bump"
+	"$alphatest" "1"
+	//"$vertexalpha" "1"
+}

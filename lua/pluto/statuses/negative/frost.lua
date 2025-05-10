@@ -10,7 +10,12 @@ function STAT:AddStatus(target, atk, stacks)
             break
         end
     end
-    local comptime = CurTime() + ((target:Ping() or 0) * 4 / 1000)
+    local comptime
+    if(target:IsNextBot()) then
+        comptime = CurTime()
+    else
+        comptime = CurTime() + ((target:Ping() or 0) * 4 / 1000)
+    end
     if(not IsValid(status)) then
         status = ents.Create("pluto_status")
         status:SetParent(target)
@@ -25,13 +30,17 @@ function STAT:AddStatus(target, atk, stacks)
             },
         }
         status:Spawn()
-        target:SetFrostStarted(comptime)
+        if(not target:IsNextBot()) then
+            target:SetFrostStarted(comptime)
+        end
     else
         status.Data.TicksLeft = (status.Data.TicksLeft or 0) + stacks
     end
-    local frostLvl = 1 + math.floor(status.Data.TicksLeft / 6)
-    target:SetFrostUntil(comptime + (status.Data.TicksLeft * (status.Data.ThinkDelay or 0)))
-    target:SetFrostLvl(frostLvl)
+    if(not target:IsNextBot()) then
+        local frostLvl = 1 + math.floor(status.Data.TicksLeft / 6)
+        target:SetFrostUntil(comptime + (status.Data.TicksLeft * (status.Data.ThinkDelay or 0)))
+        target:SetFrostLvl(frostLvl)
+    end
 end
 
 function STAT:DoThink(status)
@@ -43,7 +52,9 @@ function STAT:DoThink(status)
     local frostLvl = 1 + math.floor(stax / 6)
 
     todeal = todeal * frostLvl
-    vic:SetFrostLvl(frostLvl)
+    if(not vic:IsNextBot()) then
+        vic:SetFrostLvl(frostLvl)
+    end
     local dinfo = DamageInfo()
     if(IsValid(status.Data.Dealer)) then
         dinfo:SetAttacker(status.Data.Dealer)

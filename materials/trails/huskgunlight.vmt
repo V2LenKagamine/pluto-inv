@@ -1,0 +1,5 @@
+"UnlitGeneric"
+{
+	"$basetexture" "sprites/HuskGunLight"
+	"$additive" "1"
+}

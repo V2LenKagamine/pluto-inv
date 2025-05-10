@@ -36,7 +36,7 @@ function STAT:DoThink(status)
     else
         todeal = 1.15
     end
-    if(vic:GetVelocity():LengthSqr() > vic:GetSlowWalkSpeed()^2 or vic:IsNextBot()) then
+    if(vic:IsNextBot() or vic:GetVelocity():LengthSqr() > vic:GetSlowWalkSpeed()^2) then
         todeal = todeal * 1.25
     end
 

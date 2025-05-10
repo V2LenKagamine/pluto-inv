@@ -20,11 +20,12 @@ if SERVER then
         zombies = {
             name = "Undead",
             nameColor = Color(0,114,0),
-            enemy_mul = 4,
+            enemy_mul = 3,
             Shares = 49,
             enemies = {
-                ["drg_roach_dr1_em00"] = 95,
+                ["drg_roach_dr1_em00"] = 85,
                 ["drg_roach_dr1_em43"] = 5,
+                ["drg_kfmod_husk"] = 10,
             },
         },
         soldiers = {
@@ -86,12 +87,12 @@ if SERVER then
         npc:SetPos(pos)
         npc:Spawn()
         npc.raidsNPC = true
-        local victm = table.Random(#pluto.RAIDS.alivePlayers>0 and pluto.RAIDS.alivePlayers or player.GetAll())
+        local victm = table.Random(#pluto.RAIDS.alivePlayers>0 and pluto.RAIDS.alivePlayers or ttt.GetEligiblePlayers())
         npc.targetedPlayer = victm
         npc.spawnedPos = pos
         npc.spawnedTime = CurTime()
         npc:JoinFaction("FACTION_RAID")
-        if(class == "drg_roach_dr1_em00" or class == "drg_roach_dr1_em43") then
+        if(class == "drg_roach_dr1_em00" or class == "drg_roach_dr1_em43" or class == "drg_kfmod_husk") then
             npc:SetOmniscient(true) --they s m e l l you.
         end
 
@@ -222,18 +223,67 @@ if SERVER then
     ---------------------------------------------------------
     -------------------- ARENA MODE -------------------------
     ---------------------------------------------------------
-    local DefaultRaidLevel = 4
+    local DefaultRaidLevel = 1
+    local MaxRaidPlayers = 8
     pluto.RAIDS.disableArena = pluto.RAIDS.disableArena or true
-    pluto.RAIDS.curMaxEnemiesAllowed =  pluto.RAIDS.curMaxEnemiesAllowed or DefaultRaidLevel
+    pluto.RAIDS.raidLevel =  pluto.RAIDS.raidLevel or DefaultRaidLevel
     pluto.RAIDS.arenaModeEnemyClass = pluto.RAIDS.arenaModeEnemyClass or raids["zombies"]
     pluto.RAIDS.alivePlayers = pluto.RAIDS.alivePlayers or {}
     pluto.RAIDS.allowDuringRound = false
     pluto.RAIDS.raidScores = pluto.RAIDS.raidScores or {}
+    pluto.RAIDS.raidVotes = pluto.RAIDS.raidVotes or {}
+
+    pluto.RAIDS.currentGM = CreateConVar("pluto_current_gamemode","raid",FCVAR_ARCHIVE,"What gamemode is being ran ATM?")
+
     local curEnemiesOnField = 0
     local killcount = 0
     local nextThink = CurTime()
     local raidColor = Color(255,174,0)
     local DiffColor = Color(255,0,0)
+
+    local function CheckVotes()
+        local activePlrs = #ttt.GetEligiblePlayers()
+        local oldMode = pluto.RAIDS.currentGM:GetString()
+        if(activePlrs > MaxRaidPlayers) then
+            pluto.RAIDS.currentGM:SetString("ttt")
+        elseif(activePlrs < GetConVar("ttt_minimum_players"):GetInt()) then
+            pluto.RAIDS.currentGM:SetString("raid") 
+        elseif(#pluto.RAIDS.raidVotes > 0) then
+            local raidVotes,tttVotes = 0
+            for ply,vote in pairs(pluto.RAIDS.raidVotes) do
+                if(not IsValid(ply)) then continue end
+                if(vote == "raid") then
+                    raidVotes = raidVotes + 1
+                elseif(vote == "ttt") then
+                   tttVotes = tttVotes + 1 
+                end
+            end
+            if(raidVotes / activePlrs >= 0.6) then
+                pluto.RAIDS.currentGM:SetString("raid")
+            elseif(tttVotes / activePlrs >= 0.6) then
+                pluto.RAIDS.currentGM:SetString("ttt")
+            end
+        end
+        if(pluto.RAIDS.currentGM:GetString() ~= oldMode) then
+            for _,plr in ipairs(player.GetAll()) do
+                plr:ChatPrint("The gamemode has been changed! New gamemode: ",pluto.RAIDS.currentGM:GetString() == "raid" and "Raids!" or "TTT!")
+            end
+        end
+    end
+
+    hook.Add("PlayerSay","pluto_raids_vote",function(plr,text,tc)
+        if(text:match("^[!%./]?vote")) then
+            if(text:match(".[(rRaAiIdD)]{4}$")) then
+                pluto.RAIDS.raidVotes[plr] = "raid"
+                plr:ChatPrint("You have voted to play: ", raidColor, "RAIDS")
+            elseif (text:match(".[tT]{3}$")) then
+                pluto.RAIDS.raidVotes[plr] = "ttt"
+                plr:ChatPrint("You have voted to play: ", DiffColor, "TTT")
+            end
+            CheckVotes()
+            return ""
+        end
+    end)
 
     local function RaidRespawn(ply)
         if(not ply:Alive()) then
@@ -250,24 +300,24 @@ if SERVER then
     end
 
     local function initiateAssault(class, raidLevel, escalate)
-        if(not pluto.RAIDS.allowDuringRound and ((ttt.GetRoundState() ~= ttt.ROUNDSTATE_WAITING or ttt.GetRoundState() ~= ttt.ROUNDSTATE_PREPARING) and #player.GetAll() >= GetConVar("ttt_minimum_players"):GetInt())) then 
+        if(not pluto.RAIDS.allowDuringRound and ((ttt.GetRoundState() ~= ttt.ROUNDSTATE_WAITING or ttt.GetRoundState() ~= ttt.ROUNDSTATE_PREPARING) and pluto.RAIDS.currentGM:GetString() == "ttt")) then 
             pluto.warn("You cant start a raid during rounds without setting pluto.RAIDS.allowDuringRound to true!")
             return 
         end
         if(pluto_noraids:GetBool()) then
-            pluto.warn("Raids are disabled with a console command! Turn it back on!")
+            pluto.warn("Tried to start a raid with raids disabled!")
             return 
         end
         pluto.RAIDS.disableArena = false 
         pluto.RAIDS.arenaModeEnemyClass = class
-        pluto.RAIDS.curMaxEnemiesAllowed = raidLevel or DefaultRaidLevel
+        pluto.RAIDS.raidLevel = raidLevel or DefaultRaidLevel
         pluto.RAIDS.alivePlayers = {}
         pluto.RAIDS.raidScores = {}
         killcount = 0
 
         checkIfMapJustBuiltNodes()
 
-        for idx,pla in ipairs(player.GetAll()) do
+        for idx,pla in ipairs(ttt.GetEligiblePlayers()) do
             RaidRespawn(pla)
             table.insert(pluto.RAIDS.alivePlayers,idx,pla)
         end
@@ -280,7 +330,7 @@ if SERVER then
 
         
         for _,plot in ipairs(player.GetAll()) do
-            plot:ChatPrint(raidColor,"A raid is begining! Difficulty: ",DiffColor, pluto.RAIDS.curMaxEnemiesAllowed,raidColor, "; You will be fighting: ",pluto.RAIDS.arenaModeEnemyClass.nameColor or raidColor,pluto.RAIDS.arenaModeEnemyClass.name or "Something!")
+            plot:ChatPrint(raidColor,"A raid is begining! Difficulty: ",DiffColor, pluto.RAIDS.raidLevel,raidColor, "; You will be fighting: ",pluto.RAIDS.arenaModeEnemyClass.nameColor or raidColor,pluto.RAIDS.arenaModeEnemyClass.name or "Something!")
         end
     end
 
@@ -292,9 +342,10 @@ if SERVER then
         end
     end
 
-    local function DoRaidEnd(dontanother)
+    local function DoRaidEnd(dontanother,win)
         killcount = 0
         dontanother = dontanother or false
+        win = win or false 
         pluto.RAIDS.disableArena = true
         local stay =  {}
         pcall_(hook.Run,"TTTAddPermanentEntities",stay)
@@ -313,16 +364,27 @@ if SERVER then
                 [3] = Color(214,121,0),
             }
             local idx = 1
-            for ply,score in SortedPairsByValue(pluto.RAIDS.raidScores) do
+            for ply,score in SortedPairsByValue(pluto.RAIDS.raidScores,true) do
                 for _,plee in ipairs(player.GetAll()) do
+                    if(not IsValid(ply)) then continue end
                     plee:ChatPrint(colors[idx],string.format("    %s : %.02f",ply:Nick(),score))
                 end
                 idx = idx + 1
                 if(idx > 3) then break end
             end
         end
+        if(win) then
+            for _,plon in ipairs(ttt.GetEligiblePlayers()) do
+                if(math.random() < 0.75) then
+                    pluto.inv.endrounddrops(plon)
+                end
+                for ind = 1,math.random(1,3) do
+                    pluto.currency.spawnfor(plon)
+                end
+            end
+        end
         if(not dontanother) then
-            for _,ply in ipairs(player.GetAll()) do
+            for _,ply in ipairs(ttt.GetEligiblePlayers()) do
                 RaidRespawn(ply)
                 ply:ChatPrint(raidColor,"A new raid will begin shortly...")
             end
@@ -387,10 +449,10 @@ if SERVER then
     end
 
     function pluto.RAIDS.RaidThink()
-        if(pluto_noraids:GetBool()) then return end
+        if(pluto_noraids:GetBool() or pluto.RAIDS.currentGM:GetString() ~= "raid") then return end
         if nextThink > CurTime() then return end
         if pluto.RAIDS.disableArena then 
-            if (#player.GetAll() < GetConVar("ttt_minimum_players"):GetInt() and #player.GetAll() > 0) then
+            if (pluto.RAIDS.currentGM:GetString() == "raid" and #ttt.GetEligiblePlayers() > 0) then
                 timer.Simple(16,function()
                     if(pluto.RAIDS.disableArena) then
                         initiateAssault(raids[pluto.inv.roll(raids)], DefaultRaidLevel, true)
@@ -408,15 +470,21 @@ if SERVER then
             return 
         end
         nextThink = CurTime() + 1
-        if(not pluto.RAIDS.allowDuringRound and (#player.GetAll() >= GetConVar("ttt_minimum_players"):GetInt())) then
+        if(not pluto.RAIDS.allowDuringRound and (pluto.RAIDS.currentGM:GetString() == "ttt")) then
             for _,ply in ipairs(player.GetAll()) do
-                ply:ChatPrint(raidColor,"Enough players have joined to start the game! Force ending raid...")
+                ply:ChatPrint(raidColor,"The Gamemode is changing! Force ending raid...")
             end
             DoRaidEnd(true)
             return
         end
+        if(pluto.RAIDS.raidLevel > 10) then
+            for _,ply in ipairs(player.GetAll()) do
+                ply:ChatPrint(raidColor,"The raid has been repelled!!!")
+            end
+            DoRaidEnd(false,true)
+        end
         pluto.RAIDS.alivePlayers = {}
-        for _,ply in ipairs(player.GetAll()) do
+        for _,ply in ipairs(ttt.GetEligiblePlayers()) do
             if(ply:Alive()) then table.insert(pluto.RAIDS.alivePlayers,#pluto.RAIDS.alivePlayers+1,ply) end
         end
         if(#pluto.RAIDS.alivePlayers <= 0) then
@@ -440,8 +508,8 @@ if SERVER then
         end
 
         -- add enemies to field
-        -- maxen = diff * enemymul * (1 + 0.4 per player over 1)
-        local maxen = math.floor(pluto.RAIDS.curMaxEnemiesAllowed * (pluto.RAIDS.arenaModeEnemyClass.enemy_mul or 1)*(1+((#player.GetAll()-1) * 0.4)))
+        -- maxen = diff * enemymul * (1 + 0.15 per player over 1)
+        local maxen = math.floor(pluto.RAIDS.raidLevel * (pluto.RAIDS.arenaModeEnemyClass.enemy_mul or 1)*(1+((#ttt.GetEligiblePlayers()-1) * 0.15)))
         if (curEnemiesOnField < maxen) then
             for idx = 1, (pluto.RAIDS.arenaModeEnemyClass.enemy_mul or 1) do
                 local pos = arenaFindNPCSpawn()
@@ -463,22 +531,22 @@ if SERVER then
     hook.Add("OnNPCKilled","pluto_raids_kill_listen",function (npc,atk,inf)
         if(not npc.raidsNPC or not atk:IsPlayer()) then return end
         local multi = pluto.RAIDS.arenaModeEnemyClass.enemy_mul or 1
-        local points = npc:GetMaxHealth()/(10*multi) * (1+((pluto.RAIDS.curMaxEnemiesAllowed-4) * (0.2/multi))) --Higher round -> more points.
+        local points = npc:GetMaxHealth()/(10*multi) * (1+(math.max(0,pluto.RAIDS.raidLevel-4) * (0.2/multi))) --Higher round -> more points.
         TryAddExp(atk,points)
         pluto.RAIDS.raidScores[atk] = (pluto.RAIDS.raidScores[atk] or 0) + points
         killcount = (killcount or 0) + 1
-        if(killcount >= pluto.RAIDS.curMaxEnemiesAllowed*multi) then
-            pluto.RAIDS.curMaxEnemiesAllowed = pluto.RAIDS.curMaxEnemiesAllowed + 1
+        if(killcount >= pluto.RAIDS.raidLevel*multi) then
+            pluto.RAIDS.raidLevel = pluto.RAIDS.raidLevel + 1
             for _,plee in ipairs(player.GetAll()) do
-                plee:ChatPrint(Color(255,230,0),"RAID ANTE-UP! Difficulty now: ",DiffColor, pluto.RAIDS.curMaxEnemiesAllowed)
+                plee:ChatPrint(Color(255,230,0),"RAID ANTE-UP! Difficulty now: ",DiffColor, pluto.RAIDS.raidLevel)
             end
             killcount = 0
         end
-        if(math.random() < points/(100 * multi)) then
+        if(math.random() < math.min(0.2,points/100)) then
             atk:ChatPrint(Color(145,255,0),"You feel something resonate...")
             pluto.currency.spawnfor(atk)
         end
-        if(math.random() < points/(150 * multi)) then
+        if(math.random() < math.min(0.15,points/150)) then
             pluto.inv.endrounddrops(atk)
         end
         if(math.random() <= (0.3/multi)) then
