@@ -77,7 +77,7 @@ function ENT:KFInit()
 	self:MissSound("KFMod.Gorefast.SwordMiss",4)
 	self:KFCreateMelee({
 		anim="s_melee1",
-		damage=15,
+		damage=25,
 		dmgtype=DMG_CLUB,
 		time=1,
 		reps=1,
@@ -96,7 +96,7 @@ function ENT:KFRange()
 	sound.Play("KFMod.HuskGun.Charge",TEMP_ShootPos.Pos)
 	
 	self:Timer(1.1,function()
-		local TEMP_BDamage = 18
+		local TEMP_BDamage = 50
 		local TEMP_FireBallSpeed =	1350
 
 		local TEMP_WeaponPos = self:GetAttachment( self:LookupAttachment("Huskgunshoot") )
@@ -107,7 +107,7 @@ function ENT:KFRange()
 		TEMP_FireBall:SetAngles(self:GetForward():Angle())
 		TEMP_FireBall:Spawn()
 		TEMP_FireBall:SetOwner(self)
-		TEMP_FireBall.Damage = 20 --self.DMGMult*20
+		TEMP_FireBall.Damage = 50 --self.DMGMult*20
 		
 		if !self:IsPossessed() and IsValid(self:GetEnemy()) then
 			self:FaceInstant(self:GetEnemy():GetPos())
