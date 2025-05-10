@@ -32,7 +32,7 @@ function STAT:DoThink(status)
     if(not status) then return end
 
     if (status.Data.Stax >= 20) then
-        status:OnExpire(true)
+        pluto.statuses.byname["shock"]:OnExpire(status,true)
     end
 end
 

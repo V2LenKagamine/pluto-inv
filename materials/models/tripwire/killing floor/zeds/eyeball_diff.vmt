@@ -1,0 +1,5 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models/Tripwire/Killing Floor/Zeds/eyeball_diff"
+	"$bumpmap" "models/Tripwire/Killing Floor/Zeds/eyeball_diff_bump"
+}

@@ -1,0 +1,8 @@
+"Sprite"
+{
+	"$basetexture" "sprites/HuskGunLight"
+	//"$additive" "1"
+	"$spriteorientation" "parallel_upright"
+	"$spriteorigin" "[ 0.50 0.50 ]"
+	"$spriterendermode" 5
+}

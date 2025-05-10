@@ -1,0 +1,5 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models/Tripwire/Killing Floor/Zeds/brain"
+	"$bumpmap" "models/Tripwire/Killing Floor/Zeds/brain_bump"
+}

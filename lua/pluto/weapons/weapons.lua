@@ -75,7 +75,7 @@ function pluto.weapons.generatetier(tier, wep, tagbiases, rolltier, roll, affixm
 	end
 
 	if (not wep and tier) then
-        if(teir.Type == "Misc") then
+        if(tier.Type == "Misc") then
             wep = baseclass.Get(pluto.weapons.randommisc())
         elseif(tier.Type == "Consumable") then
             wep = baseclass.Get(pluto.weapons.randomconsumable())
@@ -335,7 +335,7 @@ function pluto.weapons.generatemod(item, prefix_max, suffix_max, ignoretier)
 	if (prefixes < prefix_max and typemods.prefix) then
 		local t = {}
 		for _, item in pairs(typemods.prefix) do
-			if (not have[pluto.weapons.realtiername(item.Tier)]) then
+			if (not have[item.Tier]) then
 				t[#t + 1] = item
 			end
 		end
@@ -347,7 +347,7 @@ function pluto.weapons.generatemod(item, prefix_max, suffix_max, ignoretier)
 	if (suffixes < suffix_max and typemods.suffix) then
 		local t = {}
 		for _, item in pairs(typemods.suffix) do
-			if (not have[pluto.weapons.realtiername(item.Tier)]) then
+			if (not have[item.Tier]) then
 				t[#t + 1] = item
 			end
 		end

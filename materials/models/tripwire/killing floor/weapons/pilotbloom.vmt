@@ -1,0 +1,5 @@
+"UnlitGeneric"
+{
+	"$basetexture" "models/Tripwire/Killing Floor/weapons/PilotBloom"
+	"$additive" "1"
+}

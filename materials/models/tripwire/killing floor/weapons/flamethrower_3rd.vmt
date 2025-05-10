@@ -1,0 +1,5 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models/Tripwire/Killing Floor/Weapons/flamethrower_3rd"
+	//"$bumpmap" "models/Tripwire/Killing Floor/Weapons/brain_bump"
+}

@@ -1,0 +1,7 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models/Tripwire/Killing Floor/Zeds/Husk/burns_diff"
+	"$normalmap" "models/Tripwire/Killing Floor/Zeds/Husk/burns_diff_bump"
+	"$selfillummask" "models/Tripwire/Killing Floor/Zeds/Husk/burns_diff_light"
+	"$selfillum" "1"
+}
