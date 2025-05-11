@@ -45,18 +45,21 @@ function MOD:ModifyWeapon(wep, rolls)
 		return m * (self:GetIronsights() and 0.4 or 1)
 	end
 
-	if (not CLIENT) then
-		return
-	end
-    local buffed = false 
-    if(wep.Mods and wep.Mods.suffix) then
-        for _,mod in ipairs(wep.Mods.suffix) do
-            if(mod.Mod == "eagle") then
+    local buffed = false
+    local data = wep:GetInventoryItem()
+    if(data.Mods and data.Mods.suffix) then
+        for _,mod in ipairs(data.Mods.suffix) do
+            if(mod.Mod == "greed") then
                 buffed = true
                 break
             end
         end
     end
+    
+    wep.buffed = buffed
+	if (not CLIENT) then
+		return
+	end
 
 	local dist = rolls[1] * 39.37
 
@@ -133,46 +136,45 @@ function MOD:ModifyWeapon(wep, rolls)
 		render.SetStencilEnable(false)
 		render.SuppressEngineLighting(false)
 	end)
-    if(buffed) then
-        hook.Add("PostDrawTranslucentRenderables", wep, function(self)
-            if (not self:GetIronsights() or self:GetIronsightsTime() + 2 + (self:GetPenetration() * 0.025) > CurTime()) then
-                return
-            end
 
-            local owner = self:GetOwner()
-            if (ttt.GetHUDTarget() ~= owner) then
-                return
-            end
+    hook.Add("PostDrawTranslucentRenderables", wep, function(self)
+        if (not self:GetIronsights() or self:GetIronsightsTime() + 2 + (self:GetPenetration() * 0.025) > CurTime()) then
+            return
+        end
 
-            if (owner:GetActiveWeapon() ~= self) then
-                return
+        if(not wep.buffed) then return end
+        local owner = self:GetOwner()
+        if (ttt.GetHUDTarget() ~= owner) then
+            return
+        end
+        if (owner:GetActiveWeapon() ~= self) then
+            return
+        end
+        local wait = 1.5
+        local timing = 1 - ((wait + CurTime()) % wait) / wait * 2
+        local up_offset = vector_up * (math.sin(timing * math.pi) + 1) / 2 * 15 * 0.25
+        local es = pluto.inv.getcurrlist()
+        for i = #es, 1, -1 do
+            local e = es[i]
+            if not(util.IsPointInCone(e:GetPos(),owner:GetShootPos(), owner:GetAimVector(),ang,dist)) then
+                table.remove(es, i)
+                continue
             end
-            local wait = 1.5
-            local timing = 1 - ((wait + CurTime()) % wait) / wait * 2
-            local up_offset = vector_up * (math.sin(timing * math.pi) + 1) / 2 * 15 * 0.25
-            local es = pluto.inv.getcurrlist()
-            for i = #es, 1, -1 do
-                local e = es[i]
-                if not(util.IsPointInCone(e:GetPos(),owner:GetShootPos(), owner:GetAimVector(),ang,dist)) then
-                    table.remove(es, i)
-                    continue
-                end
-            end
+        end
 
-            for _, curren in pairs(es) do
-                cam.IgnoreZ(dist > curren:GetPos():Distance(LocalPlayer():GetPos()))
+        for _, curren in pairs(es) do
+            cam.IgnoreZ(dist > curren:GetPos():Distance(LocalPlayer():GetPos()))
 
-                render.SetMaterial(curren:GetMaterial(true))
-                local pos = curren:GetPos()
+            render.SetMaterial(curren:GetMaterial(true))
+            local pos = curren:GetPos()
                 
-                pos = pos + up_offset
-                local size = curren:GetSize()
+            pos = pos + up_offset
+            local size = curren:GetSize()
 
-                render.DrawSprite(pos, size, size, color_white)
-            end
-            cam.IgnoreZ(false)
-        end)
-    end
+            render.DrawSprite(pos, size, size, color_white)
+        end
+        cam.IgnoreZ(false)
+    end)
 end
 
 return MOD
