@@ -240,12 +240,14 @@ if SERVER then
     local nextThink = CurTime()
     local raidColor = Color(255,174,0)
     local DiffColor = Color(255,0,0)
+    local text_white = Color(255,255,255)
 
-    local function CheckVotes()
+    function pluto.RAIDS.CheckVotes()
         local activePlrs = #ttt.GetEligiblePlayers()
         local oldMode = pluto.RAIDS.currentGM:GetString()
-        if(#pluto.RAIDS.raidVotes > 0) then
-            local raidVotes,tttVotes = 0
+        if(not table.IsEmpty(pluto.RAIDS.raidVotes)) then
+            local raidVotes = 0
+            local tttVotes = 0
             for ply,vote in pairs(pluto.RAIDS.raidVotes) do
                 if(not IsValid(ply)) then continue end
                 if(vote == "raid") then
@@ -254,9 +256,9 @@ if SERVER then
                    tttVotes = tttVotes + 1 
                 end
             end
-            if(raidVotes / activePlrs >= 0.6) then
+            if(raidVotes>0 and raidVotes / activePlrs >= 0.6) then
                 pluto.RAIDS.currentGM:SetString("raid")
-            elseif(tttVotes / activePlrs >= 0.6) then
+            elseif(tttVotes>0 and tttVotes / activePlrs >= 0.6) then
                 pluto.RAIDS.currentGM:SetString("ttt")
             end
             for _,plr in ipairs(player.GetAll()) do
@@ -290,7 +292,7 @@ if SERVER then
                 pluto.RAIDS.raidVotes[plr] = "ttt"
                 plr:ChatPrint("You have voted to play: ", DiffColor, "TTT")
             end
-            CheckVotes()
+            pluto.RAIDS.CheckVotes()
             return ""
         end
     end)
