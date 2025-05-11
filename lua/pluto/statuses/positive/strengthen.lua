@@ -38,6 +38,7 @@ function STAT:OnExpire(status)
 end
 
 function pluto.statushooks.HookStrDamage(ent,dinfo)
+    if (not dinfo:GetAttacker()) then return end
     for _,child in pairs(dinfo:GetAttacker():GetChildren()) do
         if(child:GetClass() ~= "pluto_status") then continue end
         if(child.PrintName == "strengthen") then
