@@ -4,6 +4,8 @@
 local last_active_tab = CreateConVar("pluto_last_currency_tab", "", FCVAR_ARCHIVE)
 local circles = include "pluto/thirdparty/circles.lua"
 
+local showAll = CreateClientConVar("pluto_show_all_unbox",0,true,false,"Should the Currency tab show all currencies in the game, or just ones you have at least 1 of?",0,1)
+
 local inactive_text = Color(128, 128, 128)
 
 local padding_x = 23
@@ -69,7 +71,7 @@ function PANEL:AddTab(col, category, add_rest, buffer)
 		if (cur.Fake) then
 			continue
 		end
-        if(pluto.cl_currency[cur.InternalName] <= 0 and category == "Unbox") then continue end
+        if(pluto.cl_currency[cur.InternalName] <= 0 and not showAll:GetBool() and category == "Unbox") then continue end
 
 		if (not self.CurrencyDone[cur.InternalName] and ((add_rest and not cur.Category) or cur.Category == category)) then
 			self.CurrencyDone[cur.InternalName] = true

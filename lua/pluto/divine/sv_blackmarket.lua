@@ -255,7 +255,7 @@ concommand.Add("pluto_blackmarket_buy", function(p, cmd, args)
 				mysql_rollback(db)
 				return
 			end
-			local item = pluto.inv.generatebuffershard(db, p, "BOUGHT", (table.Random(pluto.tiers.filter_real("Weapon", function(tier) return tier.affixes >= 5 end))).InternalName)
+			local item = pluto.inv.generatebuffershard(db, p, "BOUGHT", (pluto.weapons.realtiername(table.Random(pluto.tiers.filter_real("Weapon", function(tier) return tier.affixes >= 5 end)).InternalName)))
 			p:ChatPrint("You bought a ", item, " for 60 ", CURR)
 			mysql_commit(db)
 			hook.Run("PlutoCurrencySpent", p, CURR.InternalName, 60)
