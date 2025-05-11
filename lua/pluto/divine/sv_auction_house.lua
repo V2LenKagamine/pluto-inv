@@ -160,7 +160,7 @@ concommand.Add("pluto_auction_list", function(p, c, a)
 		gun.TabIndex = auction_id
 
 		mysql_commit(db)
-        if(discord.Enabled) then
+        if(discord.enabled) then
 		    discord.Message():AddEmbed(
 			    gun:GetDiscordEmbed()
 				    :SetAuthor("Listed for " .. price .. " droplet...")
