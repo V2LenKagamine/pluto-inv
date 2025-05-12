@@ -33,17 +33,17 @@ function MOD:PreDamage(wep, rolls, vic, dmginfo, state)
 		dmginfo:ScaleDamage(1 - rolls[1] / 100)
 		local atk = wep:GetOwner()
 		if (IsValid(atk)and (vic:IsPlayer() or vic:IsNextBot()) and atk:Alive()) then
-			local heal = (atk:Health() + dmginfo:GetDamage() * rolls[2] / 100)
+			local heal = (dmginfo:GetDamage() * rolls[2] / 100)
 
-            if(vic:IsNextBot()) then heal = heal/4 end
+            if(vic:IsNextBot()) then heal = heal/2 end
 
-            heal = math.min(heal,atk:GetMaxHealth())
+            local newhp = math.min(heal + atk:Health(),atk:GetMaxHealth())
 
-			if (hook.Run("PlutoHealthGain", atk, heal - atk:Health())) then
+			if (hook.Run("PlutoHealthGain", atk, atk:GetMaxHealth() - newhp)) then
 				return
 			end
 
-			atk:SetHealth(heal)
+			atk:SetHealth(newhp)
 		end
 	end
 end

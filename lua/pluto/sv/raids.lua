@@ -87,7 +87,7 @@ if SERVER then
         npc:SetPos(pos)
         npc:Spawn()
         npc.raidsNPC = true
-        local victm = table.Random(#pluto.RAIDS.alivePlayers>0 and pluto.RAIDS.alivePlayers or ttt.GetEligiblePlayers())
+        local victm = table.Random(#pluto.RAIDS.alivePlayers>0 and pluto.RAIDS.alivePlayers or ttt.GetEligiblePlayers()[math.random(#ttt.GetEligiblePlayers())])
         npc.targetedPlayer = victm
         npc.spawnedPos = pos
         npc.spawnedTime = CurTime()
@@ -387,11 +387,10 @@ if SERVER then
         end
         if(win) then
             for _,plon in ipairs(ttt.GetEligiblePlayers()) do
-                for ind = 1,math.random(1,2) do
+                for ind = 1,3 do
                     pluto.inv.endrounddrops(plon)
-                    pluto.currency.spawnfor(plon)
                 end
-                for ind = 1,math.random(4,8) do
+                for ind = 1,math.random(6,10) do
                     pluto.currency.spawnfor(plon)
                 end
                 plon:ChatPrint(Color(233,217,0),"You are showered in riches for defeating the raid!")
@@ -556,11 +555,11 @@ if SERVER then
             end
             killcount = 0
         end
-        if(math.random() < math.min(0.1,points/250)) then
+        if(math.random() < math.min(0.16,points/250)) then
             atk:ChatPrint(Color(145,255,0),"You feel something resonate...")
             pluto.currency.spawnfor(atk)
         end
-        if(math.random() < math.min(0.05,points/500)) then
+        if(math.random() < math.min(0.1,points/400)) then
             pluto.inv.endrounddrops(atk)
         end
         if(math.random() <= (0.3/multi)) then
