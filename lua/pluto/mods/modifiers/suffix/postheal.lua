@@ -37,10 +37,12 @@ function MOD:OnKill(wep, rolls, atk, vic)
 		return
 	end
 
-	if (atk:GetRoleTeam() ~= vic:GetRoleTeam()) then
-		pluto.statuses.byname["heal"]:AddStatus(atk,atk,rolls[1],rolls[2])
-    elseif (vic:IsNextBot()) then
-		pluto.statuses.byname["heal"]:AddStatus(atk,atk,(rolls[1]/4),rolls[2])
+    if (atk:GetRoleTeam() == vic:GetRoleTeam() and not vic:IsNextBot()) then return end
+
+	if (vic:IsNextBot()) then
+        pluto.statuses.byname["heal"]:AddStatus(atk,atk,(rolls[1]/4),rolls[2])
+    else
+        pluto.statuses.byname["heal"]:AddStatus(atk,atk,rolls[1],rolls[2])
 	end
 
     if(wep.Mods and wep.Mods.suffix) then

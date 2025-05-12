@@ -43,7 +43,7 @@ function MOD:OnKill(wep, rolls, atk, vic)
             return
         end
 
-        atk:SetArmor(math.min (maxarmor, atk:Armor() + math.Round(vic:IsNextBot() and rolls[1]/4 or rolls[1])))
+        atk:SetArmor(math.min (maxarmor, atk:Armor() + math.Round(vic:IsNextBot() and rolls[1]/2 or rolls[1])))
 	end
 end
 
