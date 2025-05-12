@@ -1,5 +1,5 @@
 SWEP.PrintName = "Huge Tactical Aid Kit"
-SWEP.Description = "A large med-kit that heals 5% health and 15% more over 15 seconds. Takes a while to use. Looks like enough supplies for 5 uses.\nCan be used on others.\n2 Uses."
+SWEP.Description = "A large med-kit that heals 5% health and 15% more over 15 seconds.\nCan be used on others.\n5 Uses."
 
 SWEP.ViewModelFOV = 85
 SWEP.ViewModel = "models/weapons/sweps/eft/grizzly/v_meds_grizzly.mdl"
@@ -15,7 +15,7 @@ SWEP.Primary.DefaultClip = 5
 SWEP.HealAmnt = 15
 SWEP.HealInst = 5
 SWEP.HealTime = 15
-SWEP.UseTime = 3.5
+SWEP.UseTime = 0.75
 SWEP.HealPer = true  
 SWEP.CleanseDebuffs = false
 SWEP.CanOther = true 

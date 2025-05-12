@@ -11,7 +11,7 @@ if (SERVER) then
     local finisher_powered = false
     local redeemer_powered = false
 
-    local function checkforpowerups()
+    local function checkConditions()
         if (#round.GetActivePlayersByRole "traitor" <= 1 and not finisher_powered) then
             local finishers = round.GetActivePlayersByRole "Finisher"
             if (#finishers >= 1) then
@@ -49,6 +49,22 @@ if (SERVER) then
                 end
             end
         end
+
+        if(#round.GetActivePlayers() == 2 and not bond_broken) then
+            local red = round.GetActivePlayersByRole("Soulbound Red")
+            local green = round.GetActivePlayersByRole("Soulbound Green")
+            if(red[1] ~= nil and green[1] ~= nil) then
+                for _,ply in ipairs(red) do
+                    ply.Bond_Broken = true
+                    ply:Notify("The fated moment has arrived; the Curse of Life-Link Broken! Kill them now!",Color(109, 34, 0))
+                end
+                for _,ply in ipairs(green) do
+                    ply.Bond_Broken = true
+                    ply:Notify("The fated moment has arrived; the Curse of Life-Link Broken! Kill them now!",Color(61, 126, 0))
+                end
+            end
+        end
+
     end
 
     local try_give = function(ply, class)
@@ -93,7 +109,20 @@ if (SERVER) then
             pluto.rounds.Notify("You are a Shapeshifter! Killing people to steal their models!", ttt.roles[role].Color, ply)
         end,
         ["Soulbound Red"] = function(ply, role)
-            pluto.rounds.Notify("You are a Soulbound Red! Your fate is tied to the innocent Soulbound Green!", ttt.roles[role].Color, ply)
+            pluto.rounds.Notify("You are a Soulbound Red! You share health with the Innocent Soulbound Green!", ttt.roles[role].Color, ply)
+            timer.Simple(0.025,function()
+                ply:SetMaxHealth(200)
+                ply:SetHealth(200)
+                pluto.rounds.Notify("The fates foretell your Curse of Life-Link can only be broken if you two are the last standing...",ttt.roles[role].Color, ply)
+            end)
+        end,
+        ["Soulbound Green"] = function(ply, role)
+            pluto.rounds.Notify("You are a Soulbound Green! You share health with the Traitor Soulbound Red!", ttt.roles[role].Color, ply)
+            timer.Simple(0.025,function()
+                ply:SetMaxHealth(200)
+                ply:SetHealth(200)
+                pluto.rounds.Notify("The fates foretell your Curse of Life-Link can only be broken if you two are the last standing...",ttt.roles[role].Color, ply)
+            end)
         end,
         ["Savage Seer"] = function(ply, role)
             pluto.rounds.Notify("You are a Savage Seer! You can see all hidden innocent roles!", ttt.roles[role].Color, ply)
@@ -101,9 +130,9 @@ if (SERVER) then
         --[[Infiltrator = function(ply, role)
             pluto.rounds.Notify("You are an Infiltrator! See Buddies and pretend to be an innocent Wannabe!", ttt.roles[role].Color, ply)
         end,--]]
-        Assassin = function(ply, role)
+       --[[ Assassin = function(ply, role)
             pluto.rounds.Notify("You are an Assassin! Deal more damage to Detectives/Deputies and less to others!", ttt.roles[role].Color, ply)
-        end,
+        end,]]
         Hoarder = function(ply, role)
             pluto.rounds.Notify("You are a Hoarder! Enjoy the bonus equipment credits!", ttt.roles[role].Color, ply)
             ply:SetCredits(ply:GetCredits() + 3)
@@ -131,9 +160,6 @@ if (SERVER) then
         end,
         Listener = function(ply, role)
             pluto.rounds.Notify("You are a Listener! When people die, listen and be informed!", ttt.roles[role].Color, ply)
-        end,
-        ["Soulbound Green"] = function(ply, role)
-            pluto.rounds.Notify("You are a Soulbound Green! Your fate is tied to the traitor Soulbound Red!", ttt.roles[role].Color, ply)
         end,
         Deputy = function(ply, role)
             pluto.rounds.Notify("You are a Deputy! Detectives see your role, so you can help them!", ttt.roles[role].Color, ply)
@@ -178,7 +204,7 @@ if (SERVER) then
         local extra_innocents = {--[["Wannabe", --]]"Private Investigator", "Listener", "Coward", "Redeemer"}
 
         local priority_traitors = {}
-        local single_traitors = table.shuffle({"Nearly a Destroyer", "Savage Seer", "Assassin"})
+        local single_traitors = table.shuffle({"Nearly a Destroyer", "Savage Seer", --[["Assassin"]]})
         local extra_traitors = {--[["Infiltrator", --]]"Finisher", "Shapeshifter", "Hoarder"}
 
         if (math.random() > 0.6) then
@@ -263,7 +289,7 @@ if (SERVER) then
 
             if (vic:GetRole() == "Soulbound Red") then
                 for k, ply in ipairs(round.GetActivePlayersByRole "Soulbound Green") do
-                    if (IsValid(ply) and ply:Alive()) then
+                    if (IsValid(ply) and ply:Alive() and not ply.Bond_Broken) then
                         ply:SetHealth(ply:Health() - dmg:GetDamage())
                         if (ply:Health() <= 0) then
                             ply:Kill()
@@ -274,7 +300,7 @@ if (SERVER) then
 
             if (vic:GetRole() == "Soulbound Green") then
                 for k, ply in ipairs(round.GetActivePlayersByRole "Soulbound Red") do
-                    if (IsValid(ply) and ply:Alive()) then
+                    if (IsValid(ply) and ply:Alive() and not ply.Bond_Broken) then
                         ply:SetHealth(ply:Health() - dmg:GetDamage())
                         if (ply:Health() <= 0) then
                             ply:Kill()
@@ -303,7 +329,7 @@ if (SERVER) then
             end
 
             timer.Simple(1, function()
-                checkforpowerups()
+                checkConditions()
             end)
         end)
 
@@ -315,7 +341,7 @@ if (SERVER) then
             end
 
             timer.Simple(1, function()
-                checkforpowerups()
+                checkConditions()
             end)
         end)
 
@@ -399,7 +425,7 @@ hook.Add("TTTPrepareRoles", "pluto_mini_" .. name, function(Team, Role)
         :SetCalculateAmountFunc(function(total_players)
 			return 0
 		end)
-        :SetColor(109, 73, 0)
+        :SetColor(109, 34, 0)
         :SeenBy {"Soulbound Green"}
 
     Role("Savage Seer", "traitor")
@@ -414,11 +440,11 @@ hook.Add("TTTPrepareRoles", "pluto_mini_" .. name, function(Team, Role)
 		end)
         :SetColor(221, 88, 0)--]]
 
-    Role("Assassin", "traitor")
+    --[[Role("Assassin", "traitor")
         :SetCalculateAmountFunc(function(total_players)
 			return 0
 		end)
-        :SetColor(163, 0, 121)
+        :SetColor(163, 0, 121)]]
 
     Role("Hoarder", "traitor")
         :SetCalculateAmountFunc(function(total_players)
@@ -481,7 +507,7 @@ hook.Add("TTTPrepareRoles", "pluto_mini_" .. name, function(Team, Role)
         :SetCalculateAmountFunc(function(total_players)
 			return 0
 		end)
-        :SetColor(89, 93, 0)
+        :SetColor(61, 126, 0)
         :SeenBy {"Soulbound Red"}
 
     Role("Deputy", "innocent")

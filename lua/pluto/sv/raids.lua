@@ -240,16 +240,14 @@ if SERVER then
     local nextThink = CurTime()
     local raidColor = Color(255,174,0)
     local DiffColor = Color(255,0,0)
+    local text_white = Color(255,255,255)
 
-    local function CheckVotes()
+    function pluto.RAIDS.CheckVotes()
         local activePlrs = #ttt.GetEligiblePlayers()
         local oldMode = pluto.RAIDS.currentGM:GetString()
-        if(activePlrs > MaxRaidPlayers) then
-            pluto.RAIDS.currentGM:SetString("ttt")
-        elseif(activePlrs < GetConVar("ttt_minimum_players"):GetInt()) then
-            pluto.RAIDS.currentGM:SetString("raid") 
-        elseif(#pluto.RAIDS.raidVotes > 0) then
-            local raidVotes,tttVotes = 0
+        if(not table.IsEmpty(pluto.RAIDS.raidVotes)) then
+            local raidVotes = 0
+            local tttVotes = 0
             for ply,vote in pairs(pluto.RAIDS.raidVotes) do
                 if(not IsValid(ply)) then continue end
                 if(vote == "raid") then
@@ -258,29 +256,43 @@ if SERVER then
                    tttVotes = tttVotes + 1 
                 end
             end
-            if(raidVotes / activePlrs >= 0.6) then
+            if(raidVotes>0 and raidVotes / activePlrs >= 0.6) then
                 pluto.RAIDS.currentGM:SetString("raid")
-            elseif(tttVotes / activePlrs >= 0.6) then
+            elseif(tttVotes>0 and tttVotes / activePlrs >= 0.6) then
                 pluto.RAIDS.currentGM:SetString("ttt")
             end
+            for _,plr in ipairs(player.GetAll()) do
+                plr:ChatPrint("There are now ",raidColor,raidVotes .. " RAIDS ",text_white,"votes and ",DiffColor,tttVotes .. " TTT ",text_white,"votes.")
+                if(not pluto.RAIDS.raidVotes[plr]) then
+                    plr:ChatPrint("You can vote with '!votegm' and 'ttt' or 'raid'.")
+                end
+            end
+        end
+        if(activePlrs > MaxRaidPlayers) then
+            pluto.RAIDS.currentGM:SetString("ttt")
+        elseif(activePlrs < GetConVar("ttt_minimum_players"):GetInt()) then
+            pluto.RAIDS.currentGM:SetString("raid")
         end
         if(pluto.RAIDS.currentGM:GetString() ~= oldMode) then
             for _,plr in ipairs(player.GetAll()) do
                 plr:ChatPrint("The gamemode has been changed! New gamemode: ",pluto.RAIDS.currentGM:GetString() == "raid" and "Raids!" or "TTT!")
             end
+            if(pluto.RAIDS.currentGM:GetString() == "ttt") then
+                round.Prepare()
+            end
         end
     end
 
     hook.Add("PlayerSay","pluto_raids_vote",function(plr,text,tc)
-        if(text:match("^[!%./]?vote")) then
-            if(text:match(".[(rRaAiIdD)]{4}$")) then
+        if(text:match("^[!%./]?votegm")) then
+            if(text:match("[rR][aA][iI][dD][sS]?$")) then
                 pluto.RAIDS.raidVotes[plr] = "raid"
                 plr:ChatPrint("You have voted to play: ", raidColor, "RAIDS")
-            elseif (text:match(".[tT]{3}$")) then
+            elseif (text:match("([tT])%1%1$")) then
                 pluto.RAIDS.raidVotes[plr] = "ttt"
                 plr:ChatPrint("You have voted to play: ", DiffColor, "TTT")
             end
-            CheckVotes()
+            pluto.RAIDS.CheckVotes()
             return ""
         end
     end)
@@ -375,12 +387,14 @@ if SERVER then
         end
         if(win) then
             for _,plon in ipairs(ttt.GetEligiblePlayers()) do
-                if(math.random() < 0.75) then
+                for ind = 1,math.random(1,2) do
                     pluto.inv.endrounddrops(plon)
-                end
-                for ind = 1,math.random(1,3) do
                     pluto.currency.spawnfor(plon)
                 end
+                for ind = 1,math.random(4,8) do
+                    pluto.currency.spawnfor(plon)
+                end
+                plon:ChatPrint(Color(233,217,0),"You are showered in riches for defeating the raid!")
             end
         end
         if(not dontanother) then
@@ -413,7 +427,7 @@ if SERVER then
                 curDist = nodePos:DistToSqr(ply:GetPos())   
                 plyCurHighestDistFromNode = plyDistancesFromNodes[ply:SteamID()] 
                 plyDistancesFromNodes[ply:SteamID()] = (curDist  > plyCurHighestDistFromNode) and curDist or plyCurHighestDistFromNode
-                if (#samplednodes >= 60) then break end
+                if (#samplednodes >= 75) then break end
             end
         end
 
@@ -531,7 +545,7 @@ if SERVER then
     hook.Add("OnNPCKilled","pluto_raids_kill_listen",function (npc,atk,inf)
         if(not npc.raidsNPC or not atk:IsPlayer()) then return end
         local multi = pluto.RAIDS.arenaModeEnemyClass.enemy_mul or 1
-        local points = npc:GetMaxHealth()/(10*multi) * (1+(math.max(0,pluto.RAIDS.raidLevel-4) * (0.2/multi))) --Higher round -> more points.
+        local points = npc:GetMaxHealth()/(10*multi) * (1+((pluto.RAIDS.raidLevel-1) * (0.15/multi))) --Higher round -> more points.
         TryAddExp(atk,points)
         pluto.RAIDS.raidScores[atk] = (pluto.RAIDS.raidScores[atk] or 0) + points
         killcount = (killcount or 0) + 1
@@ -542,11 +556,11 @@ if SERVER then
             end
             killcount = 0
         end
-        if(math.random() < math.min(0.2,points/100)) then
+        if(math.random() < math.min(0.1,points/250)) then
             atk:ChatPrint(Color(145,255,0),"You feel something resonate...")
             pluto.currency.spawnfor(atk)
         end
-        if(math.random() < math.min(0.15,points/150)) then
+        if(math.random() < math.min(0.05,points/500)) then
             pluto.inv.endrounddrops(atk)
         end
         if(math.random() <= (0.3/multi)) then
@@ -567,12 +581,12 @@ if SERVER then
         for _,plr in ipairs(player.GetAll()) do
             plr:ChatPrint(Color(255,0,0),"RAIDS: " .. ply:Nick() .. " has fallen to the onslaught!")
         end
-        pluto.RAIDS.raidScores[ply] = math.max((pluto.RAIDS.raidScores[ply] or 0)-10,0)
-        if(pluto.RAIDS.raidScores[ply] >= 90 and #pluto.RAIDS.alivePlayers > 1) then -- They had 100 and wern't last.
+        pluto.RAIDS.raidScores[ply] = math.max((pluto.RAIDS.raidScores[ply] or 0)-25,0)
+        if(pluto.RAIDS.raidScores[ply] >= 125 and #pluto.RAIDS.alivePlayers > 1) then -- They had 150 and wern't last.
             ply:ChatPrint(Color(0,255,0),"You will auto-revive in 5 seconds due to your score!")
             timer.Simple(5,function()
                 RaidRespawn(ply)
-                pluto.RAIDS.raidScores[ply] = math.max((pluto.RAIDS.raidScores[ply] or 0) - 90,0)
+                pluto.RAIDS.raidScores[ply] = math.max((pluto.RAIDS.raidScores[ply] or 0) - 125,0)
                 for _,plr in ipairs(player.GetAll()) do
                     plr:ChatPrint(Color(125,255,0),"RAIDS: " .. ply:Nick() .. " has returned to the fray through sheer will!")
                 end

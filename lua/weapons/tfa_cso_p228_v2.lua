@@ -4,6 +4,7 @@ SWEP.AdminSpawnable			= false --Can an adminstrator spawn this?  Does not tie in
 SWEP.DrawCrosshair			= true		-- Draw the crosshair?
 SWEP.PrintName				= "P228"		-- Weapon name (Shown on HUD)
 SWEP.Slot				= 1
+SWEP.PlutoSpawnable = false --Its a scrungled version of the regular P228. No.
 
 SWEP.Primary.Sound 			= Sound("P228.Fire")
 

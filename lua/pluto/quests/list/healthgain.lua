@@ -13,7 +13,7 @@ function QUEST:Init(data)
 		end
 
 		if (ttt.GetRoundState() == ttt.ROUNDSTATE_ACTIVE and ply == data.Player and ply:Alive()) then
-			data:UpdateProgress(amt)
+			data:UpdateProgress(math.ceil(amt))
 		end
 	end)
 end

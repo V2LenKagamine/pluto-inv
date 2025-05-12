@@ -152,7 +152,7 @@ pluto.files.load {
 		"tfa/external/tfa_cso2_snd_heavy.lua",
 
 		"tfa/external/tfa_cso2_soundstuff.lua",
-		"tfa/external/pandora_soundstuff_1.lua",
+		"pluto/weapons/pluto_soundadds.lua",
 
 		"events/sh_init.lua",
 

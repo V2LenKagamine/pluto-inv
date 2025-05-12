@@ -1,5 +1,5 @@
 hook.Add("HandlePlayerArmorReduction", "pluto_armor_hook", function(ply,dinfo)
-    if (ply:Armor() <=0 || bit.band(dmginfo:GetDamageType(), DMG_FALL + DMG_DROWN + DMG_POISON + DMG_RADIATION) ~= 0)then return end
+    if (ply:Armor() <=0 || bit.band(dinfo:GetDamageType(), DMG_FALL + DMG_DROWN + DMG_POISON + DMG_RADIATION) ~= 0)then return end
     local dmg = dinfo:GetDamage()
     local armr = ply:Armor()
 

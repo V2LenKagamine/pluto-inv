@@ -53,7 +53,7 @@ function STAT:DoThink(status)
     else
         dinfo:SetAttacker(game.GetWorld())
     end
-    dinfo:SetDamageType(DMG_DIRECT + DMG_BULLET)
+    dinfo:SetDamageType(DMG_DIRECT + DMG_BURN)
     dinfo:SetInflictor(status)
     dinfo:SetDamagePosition(vic:GetPos())
     dinfo:SetDamage(todeal)

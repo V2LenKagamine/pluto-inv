@@ -48,7 +48,7 @@ function QUEST:UpdateProgress(amount)
 		self.ProgressLeft = math.max(0, self.ProgressLeft - amount)
 
 		local succ, err = mysql_stmt_run(db, "SELECT @cur_prog as current_progress")
-		if (succ and succ[1].current_progress == self.TotalProgress) then
+		if (succ and succ[1].current_progress >= self.TotalProgress) then
 			pluto.message("QUEST", self, " completed. Running reward code.")
 			if (not self:Complete(db)) then
 				pluto.error("QUEST", "Quest Complete failed for ", self)

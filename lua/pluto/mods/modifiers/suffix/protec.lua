@@ -29,7 +29,7 @@ MOD.Tiers = {
 }
 
 function MOD:OnKill(wep, rolls, atk, vic)
-	if (atk:GetRoleTeam() ~= vic:GetRoleTeam()) then
+	if (atk:GetRoleTeam() ~= vic:GetRoleTeam() or vic:IsNextBot()) then
         local maxarmor = 30
         if(wep.Mods and wep.Mods.suffix) then
             for _,mod in ipairs(wep.Mods.suffix) do
@@ -43,7 +43,7 @@ function MOD:OnKill(wep, rolls, atk, vic)
             return
         end
 
-        atk:SetArmor(math.min (maxarmor, atk:Armor() + math.Round(rolls[1])))
+        atk:SetArmor(math.min (maxarmor, atk:Armor() + math.Round(vic:IsNextBot() and rolls[1]/4 or rolls[1])))
 	end
 end
 

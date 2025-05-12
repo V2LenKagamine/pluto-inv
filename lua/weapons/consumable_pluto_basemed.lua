@@ -49,7 +49,7 @@ SWEP.Secondary.ClipSize = -1
 SWEP.Secondary.DefaultClip = -1
 SWEP.Secondary.Automatic = false
 
-SWEP.MaxRange = 50
+SWEP.MaxRange = 300
 
 DEFINE_BASECLASS("weapon_tttbase")
 
@@ -106,12 +106,16 @@ function SWEP:Heal(target)
         end
         if(self.HealAmnt > 0 or self.HealInst > 0) then
             if(self.HealPer) then
-                pluto.statuses.byname["heal"]:AddStatus(target,self:GetOwner(),self.HealAmnt,self.HealTime)
+                if(self.HealAmnt > 0 and self.HealTime > 0) then
+                    pluto.statuses.byname["heal"]:AddStatus(target,self:GetOwner(),self.HealAmnt,self.HealTime)
+                end
                 if(self.HealInst > 0) then
                     self:QuickHeal(target,(self.HealInst * target:GetMaxHealth())*(1/target:GetMaxHealth()))
                 end
             else
-                pluto.statuses.byname["heal_flat"]:AddStatus(target,self:GetOwner(),self.HealAmnt,self.HealTime)
+                if(self.HealAmnt > 0 and self.HealTime > 0) then
+                    pluto.statuses.byname["heal_flat"]:AddStatus(target,self:GetOwner(),self.HealAmnt,self.HealTime)
+                end
                 if(self.HealInst > 0) then
                     self:QuickHeal(target,self.HealInst)
                 end
