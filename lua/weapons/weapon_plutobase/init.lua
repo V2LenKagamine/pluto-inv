@@ -55,7 +55,7 @@ function SWEP:Initialize()
 end
 
 function SWEP:PlutoDoPlayerDeath(ply, atk, dmg)
-	if (not IsValid(self:GetOwner()) or dmg:GetInflictor() ~= self) then
+	if (not IsValid(self:GetOwner()) or dmg:GetAttacker() ~= self:GetOwner()) then
 		return
 	end
 
