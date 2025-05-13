@@ -6,6 +6,7 @@ CONFETTI_SHOT = 2
 
 SWEP.Base = "weapon_tttbase"
 SWEP.PrintName = "Noise Maker"
+SWEP.Description = "Make some noise and have a party with this novel confetti-spewing noise maker!"
 SWEP.Slot = 5
 
 SWEP.ViewModelFlip      = false
@@ -47,12 +48,14 @@ SWEP.Secondary.Automatic    = false
 SWEP.Secondary.Ammo         = "none"
 
 SWEP.AutoSpawnable         = false
-SWEP.Spawnable             = true
+SWEP.PlutoSpawnable        = true 
+SWEP.PlutoMisc             = true 
+SWEP.Spawnable             = false 
 
 SWEP.ViewModel             = "models/weapons/v_crowbar.mdl"
 SWEP.WorldModel            = "models/weapons/w_crowbar.mdl"
 
-SWEP.PlutoIcon             = "vgui/entities/confetti.png"
+SWEP.PlutoIcon             = "materials/vgui/entities/confetti.png"
 
 SWEP.Bullets = {
 	HullSize = 0,
@@ -64,7 +67,6 @@ SWEP.Bullets = {
 	TracerName = "pluto_confetti",
 	Distance = 0,
 }
-SWEP.Ironsights = false
 
 function SWEP:DoFireBullets()
 	if (CLIENT and not IsFirstTimePredicted()) then
