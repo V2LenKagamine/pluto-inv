@@ -56,7 +56,7 @@ if SERVER then
 		self:ReactInCoroutine(function(self)
 			self:PlaySequenceAndMove('stun_fall')
 			self.animend = true
-			self:SetHealth(75)
+			self:SetHealth(25)
 			self:PlaySequenceAndMove('crawl_idle_new')
 		end)
 		local wep = self:GiveWeapon('bwa_pistol')

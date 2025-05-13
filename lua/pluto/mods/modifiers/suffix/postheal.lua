@@ -40,7 +40,7 @@ function MOD:OnKill(wep, rolls, atk, vic)
     if (atk:GetRoleTeam() == vic:GetRoleTeam() and not vic:IsNextBot()) then return end
 
 	if (vic:IsNextBot()) then
-        pluto.statuses.byname["heal"]:AddStatus(atk,atk,(rolls[1]/4),rolls[2])
+        pluto.statuses.byname["heal"]:AddStatus(atk,atk,(rolls[1]/2),rolls[2])
     else
         pluto.statuses.byname["heal"]:AddStatus(atk,atk,rolls[1],rolls[2])
 	end
