@@ -104,7 +104,7 @@ function ENT:KFRange()
 		
 		local TEMP_FireBall = ents.Create("ent_huskfireball")
 		TEMP_FireBall:SetPos(TEMP_WeaponPos.Pos)
-		TEMP_FireBall:SetAngles(self:GetForward():Angle())
+		--TEMP_FireBall:SetAngles(self:GetForward():Angle())
 		TEMP_FireBall:Spawn()
 		TEMP_FireBall:SetOwner(self)
 		TEMP_FireBall.Damage = 50 --self.DMGMult*20

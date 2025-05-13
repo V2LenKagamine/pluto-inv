@@ -6,7 +6,7 @@ include("shared.lua")
 
 
 ENT.Exploding = false
-ENT.Damage = 20
+ENT.Damage = 50
 
 function ENT:Initialize()
 	self:SetModel( "models/props_phx/misc/smallcannonball.mdl" )
@@ -19,7 +19,7 @@ function ENT:Initialize()
 	
 	self:SetTrigger(true)
 	
-	self:SetHealth(100)
+	self:SetHealth(10)
 	
 	self:SetModelScale(0.15)
 	
@@ -41,7 +41,7 @@ function ENT:Initialize()
 	ParticleEffectAttach("huskgun_fireball", PATTACH_ABSORIGIN_FOLLOW, self, 0)
 	
 	self.Exploding = false
-	self.Damage = 20
+	self.Damage = 50
 end
 
 function ENT:Detonate()

@@ -59,7 +59,7 @@ if SERVER then
 		if GetConVar("bwa_friends"):GetBool() then
 			self:AddRelationship("player D_LI 99")
 		end
-      	self:SetHealth(100)
+      	self:SetHealth(50)
       	self:WeaponReload()
 		self:SetSkin(math.random(0,12))
 		self:SetBodygroup(2, 1)
@@ -404,9 +404,7 @@ if SERVER then
 		if IsValid(self:GetEnemy()) then
 			local en = self:GetEnemy()
 			local diff = self:GetPos() - en:GetShootPos()
-			if en:GetAimVector():Dot(diff) / diff:Length() < 0.5 and en:GetPos():DistToSqr(self:GetPos()) < 72^2 and self:Visible(en) and en:LookupBone('ValveBiped.Bip01_Spine2') then
-				self:Takedown(en)
-			elseif en:GetAimVector():Dot(diff) / diff:Length() > 0.5 then
+			if en:GetAimVector():Dot(diff) / diff:Length() > 0.5 then
 				if IsValid(self:GetActiveWeapon()) then
 					self:GetActiveWeapon():SetHoldType('pistol')
 				end
@@ -430,158 +428,6 @@ if SERVER then
 			self.AvoidAfraidOfRange = 0
 			self.ReachEnemyRange = 1000
 		end
-	end
-
-	
-	function ENT:Takedown(target)
-		if !IsValid(target) or self.takedown or self.melee or self.rolling then return end
-
-		local model = target:GetModel()
-
-		if target:IsPlayer() then
-			target:KillSilent()
-		else
-			target:Remove()
-		end
-
-		local anim = "takedown"..math.random(1,4)
-		self.PosTakedown = self:GetPos()
-		self.takedown = true
-		self:SetHealth(999999999)
-		self:SetAngles(self:GetAngles()+Angle(0,270,0))
-
-		local mod = ents.Create("prop_dynamic")
-		mod:SetModel('models/bwa_anim/target_anims.mdl')
-		mod:SetAngles(self:GetAngles())
-		mod:SetPos(self:GetPos() - (self:GetForward() * 1 ) + (self:GetRight() * 4))
-		mod:Spawn()
-
-		local mod2 = ents.Create("base_anim")
-		mod2:SetModel(model)
-		mod2:SetPos(self:GetPos())
-		mod2:SetParent(mod)
-		mod2:AddEffects(1)
-		mod2:Spawn()
-
-		local function PlayRandomSound(models, mins, maxs, sound1)
-			models:EmitSound(sound1..math.random(mins,maxs)..".wav")
-		end
-
-		if anim == "takedown1" then
-			timer.Simple(0.4, function()				
-				PlayRandomSound(mod, 1, 7, "physics/body/body_medium_impact_soft")
-			end)
-			timer.Simple(2.2, function()
-				if !IsValid(mod) then return end
-				
-				PlayRandomSound(mod, 1, 7, "physics/body/body_medium_impact_soft")
-			end)
-			timer.Simple(2.8, function()
-				if !IsValid(mod) then return end
-
-				PlayRandomSound(mod, 1, 3, "bwa_other/km_bonebreak")
-				
-				if not mod:LookupBone("ValveBiped.Bip01_Neck1") then return end
-				local effectdata = EffectData()
-				effectdata:SetOrigin(mod:GetBonePosition(mod:LookupBone("ValveBiped.Bip01_Neck1")))
-				util.Effect("BloodImpact", effectdata)
-			end)
-		end
-		if anim == "takedown2" then
-			timer.Simple(0.6, function()
-				if !IsValid(mod) then return end
-				
-				PlayRandomSound(mod, 1, 6, "physics/body/body_medium_impact_hard")
-			end)
-			timer.Simple(1.6, function()
-				if !IsValid(mod) then return end
-				
-				PlayRandomSound(mod, 1, 6, "physics/body/body_medium_impact_hard")
-			end)
-			timer.Simple(2.6, function()
-				if !IsValid(mod) then return end
-				
-				PlayRandomSound(mod, 1, 6, "physics/body/body_medium_impact_hard")
-			end)
-			timer.Simple(3.2, function()
-				if !IsValid(mod) then return end
-
-				self:EmitSound("bwa_wep/usp.wav")
-				
-				if not mod:LookupBone("ValveBiped.Bip01_R_Calf") then return end
-				local effectdata = EffectData()
-				effectdata:SetOrigin(mod:GetBonePosition(mod:LookupBone("ValveBiped.Bip01_R_Calf")))
-				util.Effect("BloodImpact", effectdata)
-			end)
-			timer.Simple(3.6, function()
-				if !IsValid(mod) then return end
-
-				self:EmitSound("bwa_wep/usp.wav")
-				
-				if not mod:LookupBone("ValveBiped.Bip01_Head1") then return end
-				local effectdata = EffectData()
-				effectdata:SetOrigin(mod:GetBonePosition(mod:LookupBone("ValveBiped.Bip01_Head1")))
-				util.Effect("BloodImpact", effectdata)
-			end)
-		end
-		if anim == "takedown3" then
-			timer.Simple(0.4, function()
-				if !IsValid(mod) then return end
-				
-				PlayRandomSound(mod, 1, 7, "physics/body/body_medium_impact_soft")
-			end)
-			timer.Simple(1.6, function()
-				if !IsValid(mod) then return end
-				
-				PlayRandomSound(mod, 1, 7, "physics/body/body_medium_impact_soft")
-			end)
-			timer.Simple(3, function()
-				if !IsValid(mod) then return end
-				
-				PlayRandomSound(mod, 1, 7, "physics/body/body_medium_impact_soft")
-			end)
-		end
-		if anim == "takedown4" then
-			timer.Simple(0.5, function()
-				if !IsValid(mod) then return end
-				
-				PlayRandomSound(mod, 1, 7, "physics/body/body_medium_impact_soft")
-			end)
-			timer.Simple(2.2, function()
-				if !IsValid(mod) then return end
-				
-				PlayRandomSound(mod, 1, 7, "physics/body/body_medium_impact_soft")
-			end)
-			timer.Simple(3.2, function()
-				if !IsValid(mod) then return end
-
-				PlayRandomSound(mod, 1, 3, "bwa_other/km_hit")
-				
-				if not mod:LookupBone("ValveBiped.Bip01_Spine2") then return end
-				local effectdata = EffectData()
-				effectdata:SetOrigin(mod:GetBonePosition(mod:LookupBone("ValveBiped.Bip01_Spine2")))
-				util.Effect("BloodImpact", effectdata)
-			end)
-		end
-
-		self:CallInCoroutineOverride(function(self)
-			mod:ResetSequence(anim)
-			self:PlaySequenceAndMove(anim)
-			self.takedown = false
-			self.PosTakedown = nil
-			self:SetHealth(125)
-			self:SetAngles(self:GetAngles()-Angle(0,270,0))
-			if IsValid(mod) and anim == "takedown2" then
-				mod:SetSequence('takedown4')
-				mod:SetCycle(1)
-			end
-			timer.Simple(30, function()
-				if IsValid(mod) then
-					mod:Remove()
-					mod2:Remove()
-				end
-			end)
-		end)
 	end
 
 	function ENT:OnIdle()

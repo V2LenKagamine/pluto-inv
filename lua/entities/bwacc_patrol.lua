@@ -63,7 +63,7 @@ if SERVER then
 		if GetConVar("bwa_friends"):GetBool() then
 			self:AddRelationship("player D_LI 99")
 		end
-      	self:SetHealth(120)
+      	self:SetHealth(80)
       	self:WeaponReload()
 		self:SetSkin(math.random(0,12))
 		self:SetBodygroup(1, math.random(0,1))
@@ -479,10 +479,6 @@ if SERVER then
 
 	function ENT:MeleeAttacks()
 		if not self:GetCooldown("attack") or self.rolling or self.death1 then return end
-		if math.random(1,8) == 1 and IsValid(self:GetEnemy()) then
-			self:Takedown(self:GetEnemy())
-			return
-		end
 		if self:GetCooldown("attack") == 0 and IsValid(self:GetEnemy()) then
 			local animname = 'melee1'
 			if self.havebaton then
@@ -560,71 +556,6 @@ if SERVER then
 		elseif self:IsInRange(ent, self.RangeAttackRange) then
 		  self:OnRangeAttack(ent, weapon)
 		end
-	end
-
-	function ENT:Takedown(target)
-		if !IsValid(target) or self.takedown or self.melee or self.rolling then return end
-
-		local model = target:GetModel()
-
-		if target:IsPlayer() then
-			target:KillSilent()
-		else
-			target:Remove()
-		end
-
-		local anim = "arrest"
-		self.PosTakedown = self:GetPos()
-		self.takedown = true
-		self:SetHealth(999999999)
-
-		local mod = ents.Create("prop_dynamic")
-		mod:SetModel('models/bwa_anim/target_anims.mdl')
-		mod:SetAngles(self:GetAngles())
-		mod:SetPos(self:GetPos() - (self:GetForward() * 1 ) + (self:GetRight() * 4))
-		mod:Spawn()
-
-		local mod2 = ents.Create("base_anim")
-		mod2:SetModel(model)
-		mod2:SetPos(self:GetPos())
-		mod2:SetParent(mod)
-		mod2:AddEffects(1)
-		mod2:Spawn()
-
-		local function PlayRandomSound(models, mins, maxs, sound1)
-			models:EmitSound(sound1..math.random(mins,maxs)..".wav")
-		end
-
-		timer.Simple(0.5, function()				
-			PlayRandomSound(mod, 1, 7, "physics/body/body_medium_impact_soft")
-		end)
-		timer.Simple(1.75, function()
-			if !IsValid(mod) then return end
-				
-			PlayRandomSound(mod, 1, 6, "physics/body/body_medium_impact_hard")
-		end)
-		timer.Simple(2.4, function()
-			if !IsValid(mod) then return end
-				
-			PlayRandomSound(mod, 1, 7, "physics/body/body_medium_impact_soft")
-		end)
-
-		self:CallInCoroutineOverride(function(self)
-			mod:ResetSequence("arresting")
-			self:PlaySequenceAndMove(anim)
-			self.takedown = false
-			self.PosTakedown = nil
-			self:SetHealth(75)
-			if IsValid(mod) then
-				mod:SetSequence('arrested')
-			end
-			timer.Simple(30, function()
-				if IsValid(mod) then
-					mod:Remove()
-					mod2:Remove()
-				end
-			end)
-		end)
 	end
 end
 

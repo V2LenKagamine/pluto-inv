@@ -35,7 +35,7 @@ ENT.RagdollReplacement = "models/ultrakill/characters/enemies/lesser/streetclean
 
 -- Stats --
 
-ENT.SpawnHealth = 450
+ENT.SpawnHealth = 150
 
 -- Sounds --
 
@@ -77,8 +77,8 @@ ENT.JumpAnimRate = 1
 -- Movements --
 
 ENT.UseWalkframes = false
-ENT.WalkSpeed = 125
-ENT.RunSpeed = 250
+ENT.WalkSpeed = 80
+ENT.RunSpeed = 120
 ENT.WalkRange = 250
 
 -- Variables --
