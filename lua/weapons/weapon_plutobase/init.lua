@@ -75,15 +75,17 @@ function SWEP:RunModFunctionSingle(funcname, ...)
 	if (not gun) then
 		return
 	end
-	for type, list in pairs(gun.Mods) do
-		for _, item in ipairs(list) do
-			local mod = pluto.mods.byname[item.Mod]
-			if (mod[funcname]) then
-				local rolls = pluto.mods.getrolls(mod, item.Tier, item.Roll)
-				mod[funcname](mod, self, rolls, ...)
-			end
-		end
-	end
+    if(gun.Mods) then
+        for type, list in pairs(gun.Mods) do
+            for _, item in ipairs(list) do
+                local mod = pluto.mods.byname[item.Mod]
+                if (mod[funcname]) then
+                    local rolls = pluto.mods.getrolls(mod, item.Tier, item.Roll)
+                    mod[funcname](mod, self, rolls, ...)
+                end
+            end
+        end
+    end
 end
 
 function SWEP:RunModFunctionSequence(funcname, state, ...)
