@@ -36,7 +36,7 @@ SWEP.Primary.Automatic     = true
 SWEP.Primary.Ammo          = "none"
 SWEP.Primary.ClipSize      = -1
 SWEP.Primary.DefaultClip   = -1
-SWEP.Primary.Delay         = 5
+SWEP.Primary.Delay         = 3
 SWEP.Primary.Damage        = 0
 SWEP.Primary.Recoil = 0
 
@@ -55,7 +55,7 @@ SWEP.Spawnable             = false
 SWEP.ViewModel             = "models/weapons/v_crowbar.mdl"
 SWEP.WorldModel            = "models/weapons/w_crowbar.mdl"
 
-SWEP.PlutoIcon             = "materials/vgui/entities/confetti.png"
+SWEP.PlutoIcon             = "vgui/entities/confetti.png"
 
 SWEP.Bullets = {
 	HullSize = 0,
