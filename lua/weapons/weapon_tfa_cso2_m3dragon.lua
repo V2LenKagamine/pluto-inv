@@ -5,7 +5,7 @@ SWEP.PrintName				= "Dragon's Breath"
 SWEP.Slot				= 2
 
 SWEP.Primary.Sound = Sound("tfa_cso2_m3dragon.1")
-SWEP.Primary.Damage = 4.5
+SWEP.Primary.Damage = 4.75
 
 SWEP.Bullets = {
 	HullSize = 0,
