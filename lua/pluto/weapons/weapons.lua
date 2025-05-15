@@ -335,7 +335,7 @@ function pluto.weapons.generatemod(item, prefix_max, suffix_max, ignoretier)
 	if (prefixes < prefix_max and typemods.prefix) then
 		local t = {}
 		for _, item in pairs(typemods.prefix) do
-			if (not have[item.Tier]) then
+			if (not have[item.InternalName]) then
 				t[#t + 1] = item
 			end
 		end
@@ -347,7 +347,7 @@ function pluto.weapons.generatemod(item, prefix_max, suffix_max, ignoretier)
 	if (suffixes < suffix_max and typemods.suffix) then
 		local t = {}
 		for _, item in pairs(typemods.suffix) do
-			if (not have[item.Tier]) then
+			if (not have[item.InternalName]) then
 				t[#t + 1] = item
 			end
 		end
