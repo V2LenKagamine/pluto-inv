@@ -98,16 +98,13 @@ function pluto.tiers.random(gun)
 		pluto.error("No typelist to pluto.tiers.random!")
 	end
 
-	local rand = math.random() * typelist.shares
+	local passList = {}
 
 	for _, tier in pairs(typelist.list) do
-		rand = rand - tier.Shares
-		if (rand < 0) then
-			return tier
-		end
+		passList[tier] = tier.Percentile
 	end
 
-	error "Reached end of loop in pluto.tiers.random!" 
+    return pluto.inv.rollraritydesc(passList)
 end
 --Why here? Because weapons isnt shared.
 function pluto.weapons.realtiername(name)

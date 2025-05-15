@@ -26,12 +26,34 @@ local share_count = {
 --Consumables 100w
 --Miscs 100w
 
+local perCount = {
+    otherworldly = 0.75,
+    confused = 1,
+    shadowy = 2,
+    mystical = 2,
+    uncommon = 25,
+    stable = 25,
+	common = 25,
+    powerful = 30,
+	vintage = 70,
+	junk = 100,
+	
+    unstable = 50,
+    stabilized = 30,
+    explosive = 20,
+
+    generic = 100,
+
+    regular = 100,
+}
+
 for _, typelist in pairs(pluto.tiers.bytype) do
 	typelist.shares = 0
 end
 
 for name, tier in pairs(pluto.tiers.byname) do
 	tier.Shares = share_count[name] or 0
+    tier.Percentile = perCount[name] or 0
 
 	local typelist = pluto.tiers.bytype[tier.Type or "Weapon"]
 
