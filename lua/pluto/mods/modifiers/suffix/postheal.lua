@@ -49,7 +49,7 @@ function MOD:OnKill(wep, rolls, atk, vic)
         for _,mod in ipairs(wep.Mods.suffix) do
             if(mod.Mod == "protec") then
                 if (atk:Armor() > 30) then break end
-                atk:SetArmor(math.min(30, atk:Armor() + math.Round(rolls[1]/4)))
+                atk:SetArmor(math.min(30, atk:Armor() + math.Round(rolls[1]/2)))
                 break
             end
         end

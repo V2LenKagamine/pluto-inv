@@ -60,7 +60,7 @@ function SWEP:PlutoDoPlayerDeath(ply, atk, dmg)
 	end
 
 	if (self.PlutoGun and self.PlutoGun.Owner == self:GetOwner():SteamID64()) then
-		if (atk:GetRoleTeam() ~= ply:GetRoleTeam()) then -- add experience to weapon
+		if (atk:GetRoleTeam() ~= ply:GetRoleTeam() and atk:GetActiveWeapon() == self) then -- add experience to weapon
 			pluto.inv.addexperience(self.PlutoGun.RowID, (atk:GetRole() == "Innocent" and 150 or 75) + math.random(0, 25))
 		end
 	end
@@ -75,15 +75,17 @@ function SWEP:RunModFunctionSingle(funcname, ...)
 	if (not gun) then
 		return
 	end
-	for type, list in pairs(gun.Mods) do
-		for _, item in ipairs(list) do
-			local mod = pluto.mods.byname[item.Mod]
-			if (mod[funcname]) then
-				local rolls = pluto.mods.getrolls(mod, item.Tier, item.Roll)
-				mod[funcname](mod, self, rolls, ...)
-			end
-		end
-	end
+    if(gun.Mods) then
+        for type, list in pairs(gun.Mods) do
+            for _, item in ipairs(list) do
+                local mod = pluto.mods.byname[item.Mod]
+                if (mod[funcname]) then
+                    local rolls = pluto.mods.getrolls(mod, item.Tier, item.Roll)
+                    mod[funcname](mod, self, rolls, ...)
+                end
+            end
+        end
+    end
 end
 
 function SWEP:RunModFunctionSequence(funcname, state, ...)

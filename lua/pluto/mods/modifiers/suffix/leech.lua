@@ -39,7 +39,7 @@ function MOD:PreDamage(wep, rolls, vic, dmginfo, state)
 
             local newhp = math.min(heal + atk:Health(),atk:GetMaxHealth())
 
-			if (hook.Run("PlutoHealthGain", atk, atk:GetMaxHealth() - newhp)) then
+			if (hook.Run("PlutoHealthGain", atk, heal)) then
 				return
 			end
 

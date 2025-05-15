@@ -340,7 +340,12 @@ function pluto.inv.readqueueevent(requester)
     if (not price) then
         return
     end
-    
+    local preres,premsg = pluto.rounds.goodplayercount(name)
+    if(not preres and premsg) then
+        requester:ChatPrint(Color(200, 50, 50),premsg)
+        return
+    end
+
     pluto.db.transact(function(db) 
 		if (not pluto.inv.addcurrency(db, requester, "ticket", price)) then
 			mysql_rollback(db)
