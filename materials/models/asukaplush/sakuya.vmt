@@ -1,0 +1,12 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models/asukaplush/sakuya"
+	//"$lightwarptexture" "models/asukaplush/cartoon_shader"
+	"$nocull" 1
+	"$model" 1
+	"$nodecal" 1
+	"$alphatest" 1
+	"$halflambert" 1
+	"$detail" "models/asukaplush/fabric_detail.vtf"
+	"$detailscale" "10"
+}
