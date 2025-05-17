@@ -32,7 +32,12 @@ SWEP.Secondary.DefaultClip    = -1
 SWEP.Secondary.Automatic    = false 
 SWEP.Secondary.Ammo            = "none"
 SWEP.FumoCount = 0
+DEFINE_BASECLASS("weapon_tttbase")
 
+function SWEP:SetupDataTables()
+	BaseClass.SetupDataTables(self)
+	self:NetVar("Musical", "Bool", false)
+end
 
 function SWEP:Initialize()
 	self:SetHoldType(self.HoldType)
@@ -56,7 +61,10 @@ function SWEP:Holster()
 	if CLIENT and IsValid(self.WorldModelEnt) then
 		self.WorldModelEnt:Remove()
 	end
-    if SERVER then self.Owner:StopSound(self.ThemeMusic) end
+    if SERVER then 
+        self.Owner:StopSound(self.ThemeMusic)
+        self:SetMusical(false)
+    end
 	return true
 end
 
@@ -66,7 +74,9 @@ function SWEP:Deploy()
 	self.Idle = 0
 	self.IdleTimer = CurTime() + self.Owner:GetViewModel():SequenceDuration()
 
-	if SERVER then self.Owner:EmitSound("carryable_fumos/fumosays.wav") end
+	if SERVER then 
+        self.Owner:EmitSound("carryable_fumos/fumosays.wav") 
+    end
 end
 
 SWEP.Primary.Delay = 5
@@ -79,14 +89,20 @@ function SWEP:PrimaryAttack()
     local vm = ply:GetViewModel()
     if not IsValid( vm ) then return end
     vm:SendViewModelMatchingSequence( vm:LookupSequence( "deploy" ) )
-    if SERVER then self.Owner:EmitSound(self.ThemeMusic, 75, 100) end
+    if SERVER and not self:GetMusical() then 
+        self.Owner:EmitSound(self.ThemeMusic, 75, 50)
+        self:SetMusical(true)
+    end
 end
 
 function SWEP:SecondaryAttack()
     self.Owner:EmitSound("carryable_fumos/fumosquee.wav", 100, 100)
     if self:GetNextSecondaryFire() > CurTime() then return end
     self:SetNextSecondaryFire(CurTime() + 1)
-    if SERVER then self.Owner:StopSound(self.ThemeMusic) end
+    if SERVER and self:GetMusical() then 
+        self.Owner:StopSound(self.ThemeMusic)
+        self:SetMusical(false)
+    end
 end
 
 function SWEP:DrawWeaponSelection(x,y,wide,tall,alpha)
