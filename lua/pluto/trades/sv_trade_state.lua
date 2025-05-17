@@ -232,9 +232,7 @@ function TRADE:Commit()
 
 						pluto.inv.notifybufferitem(oply, item, true)
 
-						pluto.inv.message(self.players)
-							:write("item", item)
-							:send()
+						pluto.inv.sendfullupdate(ply)
 					end
 				end
 
