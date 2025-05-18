@@ -28,16 +28,16 @@ local share_count = {
 --Miscs 100w
 
 local perCount = {
-    otherworldly = 0.75,
-    confused = 1,
-    shadowy = 1.75,
-    patient = 1.75,
-    mystical = 1.75,
-    uncommon = 12.5,
-    stable = 12.5,
-	common = 12.5,
-    powerful = 15,
-	vintage = 60,
+    otherworldly = 0.25,
+    confused = 0.3,
+    shadowy = 0.5,
+    patient = 0.5,
+    mystical = 0.5,
+    uncommon = 7.5,
+    stable = 7.5,
+	common = 7.5,
+    powerful = 10,
+	vintage = 40,
 	junk = 100,
 	
     unstable = 100,
