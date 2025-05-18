@@ -12,7 +12,7 @@ local share_count = {
 	powerful = 10000, -- .01
 	stable = 7000, -- .007
 	mystical = 800, -- .0008
-    patient = 200 -- 0.0002
+    patient = 200, -- 0.0002
 
     unstable = 100,
     stabilized = 100,

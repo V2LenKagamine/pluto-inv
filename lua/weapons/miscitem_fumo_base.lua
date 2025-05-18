@@ -90,7 +90,7 @@ function SWEP:PrimaryAttack()
     if not IsValid( vm ) then return end
     vm:SendViewModelMatchingSequence( vm:LookupSequence( "deploy" ) )
     if SERVER and not self:GetMusical() then 
-        self.Owner:EmitSound(self.ThemeMusic, 75, 50)
+        self.Owner:EmitSound(self.ThemeMusic, 75, 100, 25)
         self:SetMusical(true)
     end
 end

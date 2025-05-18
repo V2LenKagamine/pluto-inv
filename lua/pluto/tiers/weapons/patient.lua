@@ -13,8 +13,8 @@ return {
 	},
 	SubDescription = {
         guaranteed = "This weapon always rolls Leech I.",
-		tags = "This weapon can only roll damage suffixes.",
+		tags = "This weapon can only roll damaging suffixes.",
         why = "Go on, I'll wait.",
 	},
-	Color = Color(20, 23, 223),
+	Color = Color(0, 101, 160),
 }

@@ -1066,7 +1066,7 @@ local list = {
 		end,
 		Category = "Unbox",
         RareDesc = true,
-        DefaultTier = "regular"
+        DefaultTier = "regular",
         Contents = {
 			miscitem_fumo_cirno = {
 				Chance = 12.5,
