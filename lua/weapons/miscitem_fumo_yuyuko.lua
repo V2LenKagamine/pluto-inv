@@ -6,7 +6,7 @@ SWEP.Purpose        = "yuyu is beatiful"
 SWEP.Description   = "You will perish."
 SWEP.ViewModel = "models/weapons/melee/yuyu_v.mdl"
 SWEP.WorldModel = "models/props_junk/yuyu_w.mdl"
-SWEP.PlutoIcon = "entities/weapon_fumo_yuyuko.png"
+SWEP.PlutoIcon = "pluto/inventoryicon/weapon_fumo_yuyuko.png"
 SWEP.ThemeMusic = "carryable_fumos/yuyu_theme.mp3"
 
 SWEP.OffsetVec = Vector(-5, -2, -5)
