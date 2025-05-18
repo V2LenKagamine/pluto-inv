@@ -150,9 +150,6 @@ pluto.files.load {
 
 		"tfa/tfa_compat.lua",
 		"tfa/external/tfa_cso2_snd_heavy.lua",
-        "tfa/external/tfa_cso2_part1_sounds_pt1.lua",
-        "tfa/external/tfa_cso2_part2_sounds_pt2.lua",
-        "tfa/external/tfa_cso2_part2_sounds_kami.lua",
 
 		"tfa/external/tfa_cso2_soundstuff.lua",
 		"pluto/weapons/pluto_soundadds.lua",
