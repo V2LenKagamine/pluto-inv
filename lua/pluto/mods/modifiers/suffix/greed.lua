@@ -5,7 +5,7 @@ MOD.Type = "suffix"
 MOD.Name = "Greed"
 MOD.Color = Color(3, 211, 55)
 MOD.Tags = {
-	"greed"
+	"greed", "util"
 }
 
 function MOD:IsNegative(roll)

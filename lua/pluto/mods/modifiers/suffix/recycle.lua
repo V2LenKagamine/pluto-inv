@@ -5,7 +5,7 @@ MOD.Type = "suffix"
 MOD.Name = "Recycling"
 MOD.Color = Color(200, 200, 200)
 MOD.Tags = {
-	"mag",
+	"mag", "util"
 }
 
 function MOD:IsNegative(roll)

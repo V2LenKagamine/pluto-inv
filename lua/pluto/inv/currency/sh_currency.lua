@@ -1047,7 +1047,7 @@ local list = {
 		InternalName = "crate_toy1",
 		Name = "Toy Crate : E1",
 		Icon = "pluto/currencies/cratetoy.png",
-		Description = "A crate, containing fun, but useless, curiosities.\nDoesn't seem to be anything inside yet...",
+		Description = "A crate, containing fun, but useless, curiosities.",
 		SubDescription = ":smiel:",
 		NoTarget = true,
 		Color = Color(133, 92, 58),
@@ -1066,6 +1066,74 @@ local list = {
 		end,
 		Category = "Unbox",
         RareDesc = true,
+        DefaultTier = "regular",
+        Contents = {
+			miscitem_fumo_cirno = {
+				Chance = 12.5,
+			},
+            miscitem_fumo_flandre = {
+				Chance = 12.5,
+			},
+            miscitem_fumo_junko = {
+				Chance = 12.5,
+			},
+            miscitem_fumo_keiki = {
+				Chance = 12.5,
+			},
+            miscitem_fumo_koishi = {
+				Chance = 12.5,
+			},
+            miscitem_fumo_marisa = {
+				Chance = 12.5,
+			},
+            miscitem_fumo_mokou = {
+				Chance = 12.5,
+			},
+            miscitem_fumo_momiji = {
+				Chance = 12.5,
+			},
+            miscitem_fumo_okuu = {
+				Chance = 12.5,
+			},
+            miscitem_fumo_reimu = {
+				Chance = 12.5,
+			},
+            miscitem_fumo_remi = {
+				Chance = 12.5,
+			},
+            miscitem_fumo_sakuya = {
+				Chance = 12.5,
+			},
+            miscitem_fumo_sanae = {
+				Chance = 12.5,
+			},
+            miscitem_fumo_shion = {
+				Chance = 12.5,
+			},
+            miscitem_fumo_suwako = {
+				Chance = 12.5,
+			},
+            miscitem_fumo_tsukasa = {
+				Chance = 12.5,
+			},
+            miscitem_fumo_youmu = {
+				Chance = 12.5,
+			},
+            miscitem_fumo_yuuka = {
+				Chance = 12.5,
+			},
+            miscitem_fumo_yuyuko = {
+				Chance = 12.5,
+			},
+            miscitem_noisemaker = {
+                Rare = true,
+				Chance = 2.5,
+			},
+            miscitem_cat = {
+                Rare = true,
+                Chance = 1,
+            },
+		},
 	},
 }
 

@@ -341,73 +341,82 @@ function PANEL:PaintInner(pnl, w, h, x, y)
 	render.SetColorModulation(1, 1, 1)
 	local item_type = self.Item and self.Item.Type or self.DefaultType
 	if (IsValid(mdl) and (item_type == "Weapon" or item_type == "Consumable" or item_type == "Misc")) then
-		local class_name = self.Item and self.Item.ClassName or self.DefaultClass
-		local item_color = self.Item and self.Item:GetColor() or Color(255, 255, 255, 25)
-		local blend = render.GetBlend()
-		render.SetBlend(item_color.a / 255)
+        local baseItem
+        if(self.Item) then
+            baseItem = baseclass.Get(self.Item.ClassName)
+        end
+        if(baseItem and baseItem.PlutoIcon) then
+            surface.SetDrawColor(255, 255, 255, 255)
+		    surface.SetMaterial(Material(baseItem.PlutoIcon))
+            surface.DrawTexturedRect(x, y, w, h)
+        else
+            local class_name = self.Item and self.Item.ClassName or self.DefaultClass
+            local item_color = self.Item and self.Item:GetColor() or Color(255, 255, 255, 25)
+            local blend = render.GetBlend()
+            render.SetBlend(item_color.a / 255)
 
-		local mins, maxs = mdl:GetModelBounds()
-		local lookup = weapons.GetStored(class_name).Ortho or baseclass.Get(class_name).Ortho or {0, 0}
+            local mins, maxs = mdl:GetModelBounds()
+            local lookup = weapons.GetStored(class_name).Ortho or baseclass.Get(class_name).Ortho or {0, 0}
 
-		local angle = lookup.angle or Angle(0, -90)
-		local size = mins:Distance(maxs) / 2.5 * (lookup.size or 1) * 1.1
+            local angle = lookup.angle or Angle(0, -90)
+            local size = mins:Distance(maxs) / 2.5 * (lookup.size or 1) * 1.1
 
-		local tex, u, v = CreateTextureFromDraw(w, h, function()
-			cam.Start3D(vector_origin, angle, 90, 0, 0, w, h)
-				cam.StartOrthoView(lookup[1] + -size, lookup[2] + size, lookup[1] + size, lookup[2] + -size)
-					render.SuppressEngineLighting(true)
-						mdl:SetAngles(Angle(-40, 10, 10))
-						render.PushFilterMin(TEXFILTER.ANISOTROPIC)
-						render.PushFilterMag(TEXFILTER.ANISOTROPIC)
-							mdl:DrawModel()
-						render.PopFilterMag()
-						render.PopFilterMin()
-					render.SuppressEngineLighting(false)
-				cam.EndOrthoView()
-			cam.End3D()
-		end)
+            local tex, u, v = CreateTextureFromDraw(w, h, function()
+                cam.Start3D(vector_origin, angle, 90, 0, 0, w, h)
+                    cam.StartOrthoView(lookup[1] + -size, lookup[2] + size, lookup[1] + size, lookup[2] + -size)
+                        render.SuppressEngineLighting(true)
+                            mdl:SetAngles(Angle(-40, 10, 10))
+                            render.PushFilterMin(TEXFILTER.ANISOTROPIC)
+                            render.PushFilterMag(TEXFILTER.ANISOTROPIC)
+                                mdl:DrawModel()
+                            render.PopFilterMag()
+                            render.PopFilterMin()
+                        render.SuppressEngineLighting(false)
+                    cam.EndOrthoView()
+                cam.End3D()
+            end)
 
-		local rt, cw, ch = GetRTForSize(w, h, 1)
-		alphatest:SetTexture("$basetexture", tex)
+            local rt, cw, ch = GetRTForSize(w, h, 1)
+            alphatest:SetTexture("$basetexture", tex)
 
-		render.PushRenderTarget(rt)
-			render.Clear(0, 0, 0, 255, true, true)
-			local big = 2
-			cam.Start2D()
-				for x = -big, big do
-					for y = -big, big do
-						surface.SetMaterial(alphatest)
-						surface.SetDrawColor(255, 255, 255)
-						surface.DrawTexturedRectUV(x, y, w, h, 0, 0, u, v)
-					end
-				end
-			cam.End2D()
-			render.BlurRenderTarget(rt, 5, 5, 4)
-		render.PopRenderTarget()
+            render.PushRenderTarget(rt)
+                render.Clear(0, 0, 0, 255, true, true)
+                local big = 2
+                cam.Start2D()
+                    for x = -big, big do
+                        for y = -big, big do
+                            surface.SetMaterial(alphatest)
+                            surface.SetDrawColor(255, 255, 255)
+                            surface.DrawTexturedRectUV(x, y, w, h, 0, 0, u, v)
+                        end
+                    end
+                cam.End2D()
+                render.BlurRenderTarget(rt, 5, 5, 4)
+            render.PopRenderTarget()
 
-		additive:SetTexture("$basetexture", rt)
-		additive:SetVector("$color", item_color:ToVector())
-		additive:SetFloat("$alpha", item_color.a / 255)
-		surface.SetMaterial(additive)
-		surface.DrawTexturedRectUV(x, y, w, h, 0, 0, u, v)
+            additive:SetTexture("$basetexture", rt)
+            additive:SetVector("$color", item_color:ToVector())
+            additive:SetFloat("$alpha", item_color.a / 255)
+            surface.SetMaterial(additive)
+            surface.DrawTexturedRectUV(x, y, w, h, 0, 0, u, v)
 
-		
-		render.ClearDepth()
-		cam.Start3D(vector_origin, angle, 90, sx, sy, w, h)
-			cam.StartOrthoView(lookup[1] + -size, lookup[2] + size, lookup[1] + size, lookup[2] + -size)
-				render.SuppressEngineLighting(true)
-					mdl:SetAngles(Angle(-40, 10, 10))
-					render.PushFilterMin(TEXFILTER.ANISOTROPIC)
-					render.PushFilterMag(TEXFILTER.ANISOTROPIC)
-						mdl:DrawModel()
-					render.PopFilterMag()
-					render.PopFilterMin()
-				render.SuppressEngineLighting(false)
-			cam.EndOrthoView()
-		cam.End3D()
+            
+            render.ClearDepth()
+            cam.Start3D(vector_origin, angle, 90, sx, sy, w, h)
+                cam.StartOrthoView(lookup[1] + -size, lookup[2] + size, lookup[1] + size, lookup[2] + -size)
+                    render.SuppressEngineLighting(true)
+                        mdl:SetAngles(Angle(-40, 10, 10))
+                        render.PushFilterMin(TEXFILTER.ANISOTROPIC)
+                        render.PushFilterMag(TEXFILTER.ANISOTROPIC)
+                            mdl:DrawModel()
+                        render.PopFilterMag()
+                        render.PopFilterMin()
+                    render.SuppressEngineLighting(false)
+                cam.EndOrthoView()
+            cam.End3D()
 
-		render.SetBlend(blend)
-
+            render.SetBlend(blend)
+        end
 	elseif (IsValid(mdl) and item_type == "Model") then
 		local mins, maxs = mdl:GetModelBounds()
 		cam.Start3D(Vector(50, 0, (maxs.z - mins.z) / 2), Angle(0, -180), 90, sx, sy, w, h)
