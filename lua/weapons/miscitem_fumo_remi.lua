@@ -3,7 +3,7 @@ SWEP.Category = "Fumos"
 
 SWEP.PrintName			= "Remilia Fumo"		
 SWEP.Purpose        = "remi is beatiful"
-SWEP.Description   = "Night of Nights"
+SWEP.Description   = "Septette for the Dead Princess"
 SWEP.ViewModel = "models/weapons/melee/remi_v.mdl"
 SWEP.WorldModel = "models/props_junk/remi_w.mdl"
 SWEP.PlutoIcon = "pluto/inventoryicon/weapon_fumo_remi.png"
