@@ -206,6 +206,7 @@ for _, name in pairs {
 	"weapons/legendary",
 	"weapons/mystical",
 	"weapons/otherworldly",
+    "weapons/patient",
 	"weapons/powerful",
 	"weapons/promised",
 	"weapons/shadowy",

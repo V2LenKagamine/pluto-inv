@@ -11,7 +11,8 @@ local share_count = {
 	vintage = 300000, -- .3
 	powerful = 10000, -- .01
 	stable = 7000, -- .007
-	mystical = 1000, -- .001
+	mystical = 800, -- .0008
+    patient = 200 -- 0.0002
 
     unstable = 100,
     stabilized = 100,
@@ -30,6 +31,7 @@ local perCount = {
     otherworldly = 0.75,
     confused = 1,
     shadowy = 2,
+    patient = 2,
     mystical = 2,
     uncommon = 25,
     stable = 25,
