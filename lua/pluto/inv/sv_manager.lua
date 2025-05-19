@@ -175,16 +175,22 @@ function pluto.inv.writefullupdate(ply)
 	pluto.inv.writestatus(ply, "ready")
 end
 
+function pluto.inv.readfullupdateplease(ply)
+    if (not pluto.cancheat(ply) or (ply.LastFullUpdate or -math.huge) > CurTime() + 30) then
+		return
+	end
+    pluto.inv.sendfullupdate(ply)
+end
+
 function pluto.inv.sendfullupdate(ply)
 	if (pluto.inv.loading[ply]) then
 		pwarnf("Player inventory already loading: %s", ply:Nick())
 		return
 	end
-
+    ply.LastFullUpdate = CurTime()
 	pluto.inv.message(ply)
 		:write("status", "retrieving")
 		:send()
-
 	pluto.inv.invs[ply] = nil
 	pluto.inv.loading[ply] = true
 
@@ -206,30 +212,6 @@ function pluto.inv.sendfullupdate(ply)
             :write("emojis")
             :send()
 	end)
-end
-
-concommand.Add("pluto_fullupdate", function(ply, cmd, args)
-	if (not pluto.cancheat(ply) or (ply.LastFullUpdate or -math.huge) > CurTime() - 5) then
-		return
-	end
-	ply.LastFullUpdate = CurTime()
-	pluto.inv.sendfullupdate(ply)
-end)
-
-function pluto.inv.writetabupdate(ply, tabid, tabindex)
-	local tab = pluto.inv.invs[ply][tabid]
-
-	local item = tab.Items[tabindex]
-
-	net.WriteUInt(tabid, 32)
-	net.WriteUInt(tabindex, 8)
-
-	if (item) then
-		net.WriteBool(true)
-		pluto.inv.writeitem(ply, item)
-	else
-		net.WriteBool(false)
-	end
 end
 
 function pluto.inv.writecurrencyupdate(ply, currency)

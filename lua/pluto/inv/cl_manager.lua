@@ -349,6 +349,16 @@ function pluto.inv.writeclaimbuffer(bufferid, tabid, tabindex)
 	net.WriteUInt(tabindex, 8)
 end
 
+concommand.Add("pluto_fullupdate", function(ply, cmd, args)
+	pluto.inv.message()
+        :write("fullupdateplease")
+        :send()
+end,nil,"Sends a full Server to Client update on what's actually in your inventory and where.")
+
+function pluto.inv.writefullupdateplease(ply)
+    net.WriteEntity(ply)
+end
+
 function pluto.inv.writeend()
 end
 

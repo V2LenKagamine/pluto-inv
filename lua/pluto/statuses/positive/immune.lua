@@ -21,7 +21,7 @@ end
 
 function pluto.statushooks.HookImmune(ent,target)
     if(target ~= ent:GetParent()) then return end
-    if(ent.IsNegative and not ent.NoCleanse) then return false end
+    if(ent.IsNegative and not ent.NoCleanse) then return true end
 end
 
 

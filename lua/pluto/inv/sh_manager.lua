@@ -35,6 +35,7 @@ pluto.inv.messages = {
 		"rename",
 		"itemdelete",
 		"unname",
+        "fullupdateplease",
 
 		-- currency
 		"masscurrencyuse",

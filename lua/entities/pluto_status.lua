@@ -18,7 +18,7 @@ function ENT:Initialize()
     end
     self.IsNegative = baseStat.IsNegative
     self.NoCleanse = baseStat.NoCleanse
-    if(hook.Run("PlutoTryAddStatus",self,self:GetParent()) == false) then
+    if(hook.Run("PlutoTryAddStatus",self,self:GetParent())) then
         self:Remove()
         return false
     end
