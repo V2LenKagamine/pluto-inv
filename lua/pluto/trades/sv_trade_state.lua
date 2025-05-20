@@ -231,14 +231,15 @@ function TRADE:Commit()
 						end
 
 						pluto.inv.notifybufferitem(oply, item, true)
-
-						pluto.inv.sendfullupdate(ply)
 					end
 				end
 
 				mysql_commit(db)
+
+                for _,plee in pairs(self.players) do
+                    pluto.inv.sendfullupdate(plee)
+                end
 			end)
-	
 		else
 			self:AddSystemMessage("Trade will commence in " .. left .. " seconds...")
 		end

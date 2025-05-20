@@ -184,9 +184,9 @@ pluto.quests.rewardhandlers = {
         small = function(quest)
             local cur = pluto.currency.byname.stardust
             local bonus_ducks = pluto.quests.rewards.bonus_dust[quest.Type]
-            local amount = bonus_ducks.amount + math.floor(math.random(-bonus_ducks.variance,bonus_ducks.variance + 1))
-
-            return (amount == 1 and "" or  amount .. " ") .. cur.Name
+            local amountMax = bonus_ducks.amount + bonus_ducks.variance
+            local amountMin = bonus_ducks.amount - bonus_ducks.variance
+            return (amountMin .. " to ".. amountMax .. " ") .. cur.Name
         end,
 	},
 }
