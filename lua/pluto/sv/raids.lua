@@ -387,10 +387,10 @@ if SERVER then
         end
         if(win) then
             for _,plon in ipairs(ttt.GetEligiblePlayers()) do
-                for ind = 1,3 do
+                for ind = 2,4 do
                     pluto.inv.endrounddrops(plon)
                 end
-                for ind = 1,math.random(6,10) do
+                for ind = 1,math.random(8,12) do
                     pluto.currency.spawnfor(plon)
                 end
                 plon:ChatPrint(Color(233,217,0),"You are showered in riches for defeating the raid!")
@@ -537,7 +537,7 @@ if SERVER then
     local function TryAddExp(ply,points)
         local wep = ply:GetActiveWeapon()
         if(wep.PlutoGun and wep.PlutoGun.Owner == wep:GetOwner():SteamID64()) then
-            pluto.inv.addexperience(wep.PlutoGun.RowID,math.floor(points/2))
+            pluto.inv.addexperience(wep.PlutoGun.RowID,math.floor(points/4))
         end
     end
 
@@ -572,7 +572,7 @@ if SERVER then
                 local orig = baseclass.Get(wep:GetClass())
                 atk:GiveAmmo(math.floor(orig.Primary.ClipSize),orig.Primary.Ammo,true)
             end
-        end
+        end --TODO: Clean NPC body after a time
     end)
 
     hook.Add("DoPlayerDeath", "pluto_raids_death",function(ply,atk,dmg)
@@ -599,7 +599,7 @@ if SERVER then
     end)
 
 
-    concommand.Add("pluto_begin_assault", function(ply, cmd, args)
+    concommand.Add("pluto_raids_begin_assault", function(ply, cmd, args)
         if not pluto.cancheat(ply) then return end
 
         checkIfMapJustBuiltNodes()

@@ -126,17 +126,19 @@ function pluto.ui.rightclickmenu(item, pre)
 	end
     
     if (tab and tab.Type ~= "buffer") then
-        rightclick_menu:AddOption("Destroy or Shard Item", function()
-			pluto.divine.confirm("Destroy " .. item:GetPrintName(), function()
-				local tab = pluto.cl_inv[item.TabID]
-				tab.Items[item.TabIndex] = nil
-				hook.Run("PlutoItemUpdate", nil, item.TabID, item.TabIndex)
+        if(not item.Locked) then
+            rightclick_menu:AddOption("Destroy or Shard Item", function()
+                pluto.divine.confirm("Destroy " .. item:GetPrintName(), function()
+                    local tab = pluto.cl_inv[item.TabID]
+                    tab.Items[item.TabIndex] = nil
+                    hook.Run("PlutoItemUpdate", nil, item.TabID, item.TabIndex)
 
-				pluto.inv.message()
-					:write("itemdelete", item.TabID, item.TabIndex, item.ID)
-					:send()
-			end)
-		end):SetIcon("icon16/bomb.png")
+                    pluto.inv.message()
+                        :write("itemdelete", item.TabID, item.TabIndex, item.ID)
+                        :send()
+                end)
+            end):SetIcon("icon16/bomb.png")
+        end
     end
 
 	rightclick_menu:Open()
