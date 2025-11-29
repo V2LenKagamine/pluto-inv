@@ -314,6 +314,9 @@ function PANEL:Init()
 		hook.Add("PlutoLoadoutChanged", item, function(self, index, item)
 			if (index == i) then
 				self:SetItem(item)
+                pluto.inv.message()
+                    :write("changeloadout",LocalPlayer():SteamID64(),index)
+                    :send()
 			end
 		end)
 		function item.ClickedWith(s, other)
@@ -439,6 +442,11 @@ function PANEL:PerformLayout(w, h)
 	BaseClass.PerformLayout(self, w, h)
 	self.Dropdown:SetPos(w - self.Dropdown:GetWide(), 0)
 	self.CosmeticDropdown:SetPos(self.Dropdown:GetPos())
+end
+
+function pluto.inv.writechangeloadout(ply,slot)
+    net.WriteString(ply)
+    net.WriteInt(slot,32)
 end
 
 vgui.Register("pluto_inventory_equip", PANEL, "pluto_inventory_component")

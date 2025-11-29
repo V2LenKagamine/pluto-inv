@@ -132,17 +132,17 @@ function SWEP:SendData(ply)
 		suffix   = {},
 	}
 
-	for _, ply in pairs(ply and {ply} or player.GetAll()) do
-		net.Start "pluto_wpn_db"
-			net.WriteInt(self:GetPlutoID(), 32)
-			if (gun.RowID) then
-				net.WriteBool(true)
-				pluto.inv.writeitem(ply, gun)
-			else
-				net.WriteBool(false)
-				pluto.inv.writebaseitem(ply, gun)
-			end
-		net.Send(ply)
+	for _, plr in pairs(ply and {ply} or player.GetAll()) do
+		net.Start("pluto_wpn_db")
+		net.WriteInt(self:GetPlutoID(), 32)
+		if (gun.RowID) then
+			net.WriteBool(true)
+			pluto.inv.writeitem(plr, gun)
+		else
+			net.WriteBool(false)
+			pluto.inv.writebaseitem(plr, gun)
+		end
+		net.Send(plr)
 	end
 end
 

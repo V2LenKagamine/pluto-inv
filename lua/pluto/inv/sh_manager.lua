@@ -29,6 +29,7 @@ pluto.inv.messages = {
 		"tabrename",
 		"changetabdata",
 		"ui",
+        "changeloadout",
 
 		-- items
 		"itemlock",

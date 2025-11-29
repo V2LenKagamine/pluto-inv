@@ -8,6 +8,9 @@ local plutoTips = {
     "You can hold SHIFT when using currencies on a weapon to not have to pick up a new currency after clicking!",
     "Objects in your 'Buffer' tab are automatically destroyed when they are pushed off the end. Move what you want to keep!",
     "Ideas are always welcome, anything could get added with a good enough arguement on why!",
+    "Bored and no one on? Try doing '!votegm raids' and prepare yourself!",
+    "Something not look right in your inventory? Try 'pluto_fullupdate' in console; and no, spamming it won't work.",
+    "Deagles are wildly inaccurate when fired in quick succession, space your shots.",
 }
 local text_white = Color(255,255,255)
 local pluto_color = Color(155,155,155)

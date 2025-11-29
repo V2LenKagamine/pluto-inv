@@ -129,7 +129,7 @@ for name, values in pairs {
 					Type = "good",
 					Shares = 2,
 					Use = function(item)
-						if (item:GetModCount() < item:GetMaxAffixes() + 2) then
+						if (item:GetModCount()  + 1 <= item:GetMaxAffixes()) then
 							pluto.weapons.generatemod(item, 6, 3, true)
 						end
 					end
@@ -139,7 +139,7 @@ for name, values in pairs {
 					Shares = 1,
 					Use = function(item)
 						for i = 1, 2 do
-							if (item:GetModCount() < item:GetMaxAffixes() + 2) then
+							if (item:GetModCount() + 1 <= item:GetMaxAffixes()) then
 								pluto.weapons.generatemod(item, 6, 3, true)
 							end
 						end
@@ -237,7 +237,7 @@ for name, values in pairs {
 				pluto.weapons.addmod(item, "arcane")
 			end
 
-			if (not item:GetMod("tomed") or math.random() < 0.08) then
+			if (not item:GetMod("tomed") or math.random() < 0.15) then
 				pluto.weapons.addmod(item, "unchanging")
 			end
 
