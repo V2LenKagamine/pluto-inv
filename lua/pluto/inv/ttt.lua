@@ -3,7 +3,7 @@
      * file, You can obtain one at https://mozilla.org/MPL/2.0/. ]]
 local pluto_weapon_droprate = CreateConVar("pluto_weapon_droprate", "0.5", nil, nil, 0, 1)
 local pluto_equip_droprate = CreateConVar("pluto_equipcrate_droprate", "0.01", nil, nil, 0, 1)
-local pluto_toys_droprate = CreateConVar("pluto_toycrate_droprate","0.0025",nil, nil, 0, 1)
+local pluto_toys_droprate = CreateConVar("pluto_toycrate_droprate","0.00",nil, nil, 0, 1) -- TODO: 0.0025 when toy in loadout bug fixed
 
 pluto.afk = pluto.afk or {}
 
@@ -184,27 +184,27 @@ end
 
 
 local pluto_loaded = {}
---[[ --Todo: Make this work, need to pass plr in somehow from loadout.lua
-hook.Add("PlutoLoadoutChanged", "pluto_reequip",function(slot,_,plr)
+-- TODO: Test if this works --No, it doesnt, need to send a packet
+function pluto.inv.readchangeloadout()
+    local plr = player.GetBySteamID64(net.ReadString())
+    local slot = net.ReadInt(32)
     local event = pluto.rounds.getcurrent()
-    if(event) then return end
+    if(event or not plr) then return end
     if(ttt.GetRoundState() == ttt.ROUNDSTATE_ACTIVE or ttt.GetRoundState() == ttt.ROUNDSTATE_ENDED) then return end
-	local wepid = tonumber(ply:GetInfo("pluto_loadout_slot" .. slot, nil))
+	local wepid = tonumber(plr:GetInfo("pluto_loadout_slot" .. slot, nil))
 	local wep = pluto.itemids[wepid]
-	if (wep and wep.Owner == ply:SteamID64()) then
+	if (wep and wep.Owner == plr:SteamID64()) then
         for wpnslot,has in ipairs(plr:GetWeapons()) do
-            print(wpnslot)
-            if(wpnslot == wep:GetSlot()) then
+            if(baseclass.Get(wep.ClassName).Slot == baseclass.Get(has:GetClass()).Slot) then
                 plr:StripWeapon(has:GetClass())
                 break
             end
         end
 		pluto.NextWeaponSpawn = wep
-		ply:Give(wep.ClassName)
+		plr:Give(wep.ClassName)
 	end
     return true
-end)
-]]
+end
 
 hook.Add("TTTPlayerGiveWeapons", "pluto_loadout", function(ply)
 	local event = pluto.rounds.getcurrent()

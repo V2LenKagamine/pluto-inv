@@ -105,12 +105,14 @@ if SERVER then
 	function ENT:OnTakeDamage(dmg,hg)
         self:ScaleHitDamage(dmg,hg)
 		self:SpotEntity(dmg:GetAttacker())
+        --[[
 		if self:Health() > 0 and dmg:GetDamage() >= self:Health() and math.random(1,8) == 1 and not self.laststand then
 			self.laststand = true
 			dmg:SetDamage(0)
 			self:LastStand()
 			return 0
 		end
+        ]]
 		if math.random(1,2) == 1 and dmg:GetDamage() > 5 then
 			self:SetCrouching(true)
 			timer.Simple(5, function()

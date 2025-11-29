@@ -93,7 +93,7 @@ class GMAFile {
 	for await (const f of getFiles("sound")) {
 		list.push(f);
 	}
-	for await (const f of getFiles("particles")) {
+	for await (const f of getFiles("particle")) {
 		list.push(f);
 	}
 

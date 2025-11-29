@@ -137,12 +137,14 @@ if SERVER then
 		if dmg:GetDamage() < self:Health() and math.random(1,20) == 1 and not self.rolling and not self.melee then
 			self:DoStun()
 		end
+        --[[
 		if self:Health() > 0 and dmg:GetDamage() >= self:Health() and math.random(1,8) == 1 and not self.laststand then
 			self.laststand = true
 			dmg:SetDamage(0)
 			self:LastStand()
 			return 0
 		end
+        ]]
 		if dmg:GetAttacker().bwa then
 			return 0
 		end

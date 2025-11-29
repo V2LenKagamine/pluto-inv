@@ -20,8 +20,9 @@ function STAT:AddStatus(target, atk, stacks, time)
 end
 
 function pluto.statushooks.HookImmune(ent,target)
-    if(target ~= ent:GetParent()) then return end
-    if(ent.IsNegative and not ent.NoCleanse) then return false end
+    if(target == ent:GetParent()) then
+        if(ent.IsNegative and not ent.NoCleanse) then return false end
+    end
 end
 
 

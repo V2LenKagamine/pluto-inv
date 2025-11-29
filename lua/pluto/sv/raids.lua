@@ -270,15 +270,22 @@ if SERVER then
         end
         if(activePlrs > MaxRaidPlayers) then
             pluto.RAIDS.currentGM:SetString("ttt")
-        elseif(activePlrs < GetConVar("ttt_minimum_players"):GetInt()) then
-            pluto.RAIDS.currentGM:SetString("raid")
+        --elseif(activePlrs < GetConVar("ttt_minimum_players"):GetInt()) then
+            --pluto.RAIDS.currentGM:SetString("raid")
         end
         if(pluto.RAIDS.currentGM:GetString() ~= oldMode) then
             for _,plr in ipairs(player.GetAll()) do
                 plr:ChatPrint("The gamemode has been changed! New gamemode: ",pluto.RAIDS.currentGM:GetString() == "raid" and "Raids!" or "TTT!")
             end
             if(pluto.RAIDS.currentGM:GetString() == "ttt") then
-                round.Prepare()
+                if(activePlrs < GetConVar("ttt_minimum_players"):GetInt()) then
+                    for _,plr in ipairs(player.GetAll()) do
+                        plr:ChatPrint("...But nobody came.")
+                        DoRaidEnd(true,false)
+                    end
+                else
+                    round.Prepare()
+                end
             end
         end
     end
