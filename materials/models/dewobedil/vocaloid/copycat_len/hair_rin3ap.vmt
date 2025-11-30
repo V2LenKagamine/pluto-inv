@@ -1,0 +1,16 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models/dewobedil/vocaloid/copycat_len/hair_rin3Ap"
+	"$nocull" 1
+	"$nodecal" 1
+	"$phong" "1"
+	"$phongboost" ".3"
+	"$phongexponent" "15"
+	"$phongalbedotint" "1"
+	"$phongfresnelranges"	"[1 1 1]"
+	$phongtint "[1 .8 .15]"
+	"$lightwarptexture" "models/dewobedil/vocaloid/copycat_len/toon_hair"
+	"$rimlight"               "1"
+	"$rimlightexponent"       "5"
+	"$rimlightboost"          "4"
+}

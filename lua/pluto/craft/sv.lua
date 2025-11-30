@@ -5,32 +5,7 @@ pluto.craft = pluto.craft or {
 	tiers = {}
 }
 
-pluto.craft.max_shares = 3000
 
-function pluto.craft.itemworth(item)
-	if (not item) then
-		return {}
-	end
-
-	if (item.Tier and item.Tier.CraftChance) then
-		return {
-			[item.ClassName] = pluto.craft.max_shares * item.Tier.CraftChance
-		}
-	end
-
-	if (item.Type == "Weapon") then
-		local tier = item.Tier.Shares / pluto.tiers.bytype.Weapon.shares
-		local junk = pluto.tiers.byname.junk.Shares / pluto.tiers.bytype.Weapon.shares
-		return {
-			[item.ClassName] = junk / tier
-		}
-	end
-	return {}
-end
-
-function pluto.craft.totalpercent(total)
-	return math.min(0.95, total / pluto.craft.max_shares)
-end
 
 function pluto.craft.translateworths(worth)
 	local out_text, out_percents = {}, {}
@@ -308,7 +283,7 @@ function pluto.inv.readcraft(cl)
 
 		local chance = pluto.mods.chance(crafted, cur.Amount)
 
-		if (math.random() < chance) then
+		if (math.random() <= chance) then
 			pluto.weapons.addmod(wpn, crafted.Mod)
 
 			wpn.SpecialName = pluto.mods.byname[crafted.Mod].Name .. " %s"

@@ -242,6 +242,79 @@ if SERVER then
     local DiffColor = Color(255,0,0)
     local text_white = Color(255,255,255)
 
+    function pluto.RAIDS.pcall_(fn, ...)
+        local s, e = xpcall(fn, debug.traceback, ...)
+    
+        if (not s) then
+            printf("Error: %s", e)
+        end
+    end
+
+    function pluto.RAIDS.DoRaidEnd(dontanother,win)
+        killcount = 0
+        dontanother = dontanother or false
+        win = win or false 
+        pluto.RAIDS.disableArena = true
+        local stay =  {}
+        pluto.RAIDS.pcall_(hook.Run,"TTTAddPermanentEntities",stay)
+        game.CleanUpMap(false,stay)
+        for _, npc in ents.Iterator() do
+            if not npc.raidsNPC then continue end
+            npc:Remove()
+        end
+        if(table.Count(pluto.RAIDS.raidScores) > 0) then
+            for _,plor in ipairs(player.GetAll()) do
+                plor:ChatPrint(raidColor,"Top 3 Player Scores this raid: ")
+            end
+            local colors = {
+                [1] = Color(233,217,0),
+                [2] = Color(173,173,173),
+                [3] = Color(214,121,0),
+            }
+            local idx = 1
+            for ply,score in SortedPairsByValue(pluto.RAIDS.raidScores,true) do
+                for _,plee in ipairs(player.GetAll()) do
+                    if(not IsValid(ply)) then continue end
+                    plee:ChatPrint(colors[idx],string.format("    %s : %.02f",ply:Nick(),score))
+                end
+                idx = idx + 1
+                if(idx > 3) then break end
+            end
+        end
+        if(win) then
+            for _,plon in ipairs(ttt.GetEligiblePlayers()) do
+                for ind = 2,4 do
+                    pluto.inv.endrounddrops(plon)
+                end
+                for ind = 1,math.random(8,12) do
+                    pluto.currency.spawnfor(plon)
+                end
+                plon:ChatPrint(Color(233,217,0),"You are showered in riches for defeating the raid!")
+            end
+        end
+        if(not dontanother) then
+            for _,ply in ipairs(ttt.GetEligiblePlayers()) do
+                pluto.RAIDS.RaidRespawn(ply)
+                ply:ChatPrint(raidColor,"A new raid will begin shortly...")
+            end
+        end
+    end
+
+    
+    function pluto.RAIDS.RaidRespawn(ply)
+        if(not ply:Alive()) then
+            ply:Spawn()
+        end
+        for i = 1, 6 do
+            local wepid = tonumber(ply:GetInfo("pluto_loadout_slot" .. i, nil))
+            local wep = pluto.itemids[wepid]
+            if (wep and wep.Owner == ply:SteamID64()) then
+                pluto.NextWeaponSpawn = wep
+                ply:Give(wep.ClassName)
+            end
+        end
+    end
+
     function pluto.RAIDS.CheckVotes()
         local activePlrs = #ttt.GetEligiblePlayers()
         local oldMode = pluto.RAIDS.currentGM:GetString()
@@ -281,7 +354,7 @@ if SERVER then
                 if(activePlrs < GetConVar("ttt_minimum_players"):GetInt()) then
                     for _,plr in ipairs(player.GetAll()) do
                         plr:ChatPrint("...But nobody came.")
-                        DoRaidEnd(true,false)
+                        pluto.RAIDS.DoRaidEnd(true,false)
                     end
                 else
                     round.Prepare()
@@ -304,20 +377,6 @@ if SERVER then
         end
     end)
 
-    local function RaidRespawn(ply)
-        if(not ply:Alive()) then
-            ply:Spawn()
-        end
-        for i = 1, 6 do
-            local wepid = tonumber(ply:GetInfo("pluto_loadout_slot" .. i, nil))
-            local wep = pluto.itemids[wepid]
-            if (wep and wep.Owner == ply:SteamID64()) then
-                pluto.NextWeaponSpawn = wep
-                ply:Give(wep.ClassName)
-            end
-        end
-    end
-
     local function initiateAssault(class, raidLevel, escalate)
         if(not pluto.RAIDS.allowDuringRound and ((ttt.GetRoundState() ~= ttt.ROUNDSTATE_WAITING or ttt.GetRoundState() ~= ttt.ROUNDSTATE_PREPARING) and pluto.RAIDS.currentGM:GetString() == "ttt")) then 
             pluto.warn("You cant start a raid during rounds without setting pluto.RAIDS.allowDuringRound to true!")
@@ -337,7 +396,7 @@ if SERVER then
         checkIfMapJustBuiltNodes()
 
         for idx,pla in ipairs(ttt.GetEligiblePlayers()) do
-            RaidRespawn(pla)
+            pluto.RAIDS.RaidRespawn(pla)
             table.insert(pluto.RAIDS.alivePlayers,idx,pla)
         end
         if(not pluto.RAIDS.arenaModeEnemyClass) then
@@ -350,64 +409,6 @@ if SERVER then
         
         for _,plot in ipairs(player.GetAll()) do
             plot:ChatPrint(raidColor,"A raid is begining! Difficulty: ",DiffColor, pluto.RAIDS.raidLevel,raidColor, "; You will be fighting: ",pluto.RAIDS.arenaModeEnemyClass.nameColor or raidColor,pluto.RAIDS.arenaModeEnemyClass.name or "Something!")
-        end
-    end
-
-    local function pcall_(fn, ...)
-        local s, e = xpcall(fn, debug.traceback, ...)
-    
-        if (not s) then
-            printf("Error: %s", e)
-        end
-    end
-
-    local function DoRaidEnd(dontanother,win)
-        killcount = 0
-        dontanother = dontanother or false
-        win = win or false 
-        pluto.RAIDS.disableArena = true
-        local stay =  {}
-        pcall_(hook.Run,"TTTAddPermanentEntities",stay)
-        game.CleanUpMap(false,stay)
-        for _, npc in ents.Iterator() do
-            if not npc.raidsNPC then continue end
-            npc:Remove()
-        end
-        if(table.Count(pluto.RAIDS.raidScores) > 0) then
-            for _,plor in ipairs(player.GetAll()) do
-                plor:ChatPrint(raidColor,"Top 3 Player Scores this raid: ")
-            end
-            local colors = {
-                [1] = Color(233,217,0),
-                [2] = Color(173,173,173),
-                [3] = Color(214,121,0),
-            }
-            local idx = 1
-            for ply,score in SortedPairsByValue(pluto.RAIDS.raidScores,true) do
-                for _,plee in ipairs(player.GetAll()) do
-                    if(not IsValid(ply)) then continue end
-                    plee:ChatPrint(colors[idx],string.format("    %s : %.02f",ply:Nick(),score))
-                end
-                idx = idx + 1
-                if(idx > 3) then break end
-            end
-        end
-        if(win) then
-            for _,plon in ipairs(ttt.GetEligiblePlayers()) do
-                for ind = 2,4 do
-                    pluto.inv.endrounddrops(plon)
-                end
-                for ind = 1,math.random(8,12) do
-                    pluto.currency.spawnfor(plon)
-                end
-                plon:ChatPrint(Color(233,217,0),"You are showered in riches for defeating the raid!")
-            end
-        end
-        if(not dontanother) then
-            for _,ply in ipairs(ttt.GetEligiblePlayers()) do
-                RaidRespawn(ply)
-                ply:ChatPrint(raidColor,"A new raid will begin shortly...")
-            end
         end
     end
 
@@ -486,7 +487,7 @@ if SERVER then
         end
         if(not pluto.RAIDS.arenaModeEnemyClass) then
             pluto.error("RAIDS: No enemy class! Ending raid...")
-            DoRaidEnd()
+            pluto.RAIDS.DoRaidEnd()
             return 
         end
         nextThink = CurTime() + 1
@@ -494,14 +495,14 @@ if SERVER then
             for _,ply in ipairs(player.GetAll()) do
                 ply:ChatPrint(raidColor,"The Gamemode is changing! Force ending raid...")
             end
-            DoRaidEnd(true)
+            pluto.RAIDS.DoRaidEnd(true)
             return
         end
         if(pluto.RAIDS.raidLevel > 10) then
             for _,ply in ipairs(player.GetAll()) do
                 ply:ChatPrint(raidColor,"The raid has been repelled!!!")
             end
-            DoRaidEnd(false,true)
+            pluto.RAIDS.DoRaidEnd(false,true)
         end
         pluto.RAIDS.alivePlayers = {}
         for _,ply in ipairs(ttt.GetEligiblePlayers()) do
@@ -511,7 +512,7 @@ if SERVER then
             for _,ply in ipairs(player.GetAll()) do
                 ply:ChatPrint(Color(255,115,0),"All players have perished! Ending raid...")
             end
-            DoRaidEnd()
+            pluto.RAIDS.DoRaidEnd()
             return 
         end
         curEnemiesOnField = 0
@@ -591,7 +592,7 @@ if SERVER then
         if(pluto.RAIDS.raidScores[ply] >= 125 and #pluto.RAIDS.alivePlayers > 1) then -- They had 150 and wern't last.
             ply:ChatPrint(Color(0,255,0),"You will auto-revive in 5 seconds due to your score!")
             timer.Simple(5,function()
-                RaidRespawn(ply)
+                pluto.RAIDS.RaidRespawn(ply)
                 pluto.RAIDS.raidScores[ply] = math.max((pluto.RAIDS.raidScores[ply] or 0) - 125,0)
                 for _,plr in ipairs(player.GetAll()) do
                     plr:ChatPrint(Color(125,255,0),"RAIDS: " .. ply:Nick() .. " has returned to the fray through sheer will!")
@@ -627,7 +628,7 @@ if SERVER then
     concommand.Add("pluto_raids_stop_assault", function(ply, cmd, args, argStr)
         if not pluto.cancheat(ply) then return end
 
-        DoRaidEnd(true)
+        pluto.RAIDS.DoRaidEnd(true)
 
         pluto.RAIDS.disableArena = true
     end)

@@ -1,0 +1,9 @@
+"UnlitGeneric"
+{
+	"$BaseTexture" "particles/ultrakill/charge2 compressed_trail"
+
+
+	"$Translucent" "1"
+	"$VertexColor" "1"
+	"$VertexAlpha" "1"
+}

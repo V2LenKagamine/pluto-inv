@@ -1,0 +1,7 @@
+"UnlitGeneric"
+{
+	"$Basetexture" "particles/ultrakill/Smoke"
+	"$Translucent" "1"
+	"$VertexColor" "1"
+	"$VertexAlpha" "1"
+}

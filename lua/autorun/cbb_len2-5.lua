@@ -1,3 +1,3 @@
 --Add Playermodel
-player_manager.AddValidModel( "YYB Kagamine Len (v2.5)", "models/captainbigbutt/vocaloid/len.mdl" )
-player_manager.AddValidHands( "YYB Kagamine Len (v2.5)", "models/captainbigbutt/vocaloid/c_arms/len.mdl", 0, "00000000" )
+player_manager.AddValidModel( "Len (Copycat)", "models/player/dewobedil/vocaloid/copycat_len/default_p.mdl" );
+player_manager.AddValidHands( "Len (Copycat)", "models/player/dewobedil/vocaloid/copycat_len/c_arms/default_p.mdl", 0, "00000000" )

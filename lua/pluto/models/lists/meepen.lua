@@ -69,8 +69,8 @@ c "maya" {
 
 c "len_kagamine" {
     Name = "Len Kagamine",
-    Model = "models/captainbigbutt/vocaloid/len.mdl",
-    Hands = "models/captainbigbutt/vocaloid/c_arms/len.mdl",
+    Model = "models/player/dewobedil/vocaloid/copycat_len/default_p.mdl",
+    Hands = "models/player/dewobedil/vocaloid/copycat_len/c_arms/default_p.mdl",
     SubDescription = "Oh god not this guy.",
     Color = Color(255, 217, 102),
 }

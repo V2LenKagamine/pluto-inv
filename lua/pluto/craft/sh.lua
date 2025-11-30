@@ -2,6 +2,32 @@
      * License, v. 2.0. If a copy of the MPL was not distributed with this
      * file, You can obtain one at https://mozilla.org/MPL/2.0/. ]]
 pluto.craft = pluto.craft or {}
+pluto.craft.max_shares = 3000
+
+function pluto.craft.itemworth(item)
+	if (not item) then
+		return {}
+	end
+
+	if (item.Tier and item.Tier.CraftChance) then
+		return {
+			[item.ClassName] = pluto.craft.max_shares * item.Tier.CraftChance
+		}
+	end
+
+	if (item.Type == "Weapon") then
+		local tier = item.Tier.Shares / pluto.tiers.bytype.Weapon.shares
+		local junk = pluto.tiers.byname.junk.Shares / pluto.tiers.bytype.Weapon.shares
+		return {
+			[item.ClassName] = junk / tier
+		}
+	end
+	return {}
+end
+
+function pluto.craft.totalpercent(total)
+	return math.min(0.95, total / pluto.craft.max_shares)
+end
 
 function pluto.craft.valid(items)
 	local i1, i2, i3 = items[1], items[2], items[3]

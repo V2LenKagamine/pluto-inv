@@ -1,0 +1,7 @@
+"SpriteCard"
+{
+		"$BaseTexture" "particles/ultrakill/GabrielCombinedTrail"
+		"$Translucent" "1"
+		"$Model" "1"
+		"$OverBrightFactor" "2"
+}

@@ -1,0 +1,7 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models/dewobedil/vocaloid/copycat_len/toon"
+	"$translucent" "1"
+	"$nodecal" "1"
+	"$lightwarptexture" "models/dewobedil/vocaloid/copycat_len/toon_head"
+}

@@ -1,0 +1,8 @@
+"UnlitGeneric"
+{
+		"$BaseTexture" "particles/ultrakill/muzzleflash"
+		"$Translucent" "1"
+		"$NoCull" "1"
+		"$VertexColor" "1"
+		"$VertexAlpha" "1"
+}

@@ -1,0 +1,10 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models/dewobedil/vocaloid/copycat_len/t016"
+	"$nodecal" 1
+	"$phong" "1"
+	"$lightwarptexture" "models/dewobedil/vocaloid/copycat_len/toon_all"
+	"$rimlight"               "1"
+	"$rimlightexponent"       "5"
+	"$rimlightboost"          "2"
+}

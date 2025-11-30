@@ -1,0 +1,8 @@
+"UnlitGeneric"
+{
+	"$BaseTexture" "particles/ULTRAKILL/Glows/glow 1 red"
+	"$Model" "1"
+	"$Translucent" "1"
+	"$VertexColor" "1"
+	"$VertexAlpha" "1"
+} 
