@@ -10,20 +10,10 @@ function STAT:AddStatus(target, atk, stacks, time)
     status.Data = {
         Dealer = atk,
         Stax = stacks,
-        Hook_Immune = {
-            "PlutoTryAddStatus",
-            pluto.statushooks.HookImmune,
-        },
         DontExpire = true,
+        IsImmunity = true,
     }
     status:Spawn()
 end
-
-function pluto.statushooks.HookImmune(ent,target)
-    if(target == ent:GetParent()) then
-        if(ent.IsNegative and not ent.NoCleanse) then return false end
-    end
-end
-
 
 return STAT

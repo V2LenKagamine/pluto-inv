@@ -16,9 +16,16 @@ function ENT:Initialize()
         self:Remove()
         return false
     end
-    self.IsNegative = baseStat.IsNegative
-    self.NoCleanse = baseStat.NoCleanse
-    if(hook.Run("PlutoTryAddStatus",self,self:GetParent())) then
+    self.IsNegative = baseStat.IsNegative or true 
+    self.NoCleanse = baseStat.NoCleanse or false 
+    local immune = false 
+    for _,status in pairs(self:GetParent():GetChildren()) do
+        if(status.Data and status.Data.IsImmunity) then
+            immune = true 
+            break
+        end
+    end
+    if(immune) then
         self:Remove()
         return false
     end
