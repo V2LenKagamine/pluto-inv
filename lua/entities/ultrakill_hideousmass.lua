@@ -26,7 +26,7 @@ ENT.SurroundingBounds = Vector( 320, 320, 345 )
 
 -- Stats --
 
-ENT.SpawnHealth = 17500
+ENT.SpawnHealth = 1750
 
 -- Weight --
 

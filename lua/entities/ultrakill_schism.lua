@@ -27,7 +27,7 @@ ENT.RagdollOnDeath = true
 
 -- Stats --
 
-ENT.SpawnHealth = 500
+ENT.SpawnHealth = 100
 
 -- Sounds -- 
 

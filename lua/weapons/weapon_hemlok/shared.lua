@@ -25,7 +25,7 @@ SWEP.Secondary.Sound = Sound("Default.Zoom")
 SWEP.HasScope = true
 
 SWEP.AutoSpawnable = false 
-SWEP.PlutoSpawnable = true 
+SWEP.PlutoSpawnable = false 
 
 SWEP.Sounds = {
     reload = {

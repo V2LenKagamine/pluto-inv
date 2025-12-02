@@ -17,7 +17,7 @@ ENT.ModelScale = 1
 
 -- Stats --
 
-ENT.SpawnHealth = 2200
+ENT.SpawnHealth = 250
 
 if SERVER then
 

@@ -32,7 +32,7 @@ local list = {
 		Name = "Jade Droplet",
 		Icon = "pluto/currencies/green_droplet.png",
 		Description = "Rerolls prefix modifiers on an item",
-		SubDescription = "Some kind of caustic crystal.",
+		SubDescription = "Some kind of crystal made of a strange jade.",
 		Color = Color(11, 84, 51),
 		StardustRatio = 75,
 

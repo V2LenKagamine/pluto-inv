@@ -35,7 +35,7 @@ ENT.RagdollReplacement = "models/ultrakill/characters/enemies/lesser/streetclean
 
 -- Stats --
 
-ENT.SpawnHealth = 150
+ENT.SpawnHealth = 75
 
 -- Sounds --
 

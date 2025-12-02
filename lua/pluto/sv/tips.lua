@@ -11,7 +11,9 @@ local plutoTips = {
     "Bored and no one on? Try doing '!votegm raids' and prepare yourself!",
     "Something not look right in your inventory? Try 'pluto_fullupdate' in console; and no, spamming it won't work.",
     "Deagles are wildly inaccurate when fired in quick succession, space your shots.",
-    "First time joiner? You may need to restart your game for some files!"
+    "First time joiner? You may need to restart your game for some files!",
+    "Raids give rewards based on damage and kills, not survival time. Hunt them down!",
+    "The lower a number on a mod, the better, hunt those T1's!"
 }
 local text_white = Color(255,255,255)
 local pluto_color = Color(155,155,155)

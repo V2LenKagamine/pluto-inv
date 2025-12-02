@@ -283,7 +283,7 @@ if SERVER then
         end
         if(win) then
             for _,plon in ipairs(ttt.GetEligiblePlayers()) do
-                for ind = 2,4 do
+                for ind = 1,5 do
                     pluto.inv.endrounddrops(plon)
                 end
                 for ind = 1,math.random(8,12) do
@@ -563,14 +563,14 @@ if SERVER then
             end
             killcount = 0
         end
-        if(math.random() < math.min(0.16,points/250)) then
+        if(math.random() < math.min(0.3,points/150)) then
             atk:ChatPrint(Color(145,255,0),"You feel something resonate...")
             pluto.currency.spawnfor(atk)
         end
-        if(math.random() < math.min(0.1,points/400)) then
+        if(math.random() < math.min(0.15,points/250)) then
             pluto.inv.endrounddrops(atk)
         end
-        if(math.random() <= (0.3/multi)) then
+        if(math.random() <= (0.4/multi)) then
             atk:ChatPrint(Color(0,255,0),"You feel your wounds begin to stitch shut...")
             pluto.statuses.byname["heal_flat"]:AddStatus(atk,_,20,10)
         end

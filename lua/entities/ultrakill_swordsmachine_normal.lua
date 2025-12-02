@@ -17,7 +17,7 @@ ENT.Skins = {0}
 
 -- Stats --
 
-ENT.SpawnHealth = 3000
+ENT.SpawnHealth = 300
 
 
 if SERVER then

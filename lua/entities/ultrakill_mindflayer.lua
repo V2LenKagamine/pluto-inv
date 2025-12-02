@@ -28,7 +28,7 @@ ENT.SurroundingBounds = Vector( 100, 100, 185 ) * 1.425
 
 -- Stats --
 
-ENT.SpawnHealth = 3000
+ENT.SpawnHealth = 300
 ENT.UltrakillBase_Phase = 1
 ENT.UltrakillBase_PhaseMax = 2
 

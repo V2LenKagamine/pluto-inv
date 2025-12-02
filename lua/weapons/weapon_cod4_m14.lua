@@ -18,7 +18,7 @@ SWEP.Primary.Automatic = false
 SWEP.Primary.Ammo          = "357"
 SWEP.Primary.Damage = 20
 SWEP.Primary.Delay = 1 / 6
-SWEP.HeadshotMultiplier = 40 / SWEP.Primary.Damage
+SWEP.HeadshotMultiplier = 2.5
 
 SWEP.Primary.RecoilTiming = 0.1
 

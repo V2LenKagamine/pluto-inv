@@ -15,7 +15,7 @@ ENT.Models = { "models/ultrakill/characters/enemies/boss/maliciousface.mdl" }
 
 -- Stats --
 
-ENT.SpawnHealth = 15000
+ENT.SpawnHealth = 150
 
 if SERVER then
 

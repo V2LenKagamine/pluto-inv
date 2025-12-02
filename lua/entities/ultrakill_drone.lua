@@ -21,7 +21,7 @@ ENT.SurroundingBounds = Vector( 100, 100, 185 )
 
 -- Stats --
 
-ENT.SpawnHealth = 200
+ENT.SpawnHealth = 125
 
 -- Sounds --
 

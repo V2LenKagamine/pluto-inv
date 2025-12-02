@@ -44,4 +44,12 @@ SWEP.Offset = { --Procedural world model animation, defaulted for CS:S purposes.
 		Scale = 1.0
 }
 
+SWEP.Sounds = {
+    reload = {
+        {time = 0.25,sound = "weapons/hemlok/wpn_hemlok_reload_removemag_fr15_2ch_v1_01.ogg"},
+        {time = 1.30,sound = "weapons/hemlok/wpn_hemlok_reload_insertmag_fr36_2ch_v1_01.ogg"},
+        {time = 2.55,sound = "weapons/hemlok/wpn_hemlok_reload_empty_chargeforward_fr76_2ch_v1_01.ogg"},
+    },
+}
+
 SWEP.Ortho = {5, 4, angle = Angle(0, -85, 0), size = 0.7}
