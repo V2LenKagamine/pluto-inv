@@ -44,6 +44,7 @@ function SWEP:Initialize()
 	self.ClickCount = 0
 	self.Idle = 0
 	self.IdleTimer = CurTime() + 1
+    BaseClass.Initialize(self)
 end
 
 -- Seems to be a fix for the weapon's staying static after playing the deploy animation.

@@ -1,5 +1,5 @@
 SWEP.Base = "weapon_tttbase"
-
+DEFINE_BASECLASS "weapon_tttbase"
 SWEP.Spawnable	= false
 SWEP.AdminOnly	= false
 SWEP.HoldType = "duel"
@@ -105,7 +105,7 @@ function SWEP:Initialize()
 	self:SetHoldType ( "duel" )
 
 	// other initialize code goes here
-
+    BaseClass.Initialize(self)
 	if CLIENT then
 	
 		// Create a new table for every weapon instance
