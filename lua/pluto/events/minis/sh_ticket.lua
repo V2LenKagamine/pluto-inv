@@ -29,9 +29,9 @@ if (SERVER) then
         hook.Add("PlutoTicketPickup", "pluto_mini_" .. name, function(ply)
             hook.Remove("PlutoTicketPickup", "pluto_mini_" .. name)
 
-            local name = pluto.rounds.chooserandom("Random", true)
+            local name = pluto.rounds.chooserandom("Mini", true)
 
-            pluto.rounds.Notify(string.format("%s has found the ticket and queued a random event!", ply:Nick()), pluto.currency.byname.ticket.Color)
+            pluto.rounds.Notify(string.format("%s has found the ticket and queued a random mini event!", ply:Nick()), pluto.currency.byname.ticket.Color)
 
             local success, e = pluto.rounds.prepare(name)
 

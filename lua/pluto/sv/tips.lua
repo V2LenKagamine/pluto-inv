@@ -13,7 +13,8 @@ local plutoTips = {
     "Deagles are wildly inaccurate when fired in quick succession, space your shots.",
     "First time joiner? You may need to restart your game for some files!",
     "Raids give rewards based on damage and kills, not survival time. Hunt them down!",
-    "The lower a number on a mod, the better, hunt those T1's!"
+    "The lower a number on a mod, the better, hunt those T1's!",
+    "Some things roll 'Rarity Descending'; meaning you roll the for the 'rarest' items first,but will always at least drop at least one of the most 'common' items."
 }
 local text_white = Color(255,255,255)
 local pluto_color = Color(155,155,155)

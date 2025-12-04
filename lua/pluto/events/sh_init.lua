@@ -69,7 +69,6 @@ pluto.rounds.infobyname = {
 		MinPlayers = 6,
 		Shares = 1,
         NoRandom = true,
-		NoBuy = true,
 	},
 	hitlist = {
 		PrintName = "Hit List",

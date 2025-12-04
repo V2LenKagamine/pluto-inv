@@ -3,7 +3,7 @@
      * file, You can obtain one at https://mozilla.org/MPL/2.0/. ]]
 local pluto_weapon_droprate = CreateConVar("pluto_weapon_droprate", "0.5", nil, nil, 0, 1)
 local pluto_equip_droprate = CreateConVar("pluto_equipcrate_droprate", "0.01", nil, nil, 0, 1)
-local pluto_toys_droprate = CreateConVar("pluto_toycrate_droprate","0.00",nil, nil, 0, 1) -- TODO: 0.0025 when toy in loadout bug fixed
+local pluto_toys_droprate = CreateConVar("pluto_toycrate_droprate","0.0025",nil, nil, 0, 1)
 
 pluto.afk = pluto.afk or {}
 
