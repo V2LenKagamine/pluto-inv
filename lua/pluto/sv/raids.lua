@@ -302,6 +302,7 @@ if SERVER then
 
     
     function pluto.RAIDS.RaidRespawn(ply)
+        --TODO: check if player is spectating someone, then make them un-spectate
         if(not ply:Alive()) then
             ply:Spawn()
         end
@@ -560,14 +561,19 @@ if SERVER then
             pluto.RAIDS.raidLevel = pluto.RAIDS.raidLevel + 1
             for _,plee in ipairs(player.GetAll()) do
                 plee:ChatPrint(Color(255,230,0),"RAID ANTE-UP! Difficulty now: ",DiffColor, pluto.RAIDS.raidLevel)
+                if(pluto.RAIDS.raidLevel == 4 or pluto.RAIDS.raidLevel == 7 or pluto.RAIDS.raidLevel == 9) then
+                    plee:ChatPrint(Color(90,201,0),"You have been awarded endround drop chances for your efforts...")
+                    pluto.inv.endrounddrops(plee)
+                end
             end
             killcount = 0
         end
-        if(math.random() < math.min(0.3,points/150)) then
+        if(math.random() < math.min(0.3,points/85)) then
             atk:ChatPrint(Color(145,255,0),"You feel something resonate...")
             pluto.currency.spawnfor(atk)
         end
-        if(math.random() < math.min(0.15,points/250)) then
+        if(math.random() < math.min(0.15,points/150)) then
+            atk:ChatPrint(Color(90,201,0),"You rummage around, hoping to find some supplies...")
             pluto.inv.endrounddrops(atk)
         end
         if(math.random() <= (0.4/multi)) then

@@ -17,11 +17,11 @@ SWEP.Primary.Automatic = false
 SWEP.Primary.ClipSize = 30	
 SWEP.Primary.ClipMax = 90
 SWEP.Primary.DefaultClip = 60
-SWEP.Primary.Sound       = Sound("weapons/hemlok/fire_1.ogg")
+SWEP.Primary.Sound       = "weapons/hemlok/fire_1.ogg"
 
 SWEP.BurstAmount = 3
 
-SWEP.Secondary.Sound = Sound("Default.Zoom")
+SWEP.Secondary.Sound = "Default.Zoom"
 SWEP.HasScope = true
 
 SWEP.AutoSpawnable = false 

@@ -232,8 +232,8 @@ end
     -- AutoRun --
 
 
-DrGBase.IncludeFolder( "ultrakillbase/Modules" )
-DrGBase.IncludeFolder( "ultrakillbase/Includes/CustomCode/UltrakillBase" )
+DrGBase.IncludeFolder( "ultrakillbase/modules" )
+DrGBase.IncludeFolder( "ultrakillbase/includes/customcode/ultrakillbase" )
 
 
     -- ConVars --
