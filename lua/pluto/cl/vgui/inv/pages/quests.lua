@@ -137,11 +137,43 @@ function PANEL:Init()
 			self.Image:SetVisible(true)
 			self.Image:SetImage "icon16/heart.png"
 		else
-			self.Image:SetVisible(false)
+			self.Image:SetVisible(true)
+            self.Image:SetImage("icon16/heart_add.png")
+            self.Image:SetAlpha(50)
 		end
 	end
 
 	self.FavoriteButton:UpdateImage()
+
+    self.RerollButton = self.TopLine:Add("ttt_curved_panel_outline")
+    self.RerollButton:SetCurve(2)
+    self.RerollButton:SetColor(pluto.ui.theme "InnerColorSeperator")
+    self.RerollButton:Dock(RIGHT)
+    self.RerollButton:DockMargin(0,0,5,0)
+	self.RerollButton:SetWide(self.TopLine:GetTall())
+	self.RerollButton:SetCursor "hand"
+
+    self.RerollButton.Image = self.RerollButton:Add "DImage"
+	self.RerollButton.Image:Dock(FILL)
+	self.RerollButton.Image:DockMargin(1, 1, 1, 1)
+    self.RerollButton.Image:SetImage("pluto/currencies/dice.png")
+
+    function self.RerollButton:OnMousePressed(m)
+        local confirm = pluto.divine.confirm("Re-roll Quest with Dice",function()
+            local pnl = self:GetParent():GetParent():GetParent() --Cursed.
+            pluto.inv.message()
+                :write("rerollquest", pnl.Quest)
+                :send()
+            end)
+        local txt = confirm:Add "DLabel"
+		txt:Dock(TOP)
+		txt:SetText "Do you want to re-roll this quest for 25 Dice?"
+		txt:SetFont "pluto_trade_buttons"
+		txt:SetContentAlignment(5)
+		txt:SetTextColor(Color(255, 20, 25))
+		txt:SizeToContentsY()
+        return 
+    end
 
 	self.Description = self.Inner:Add "pluto_text_inner"
 	self.Description:Dock(TOP)
@@ -212,6 +244,11 @@ function PANEL:Init()
 	self.BottomLine:SetTall(self.RewardText:GetTall())
 
 	hook.Add("PlutoQuestUpdated", self, self.PlutoQuestUpdated)
+end
+
+function pluto.inv.writererollquest(quest)
+    net.WriteUInt(quest.ID,32)
+    net.WriteString(LocalPlayer():SteamID64())
 end
 
 function PANEL:PlutoQuestUpdated(quest)

@@ -56,6 +56,9 @@ pluto.inv.messages = {
 		"gettrades",
 		"gettradesnapshot",
 
+        --quests
+        "rerollquest",
+
 		-- playercards
 		"playercardreq",
 

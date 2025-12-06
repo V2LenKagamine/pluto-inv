@@ -42,6 +42,35 @@ function pluto.inv.writequests(ply)
 	net.WriteBool(false)
 end
 
+function pluto.inv.readrerollquest()
+    local qid = tonumber(net.ReadUInt(32))
+    local pid = net.ReadString()
+    local ply = player.GetBySteamID64(pid)
+    if(ply) then
+        pluto.db.transact(function (db)
+            if(not pluto.inv.addcurrency(db,pid,"dice",-25)) then
+                mysql_rollback(db)
+                ply:ChatPrint("You need 25 dice to re-roll a quest...")
+                return
+            end
+            mysql_stmt_run(db, "SELECT idx from pluto_quests_new WHERE owner = ? FOR UPDATE", pid)
+	        mysql_stmt_run(db, "DELETE FROM pluto_quests_new WHERE owner = ? AND idx = ?", pid,qid)
+            local quests = pluto.quests.players(ply)
+            for idx,quest in ipairs(quests) do 
+                if(quest.RowID == qid) then
+                    table.remove(pluto.quests.players(ply),idx)
+                end 
+            end
+            pluto.quests.repopulatequests(db,ply)
+            mysql_commit(db)
+        end)
+    end
+    pluto.inv.message(ply)
+		:write "quests"
+		:send()
+end
+
+
 
 -- DEV SERVER RELOAD
 -- also geralt gay
