@@ -57,6 +57,7 @@ function ENT:Initialize()
             end
         end
     end)
+    hook.Run("pluto_status_added",baseStat,self)
     self.Next = CurTime() + (self.Data.ThinkDelay or 1)
 end
 

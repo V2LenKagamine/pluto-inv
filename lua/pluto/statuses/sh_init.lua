@@ -39,3 +39,5 @@ if(SERVER) then
     ply:ChatPrint("Force-Reloaded Status Effects! Clients cant see the changes!")
     end)
 end
+AddCSLuaFile("pluto/statuses/cl_hud.lua")
+include("pluto/statuses/cl_hud.lua")

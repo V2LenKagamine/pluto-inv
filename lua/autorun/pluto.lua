@@ -61,6 +61,7 @@ pluto.files.load {
 		"cl/vgui/pluto/image.lua",
 		"cl/vgui/pluto/toggle.lua",
 		"cl/vgui/pluto/dropdown.lua",
+        "cl/vgui/pluto/effect_hud.lua",
 
 		"cl/vgui/inv/theme.lua",
 
