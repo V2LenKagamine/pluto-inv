@@ -10,7 +10,7 @@ QUEST.RewardPool = "hourly"
 function QUEST:Init(data)
     data:Hook("OnNPCKilled",function (data,npc,atk,inf)
         if(not npc.raidsNPC or not atk:IsPlayer()) then return end
-        if(pluto.RAIDS.raidScores[atk] < 150) then return end
+        if(pluto.RAIDS.raidScores[atk] or 0 < 150) then return end
         data:UpdateProgress(1)
     end)
 end

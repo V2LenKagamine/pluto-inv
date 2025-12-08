@@ -292,6 +292,12 @@ if SERVER then
                 plon:ChatPrint(Color(233,217,0),"You are showered in riches for defeating the raid!")
             end
         end
+        if(pluto.RAIDS.raidLevel >= 5) then
+            ttt.SetRoundNumber(ttt.GetRoundNumber() + 1)
+            if(hook.Run("TTTShouldChangeMap")) then
+                dontanother = true
+            end
+        end
         if(not dontanother) then
             for _,ply in ipairs(ttt.GetEligiblePlayers()) do
                 pluto.RAIDS.RaidRespawn(ply)
@@ -586,7 +592,10 @@ if SERVER then
                 local orig = baseclass.Get(wep:GetClass())
                 atk:GiveAmmo(math.floor(orig.Primary.ClipSize),orig.Primary.Ammo,true)
             end
-        end --TODO: Clean NPC body after a time
+        end
+        timer.Simple(5,function()
+            if (IsValid(npc)) then npc:Remove() end
+        end)
     end)
 
     hook.Add("DoPlayerDeath", "pluto_raids_death",function(ply,atk,dmg)

@@ -171,7 +171,7 @@ concommand.Add("pluto_spawn_weapon", function(ply, cmd, args)
 		local item = pluto.inv.generatebufferweapon(db, ply, "SPAWNED", unpack(args))
 		mysql_commit(db)
 	end)
-end)
+end,nil,"Spawns a weapon for you or the steam ID of argument 1. [id],[tier],[weapon]")
 
 concommand.Add("pluto_item_dupe", function(ply, cmd, args)
 	if (not pluto.cancheat(ply)) then
