@@ -27,11 +27,27 @@ function STAT:DoThink(status)
 
     heal = (heal * maxHP) * (1 / maxHP)
 
-	if (p:Health() >= maxHP or hook.Run("PlutoHealthGain", p, heal)) then
-		return
-	end
-    
-	p:SetHealth(math.min(maxHP, p:Health() + heal))
+    heal = heal + (status.Data.LeftOver and status.Data.LeftOver or 0)
+    status.Data.LeftOver = heal % 1
+    heal = heal - status.Data.LeftOver
+
+    if(heal >= 1) then
+	    if (p:Health() >= maxHP or hook.Run("PlutoHealthGain", p, heal)) then
+		    return
+	    end
+	    p:SetHealth(math.min(maxHP, p:Health() + heal))
+    end
+end
+
+function STAT:OnExpire(status)
+    if(status.Data.LeftOver) then
+        local p = status:GetParent()
+        heal = math.ceil(status.Data.LeftOver)
+        if (p:Health() >= p:GetMaxHealth() or hook.Run("PlutoHealthGain", p, heal)) then
+		    return
+	    end
+        p:SetHealth(math.min(p:GetMaxHealth(), p:Health() + heal))
+    end
 end
 
 return STAT

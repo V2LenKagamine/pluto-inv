@@ -131,19 +131,20 @@ function SWEP:SendData(ply)
 		prefix   = {},
 		suffix   = {},
 	}
-
-	for _, plr in pairs(ply and {ply} or player.GetAll()) do
-		net.Start("pluto_wpn_db")
-		net.WriteInt(self:GetPlutoID(), 32)
-		if (gun.RowID) then
-			net.WriteBool(true)
-			pluto.inv.writeitem(plr, gun)
-		else
-			net.WriteBool(false)
-			pluto.inv.writebaseitem(plr, gun)
-		end
-		net.Send(plr)
-	end
+    if(net.Send ~= nil) then --TODO: How the fuck does this even happen
+	    for _, plr in pairs(ply and {ply} or player.GetAll()) do
+		    net.Start("pluto_wpn_db")
+		    net.WriteInt(self:GetPlutoID(), 32)
+		    if (gun.RowID) then
+			    net.WriteBool(true)
+			    pluto.inv.writeitem(plr, gun)
+		    else
+			    net.WriteBool(false)
+			    pluto.inv.writebaseitem(plr, gun)
+		    end
+		    net.Send(plr)
+	    end
+    end
 end
 
 function SWEP:SetInventoryItem(gun)

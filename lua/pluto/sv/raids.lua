@@ -38,7 +38,6 @@ if SERVER then
                 ["bwaaf_grenadier"] = 12,
                 ["bwaaf_machinegunner"] = 12,
                 ["bwaaf_medic"] = 12,
-                ["bwaaf_shield"] = 2,
                 ["bwaaf_sniper"] = 12,
                 ["bwaaf_soldier"] = 12,
                 ["bwaaf_stealth"] = 12,

@@ -96,14 +96,12 @@ pluto.files.load {
 		"materials/pluto/currencies/plutonicvial.png",
 	},
 	Workshop = {
-		"3463799131", --Content 1
+		"3463801989", --Content 1
 		"3463800529", --Content 2
-		"3463801989", --Content 3
+		"3463799131", --Content 3
+        "3615042980", --Content 4
 
-		"1516699044", -- slvbase 2
-		"1516711672", -- skyrim snpcs
-
-		-- TODO(meep): remove later
+		-- TODO check if still need remover
 		"122274673", -- nes zapper
 		"329057380", -- raygun
 		"923947785", -- raygun 2
