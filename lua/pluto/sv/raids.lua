@@ -293,8 +293,10 @@ if SERVER then
         end
         if(pluto.RAIDS.raidLevel >= 5) then
             ttt.SetRoundNumber(ttt.GetRoundNumber() + 1)
-            if(hook.Run("TTTShouldChangeMap")) then
+            --TODO: Unhack this.
+            if(ttt.GetRoundNumber() >= 10) then
                 dontanother = true
+                hook.Run("ChangeMap", "Round Limit Reached.")
             end
         end
         if(not dontanother) then
@@ -476,7 +478,7 @@ if SERVER then
     end
 
     function pluto.RAIDS.RaidThink()
-        if(pluto_noraids:GetBool() or pluto.RAIDS.currentGM:GetString() ~= "raid") then return end
+        if(pluto_noraids:GetBool()) then return end
         if nextThink > CurTime() then return end
         if pluto.RAIDS.disableArena then 
             if (pluto.RAIDS.currentGM:GetString() == "raid" and #ttt.GetEligiblePlayers() > 0) then
@@ -573,11 +575,11 @@ if SERVER then
             end
             killcount = 0
         end
-        if(math.random() < math.min(0.3,points/85)) then
+        if(math.random() < math.min(0.3,points/70)) then
             atk:ChatPrint(Color(145,255,0),"You feel something resonate...")
             pluto.currency.spawnfor(atk)
         end
-        if(math.random() < math.min(0.15,points/150)) then
+        if(math.random() < math.min(0.15,points/120)) then
             atk:ChatPrint(Color(90,201,0),"You rummage around, hoping to find some supplies...")
             pluto.inv.endrounddrops(atk)
         end
