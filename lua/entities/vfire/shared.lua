@@ -206,7 +206,7 @@ if SERVER or CLIENT then
 		-- The previous closest fire is invalid, find a new one
 		local minDist = math.huge
 		local cluster = self.cluster
-		for k, fire2 in pairs(cluster.fires) do
+		for k, fire2 in next, cluster.fires do
 			
 			-- Return nil if there is no closest fire
 			if self == fire2 then continue end
@@ -250,7 +250,7 @@ if SERVER or CLIENT then
 		-- The previous closest fire is invalid, find a new one
 		local minDist = math.huge
 		local cluster = self.cluster
-		for k, fire2 in pairs(cluster.fires) do
+		for k, fire2 in next, cluster.fires do
 			
 			-- Return nil if there is no closest fire
 			if self == fire2 then continue end
@@ -284,7 +284,7 @@ if SERVER or CLIENT then
 		-- The previous closest fire is invalid, find a new one
 		local minDist = math.huge
 		local cluster = self.cluster
-		for k, fire2 in pairs(cluster.fires) do
+		for k, fire2 in next, cluster.fires do
 			
 			-- Return nil if there is no closest fire
 			if self == fire2 then continue end
@@ -379,8 +379,10 @@ if SERVER then
 		local foundCluster
 		local minDist = math.huge
 
-		local closeEnts = ents.FindInSphere(self:GetPos(), vFireClusterSize)
-		for k, cluster in pairs(closeEnts) do
+		-- OPTIMIZED: Cache self:GetPos() to avoid multiple C++ calls
+		local selfPos = self:GetPos()
+		local closeEnts = ents.FindInSphere(selfPos, vFireClusterSize)
+		for k, cluster in next, closeEnts do
 			-- We only care about fire clusters
 			if cluster:GetClass() != "vfire_cluster" then continue end
 			-- We have to be on the same parent
@@ -389,7 +391,7 @@ if SERVER then
 			if cluster.matType != self.matType then continue end
 
 			-- Find the closest cluster
-			local dist = self:GetPos():DistToSqr(cluster:GetPos())
+			local dist = selfPos:DistToSqr(cluster:GetPos())
 			if dist < minDist then
 				minDist = dist
 				foundCluster = cluster
@@ -784,15 +786,16 @@ if SERVER then
 		local damageEnabled = vFireEnableDamage and vFireDamageMultiplier > 0
 
 		-- Who is the owner of the fire? This will likely be the doer of the damage
-		local Dmgowner = self:GetOwner()
-		if !IsValid(Dmgowner) then Dmgowner = nil end
+		local owner = self:GetOwner()
+		if !IsValid(owner) then owner = nil end
 
 		-- How much damage are we doing this burn cycle?
-		local amount = self.life * 0.04 * vFireDamageMultiplier
+		local amount = self.life * math.Rand(0.01, 0.08) * vFireDamageMultiplier
 		
 
+
 		-- Loop through whatever we're burning
-		for k, ent in pairs(self.burning) do
+		for k, ent in next, self.burning do
 			
 			if IsValid(ent) then
 
@@ -815,7 +818,7 @@ if SERVER then
 						dmg:SetDamageType(ent.vFireDamageData.dmgType)
 
 						-- Who's in charge of doing the burning?
-						local doer = Dmgowner or ent
+						local doer = owner or ent
 						dmg:SetAttacker(doer)
 
 						if ent.vFireDamageData.inflict then
@@ -833,7 +836,7 @@ if SERVER then
 					if ent:IsPlayer() and math.random(1, 4) == 1 or !ent:IsPlayer() then
 						local newFeed = self.feed + vFireTakeFuel(ent, 12)
 						if newFeed > 0 then
-							CreateVFire(ent, ent:GetPos(), Vector(), newFeed, self:GetOwner())
+							CreateVFire(ent, ent:GetPos(), Vector(), newFeed, self)
 						end
 					end
 				end
@@ -846,6 +849,8 @@ if SERVER then
 			end
 		end
 
+
+
 		-- Damage the parent as well (it's not in our burning table)
 		local parent = self.parent
 
@@ -854,25 +859,25 @@ if SERVER then
 			local dmg = DamageInfo()
 
 				-- Decide what this entity's best damage case should be... and cache it
-				if self.vFireDamageData == nil then
-					vFireSetDamageData(self)
+				if parent.vFireDamageData == nil then
+					vFireSetDamageData(parent)
 				end
 
-				if !self.vFireDamageData then return end
+				if !parent.vFireDamageData then return end
 
-				dmg:SetDamage(amount * self.vFireDamageData.dmgMul)
-				dmg:SetDamageType(self.vFireDamageData.dmgType)
+				dmg:SetDamage(amount * parent.vFireDamageData.dmgMul)
+				dmg:SetDamageType(parent.vFireDamageData.dmgType)
 
 				-- A workaround to find the doer of the damage
 				local doer
 				if parent:Health() - dmg:GetDamage() <= 0 then -- We're about to die, register the actual owner for the kill to register...
-					doer = Dmgowner or parent
+					doer = owner or parent
 				else -- Set the attacker to itself, this makes NPCs have better reaction sounds... :/
 					doer = parent
 				end
 				dmg:SetAttacker(doer)
 
-				if self.vFireDamageData.inflict then
+				if parent.vFireDamageData.inflict then
 					dmg:SetInflictor(doer) -- Not passing an inflictor can cause crashes on entities that want one
 				end
 
@@ -933,7 +938,7 @@ if SERVER then
 						if vFireIsVFireEnt(ent) then return end
 						local newFeed = self.feed + vFireTakeFuel(ent, 12)
 						if newFeed > 0 then
-							CreateVFire(ent, tr.HitPos, tr.HitNormal, newFeed, self:GetOwner())
+							CreateVFire(ent, tr.HitPos, tr.HitNormal, newFeed, self)
 						end
 					end
 
@@ -960,7 +965,7 @@ if SERVER then
 						local newFire
 						local newFeed = self.feed + vFireTakeFuel(ent, 12)
 						if newFeed > 0 then
-							newFire = CreateVFire(ent, tr.HitPos, tr.HitNormal, newFeed, self:GetOwner())
+							newFire = CreateVFire(ent, tr.HitPos, tr.HitNormal, newFeed, self)
 						end
 						
 						if IsValid(newFire) then
@@ -1032,7 +1037,8 @@ if CLIENT then
 				self,
 				"vFire_Flames_"..size..LODStr,
 				0,
-				0
+				0,
+				Vector()
 			)
 
 		else
@@ -1069,7 +1075,8 @@ if CLIENT then
 						self,
 						"vFire_Flames_"..size..LODStr,
 						0,
-						0
+						0,
+						Vector()
 					)
 				end
 
@@ -1117,7 +1124,7 @@ if CLIENT then
 				vFirePullParticlesToPos(self.flames, pos)
 
 			else -- Reset the flame direction
-				vFirePullParticlesToPos(self.flames, Vector())
+				vFirePullParticlesToPos(self.flames, vector_origin)
 			end
 		end
 	end
@@ -1161,10 +1168,12 @@ if CLIENT then
 
 		-- We don't want to draw stuff for tiny fires, but we also want a gradual draw fade out
 		-- Lerp the animation factor to 0 for tiny fires, proceed as normal for other fires
+		-- OPTIMIZED: Cache FrameTime call
+		local ft = FrameTime()
 		if state == 1 then
-			self.a = Lerp(FrameTime() * 2, self.a, 0)
+			self.a = Lerp(ft * 2, self.a, 0)
 		else
-			self.a = Lerp(FrameTime() * 2, self.a, math.Rand(0, state) * 5)
+			self.a = Lerp(ft * 2, self.a, math.Rand(0, state) * 5)
 		end
 
 		local a = self.a
@@ -1181,12 +1190,13 @@ if CLIENT then
 			local vis = util.PixelVisible(pos, 1, self.pVis)
 			if vis > 0 then -- Only draw the sprite if it'll be visible
 				local glowSize = vis * aSqrd * 6
-				-- Load information onto our glow calls table
-				table.insert(glowCalls, {
+				-- OPTIMIZED: Direct indexing instead of table.insert (avoids function call overhead)
+				local n = #glowCalls + 1
+				glowCalls[n] = {
 					pos = pos,
 					glowSize = glowSize,
 					aSqrd = aSqrd
-				})
+				}
 			end
 		end
 
@@ -1215,33 +1225,47 @@ if CLIENT then
 
 	-- Draw our glow calls, arguably better than drawing seperate sprites because we
 	-- only set our material once?
+	-- OPTIMIZED: Reuse a single Color object instead of creating one per sprite per frame
+	local glowColor = Color(255, 100, 10, 255)
 	hook.Add("PostDrawTranslucentRenderables", "_vFireLightCallbacks", function()
 		render.SetMaterial(lightmat)
-		for key, glowData in pairs(glowCalls) do
+		for key, glowData in next, glowCalls do
+			local alpha = glowData.aSqrd * 0.85
+			if alpha > 255 then alpha = 255 end
+			glowColor.g = yellow
+			glowColor.b = blue
+			glowColor.a = alpha
 			render.DrawSprite(
 				glowData.pos, -- Position
 				glowData.glowSize, -- Width
-				glowData.glowSize, -- Height (or the other way around)
-				Color(255, yellow, blue, math.Min(glowData.aSqrd * 0.85, 255)) -- Color
+				glowData.glowSize, -- Height
+				glowColor
 			)
 		end
 		glowCalls = {}
 	end)
 
 	-- We need to cache our r_maxdlights ConVar for the sake of performance
+	-- FIXED: Guard against nil ConVar or nil GetInt to prevent "attempt to compare nil with number"
 	local maxLightsConVar = GetConVar("r_maxdlights")
-	local maxLights = maxLightsConVar:GetInt()
+	local maxLights = (maxLightsConVar and maxLightsConVar:GetInt()) or 6
 	cvars.AddChangeCallback("r_maxdlights", function()
-		maxLights = maxLightsConVar:GetInt()
-	end)
+		if maxLightsConVar then
+			maxLights = maxLightsConVar:GetInt() or 6
+		end
+	end, "vfire_maxlights_cache")
 
 	-- Draw our light calls so that priority is given to larger fires
 	hook.Add("Think", "_vFireLightCallbacks", function()
 
+		-- FIXED: If maxLights is somehow nil, skip light drawing entirely
+		if not maxLights then return end
+
 		-- Draw lights from biggest to smallest to prioritize big lights in case of limit breach
 		local lightsDrawn = 0
 		for state = vFireMaxState, 1, -1 do
-			for entIndex, callback in pairs(lightCalls[state]) do
+			local calls = lightCalls[state]
+			for entIndex, callback in next, calls do
 				local dLight = DynamicLight(entIndex)
 				if dLight then
 					dLight.Pos = callback[1]
@@ -1379,9 +1403,11 @@ if CLIENT then
 	function ENT:AnimationThink()
 		-- Pull the base towards the center point for best animations, and increase the pull
 		-- the more we're not upright
+		-- OPTIMIZED: Cache GetForward/GetPos to avoid multiple C++ calls
 		local forward = self:GetForward()
+		local selfPos = self:GetPos()
 		local mul = (1 - forward.z) * 15 + 1
-		self:BasePullToPoint(self:GetPos() + forward * mul)
+		self:BasePullToPoint(selfPos + forward * mul)
 
 		-- Handle directions
 		local pullDir = Vector()
@@ -1408,8 +1434,8 @@ if CLIENT then
 			pullStrength = pullStrength + upSideDownMul
 		end
 		
-		-- Vector zero will cause fire to collapse on itself
-		if pullDir and pullDir != Vector(0, 0, 0) and pullStrength != 0 then
+		-- OPTIMIZED: Use LengthSqr > 0 instead of comparing to Vector(0,0,0) (avoids vector allocation)
+		if pullDir and pullDir:LengthSqr() > 0 and pullStrength != 0 then
 			self.lastFlameDir = pullDir
 			self:FlameSetDirection(pullDir, pullStrength)
 		else

@@ -29,20 +29,20 @@ local share_count = {
 
 local perCount = {
     otherworldly = 0.05,
-    confused = 0.3,
-    shadowy = 0.25,
-    patient = 0.25,
-    mystical = 0.25,
-    uncommon = 5,
-    stable = 5,
-	common = 5,
-    powerful = 7.5,
+    confused = 0.1,
+    shadowy = 0.2,
+    patient = 0.2,
+    mystical = 0.2,
+    uncommon = 2.5,
+    stable = 2.5,
+	common = 2.5,
+    powerful = 5,
 	vintage = 35,
 	junk = 100,
 	
     unstable = 100,
     stabilized = 10,
-    explosive = 2,
+    explosive = 1,
 
     generic = 100,
 

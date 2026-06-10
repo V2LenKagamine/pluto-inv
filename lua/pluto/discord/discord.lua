@@ -7,7 +7,7 @@ discord = discord or {}
 local enabled = false --If you want dicord working and have it set up, change this.
 
 local config = util.JSONToTable(file.Read("cfg/pluto.json", "GAME"))["discord-gmod"]
-local base_url = config.remote
+local base_url = config and config.remote or NULL 
 
 local ITEM = {}
 local EMBED = {

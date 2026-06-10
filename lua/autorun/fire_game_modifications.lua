@@ -258,10 +258,11 @@ if SERVER then
 	Because vFire removes default fires, we need to encourage more chain explosions
 	---------------------------------------------------------------------------]]
 	hook.Add("EntityTakeDamage", "vFireFixExplosion", function(ent, dmg)
+		-- OPTIMIZED: Check cheap condition first before calling hook.Call
+		if !dmg:IsExplosionDamage() then return end
 
 		if hook.Call("vFireSuppressExplosionBehavior") then return end
 
-		if !dmg:IsExplosionDamage() then return end
 		local hp = ent:Health()
 		if hp < dmg:GetDamage() and hp > 0 then
 			if math.random(1, 3) == 1 then

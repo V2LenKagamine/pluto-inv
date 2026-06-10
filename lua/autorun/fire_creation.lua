@@ -11,7 +11,8 @@ if SERVER then
 	Attempts to create fire on a parent entity at a certain position
 	Merges potentially new fires with existing ones if they're close enough
 	---------------------------------------------------------------------------]]
-	local mergeDist = 22
+	local mergeDistToSqr = 500
+	local mergeDist = math.sqrt(mergeDistToSqr)
 	function CreateVFire(parent, pos, normal, newFeed, spreader)
 
 		-- Just to make sure
@@ -24,7 +25,7 @@ if SERVER then
 			if spreader:GetClass() == "vfire" then
 				spreaderIsFire = true
 			end
-			owner = spreader
+			owner = spreader:GetOwner()
 		end
 
 		-- Settle on our bone
@@ -59,16 +60,14 @@ if SERVER then
 			closeEnts = ents.FindInSphere(pos, mergeDist)
 		else
 			closeEnts = {}
-            --[[
 			local clustersTable = parent.fireClusters
-			if (clustersTable) then
+			if clustersTable then
 				for cluster, clusterPos in pairs(parent.fireClusters) do
 					for k, fire2 in pairs(cluster.fires) do
 						table.insert(closeEnts, fire2)
 					end
 				end
 			end
-            ]]
 		end
 
 		-- Prevent fire entity spams by merging ourselves with existing neighbors
@@ -77,7 +76,7 @@ if SERVER then
 			if vFireIsCharacter(parent) and fire2.bone != bone then continue end
 			if IsValid(fire2) then
 				-- Are we close enough?
-				if pos:Distance2D(fire2:GetPos()) <= mergeDist then
+				if pos:DistToSqr(fire2:GetPos()) <= mergeDistToSqr then
 					
 					if spreaderIsFire then -- We're spreading, give a random feed and life to the neighbor
 						-- local spreaderGiveLife = math.Rand(spreader.life, spreader.life)

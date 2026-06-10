@@ -33,7 +33,7 @@ function MOD:OnShoot(wep, rolls, trce, dmg, state)
     if(CLIENT) then return end
     if(trce.Entity) then
         if(trce.Entity:IsWorld()) then
-            if(math.Rand(0,100) < wep:ScaleRollType("damage",rolls[1])) then
+            if(math.Rand(0,250) < wep:ScaleRollType("damage",rolls[1])) then
                 CreateVFire(trce.Entity,trce.HitPos,vector_origin,dmg:GetDamage()*1.5,dmg:GetAttacker())
             end
         end

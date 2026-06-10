@@ -148,12 +148,8 @@ concommand.Add("pluto_auction_list", function(p, c, a)
 			mysql_rollback(db)
 			return
 		end
-		
-		pluto.inv.message(p)
-			:write("tabupdate", gun.TabID, gun.TabIndex)
-			:send()
 
-		-- TODO(Addi) Send an update to reset the item listing, and to update "You Listings""
+		pluto.inv.sendfullupdate(p) --Todo: Make or find the 'reload THIS item please' function
 
 		gun.Owner = AUCTION_HOUSE_ID
 		gun.TabID = tab_id

@@ -1,5 +1,3 @@
-AddCSLuaFile()
-
 if SERVER then
     pluto.RAIDS = pluto.RAIDS or {}
     pluto.RAIDS.RAIDS_MAP_NODES = pluto.RAIDS.RAIDS_MAP_NODES or {}
@@ -232,7 +230,7 @@ if SERVER then
     pluto.RAIDS.raidScores = pluto.RAIDS.raidScores or {}
     pluto.RAIDS.raidVotes = pluto.RAIDS.raidVotes or {}
 
-    pluto.RAIDS.currentGM = CreateConVar("pluto_current_gamemode","raid",FCVAR_ARCHIVE,"What gamemode is being ran ATM?")
+    pluto.RAIDS.currentGM = CreateConVar("pluto_current_gamemode","ttt",FCVAR_ARCHIVE,"What gamemode is being ran ATM?")
 
     local curEnemiesOnField = 0
     local killcount = 0
@@ -370,7 +368,7 @@ if SERVER then
             end
         end
     end
-
+    --Todo: Move this to a proper command, which is somewhere
     hook.Add("PlayerSay","pluto_raids_vote",function(plr,text,tc)
         if(text:match("^[!%./]?votegm")) then
             if(text:match("[rR][aA][iI][dD][sS]?$")) then

@@ -1,17 +1,17 @@
 local nextTipThink = CurTime() + 300
 
 local plutoTips = {
-    "You can vote for the current gamemode with the command '!votegm'. 60% or more votes will change the GM!",
-    "Chat commands accept '!','.' and '/' as valid starters.",
-    "Crates are given for playing rounds,completing raids, or rarely from raid mobs.",
-    "You can do 'pluto_show_all_unbox 1' in console to have the unbox tab show all crates; instead of just ones you have.",
+    --"You can vote for the current gamemode with the command '!votegm'. 60% or more votes will change the GM!",
+    --"Chat commands accept '!','.' and '/' as valid starters.",
+    "Crates are given for playing rounds,and can be found in the 'currency' tab of your [I]nventory.",
+    "You can do 'pluto_show_all_unbox 0' in console to have the unbox tab show only crates you have.",
     "You can hold SHIFT when using currencies on a weapon to not have to pick up a new currency after clicking!",
     "Objects in your 'Buffer' tab are automatically destroyed when they are pushed off the end. Move what you want to keep!",
     "Ideas are always welcome, anything could get added with a good enough arguement on why!",
-    "Bored and no one on? Try doing '!votegm raids' and prepare yourself!",
+    --"Bored and no one on? Try doing '!votegm raids' and prepare yourself!",
     "Something not look right in your inventory? Try 'pluto_fullupdate' in console; and no, spamming it won't work.",
     "Deagles are wildly inaccurate when fired in quick succession, space your shots.",
-    "Raids give rewards based on damage and kills, not survival time. Hunt them down!",
+    --"Raids give rewards based on damage and kills, not survival time. Hunt them down!",
     "The lower a number on a mod, the better, hunt those T1's!",
     "Some things roll 'Rarity Descending'; meaning you roll the for the 'rarest' items first,but will always at least drop at least one of the most 'common' items.",
     "The workshop collection for the server has the steam-id of '3463787282'. Subscribe to all if you have missing asset issues!"

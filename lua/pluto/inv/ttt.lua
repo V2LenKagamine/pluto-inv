@@ -2,8 +2,8 @@
      * License, v. 2.0. If a copy of the MPL was not distributed with this
      * file, You can obtain one at https://mozilla.org/MPL/2.0/. ]]
 local pluto_weapon_droprate = CreateConVar("pluto_weapon_droprate", "0.5", nil, nil, 0, 1)
-local pluto_equip_droprate = CreateConVar("pluto_equipcrate_droprate", "0.01", nil, nil, 0, 1)
-local pluto_toys_droprate = CreateConVar("pluto_toycrate_droprate","0.0025",nil, nil, 0, 1)
+local pluto_equip_droprate = CreateConVar("pluto_equipcrate_droprate", "0", nil, nil, 0, 1)
+local pluto_toys_droprate = CreateConVar("pluto_toycrate_droprate","0",nil, nil, 0, 1)
 
 pluto.afk = pluto.afk or {}
 
@@ -184,7 +184,6 @@ end
 
 
 local pluto_loaded = {}
--- TODO: Test if this works --No, it doesnt, need to send a packet
 function pluto.inv.readchangeloadout()
     local plr = player.GetBySteamID64(net.ReadString())
     local slot = net.ReadInt(32)

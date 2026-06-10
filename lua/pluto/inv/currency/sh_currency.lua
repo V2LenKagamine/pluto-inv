@@ -66,7 +66,7 @@ local list = {
 		Name = "Golden Monkey Paw",
 		Icon = "pluto/currencies/goldenhand.png",
 		Description = "Remove random mod,+1 tier of another",
-		SubDescription = "Some kind of hand from a monkey, coated in gold.",
+		SubDescription = "Some kind primates' paw, coated in gold.",
 		Color = Color(255, 208, 86),
 		Crafted = {
 			Chance = 1 / 4,
@@ -192,6 +192,7 @@ local list = {
 				Rare = true,
 				Shares = 3,
 			},
+            /*
 			weapon_ttt_ak47_u = {
 				Rare = true,
 				Tier = "unique",
@@ -202,6 +203,7 @@ local list = {
 				Tier = "unique",
 				Shares = 0.5,
 			},
+            */
 		},
 
 		Category = "Unbox",
@@ -228,6 +230,7 @@ local list = {
 			pluto.opener:MakePopup()
 		end,
 		Contents = {
+            /*
 			weapon_ttt_chargeup = {
 				Rare = true,
 				Shares = 1,
@@ -236,7 +239,7 @@ local list = {
 				Rare = true,
 				Shares = 1
 			},
-
+            */
 			model_ciri = {
 				Rare = true,
 				Shares = 4
@@ -405,11 +408,13 @@ local list = {
 			pluto.opener:MakePopup()
 		end,
 		Contents = {
+            /*
 			tfa_cso_m1887xmas = {
 				Shares = 0.2,
 				Tier = "unique",
 				Rare = true,
 			},
+            */
 			model_tfacso2natalie01 = {
 				Shares = 1,
 				Rare = true
@@ -430,11 +435,12 @@ local list = {
 				Shares = 1,
 				Rare = true
 			},
+            /*
 			tfa_cso_m95_xmas = {
 				Tier = "festive",
 				Shares = 20,
 			},
-
+            */
 			model_elftrooper = xmas2020_fill,
 			model_santatrooper = xmas2020_fill,
 			model_treetrooper = xmas2020_fill,
@@ -804,7 +810,7 @@ local list = {
 			model_doomguy = 1,
 			model_low_croft_lo_robe_anim = 1,
 			model_lara_croft_lo_anim = 1,
-            model_len_kagamine = 1,
+            //model_len_kagamine = 1,
 		},
 		Types = "None",
 	},
@@ -918,7 +924,7 @@ local list = {
 		Name = "Supplies Crate : E1",
 		Icon = "pluto/currencies/cratecon.png",
 		Description = "A crate, containing supportive items.",
-		SubDescription = "The crude spray-paint seems to imply it's contents are not weapons,probably.",
+		SubDescription = "The crude spray-paint seems to imply it's contents are probably not weapons.",
 		NoTarget = true,
 		Color = Color(133, 92, 58),
 		ClientsideUse = function()

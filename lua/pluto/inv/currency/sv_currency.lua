@@ -411,7 +411,8 @@ for name, values in pairs {
 		Shares = 0,
 	},
 	crate3 = {
-		Shares = 0.5,
+		//Shares = 0.5,
+        Shares = 0,
 		Types = "None",
 
 		Pickup = function(ply)
@@ -425,7 +426,8 @@ for name, values in pairs {
 		end
 	},
 	crate3_n = {
-		Shares = 0.5,
+		//Shares = 0.5,
+        Shares = 0,
 		Types = "None",
 	},
 	_lightsaber = {

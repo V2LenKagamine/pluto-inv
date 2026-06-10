@@ -83,11 +83,13 @@ function ENT:AddFire(fire)
 	local closestFireBigger
 
 	self.distMem[fire] = {}
-	for k, fire2 in pairs(self.fires) do
+	-- OPTIMIZED: Cache fire position to avoid repeated C++ calls
+	local firePos = fire:GetPos()
+	for k, fire2 in next, self.fires do
 		if !IsValid(fire2) then continue end
 		local dist = 0
 		if fire != fire2 then
-			dist = fire:GetPos():Distance(fire2:GetPos())
+			dist = firePos:Distance(fire2:GetPos())
 			if dist < minDist then
 				minDist = dist
 				closestFire = fire2
@@ -146,7 +148,7 @@ function ENT:RemFire(fire)
 
 	-- Remove the fire from the distance memorization table
 	self.distMem[fire] = nil
-	for k, fire2 in pairs(self.fires) do
+	for k, fire2 in next, self.fires do
 		self.distMem[fire2][fire] = nil
 	end
 end
@@ -154,24 +156,13 @@ end
 -- A function similar to think dedicated to checking wind flow via timers
 local windExposureCheckTime = 45
 function ENT:CalcWindExposure()
-	if self.parent:IsWorld() then
-		self.windExposure = vFireCalcWindExposure(self:GetPos())
-	else
-		self.windExposure = vFireCalcWindExposure(self:GetPos(), {self.parent})
-	end
-
-	timer.Simple(windExposureCheckTime, function()
-		-- Start the check wind loop only if we might move
-		if IsValid(self) and vFireIsMobile(self) then
-			self:CalcWindExposure()
-		end
-	end)
+	self.windExposure = 1
 end
 
 if SERVER then
 	local pvsLODCheckTime = 100
 	function ENT:CalcPVSLOD()
-		for k, ply in pairs(player.GetAll()) do
+		for k, ply in next, player.GetAll() do
 			self.PVSLOD = self:TestPVS(ply:GetPos())
 			if self.PVSLOD then
 				-- One is enough
@@ -239,7 +230,7 @@ end
 if CLIENT then
 	function ENT:GetClusterMagnitude()
 		local maxState = 0
-		for k, fire in pairs(self.fires) do
+		for k, fire in next, self.fires do
 			if IsValid(fire) then
 				local state = fire:GetFireState()
 				if state > maxState then

@@ -4,7 +4,7 @@
 local last_active_tab = CreateConVar("pluto_last_currency_tab", "", FCVAR_ARCHIVE)
 local circles = include "pluto/thirdparty/circles.lua"
 
-local showAll = CreateClientConVar("pluto_show_all_unbox",0,true,false,"Should the Currency tab show all currencies in the game, or just ones you have at least 1 of?",0,1)
+local showAll = CreateClientConVar("pluto_show_all_unbox",1,true,false,"Should the Currency tab show all currencies in the game, or just ones you have at least 1 of?",0,1)
 
 local inactive_text = Color(128, 128, 128)
 
