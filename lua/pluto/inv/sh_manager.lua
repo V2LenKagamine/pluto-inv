@@ -426,7 +426,7 @@ function ITEM:GetRawName(ignoretier)
 		end
         return (w and w.PrintName or "object?")
 	elseif (self.Type == "Model") then
-		return self.Model.Name .. " Model"
+		return self.Model and self.Model.Name .. " Model" or "Something Unknown...."
 	end
 
 	return "Unknown type: " .. tostring(self.Type)
@@ -509,7 +509,7 @@ function ITEM:GetColor()
 		    return mod_colors[self:GetMaxAffixes() + (self.Tier.Type == "Grenade" and 1 or 0)] or mod_colors[0]
         end
 	elseif (self.Type == "Model") then
-		col = self.Model.Color
+		col = self.Model and self.Model.Color or self.Color
 	end
 	return col or color_white
 end

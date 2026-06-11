@@ -301,18 +301,6 @@ for name, values in pairs {
 		Shares = 39,
 		Types = "None",
 	},
-	xmas2020 = {
-		Shares = 0.5,
-		Types = "None",
-	},
-	crate1 = {
-		Shares = 0.5,
-		Types = "None",
-	},
-	crate2 = {
-		Shares = 19,
-		Types = "None",
-	},
 	endround = {
 		Shares = 0,
 		Use = function(self, ply)
@@ -410,26 +398,6 @@ for name, values in pairs {
 	tp = {
 		Shares = 0,
 	},
-	crate3 = {
-		//Shares = 0.5,
-        Shares = 0,
-		Types = "None",
-
-		Pickup = function(ply)
-			if (player.GetCount() >= 8) then
-				if (pluto.rounds.prepare "posteaster") then
-					hook.Run("PlutoSpecialStarted", ply, "posteaster")
-				end
-			end
-
-			return true
-		end
-	},
-	crate3_n = {
-		//Shares = 0.5,
-        Shares = 0,
-		Types = "None",
-	},
 	_lightsaber = {
 		Shares = 0,
 		Global = true,
@@ -463,10 +431,6 @@ for name, values in pairs {
 	--[[eye = {
 		Shares = 0,
 	},--]]
-	brainegg = {
-		Shares = 0.5,
-		Types = "None",
-	},
 	stardust = {
 		Shares = 0,
 	},

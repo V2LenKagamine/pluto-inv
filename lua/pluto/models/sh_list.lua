@@ -85,16 +85,7 @@ local function runfile(filename)
 	setfenv(fn, env)
 	fn()
 end
-runfile "lists/blueegg.lua"
-runfile "lists/christmas2019.lua"
-runfile "lists/easter2020.lua"
-runfile "lists/geralt.lua"
-runfile "lists/halloween2020.lua"
-runfile "lists/meepen.lua"
-runfile "lists/orangeegg.lua"
-runfile "lists/random.lua"
-runfile "lists/christmas2020.lua"
-
+runfile "lists/revival.lua"
 function pluto.updatemodel(ent, item)
 	if (not item or not item.Model) then
 		return

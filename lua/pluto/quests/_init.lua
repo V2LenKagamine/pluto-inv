@@ -26,8 +26,8 @@ for _, id in pairs {
 	"winstreak",
 	"killstreak",
 
-    "raider",
-    "raidres",
+    --"raider",
+    --"raidres",
 
 	"nodamage",
 	"credits",

@@ -150,9 +150,9 @@ local list = {
 	},
 	{
 		InternalName = "crate0",
-		Name = "Blue Egg",
+		Name = "Model Egg",
 		Icon = "pluto/currencies/crate0_new.png",
-		Description = "Contains a model or a very rare weapon!",
+		Description = "Contains a model of times past",
 		SubDescription = "You hear whispers from inside...",
 		NoTarget = true,
 		Color = Color(71, 170, 222),
@@ -169,291 +169,84 @@ local list = {
 			pluto.opener:Center()
 			pluto.opener:MakePopup()
 		end,
+        RareDesc = true,
 		Contents = {
-			model_jacket = 400,
-			model_sauron = 200,
-			model_odst = 100,
-			model_helga = 100,
-			model_wonderw = 100,
-			model_plague = 70,
-			model_bigboss = 70,
-			model_daedric = 40,
-			model_chewie = 30,
-			model_lilith = 25,
-			model_a2lh = {
-				Rare = true,
-				Shares = 15,
-			},
-			model_a2 = {
-				Rare = true,
-				Shares = 15,
-			},
-			model_wick2 = {
-				Rare = true,
-				Shares = 3,
-			},
-            /*
-			weapon_ttt_ak47_u = {
-				Rare = true,
-				Tier = "unique",
-				Shares = 0.5,
-			},
-			weapon_ttt_deagle_u = {
-				Rare = true,
-				Tier = "unique",
-				Shares = 0.5,
-			},
-            */
-		},
-
-		Category = "Unbox",
-	},
-	{
-		InternalName = "crate2",
-		Name = "Orange Egg",
-		Icon = "pluto/currencies/crate2.png",
-		Description = "Contains a model or a very rare weapon!",
-		SubDescription = "Sounds like a party in there.",
-		NoTarget = true,
-		Color = Color(242, 132, 57),
-		ClientsideUse = function()
-			if (IsValid(pluto.opener)) then
-				pluto.opener:Remove()
-			end
-
-			pluto.opener = vgui.Create "tttrw_base"
-
-			pluto.opener:AddTab("Open Box", vgui.Create "pluto_box_open" :SetCurrency "crate2")
-
-			pluto.opener:SetSize(640, 400)
-			pluto.opener:Center()
-			pluto.opener:MakePopup()
-		end,
-		Contents = {
-            /*
-			weapon_ttt_chargeup = {
-				Rare = true,
-				Shares = 1,
-			},
-			weapon_tfa_cso2_m3dragon = {
-				Rare = true,
-				Shares = 1
-			},
-            */
-			model_ciri = {
-				Rare = true,
-				Shares = 4
-			},
-			model_spacesuit = {
-				Rare = true,
-				Shares = 4
-			},
-			model_zer0 = {
-				Rare = true,
-				Shares = 4
-			},
-			model_deadpool = {
-				Rare = true,
-				Shares = 4,
-			},
-
-			model_tachanka = {
-				Rare = true,
-				Shares = 12,
-			},
-			model_noob_saibo = {
-				Rare = true,
-				Shares = 12,
-			},
-			model_raincoat = {
-				Rare = true,
-				Shares = 12,
-			},
-			model_psycho = {
-				Rare = true,
-				Shares = 12,
-			},
-
-			model_tron_anon = 30,
-
-			model_wolffe = 50,
-			model_bomb_squad = 50,
-			model_lieutenant = 50,
-			model_clone = 50,
-			model_commander = 50,
-			model_general = 50,
-			model_sergeant = 50,
-			model_captain = 50,
-			model_brown_spar = 30,
-			model_white_spar = 30,
-			model_teal_spart = 30,
-			model_red_sparta = 30,
-			model_purple_spa = 30,
-			model_olive_spar = 30,
-			model_cyan_spart = 30,
-			model_cobalt_spa = 30,
-			model_crimson_sp = 30,
-			model_sage_spart = 30,
-			model_master_chi = 30,
-			model_blue_spart = 30,
-			model_tan_sparta = 30,
-			model_steel_spar = 30,
-			model_orange_spa = 30,
-			model_green_spar = 30,
-			model_pink_spart = 30,
-			model_gold_spart = 30,
-			model_violet_spa = 30,
-		},
-
-		Category = "Unbox",
-	},
-	{
-		InternalName = "crate1",
-		Name = "Ancient Red Present",
-		Icon = "pluto/currencies/crate1.png",
-		Description = "Contains something from the 2019 Pluto Christmas event.",
-		SubDescription = "Is that... it couldn't be... and what is he holding?",
-		NoTarget = true,
-		Color = Color(188, 2, 1),
-		ClientsideUse = function()
-			if (IsValid(pluto.opener)) then
-				pluto.opener:Remove()
-			end
-
-			pluto.opener = vgui.Create "tttrw_base"
-
-			pluto.opener:AddTab("Open Present", vgui.Create "pluto_box_open" :SetCurrency "crate1")
-
-			pluto.opener:SetSize(640, 400)
-			pluto.opener:Center()
-			pluto.opener:MakePopup()
-		end,
-		Contents = {
-			model_osrsbob = 50,
-			model_puggamax = 40,
-			model_warmor = 100,
-			model_nigt1 = 100,
-			model_nigt2 = 100,
-
-			model_metro_female_5 = crate1_fill,
-			model_metro_female_4 = crate1_fill,
-			model_metro_female_3 = crate1_fill,
-			model_metro_female_2 = crate1_fill,
-			model_metro_female_1 = crate1_fill,
-
-			model_metro6 = crate1_fill,
-			model_metro5 = crate1_fill,
-			model_metro4 = crate1_fill,
-			model_metro3 = crate1_fill,
-			model_metro2 = crate1_fill,
-			model_metro1 = crate1_fill,
-
-			model_metro_male_9 = crate1_fill,
-			model_metro_male_8 = crate1_fill,
-			model_metro_male_7 = crate1_fill,
-			model_metro_male_6 = crate1_fill,
-			model_metro_male_5 = crate1_fill,
-			model_metro_male_4 = crate1_fill,
-			model_metro_male_3 = crate1_fill,
-			model_metro_male_2 = crate1_fill,
-			model_metro_male_1 = crate1_fill,
-
-			model_cayde6 = {
-				Rare = true,
-				Shares = 20,
-			},
-			model_hansolo = {
-				Rare = true,
-				Shares = 30,
-			},
-			model_tomb = {
-				Rare = true,
-				Shares = 20,
-			},
-			model_zerosamus = {
-				Rare = true,
-				Shares = 2,
-			},
-			model_weebshit = {
-				Rare = true,
-				Shares = 1,
-			},
-			model_santa = {
-				Rare = true,
-				Shares = 5,
-			},
-		},
-
-		Category = "Unbox",
-	},
-	{
-		InternalName = "xmas2020",
-		Name = "Ancient Blue Present",
-		Icon = "pluto/currencies/xmas2020.png",
-		Description = "Contains Something from the 2020 Pluto Christmas event.",
-		SubDescription = "Joy to the world!",
-		NoTarget = true,
-		Color = Color(17, 110, 191),
-		ClientsideUse = function()
-			if (IsValid(pluto.opener)) then
-				pluto.opener:Remove()
-			end
-
-			pluto.opener = vgui.Create "tttrw_base"
-
-			pluto.opener:AddTab("Open Present", vgui.Create "pluto_box_open" :SetCurrency "xmas2020")
-
-			pluto.opener:SetSize(640, 400)
-			pluto.opener:Center()
-			pluto.opener:MakePopup()
-		end,
-		Contents = {
-            /*
-			tfa_cso_m1887xmas = {
-				Shares = 0.2,
-				Tier = "unique",
-				Rare = true,
-			},
-            */
-			model_tfacso2natalie01 = {
-				Shares = 1,
-				Rare = true
-			},
-			model_kleiaorgana = {
-				Shares = 1,
-				Rare = true
-			},
-			model_xmas_imp = {
-				Shares = 1,
-				Rare = true
-			},
-			model_ghilliewinter01 = {
-				Shares = 1,
-				Rare = true
-			},
-			model_xmas_spiderman = {
-				Shares = 1,
-				Rare = true
-			},
-            /*
-			tfa_cso_m95_xmas = {
-				Tier = "festive",
-				Shares = 20,
-			},
-            */
-			model_elftrooper = xmas2020_fill,
-			model_santatrooper = xmas2020_fill,
-			model_treetrooper = xmas2020_fill,
-			model_snowmantrooper = xmas2020_fill,
-			model_hannukahtrooper = xmas2020_fill,
-			model_reindeertrooper = xmas2020_fill,
-			model_snow7 = xmas2020_fill,
-			model_snow6 = xmas2020_fill,
-			model_snow5 = xmas2020_fill,
-			model_snow4 = xmas2020_fill,
-			model_snow3 = xmas2020_fill,
-			model_snow2 = xmas2020_fill,
-			model_snow1 = xmas2020_fill,
+            model_metro_male_1 = { Chance = 40 },
+            model_metro_male_2 = { Chance = 40 },
+            model_metro_male_3 = { Chance = 40 },
+            model_metro_male_4 = { Chance = 40 },
+            model_metro_male_5 = { Chance = 40 },
+            model_metro_male_6 = { Chance = 40 },
+            model_metro_male_7 = { Chance = 40 },
+            model_metro_male_8 = { Chance = 40 },
+            model_metro_male_9 = { Chance = 40 },
+            model_metro1 = { Chance = 40 },
+            model_metro2 = { Chance = 40 },
+            model_metro3 = { Chance = 40 },
+            model_metro4 = { Chance = 40 },
+            model_metro5 = { Chance = 40 },
+            model_metro6 = { Chance = 40 },
+            model_metro_female_1 = { Chance = 40 },
+            model_metro_female_2 = { Chance = 40 },
+            model_metro_female_3 = { Chance = 40 },
+            model_metro_female_4 = { Chance = 40 },
+            model_metro_female_5 = { Chance = 40 },
+            model_metro_female_6 = { Chance = 40 },
+            model_ghilliewinter01 = { Chance = 30 },
+            model_snow1 = { Chance = 30 },
+            model_snow2 = { Chance = 30 },
+            model_snow3 = { Chance = 30 },
+            model_snow4 = { Chance = 30 },
+            model_snow5 = { Chance = 30 },
+            model_snow6 = { Chance = 30 },
+            model_snow7 = { Chance = 30 },
+            model_husk = { Chance = 30 },
+            model_hunk = { Chance = 30 },
+            model_violet_spart = { Chance = 20 },
+            model_gold_spart = { Chance = 20 },
+            model_pink_spart = { Chance = 20 },
+            model_green_spart = { Chance = 20 },
+            model_orange_spart = { Chance = 20 },
+            model_steel_spart = { Chance = 20 },
+            model_tan_spart = { Chance = 20 },
+            model_blue_spart = { Chance = 20 },
+            model_sage_spart = { Chance = 20 },
+            model_crimson_spart = { Chance = 20 },
+            model_cobalt_spart = { Chance = 20 },
+            model_cyan_spart = { Chance = 20 },
+            model_olive_spart = { Chance = 20 },
+            model_purple_spart = { Chance = 20 },
+            model_red_spart = { Chance = 20 },
+            model_teal_spart = { Chance = 20 },
+            model_white_spart = { Chance = 20 },
+            model_brown_spart = { Chance = 20 },
+            model_plague = { Chance = 10 },
+            model_daedric = { Chance = 10 },
+            model_wick2 = { Chance = 10 },
+            model_odst = { Chance = 10 },
+            model_captain = { Chance = 10 },
+            model_sergeant = { Chance = 10 },
+            model_general = { Chance = 10 },
+            model_commander = { Chance = 10 },
+            model_clone = { Chance = 10 },
+            model_lieutenant = { Chance = 10 },
+            model_bomb_squad = { Chance = 10 },
+            model_bigboss = { Chance = 10 },
+            model_hevsuit = { Chance = 10 },
+            model_doomguy = { Chance = 10 },
+            model_jacket = { Chance = 10 },
+            model_tachanka = { Chance = 10 },
+            model_raincoat = { Chance = 10 },
+            model_tron_anon = { Chance = 10 },
+            model_sauron = { Chance = 10 },
+            model_lilith = { Chance = 2.5 },
+            model_zer0 = { Chance = 2.5 },
+            model_psycho = { Chance = 2.5 },
+            model_ror2_commando = { Chance = 0.1, Rare = true },
+            model_spy = { Chance = 0.1, Rare = true },
+            model_spacesuit = { Chance = 0.1, Rare = true },
+            model_master_chief = { Chance = 0.1, Rare = true },
+            model_osrsbob = { Chance = 0.1, Rare = true },
 		},
 
 		Category = "Unbox",
@@ -568,196 +361,6 @@ local list = {
 		SubDescription = "A vial of... Something. Someone must want this, right?",
 		Color = Color(150, 50, 213),
 	},
-	{
-		InternalName = "brainegg",
-		Name = "Infested Brain",
-		Icon = "pluto/currencies/brainegg.png",
-		Description = "Contains an item from the Pluto 2020 Halloween event.",
-		SubDescription = "Heya Tom its Bob, from the office down the hall...",
-		Color = Color(0x92, 0xd4, 0x00),
-		NoTarget = true,
-		ClientsideUse = function()
-			if (IsValid(pluto.opener)) then
-				pluto.opener:Remove()
-			end
-
-			pluto.opener = vgui.Create "tttrw_base"
-
-			pluto.opener:AddTab("Smash Open Brain", vgui.Create "pluto_box_open" :SetCurrency "brainegg")
-
-			pluto.opener:SetSize(640, 400)
-			pluto.opener:Center()
-			pluto.opener:MakePopup()
-		end,
-		Contents = {
-			--model_ghostface = 1,
-			tfa_cso_tbarrel = {
-				Rare = true,
-				Shares = 0.5,
-			},
-			tfa_cso_tomahawk = {
-				Rare = true,
-				Shares = 0.6,
-			},
-			tfa_cso_thanatos9 = {
-				Rare = true,
-				Shares = 0.7,
-			},
-
-			model_jason_unmask = {
-				Rare = true,
-				Shares = 1,
-			},
-			model_joker_2019 = {
-				Rare = true,
-				Shares = 1,
-			},
-			model_terminator = {
-				Rare = true,
-				Shares = 2,
-			},
-
-			model_richtofen        = {
-				Rare = true,
-				Shares = 5,
-			},
-			model_dempsey          = {
-				Rare = true,
-				Shares = 5,
-			},
-			model_nikolai          = {
-				Rare = true,
-				Shares = 5,
-			},
-			model_takeo            = {
-				Rare = true,
-				Shares = 5,
-			},
-			model_ghostfacereddevi = {
-				Rare = true,
-				Shares = 5,
-			},
-
-			model_darkwraith       = 6,
-			model_jason            = 7,
-			model_husk             = 7,
-			model_scarecrow        = 8,
-			model_ghostfacetheghos = 9,
-			model_death            = 11,
-
-			model_ghostfaceclassic = 12,
-			model_blackmask        = 14,
-			model_death_paint      = 15,
-			model_ghost_rider      = 16,
-			model_death_class      = 17,
-
-			--[[
-			model_markus_1 = 1,
-			model_markus_3 = 1,
-			model_markus_2 = 1,
-			model_detr_connor = 1,]]
-		},
-
-		Category = "Unbox",
-	},
-	{
-		InternalName = "crate3",
-		Name = "Consumed Pink Egg",
-		Icon = "pluto/currencies/crate3.png",
-		Description = "Contains an Easter Unique item.",
-		SubDescription = "Faster than the tortise, but at what cost?",
-		Color = Color(235, 70, 150, 255),
-		NoTarget = true,
-		ClientsideUse = function()
-			if (IsValid(pluto.opener)) then
-				pluto.opener:Remove()
-			end
-
-			pluto.opener = vgui.Create "tttrw_base"
-
-			pluto.opener:AddTab("Open Pink Egg", vgui.Create "pluto_box_open" :SetCurrency "crate3")
-
-			pluto.opener:SetSize(640, 400)
-			pluto.opener:Center()
-			pluto.opener:MakePopup()
-		end,
-		DefaultTier = "easter_unique",
-		Contents = {
-			tfa_cso_serpent_blade = {
-				Rare = true,
-				Shares = 1
-			},
-			tfa_cso_dreadnova = {
-				Rare = true,
-				Shares = 1
-			},
-			tfa_cso_ruyi = {
-				Rare = true,
-				Shares = 1
-			},
-			tfa_cso_mp7unicorn = {
-				Rare = true,
-				Shares = 1
-			}
-		},
-
-		Category = "Unbox",
-	},
-	{
-		InternalName = "crate3_n",
-		Name = "Pink Egg",
-		Icon = "pluto/currencies/crate3_norm.png",
-		Description = "Contains an Easter Item.",
-		SubDescription = "Sounds mostly hollow; mostly.",
-		Color = Color(235, 70, 150, 255),
-		NoTarget = true,
-		ClientsideUse = function()
-			if (IsValid(pluto.opener)) then
-				pluto.opener:Remove()
-			end
-
-			pluto.opener = vgui.Create "tttrw_base"
-
-			pluto.opener:AddTab("Open Pink Egg", vgui.Create "pluto_box_open" :SetCurrency "crate3_n")
-
-			pluto.opener:SetSize(640, 400)
-			pluto.opener:Center()
-			pluto.opener:MakePopup()
-		end,
-		Contents = {
-			-- consumed versions
-			tfa_cso_serpent_blade = {
-				Tier = "easter_unique",
-				Rare = true,
-				Shares = 1
-			},
-			tfa_cso_dreadnova = {
-				Tier = "easter_unique",
-				Rare = true,
-				Shares = 1
-			},
-			tfa_cso_ruyi = {
-				Tier = "easter_unique",
-				Rare = true,
-				Shares = 1
-			},
-			tfa_cso_mp7unicorn = {
-				Tier = "easter_unique",
-				Rare = true,
-				Shares = 1
-			},
-			tfa_cso_charger5 = {
-				Tier = "unusual",
-				Shares = 150,
-			},
-			tfa_cso_m95 = {
-				Tier = "unusual",
-				Shares = 150,
-			},
-		},
-
-		Category = "Unbox",
-	},
 	--[[{
 		InternalName = "eye",
 		Name = "Eye",
@@ -781,38 +384,6 @@ local list = {
 			Mod = "starseeker",
             ChanceDeminish = 2,
 		},
-	},
-	{
-		InternalName = "potato",
-		Shares = 0,
-		Name = "Developer Bag",
-		Icon = "pluto/currencies/potatoes.png",
-		Description = "Contains a developer-only model",
-		SubDescription = "Tomato,Tomato,Ching-Chong: Potato!",
-		Color = Color(254, 233, 105),
-		ClientsideUse = function()
-		end,
-		Think = function(self)
-			local speed = 4
-			local col = HSVToColor(((CurTime() % speed) / speed) * 360, 1, 1)
-			self.Color.r, self.Color.g, self.Color.b = col.r, col.g, col.b
-		end,
-		NoTarget = true,
-		Category = "Unbox",
-		Contents = {
-			model_2b = 1,
-			model_academy_ahri = 1,
-			model_leet_low = 1,
-			model_arctic_low = 1,
-			model_guerilla_l = 1,
-			model_maya = 1,
-			model_kat_2 = 1,
-			model_doomguy = 1,
-			model_low_croft_lo_robe_anim = 1,
-			model_lara_croft_lo_anim = 1,
-            //model_len_kagamine = 1,
-		},
-		Types = "None",
 	},
 	{
 		InternalName = "ticket",

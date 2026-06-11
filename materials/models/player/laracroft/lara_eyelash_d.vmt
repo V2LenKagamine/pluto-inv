@@ -1,8 +1,0 @@
-"VertexlitGeneric"
-{
-	"$basetexture" "models/player/laracroft/Lara_eyelash_D"
-
-$halflambert 1
-$translucent 1
-$nocull 1
-}

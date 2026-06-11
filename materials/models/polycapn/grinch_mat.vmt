@@ -1,6 +1,0 @@
-"VertexlitGeneric"
-{
-	"$halflambert" "1"
-	"$basetexture" "models/PolyCapN/grinch_diffuse"
-	"$bumpmap" "models/PolyCapN/grinch_normals"
-}

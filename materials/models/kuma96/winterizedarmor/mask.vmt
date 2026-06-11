@@ -1,6 +1,0 @@
-"VertexlitGeneric"
-{
-	$basetexture "models/kuma96/winterizedarmor/mask_d"
-	$bumpmap "models/kuma96/winterizedarmor/mask_n"
-	$halflambert 1
-}
