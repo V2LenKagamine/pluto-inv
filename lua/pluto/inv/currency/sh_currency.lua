@@ -490,6 +490,7 @@ local list = {
 		Fake = true,
 	},
     //Pluto attempt 2 begins here
+    /*
     {
 		InternalName = "crate_cons1",
 		Name = "Supplies Crate : E1",
@@ -712,6 +713,7 @@ local list = {
             },
 		},
 	},
+    */
 }
 
 hook.Add("Think", "pluto_currency_think", function()
