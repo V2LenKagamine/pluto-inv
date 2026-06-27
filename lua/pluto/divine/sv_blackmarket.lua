@@ -5,7 +5,7 @@ local CURR = pluto.currency.byname.tp
 local options = {
 	-- NEVER REMOVE ITEMS, SET SHARES TO 0
 	{
-		Shares = 1,
+		Shares = 0,
 		Price = 455,
 		Item = setmetatable({
 			Type = "Weapon",
@@ -15,7 +15,7 @@ local options = {
 		}, pluto.inv.item_mt)
 	},
 	{
-		Shares = 1,
+		Shares = 0,
 		Price = 475,
 		Item = setmetatable({
 			Type = "Weapon",
@@ -25,7 +25,7 @@ local options = {
 		}, pluto.inv.item_mt)
 	},
 	{
-		Shares = 1,
+		Shares = 0,
 		Price = 520,
 		Item = setmetatable({
 			Type = "Weapon",
@@ -35,7 +35,7 @@ local options = {
 		}, pluto.inv.item_mt)
 	},
 	{
-		Shares = 1,
+		Shares = 0,
 		Price = 500,
 		Item = setmetatable({
 			Type = "Weapon",
@@ -45,7 +45,7 @@ local options = {
 		}, pluto.inv.item_mt)
 	},
 	{
-		Shares = 1,
+		Shares = 0,
 		Price = 498,
 		Item = setmetatable({
 			Type = "Weapon",
@@ -55,7 +55,7 @@ local options = {
 		}, pluto.inv.item_mt)
 	},
 	{
-		Shares = 1,
+		Shares = 0,
 		Price = 450,
 		Item = setmetatable({
 			Type = "Weapon",
@@ -65,7 +65,7 @@ local options = {
 		}, pluto.inv.item_mt)
 	},
 	{
-		Shares = 1,
+		Shares = 0,
 		Price = 350,
 		Item = setmetatable({
 			Type = "Weapon",
@@ -75,7 +75,7 @@ local options = {
 		}, pluto.inv.item_mt)
 	},
 	{
-		Shares = 1,
+		Shares = 0,
 		Price = 335,
 		Item = setmetatable({
 			Type = "Weapon",
@@ -85,7 +85,7 @@ local options = {
 		}, pluto.inv.item_mt)
 	},
 	{
-		Shares = 1,
+		Shares = 0,
 		Price = 355,
 		Item = setmetatable({
 			Type = "Weapon",
@@ -95,7 +95,7 @@ local options = {
 		}, pluto.inv.item_mt)
 	},
 	{
-		Shares = 1,
+		Shares = 0,
 		Price = 315,
 		Item = setmetatable({
 			Type = "Weapon",
@@ -105,7 +105,7 @@ local options = {
 		}, pluto.inv.item_mt)
 	},
 	{
-		Shares = 1,
+		Shares = 0,
 		Price = 435,
 		Item = setmetatable({
 			Type = "Weapon",
@@ -115,7 +115,7 @@ local options = {
 		}, pluto.inv.item_mt)
 	},
 	{
-		Shares = 1,
+		Shares = 0,
 		Price = 415,
 		Item = setmetatable({
 			Type = "Weapon",
@@ -237,6 +237,7 @@ concommand.Add("pluto_blackmarket_buy", function(p, cmd, args)
 	p:ChatPrint "Buying item..."
 
 	if (num == 1) then
+        p:ChatPrint("Sorry: Nothing yet.")
 		-- pluto.db.transact(function(db)
 		-- 	if (not pluto.inv.addcurrency(db, p, CURR.InternalName, -195)) then
 		-- 		p:ChatPrint("Error: You do not have enough ", CURR, " to buy that")
@@ -261,33 +262,33 @@ concommand.Add("pluto_blackmarket_buy", function(p, cmd, args)
 			hook.Run("PlutoCurrencySpent", p, CURR.InternalName, 60)
 		end)
 	elseif (num == 3) then
-		pluto.db.transact(function(db)
-			local unlocked
-			for emoji in RandomPairs(pluto.emoji.byname) do
-				if (not pluto.emoji.unlocks[p][emoji]) then
-					unlocked = emoji
-					break
-				end
-			end
+        p:ChatPrint("Sorry: Nothing yet.")
+		--pluto.db.transact(function(db)
+		--	local unlocked
+		--	for emoji in RandomPairs(pluto.emoji.byname) do
+		--		if (not pluto.emoji.unlocks[p][emoji]) then
+		--			unlocked = emoji
+		--			break
+		--		end
+		--	end
 
-			if (not unlocked) then
-				p:ChatPrint("Error: You already own all emojis")
-				return
-			end
+		--	if (not unlocked) then
+		--		p:ChatPrint("Error: You already own all emojis")
+		--		return
+		--	end
 
 
-			if (not pluto.inv.addcurrency(db, p, CURR.InternalName, -5)) then
-				p:ChatPrint("Error: You do not have enough ", CURR, " to buy that.")
-				mysql_rollback(db)
-				return
-			end
+		--	if (not pluto.inv.addcurrency(db, p, CURR.InternalName, -5)) then
+		--		p:ChatPrint("Error: You do not have enough ", CURR, " to buy that.")
+		--		mysql_rollback(db)
+		--		return
+		--	end
 
-			pluto.emoji.unlock(db, p, unlocked)
+		--	pluto.emoji.unlock(db, p, unlocked)
 
-			mysql_commit(db)
-			hook.Run("PlutoCurrencySpent", p, CURR.InternalName, 5)
-		end)
-
+		--	mysql_commit(db)
+		--	hook.Run("PlutoCurrencySpent", p, CURR.InternalName, 5)
+		--end)
 	else
 		p:ChatPrint "Error: Invalid item"
 	end

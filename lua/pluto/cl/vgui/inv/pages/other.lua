@@ -4,7 +4,7 @@
 local PANEL = {}
 
 function PANEL:Init()
-	self:AddTab "Snake":Add "pluto_inventory_other_snake":Dock(FILL)
+	self:AddTab "Info-Pedia":Add "pluto_inventory_other_info":Dock(FILL)
 end
 
 function PANEL:SizeTab(tab)

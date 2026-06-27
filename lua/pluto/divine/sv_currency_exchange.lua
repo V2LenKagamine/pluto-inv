@@ -63,9 +63,11 @@ end
 
 pluto.divine.currency_exchange = pluto.divine.currency_exchange or {
 	Offers = {
+        /*
 		generate(),
 		generate(),
 		generate(),
+        */
 	}
 }
 

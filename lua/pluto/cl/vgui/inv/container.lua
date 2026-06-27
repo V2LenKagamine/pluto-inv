@@ -258,14 +258,14 @@ function PANEL:Init()
 		return quests
 	end)
 
-	--[[self:AddTab("Other", function(container)
-		local quests = container:Add "pluto_inventory_other"
-		quests:SetCurve(4)
-		quests:Dock(FILL)
-		quests:SetColor(pluto.ui.theme "InnerColor")
+	self:AddTab("Info", function(container)
+		local queeb = container:Add("pluto_inventory_other")
+		queeb:SetCurve(4)
+		queeb:Dock(FILL)
+		queeb:SetColor(pluto.ui.theme "InnerColor")
 
-		return quests
-	end)--]]
+		return queeb
+	end)
 
 	--[[self:AddTab("Donate", function(container)
 		local quests = container:Add "pluto_inventory_donate"

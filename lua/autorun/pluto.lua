@@ -82,7 +82,7 @@ pluto.files.load {
 		"cl/vgui/inv/pages/donate.lua",
 		"cl/vgui/inv/pages/event.lua",
 
-		"cl/vgui/inv/pages/other/snake.lua",
+		"cl/vgui/inv/pages/other/info_panel.lua",
 		"cl/vgui/inv/pages/other.lua",
 
 		"cl/vgui/inv/pages/market/auction.lua",

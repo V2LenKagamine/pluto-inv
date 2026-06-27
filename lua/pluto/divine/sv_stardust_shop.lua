@@ -67,7 +67,7 @@ local function buildoptions()
 			Price = {600, 800}
 		},
 		starar = {
-			Shares = 1,
+			Shares = 0,
 			Buy = function(ply, item, finish)
 				ply:ChatPrint "Buying item..."
 
@@ -101,7 +101,7 @@ local function buildoptions()
 			Price = {20000, 25000},
 		},
 		starsr = {
-			Shares = 1,
+			Shares = 0,
 			Buy = function(ply, item, finish)
 				ply:ChatPrint "Buying item..."
 

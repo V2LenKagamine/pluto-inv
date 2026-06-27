@@ -321,7 +321,7 @@ function PANEL:Init()
 	}, function()
 		RunConsoleCommand("pluto_blackmarket_buy", "2")
 	end)
-
+    /*
 	cur_select:AddCurrency({
 		Currency = pluto.currency.byname._emojibag,
 		Amount = "inf",
@@ -329,7 +329,7 @@ function PANEL:Init()
 	}, function()
 		RunConsoleCommand("pluto_blackmarket_buy", "3")
 	end)
-
+    */
 	for _, offer in ipairs(self:GetCurrencySpecials()) do
 		self.CurrencySpecialFill:AddCurrency(offer, function(cur)
 			pluto.inv.message()
