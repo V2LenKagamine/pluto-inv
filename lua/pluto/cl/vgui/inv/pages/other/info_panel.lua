@@ -19,8 +19,20 @@ function PANEL:Init()
     local btn = faqcol:Add("What is this tab?")
     btn.DoClick = function() Derma_Message("This tab is your in-game wiki so to speak,clicking on a category will expand it, and clicking on anything inside will explain the topic, or elaborate on it.","Answer:","Neat!") end
 
+    btn = faqcol:Add("Where can I make feedback?")
+    btn.DoClick = function() Derma_Message("We have a discord! However, until a permenant link can be established, you might have to ask for it!","Answer:","Neat!") end
+
     btn = faqcol:Add("What is this server?")
-    btn.DoClick = function() Derma_Message("This is a kinda hybrid TTT/PVE Inventory server, where you can play to get items for drip or to use during rounds. At this very second, only TTT is turned on.","Answer:","Neat!") end
+    btn.DoClick = function() Derma_Message("This is a kinda hybrid TTT/PVE Inventory server, where you can play to get items for drip or to use during rounds. There are two current 'gamemodes',TTT, and RAIDS.","Answer:","Neat!") end
+
+    btn = faqcol:Add("How is everyone so fast?")
+    btn.DoClick = function() Derma_Message("This server has auto-B-hop, just hold space for jumping, no spam required!\nDo note, doing so will heavily affect your accuracy, don't expect to hit anything at speed or while jumping!","Answer:","Neat!") end
+
+    btn = faqcol:Add("What commands can I use?")
+    btn.DoClick = function() Derma_Message("Doing '/help' in chat should assist you there, it shows all the commands you can run.","Answer:","Neat!") end
+
+    btn = faqcol:Add("Why are my crouches slow/not registering?")
+    btn.DoClick = function() Derma_Message("Anti-crouch spam. Hitting crouch too much and too fast will cause a slower crouch.\nThis avoids your head hitbox being in effectively two places at once. Wouldn't want that would you?","Answer:","Ok!") end
 
     btn = faqcol:Add("Where is the donate button?")
     btn.DoClick = function() Derma_Message("For now, there is none, funding is not currently an issue, worry not. Enjoy the server!","Answer:","Ok!") end
@@ -113,6 +125,20 @@ function PANEL:Init()
 
     btn = weapcol:Add("What rarities are worth holding onto?")
     btn.DoClick = function() Derma_Message("Every rarity has a purpose. For crafting, ideally you want high mod capacity.\nShards of 4+ mods are considered semi-valuable, and might be worth holding onto.\nOtherwise, any weapon you like really!","Answer:","Ok!") end
+
+    local gamercol = vgui.Create("DCollapsibleCategory",self)
+    gamercol:Dock(TOP)
+    gamercol:SetLabel("Gamemodes - Raids")
+    gamercol:DoExpansion(false)
+
+    btn = gamercol:Add("What are Raids?")
+    btn.DoClick = function() Derma_Message("Raids are a gamemode activatable when there are few players on the server. During a raid, all players are on the same team.\nWaves of enemies will spawn somewhere on the map, and make their way to the nearest player in attempt to defeat them.\nThe players goal is to eliminate the increasing amount of enemies until the raid is 'cleared'.","Answer:","Ok!") end
+
+    btn = gamercol:Add("Why should I do Raids?")
+    btn.DoClick = function() Derma_Message("Simple, rewards. Killing enemies in a Raid and progressing in them gives rewards similar to playing rounds of TTT.\nYou can also do Raids alone, or while waiting for more people to play TTT.","Answer:","Ok!") end
+    
+    btn = gamercol:Add("How do I start a raid?")
+    btn.DoClick = function() Derma_Message("The command 'votegm' allows players to vote between playing TTT or Raids.\nFor performance reasons, you can only do Raids when there are less than a certain number of people on.","Answer:","Ok!") end
 
 end
 vgui.Register("pluto_inventory_other_info", PANEL, "EditablePanel")

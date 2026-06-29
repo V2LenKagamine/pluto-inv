@@ -368,20 +368,6 @@ if SERVER then
             end
         end
     end
-    --Todo: Move this to a proper command, which is somewhere
-    hook.Add("PlayerSay","pluto_raids_vote",function(plr,text,tc)
-        if(text:match("^[!%./]?votegm")) then
-            if(text:match("[rR][aA][iI][dD][sS]?$")) then
-                pluto.RAIDS.raidVotes[plr] = "raid"
-                plr:ChatPrint("You have voted to play: ", raidColor, "RAIDS")
-            elseif (text:match("([tT])%1%1$")) then
-                pluto.RAIDS.raidVotes[plr] = "ttt"
-                plr:ChatPrint("You have voted to play: ", DiffColor, "TTT")
-            end
-            pluto.RAIDS.CheckVotes()
-            return ""
-        end
-    end)
 
     local function initiateAssault(class, raidLevel, escalate)
         if(not pluto.RAIDS.allowDuringRound and ((ttt.GetRoundState() ~= ttt.ROUNDSTATE_WAITING or ttt.GetRoundState() ~= ttt.ROUNDSTATE_PREPARING) and pluto.RAIDS.currentGM:GetString() == "ttt")) then 
@@ -567,12 +553,15 @@ if SERVER then
             for _,plee in ipairs(player.GetAll()) do
                 plee:ChatPrint(Color(255,230,0),"RAID ANTE-UP! Difficulty now: ",DiffColor, pluto.RAIDS.raidLevel)
                 if(pluto.RAIDS.raidLevel == 4 or pluto.RAIDS.raidLevel == 7 or pluto.RAIDS.raidLevel == 9) then
-                    plee:ChatPrint(Color(90,201,0),"You have been awarded endround drop chances for your efforts...")
+                    plee:ChatPrint(Color(90,201,0),"You have been awarded endround drop chances and some currency for your efforts...")
                     pluto.inv.endrounddrops(plee)
+                    pluto.currency.spawnfor(plee) --Yes I call this twice, deal with it.
+                    pluto.currency.spawnfor(plee)
                 end
             end
             killcount = 0
         end
+        /*
         if(math.random() < math.min(0.3,points/70)) then
             atk:ChatPrint(Color(145,255,0),"You feel something resonate...")
             pluto.currency.spawnfor(atk)
@@ -581,6 +570,7 @@ if SERVER then
             atk:ChatPrint(Color(90,201,0),"You rummage around, hoping to find some supplies...")
             pluto.inv.endrounddrops(atk)
         end
+        */
         if(math.random() <= (0.4/multi)) then
             atk:ChatPrint(Color(0,255,0),"You feel your wounds begin to stitch shut...")
             pluto.statuses.byname["heal_flat"]:AddStatus(atk,_,20,10)
@@ -603,7 +593,7 @@ if SERVER then
             plr:ChatPrint(Color(255,0,0),"RAIDS: " .. ply:Nick() .. " has fallen to the onslaught!")
         end
         pluto.RAIDS.raidScores[ply] = math.max((pluto.RAIDS.raidScores[ply] or 0)-25,0)
-        if(pluto.RAIDS.raidScores[ply] >= 125 and #pluto.RAIDS.alivePlayers > 1) then -- They had 150 and wern't last.
+        if(pluto.RAIDS.raidScores[ply] >= 125 and #pluto.RAIDS.alivePlayers > 1) then -- They had 125 and wern't last.
             ply:ChatPrint(Color(0,255,0),"You will auto-revive in 5 seconds due to your score!")
             timer.Simple(5,function()
                 pluto.RAIDS.RaidRespawn(ply)
