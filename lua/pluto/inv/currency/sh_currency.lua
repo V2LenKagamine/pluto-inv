@@ -491,7 +491,7 @@ local list = {
 	},
     //Pluto attempt 2 begins here
     /*
-    {
+    { --uncomment in sv too
 		InternalName = "crate_cons1",
 		Name = "Supplies Crate : E1",
 		Icon = "pluto/currencies/cratecon.png",

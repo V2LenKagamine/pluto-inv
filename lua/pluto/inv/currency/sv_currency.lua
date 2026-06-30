@@ -2,7 +2,7 @@
      * License, v. 2.0. If a copy of the MPL was not distributed with this
      * file, You can obtain one at https://mozilla.org/MPL/2.0/. ]]
 pluto.currency.shares = 0
-
+pluto.currency.byname = pluto.currency.byname or {}
 local global_multiplier = 1
 
 local currency_per_round = 1
@@ -599,6 +599,7 @@ for name, values in pairs {
 		end,
 	},
     --:b:luto 2 begins
+    /* --uncomment in sh too
     crate_cons1 = {
 		Shares = 0,
 		Types = "None",
@@ -611,6 +612,7 @@ for name, values in pairs {
 		Shares = 0,
 		Types = "None",
 	},
+    */ 
 } do
 	table.Merge(pluto.currency.byname[name], values)
 end

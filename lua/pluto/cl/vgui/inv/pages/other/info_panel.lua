@@ -52,6 +52,9 @@ function PANEL:Init()
     btn = faqcol:Add("How is 'Rarity Descending' different from normal RNG?")
     btn.DoClick = function() Derma_Message("The calculations for odds are slightly different. With 'Normal' RNG, the odds of getting any one item can be described as its weight over the sum of all weights as a percentage.\nWith 'Rarity Descending' the odds can be described as the odds to roll that tier over the number of items in that tier.\nBecause 'Weight' can be hidden in code, but you can always just count how many things have the same percent, the creator prefers Rarity Descending.\nAt the end of the day though, it's basically luck of the draw.","Answer:","Neat!") end
 
+    btn = faqcol:Add("Why is the fire particle weird?")
+    btn.DoClick = function() Derma_Message("For unknown reasons, some server packs conflict with the V-Fire particles we use.\nTemporarily unsubscribing to other TTT servers content may fix it, but a permenant solution is being searched for.","Answer:","Ok!") end
+
     btn = faqcol:Add("Why is everything errors.")
     btn.DoClick = function() Derma_Message("Firstly, it might be loading models, just give your game a second. If it stays errors, you're missing content.\nWhile content normally autodownloads, sometimes it fails. You can subscribe to the collection with id '3463787282' on the workshop or 'retry' in console.\nRestarting your game after the previous may also fix any issues with missing content, as well as either owning CS:S or having its assets for Gmod to load.","Answer:","Ok!") end
     local invcol = vgui.Create("DCollapsibleCategory",self)
