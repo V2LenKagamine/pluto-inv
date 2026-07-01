@@ -6,6 +6,7 @@ AddCSLuaFile()
 ENT.Type = "point"
 ENT.Base = "base_point"
 ENT.PrintName = "Base_Status"
+ENT.HudName = "Unk?"
 
 ENT.Icon = "tttrw/disagree.png"
 
@@ -18,24 +19,26 @@ function ENT:Initialize()
     end
     self.IsNegative = baseStat.IsNegative or true 
     self.NoCleanse = baseStat.NoCleanse or false 
+    if(not self.Data)then
+        pluto.error("Something made a status with NOTHING IN IT!!!")
+        self:Remove()
+        return false
+    end
     local immune = false 
-    for _,status in pairs(self:GetParent():GetChildren()) do
-        if(status.Data and status.Data.IsImmunity) then
-            immune = true 
-            break
+    if(not self.Data.IsImmunity and self.IsNegative) then
+        for _,status in pairs(self:GetParent():GetChildren()) do
+            if(status.Data and status.Data.IsImmunity) then
+                immune = true 
+                break
+            end
         end
     end
-    if(immune) then
+    if(immune and not self.NoCleanse) then
         self:Remove()
         return false
     end
     if(self.PrintName == "Base_Status") then
         pluto.error("Someone tried to spawn a status without NAMING IT!!!")
-        self:Remove()
-        return false
-    end
-    if(not self.Data)then
-        pluto.error("Something made a status with NOTHING IN IT!!!")
         self:Remove()
         return false
     end
@@ -50,11 +53,25 @@ function ENT:Initialize()
         end
     end
     hook.Add("Tick",self,self.Tick)
+    if(self:GetParent():IsPlayer()) then
+        local sender = -1
+        if(!self.Data.DontExpire and (self.Data.TicksLeft and self.Data.TicksLeft > 0 )) then
+            sender = self.Data.TicksLeft
+        end
+        pluto.inv.message(player.GetBySteamID64(self:GetParent():SteamID64()))
+            :write("statuseffect",self.PrintName,self.HudName,sender)
+            :send()
+    end
     self:CallOnRemove(self,function(ent,data)
         for k,v in pairs(ent.Data) do
             if(string.StartsWith(k,"Hook")) then
                 hook.Remove(v[1],self.PrintName .. "_" ..  self:EntIndex())
             end
+        end
+        if(self:GetParent():IsPlayer()) then
+            pluto.inv.message(player.GetBySteamID64(self:GetParent():SteamID64()))
+                :write("statuseffect",self.PrintName,self.HudName,0)
+                :send()
         end
     end)
     self.Next = CurTime() + (self.Data.ThinkDelay or 1)
@@ -83,6 +100,11 @@ function ENT:Tick()
         end
         self.Expired = true
         return 
+    end
+    if(not self.Data.DontExpire and self:GetParent():IsPlayer()) then
+        pluto.inv.message(player.GetBySteamID64(self:GetParent():SteamID64()))
+            :write("statuseffect",self.PrintName,self.HudName,self.Data.TicksLeft)
+            :send()
     end
     self.Next = CurTime() + (self.Data.ThinkDelay or 1)
 end

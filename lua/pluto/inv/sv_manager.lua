@@ -132,6 +132,12 @@ function pluto.inv.writestatus(ply, str)
 	net.WriteString(str)
 end
 
+function pluto.inv.writestatuseffect(ply,stat,hud,ticks)
+    net.WriteString(stat)
+    net.WriteString(hud)
+    net.WriteInt(ticks,8)
+end
+
 function pluto.inv.writeend()
 end
 

@@ -6,6 +6,7 @@ function STAT:AddStatus(target, _, healper, time)
     status = ents.Create("pluto_status")
     status:SetParent(target)
     status.PrintName = "heal_flat"
+    status.HudName = "Flat Regen"
     status.Data = {
         Dealer = target,
         TicksLeft = time,

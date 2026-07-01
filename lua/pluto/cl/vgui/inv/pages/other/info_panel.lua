@@ -129,6 +129,59 @@ function PANEL:Init()
     btn = weapcol:Add("What rarities are worth holding onto?")
     btn.DoClick = function() Derma_Message("Every rarity has a purpose. For crafting, ideally you want high mod capacity.\nShards of 4+ mods are considered semi-valuable, and might be worth holding onto.\nOtherwise, any weapon you like really!","Answer:","Ok!") end
 
+    local statuscol = vgui.Create("DCollapsibleCategory",self)
+    statuscol:Dock(TOP)
+    statuscol:SetLabel("Status Effects")
+    statuscol:DoExpansion(false)
+    
+    btn = statuscol:Add("What is a status effect?")
+    btn.DoClick = function() Derma_Message("A status effect is, similar to other games, a modifier on your normal gameplay, and may be good or bad.\nA small HUD element will appear above your health bar when you have any.","Answer:","Ok!") end
+
+    btn = statuscol:Add("Why would I want to delay my damage?")
+    btn.DoClick = function() Derma_Message("Simple: DoTs deal more damage than what you put in. For example, Dealing 1 stack of shocked will deal 1.1 damage.\nThis means if 10% of your 10 damage is converted to shock, 9 damage is dealt instantly, and 1 shock is added.\nAdditionally, some status effects deal more damage the more stacks they have, or have other effects, like slowdown.","Answer:","Ok!") end
+
+    btn = statuscol:Add("How do I get them?")
+    btn.DoClick = function() Derma_Message("Depends, some are DoT effects on guns, some from items, some statuses even cause other statuses!\nAll status effects are listed in this tab, as well as what they do.","Answer:","Ok!") end
+
+    btn = statuscol:Add("What do you mean by 'Stacks' and 'Ticks'")
+    btn.DoClick = function() Derma_Message("All statuses work on the basis of 'Ticks', think of them as how long the status lasts.\nEvery status has a different tick rate, some tick quickly, like fire, and others may only tick down once a second.\nSome statuses also have stacks,which will increase their effects,while others derive their stacks based on ticks.\nFor Example: X-ray has stacks and ticks. More stacks is more range, but more ticks is just time.\nAnother: Fire has only ticks, and derives stacks. So while 10 stacks may be fire level 2, 9 is only level 1.","Answer:","Ok!") end
+
+    btn = statuscol:Add("How do I tell how many stacks I have?")
+    btn.DoClick = function() Derma_Message("Thats the neat part, you don't! Most of the time, it doesn't matter.\nHowever, it may come to the Stat hud eventually.","Answer:","Ok!") end
+
+    btn = statuscol:Add("Status Effect: Bleeding")
+    btn.DoClick = function() Derma_Message("Bleeding is a DoT effect that does bonus damage to fast targets. Any faster than a run, like a B-Hop, will cause bonus damage!\nIf you see you have bleeding, slow down! B-Hopping away is making it worse for you!","Answer:","Ok!") end
+
+    btn = statuscol:Add("Status Effect: On Fire")
+    btn.DoClick = function() Derma_Message("You are on fire. Bigger fires burn longer and hotter, dealing more damage than 2 smaller fires combined.","Answer:","Ok!") end
+
+    btn = statuscol:Add("Status Effect: Frozen")
+    btn.DoClick = function() Derma_Message("Cold. Being frozen slows you down, and the more frozen you are, the slower you go. Scales damage as well, but not as much as 'On Fire!'","Answer:","Ok!") end
+
+    btn = statuscol:Add("Status Effect: Poisoned")
+    btn.DoClick = function() Derma_Message("A vile brew, does less damage than other DoT's, but you can't heal while you have it...","Answer:","Ok!") end
+
+    btn = statuscol:Add("Status Effect: Shocked")
+    btn.DoClick = function() Derma_Message("Shocked is burst damage, upon reaching a threshold of stacks, does a heavy burst of damage! Not reaching this threshold still does damage, but not as much.","Answer:","Ok!") end
+
+    btn = statuscol:Add("Status Effect: Weakened")
+    btn.DoClick = function() Derma_Message("Weakened players will deal 5% less damage per stack. This status doesn't expire naturally, and isn't able to be removed normally.\nThankfully, there isn't a way to apply this to anyone but yourself.","Answer:","Ok!") end
+
+    btn = statuscol:Add("Status Effect: Flat Regen")
+    btn.DoClick = function() Derma_Message("Flat Regen is simple, you will heal for the number of stacks you have over the duration of the effect.","Answer:","Ok!") end
+ 
+    btn = statuscol:Add("Status Effect: Regeneration")
+    btn.DoClick = function() Derma_Message("Regeneration is like flat regen, but respects your maxiumum health. 20 stacks with 200 max health is 40 health of regen!","Answer:","Ok!") end
+
+    btn = statuscol:Add("Status Effect: Immune")
+    btn.DoClick = function() Derma_Message("Immune is well, Immunity. You are unable to have negative DoT's applied to you. Well, Unless they are unable to be cleansed, like Weaken.","Answer:","Ok!") end
+
+    btn = statuscol:Add("Status Effect: Strengthen")
+    btn.DoClick = function() Derma_Message("Strengthen is 5% extra damage per stack. For each 2 stacks, you will gain 1 of Weaken on expire. This rounds DOWN.","Answer:","Ok!") end
+
+    btn = statuscol:Add("Status Effect: X-ray")
+    btn.DoClick = function() Derma_Message("Xray allows you to see notable objects, like players, through walls. More stacks means more range.","Answer:","Ok!") end
+ 
     local gamercol = vgui.Create("DCollapsibleCategory",self)
     gamercol:Dock(TOP)
     gamercol:SetLabel("Gamemodes - Raids")
@@ -142,6 +195,23 @@ function PANEL:Init()
     
     btn = gamercol:Add("How do I start a raid?")
     btn.DoClick = function() Derma_Message("The command 'votegm' allows players to vote between playing TTT or Raids.\nFor performance reasons, you can only do Raids when there are less than a certain number of people on.","Answer:","Ok!") end
+
+    btn = gamercol:Add("Is there a penalty for 'cheesing' the raids?")
+    btn.DoClick = function() Derma_Message("Well, not really. The AI really does try its best, but some spots are just not reachable for it.\nThere is no 'penalty' per say, but I will judge you for it. Have some fun! Take risks!","Answer:","Ok!") end
+
+    local gametcol = vgui.Create("DCollapsibleCategory",self)
+    gametcol:Dock(TOP)
+    gametcol:SetLabel("Gamemodes - TTT")
+    gametcol:DoExpansion(false)
+
+    btn = gametcol:Add("What is TTT")
+    btn.DoClick = function() Derma_Message("Well, assuming you've never played, it can be compared to Among Us, but everyone has a gun.\nInnocents and Detectives need to find out who are Traitors, before they kill all others.\nTraitors, well, kill everyone that isnt a traitor. There are some nuances, so read the full rules please?","Answer:","Ok!") end
+
+    btn = gametcol:Add("What are the exact rules?")
+    btn.DoClick = function() Derma_Message("Todo: Put the rules page link here.","Answer:","Ok!") end
+
+    btn = gametcol:Add("I keep dying as traitor, how can I fix this?")
+    btn.DoClick = function() Derma_Message("Kill times on this server are a little slower than most, you will most likely need to be patient.\nTry to earn enough trust your target turns their back, then strike!\nEquipment is also invaluable, try to take advantage of a variety, lest people get used to it.","Answer:","Ok!") end
 
 end
 vgui.Register("pluto_inventory_other_info", PANEL, "EditablePanel")

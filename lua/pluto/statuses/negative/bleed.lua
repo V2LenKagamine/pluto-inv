@@ -14,6 +14,7 @@ function STAT:AddStatus(target, atk, stacks)
         status = ents.Create("pluto_status")
         status:SetParent(target)
         status.PrintName = "bleed"
+        status.HudName = "Bleeding"
         status.Data = {
             Dealer = atk,
             TicksLeft = stacks,

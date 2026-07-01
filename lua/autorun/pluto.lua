@@ -54,6 +54,7 @@ pluto.files.load {
 		"scalinglib/cl.lua",
 
 		"cl/fontstuff.lua",
+        "cl/statushud.lua",
 
 		"cl/vgui/pluto/frame.lua",
 		"cl/vgui/pluto/text.lua",

@@ -150,6 +150,9 @@ pluto.inv.messages = {
 
 		-- snake
 		"snakeauth",
+
+        -- combat
+        "statuseffect"
 	}
 }
 

@@ -7,6 +7,7 @@ function STAT:AddStatus(target, atk, stacks, time)
     status = ents.Create("pluto_status")
     status:SetParent(target)
     status.PrintName = "immune"
+    status.HudName = "Immune"
     status.Data = {
         Dealer = atk,
         Stax = stacks,
