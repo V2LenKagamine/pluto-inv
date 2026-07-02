@@ -208,7 +208,7 @@ function PANEL:Init()
     btn.DoClick = function() Derma_Message("Well, assuming you've never played, it can be compared to Among Us, but everyone has a gun.\nInnocents and Detectives need to find out who are Traitors, before they kill all others.\nTraitors, well, kill everyone that isnt a traitor. There are some nuances, so read the full rules please?","Answer:","Ok!") end
 
     btn = gametcol:Add("What are the exact rules?")
-    btn.DoClick = function() Derma_Message("Todo: Put the rules page link here.","Answer:","Ok!") end
+    btn.DoClick = function() Derma_Message("https://docs.google.com/document/d/1xTQcSr9nfkvWav6M4lF7uTlfUe8cktdAjoBitpx1aXE/edit?usp=sharing","Answer:","Ok!") end
 
     btn = gametcol:Add("I keep dying as traitor, how can I fix this?")
     btn.DoClick = function() Derma_Message("Kill times on this server are a little slower than most, you will most likely need to be patient.\nTry to earn enough trust your target turns their back, then strike!\nEquipment is also invaluable, try to take advantage of a variety, lest people get used to it.","Answer:","Ok!") end
