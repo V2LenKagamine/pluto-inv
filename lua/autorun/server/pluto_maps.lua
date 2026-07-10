@@ -17,7 +17,7 @@ local map_lookup = {
 	ttt_community_bowling_v5a = "131667838",
 	ttt_community_pool_revamped = "144575800",
 	ttt_complex_fix4_ws = "512506068",
-	ttt_crummycradle_a4 = "264864627",
+	--ttt_crummycradle_a4 = "264864627",
 	ttt_desperados_2 = "816252821",
 	ttt_forest_final = "147635981",
 	ttt_innocentmotel_v1 = "285372790",
@@ -112,7 +112,7 @@ local map_lookup = {
 	--zs_abandonedmallhd_v4 = "2751750745",
 
     --Len Kagamine
-    ttt_cold_memory = "3025519163",
+    --ttt_cold_memory = "3025519163",
 }
 
 function pluto.GetValidMaps()
