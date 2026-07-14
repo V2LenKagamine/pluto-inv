@@ -289,13 +289,12 @@ if SERVER then
                 plon:ChatPrint(Color(233,217,0),"You are showered in riches for defeating the raid!")
             end
         end
-        if(pluto.RAIDS.raidLevel >= 5) then
+        if(pluto.RAIDS.raidLevel >= 3) then
             ttt.SetRoundNumber(ttt.GetRoundNumber() + 1)
-            --TODO: Unhack this.
-            if(ttt.GetRoundNumber() >= 10) then
-                dontanother = true
-                hook.Run("ChangeMap", "Round Limit Reached.")
-            end
+        end
+        if(ttt.GetRoundNumber() >= 10 || ttt.ShouldRTV) then
+            dontanother = true
+            hook.Run("ChangeMap", "Round Limit or RTV!")
         end
         if(not dontanother) then
             for _,ply in ipairs(ttt.GetEligiblePlayers()) do
