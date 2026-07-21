@@ -560,16 +560,6 @@ if SERVER then
             end
             killcount = 0
         end
-        /*
-        if(math.random() < math.min(0.3,points/70)) then
-            atk:ChatPrint(Color(145,255,0),"You feel something resonate...")
-            pluto.currency.spawnfor(atk)
-        end
-        if(math.random() < math.min(0.15,points/120)) then
-            atk:ChatPrint(Color(90,201,0),"You rummage around, hoping to find some supplies...")
-            pluto.inv.endrounddrops(atk)
-        end
-        */
         if(math.random() <= (0.4/multi)) then
             atk:ChatPrint(Color(0,255,0),"You feel your wounds begin to stitch shut...")
             pluto.statuses.byname["heal_flat"]:AddStatus(atk,_,20,10)
@@ -633,5 +623,11 @@ if SERVER then
         pluto.RAIDS.DoRaidEnd(true)
 
         pluto.RAIDS.disableArena = true
+    end)
+else
+    hook.Add("OnNPCKilled","pluto_c_raids_kill_listen",function (npc,atk,inf)
+        timer.Simple(5,function()
+            if (IsValid(npc)) then npc:Remove() end
+        end)
     end)
 end
