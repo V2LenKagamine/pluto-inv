@@ -591,7 +591,6 @@ if SERVER then
         for _,plr in ipairs(player.GetAll()) do
             plr:ChatPrint(Color(255,0,0),"RAIDS: " .. ply:Nick() .. " has fallen to the onslaught!")
         end
-        pluto.RAIDS.raidScores[ply] = math.max((pluto.RAIDS.raidScores[ply] or 0)-25,0)
         if(pluto.RAIDS.raidScores[ply] >= 125 and #pluto.RAIDS.alivePlayers > 1) then -- They had 125 and wern't last.
             ply:ChatPrint(Color(0,255,0),"You will auto-revive in 5 seconds due to your score!")
             timer.Simple(5,function()

@@ -11,9 +11,8 @@ function QUEST:Init(data)
 		if (data.Player ~= ply) then
 			return
 		end
-
 		for _, item in pairs(items) do
-			if (item.Tier and item.Tier.InternalName and (item.Tier.InternalName == "weapons/inevitable" or item.Tier.InternalName == "weapons/unusual" or item.Tier.InternalName == "weapons/promised")) then
+			if ((item.Tier and item.Tier.InternalName) and (item.Tier.InternalName == "weapons-inevitable" or item.Tier.InternalName == "weapons-unusual" or item.Tier.InternalName == "weapons-promised")) then
 				data:UpdateProgress(1)
 			end
 		end

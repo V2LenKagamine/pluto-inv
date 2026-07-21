@@ -2,7 +2,7 @@
      * License, v. 2.0. If a copy of the MPL was not distributed with this
      * file, You can obtain one at https://mozilla.org/MPL/2.0/. ]]
 QUEST.Name = "Raid Scorehog"
-QUEST.Description = "Reach at least 150 score in Raid mode."
+QUEST.Description = "Reach at least 100 score in Raid mode."
 QUEST.Credits = "Len"
 QUEST.Color = Color(199, 84, 39)
 QUEST.RewardPool = "hourly"
@@ -10,8 +10,9 @@ QUEST.RewardPool = "hourly"
 function QUEST:Init(data)
     data:Hook("OnNPCKilled",function (data,npc,atk,inf)
         if(not npc.raidsNPC or not atk:IsPlayer()) then return end
-        if(pluto.RAIDS.raidScores[atk] or 0 < 150) then return end
-        data:UpdateProgress(1)
+        if((pluto.RAIDS.raidScores[atk] or 0) > 100) then
+            data:UpdateProgress(1)
+        end
     end)
 end
 
