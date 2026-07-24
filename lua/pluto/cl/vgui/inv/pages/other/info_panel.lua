@@ -19,8 +19,8 @@ function PANEL:Init()
     local btn = faqcol:Add("What is this tab?")
     btn.DoClick = function() Derma_Message("This tab is your in-game wiki so to speak,clicking on a category will expand it, and clicking on anything inside will explain the topic, or elaborate on it.","Answer:","Neat!") end
 
-    btn = faqcol:Add("Where can I make feedback?")
-    btn.DoClick = function() Derma_Message("We have a discord! However, until a permenant link can be established, you might have to ask for it!","Answer:","Neat!") end
+    btn = faqcol:Add("Where can I make feedback? || Discord?")
+    btn.DoClick = function() Derma_Message("We have a discord! https://discord.gg/rBN935SQ7y","Answer:","Neat!") end
 
     btn = faqcol:Add("What is this server?")
     btn.DoClick = function() Derma_Message("This is a kinda hybrid TTT/PVE Inventory server, where you can play to get items for drip or to use during rounds. There are two current 'gamemodes',TTT, and RAIDS.","Answer:","Neat!") end
