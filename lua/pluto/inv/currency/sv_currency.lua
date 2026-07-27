@@ -938,6 +938,37 @@ concommand.Add("pluto_lodesamoney",function(plr,cmd,args)
     admin.chatf(white_text, "Reality cracks, and riches fall through!")
 end, nil,"Gives [x] random currency spawns for all players in current round.")
 
+concommand.Add("pluto_reward_currency",function(ply,cmd,args)
+    if (not pluto.cancheat(ply)) then 
+        return 
+    end
+    local curr = args[1]
+    local amnt = tonumber(args[2])
+    if (not curr) then
+        PrintMessage(HUD_PRINTCONSOLE,"Need currency id")
+        return
+    end
+    local targetply
+    if(not amnt) then
+        PrintMessage(HUD_PRINTCONSOLE,"Need currency amount")
+        return 
+    end
+    if(not args[3]) then
+        targetply = ply:SteamID64()
+    else
+        targetply = args[3]
+    end
+
+    if(not pluto.currency.byname[curr]) then
+        PrintMessage(HUD_PRINTCONSOLE,"Invalid currency ID")
+        return 
+    end
+
+    pluto.db.instance(function(db)
+        pluto.inv.addcurrency(db,targetply,curr,amnt)
+    end)
+end)
+
 function pluto.inv.readrename(cl)
 	local id = net.ReadUInt(32)
 	local name = net.ReadString()

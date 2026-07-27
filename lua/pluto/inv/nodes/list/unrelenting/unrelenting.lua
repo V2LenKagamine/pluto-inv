@@ -18,10 +18,18 @@ function NODE:ModifyWeapon(node, wep)
 
 	wep.Pluto.ReloadAnimationSpeed = wep.Pluto.ReloadAnimationSpeed - 0.2
     local id = "pandora_unrelenting_" .. wep:GetPlutoID()
-	hook.Add("PlayerDeath", id, function(self, vic, inf, atk)
+	hook.Add("DoPlayerDeath", id, function( vic, inf, atk)
 		if (atk ~= inf:GetOwner() or inf ~= inf) then
 			return
 		end
         inf:SetClip1(inf:GetMaxClip1())
 	end)
+    hook.Add("OnNPCKilled",id .. "_2" ,function (npc,atk,inf)
+        if(not IsValid(npc)) then return end
+        if(not npc.raidsNPC) then return end
+        if (atk ~= inf:GetOwner() or inf ~= inf) then
+			return
+		end
+        inf:SetClip1(inf:GetMaxClip1())
+    end)
 end
