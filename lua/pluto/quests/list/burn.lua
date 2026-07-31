@@ -2,7 +2,7 @@
      * License, v. 2.0. If a copy of the MPL was not distributed with this
      * file, You can obtain one at https://mozilla.org/MPL/2.0/. ]]
 QUEST.Name = "Incinerator"
-QUEST.Description = "Burn people to death rightfully"
+QUEST.Description = "Burn or explode people to death rightfully"
 QUEST.Color = Color(255, 136, 77)
 QUEST.RewardPool = "weekly"
 
@@ -25,5 +25,5 @@ function QUEST:Init(data)
 end
 
 function QUEST:GetProgressNeeded()
-	return math.random(60, 75)
+	return math.random(50, 65)
 end

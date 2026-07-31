@@ -2,7 +2,7 @@
      * License, v. 2.0. If a copy of the MPL was not distributed with this
      * file, You can obtain one at https://mozilla.org/MPL/2.0/. ]]
 QUEST.Name = "Traitor Tracker"
-QUEST.Description = "Find the DNA of living traitors from their victims"
+QUEST.Description = "Find the DNA of traitors."
 QUEST.Color = Color(21, 128, 0)
 QUEST.RewardPool = "weekly"
 
@@ -11,10 +11,6 @@ function QUEST:Init(data)
 
 	data:Hook("TTTFoundDNA", function(data, ply, own, ent)
 		if (not IsValid(ply) or not IsValid(own) or not IsValid(ent)) then
-			return
-		end
-
-		if (data.Player ~= ply or ent:GetClass() ~= "prop_ragdoll") then
 			return
 		end
 
@@ -36,5 +32,5 @@ function QUEST:Init(data)
 end
 
 function QUEST:GetProgressNeeded()
-	return math.random(10, 15)
+	return math.random(8, 12)
 end
