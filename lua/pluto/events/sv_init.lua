@@ -346,6 +346,11 @@ function pluto.inv.readqueueevent(requester)
         return
     end
 
+    if(true) then
+        requester:ChatPrint(Color(200, 50, 50),"Tickets are currently disabled T_T")
+        return 
+    end
+
     pluto.db.transact(function(db) 
 		if (not pluto.inv.addcurrency(db, requester, "ticket", price)) then
 			mysql_rollback(db)
