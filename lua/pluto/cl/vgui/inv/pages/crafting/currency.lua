@@ -346,7 +346,7 @@ function PANEL:PlutoItemUpdate(item)
 
 	self.BetweenStatus.Image:SetImage(gotten >= mins and gotten <= maxs and "icon16/tick.png" or "icon16/cross.png")
 
-	self.Status = gotten >= mins and gotten <= maxs
+	self.Status = gotten >= mins and gotten <= maxs and maxs <= mins
 
 	self:TryContinue()
 end
@@ -368,6 +368,11 @@ function PANEL:TryContinue()
 		return
 	end
 
+    if(item.Locked) then
+        self:Go(false)
+        return 
+    end
+
 	local currency, amount = self.Selector:GetCurrency()
 	if (not amount or not currency or amount <= 0) then
 		self:Go(false)
@@ -375,9 +380,12 @@ function PANEL:TryContinue()
 	end
 
 	local mins, maxs = tonumber(self.LowerBounds:GetText()) or 0, 0xff
+
+    local wants = self:GetWants(true)
+    mins = math.min(mins,#wants)
 	self.Selector:SetAmount(math.max(0, amount - 50))
 	pluto.inv.message()
-		:write("masscurrencyuse", currency.InternalName, item, amount, self:GetWants(true), mins, maxs)
+		:write("masscurrencyuse", currency.InternalName, item, amount, wants, mins, maxs)
 		:send()
 end
 

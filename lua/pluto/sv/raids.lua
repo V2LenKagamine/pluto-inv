@@ -362,8 +362,11 @@ if SERVER then
                         pluto.RAIDS.DoRaidEnd(true,false)
                     end
                 else
+                    pluto.RAIDS.DoRaidEnd(true,false)
                     round.Prepare()
                 end
+            else
+                round.End("Innocent",{})
             end
         end
     end
