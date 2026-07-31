@@ -366,7 +366,7 @@ if SERVER then
                     round.Prepare()
                 end
             else
-                round.End("Innocent",{})
+                round.End("innocent",{})
             end
         end
     end
