@@ -98,9 +98,9 @@ local list = {
 
 		Category = "Modify",
         Amount = {
-            Min = 3,
+            Min = 1,
             Max = 6,
-            Chance = 40,
+            Chance = 60,
         },
 	},
 	{
