@@ -12,7 +12,7 @@ function pluto.mods.chance(crafted, amount)
 	local chance = crafted.Chance
 	chance = chance * (1 + ((amount - 1) / (crafted.ChanceDeminish or 5)))
 
-	return math.min(chance,100)
+	return math.Clamp(math.min(chance,1),0,1)
 end
 
 pluto.mods.mt = pluto.mods.mt or {}
