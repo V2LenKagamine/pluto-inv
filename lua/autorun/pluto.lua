@@ -9,7 +9,6 @@ AddCSLuaFile "pluto/files.lua"
 pluto.files.load {
 	Client = {
 		--"cl/richtextformat.lua",
-		"cl/hacks.lua",
 		"cl/settings.lua",
 		"inv/ui.lua",
 		"inv/cl_manager.lua",

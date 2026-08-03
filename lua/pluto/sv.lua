@@ -17,7 +17,6 @@ pluto.files.load {
 		"weapons/tracker/sv_tracker.lua",
 
 		"mods/sv_mods.lua",
-		"sv/hacks.lua",
 		"db/init.lua",
 		"inv/init.lua",
 		"inv/sv_manager.lua",
